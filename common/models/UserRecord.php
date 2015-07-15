@@ -5,23 +5,22 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "pay".
+ * This is the model class for table "userrecord".
  *
- * @property integer $payId
+ * @property integer $userRecordId
  * @property integer $userId
- * @property string $money
- * @property integer $bitcoin
- * @property string $createDate
+ * @property integer $recordType
+ * @property string $recordDate
  * @property string $remark
  */
-class Pay extends \yii\db\ActiveRecord
+class UserRecord extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'pay';
+        return 'userrecord';
     }
 
     /**
@@ -30,9 +29,8 @@ class Pay extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userId', 'bitcoin'], 'integer'],
-            [['money'], 'number'],
-            [['createDate'], 'safe'],
+            [['userId', 'recordType'], 'integer'],
+            [['recordDate'], 'safe'],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -43,11 +41,10 @@ class Pay extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'payId' => 'Pay ID',
+            'userRecordId' => 'User Record ID',
             'userId' => 'User ID',
-            'money' => 'Money',
-            'bitcoin' => 'Bitcoin',
-            'createDate' => 'Create Date',
+            'recordType' => 'Record Type',
+            'recordDate' => 'Record Date',
             'remark' => 'Remark',
         ];
     }

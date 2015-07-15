@@ -1,24 +1,25 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
- * This is the model class for table "setpapertype".
+ * This is the model class for table "pretype".
  *
- * @property integer $setPaperTypeId
- * @property string $setPaperTypeName
+ * @property integer $preTypeId
+ * @property string $name
+ * @property string $code
  * @property string $remark
  */
-class SetPaperType extends \yii\db\ActiveRecord
+class PreType extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'setpapertype';
+        return 'pretype';
     }
 
     /**
@@ -27,7 +28,8 @@ class SetPaperType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['setPaperTypeName'], 'string', 'max' => 50],
+            [['name'], 'string', 'max' => 50],
+            [['code'], 'string', 'max' => 1],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -38,8 +40,9 @@ class SetPaperType extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'setPaperTypeId' => 'Set Paper Type ID',
-            'setPaperTypeName' => 'Set Paper Type Name',
+            'preTypeId' => 'Pre Type ID',
+            'name' => 'Name',
+            'code' => 'Code',
             'remark' => 'Remark',
         ];
     }

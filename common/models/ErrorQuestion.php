@@ -1,27 +1,27 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
- * This is the model class for table "practice".
+ * This is the model class for table "errorquestion".
  *
- * @property integer $practiceId
+ * @property integer $errorQuestionId
  * @property integer $userId
  * @property integer $testLibraryId
  * @property string $userAnswer
  * @property string $createDate
  * @property string $remark
  */
-class Practice extends \yii\db\ActiveRecord
+class ErrorQuestion extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'practice';
+        return 'errorquestion';
     }
 
     /**
@@ -43,7 +43,7 @@ class Practice extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'practiceId' => 'Practice ID',
+            'errorQuestionId' => 'Error Question ID',
             'userId' => 'User ID',
             'testLibraryId' => 'Test Library ID',
             'userAnswer' => 'User Answer',

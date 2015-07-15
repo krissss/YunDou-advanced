@@ -5,23 +5,23 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "pay".
+ * This is the model class for table "service".
  *
- * @property integer $payId
+ * @property integer $serviceId
  * @property integer $userId
- * @property string $money
- * @property integer $bitcoin
- * @property string $createDate
+ * @property string $content
+ * @property string $reply
+ * @property integer $replyUserId
  * @property string $remark
  */
-class Pay extends \yii\db\ActiveRecord
+class Service extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'pay';
+        return 'service';
     }
 
     /**
@@ -30,9 +30,8 @@ class Pay extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userId', 'bitcoin'], 'integer'],
-            [['money'], 'number'],
-            [['createDate'], 'safe'],
+            [['userId', 'replyUserId'], 'integer'],
+            [['content', 'reply'], 'string', 'max' => 200],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -43,11 +42,11 @@ class Pay extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'payId' => 'Pay ID',
+            'serviceId' => 'Service ID',
             'userId' => 'User ID',
-            'money' => 'Money',
-            'bitcoin' => 'Bitcoin',
-            'createDate' => 'Create Date',
+            'content' => 'Content',
+            'reply' => 'Reply',
+            'replyUserId' => 'Reply User ID',
             'remark' => 'Remark',
         ];
     }

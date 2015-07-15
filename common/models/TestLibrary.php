@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
@@ -8,8 +8,11 @@ use Yii;
  * This is the model class for table "testlibrary".
  *
  * @property integer $testLibraryId
- * @property integer $testTypeId
  * @property integer $provenceId
+ * @property integer $testTypeId
+ * @property integer $majorJobId
+ * @property integer $preTypeId
+ * @property integer $testChapterId
  * @property string $problem
  * @property string $question
  * @property string $options
@@ -19,7 +22,7 @@ use Yii;
  * @property string $score
  * @property string $status
  * @property string $createDate
- * @property integer $createUserID
+ * @property integer $createUserId
  * @property string $remark
  */
 class TestLibrary extends \yii\db\ActiveRecord
@@ -38,12 +41,12 @@ class TestLibrary extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['testTypeId', 'provenceId', 'createUserID'], 'integer'],
-            [['score'], 'number'],
+            [['provenceId', 'testTypeId', 'majorJobId', 'preTypeId', 'testChapterId', 'createUserId'], 'integer'],
             [['createDate'], 'safe'],
             [['problem', 'question', 'options'], 'string', 'max' => 400],
             [['answer'], 'string', 'max' => 10],
             [['analysis', 'picture'], 'string', 'max' => 200],
+            [['score'], 'string', 'max' => 20],
             [['status'], 'string', 'max' => 2],
             [['remark'], 'string', 'max' => 100]
         ];
@@ -56,8 +59,11 @@ class TestLibrary extends \yii\db\ActiveRecord
     {
         return [
             'testLibraryId' => 'Test Library ID',
-            'testTypeId' => 'Test Type ID',
             'provenceId' => 'Provence ID',
+            'testTypeId' => 'Test Type ID',
+            'majorJobId' => 'Major Job ID',
+            'preTypeId' => 'Pre Type ID',
+            'testChapterId' => 'Test Chapter ID',
             'problem' => 'Problem',
             'question' => 'Question',
             'options' => 'Options',
@@ -67,7 +73,7 @@ class TestLibrary extends \yii\db\ActiveRecord
             'score' => 'Score',
             'status' => 'Status',
             'createDate' => 'Create Date',
-            'createUserID' => 'Create User ID',
+            'createUserId' => 'Create User ID',
             'remark' => 'Remark',
         ];
     }

@@ -5,21 +5,22 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "majorjob".
+ * This is the model class for table "testchapter".
  *
- * @property integer $majorJobId
+ * @property integer $testChapterId
  * @property string $name
+ * @property string $preType
  * @property string $code
  * @property string $remark
  */
-class MajorJob extends \yii\db\ActiveRecord
+class TestChapter extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'majorjob';
+        return 'testchapter';
     }
 
     /**
@@ -29,7 +30,8 @@ class MajorJob extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'string', 'max' => 50],
-            [['code'], 'string', 'max' => 1],
+            [['preType'], 'string', 'max' => 1],
+            [['code'], 'string', 'max' => 4],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -40,8 +42,9 @@ class MajorJob extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'majorJobId' => 'Major Job ID',
+            'testChapterId' => 'Test Chapter ID',
             'name' => 'Name',
+            'preType' => 'Pre Type',
             'code' => 'Code',
             'remark' => 'Remark',
         ];

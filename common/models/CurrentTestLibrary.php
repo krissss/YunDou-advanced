@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
@@ -8,9 +8,9 @@ use Yii;
  * This is the model class for table "currenttestlibrary".
  *
  * @property integer $currentTestLibraryId
- * @property integer $userID
- * @property integer $testlibraryID
- * @property integer $testTypeID
+ * @property integer $userId
+ * @property integer $testLibraryId
+ * @property integer $testTypeId
  * @property string $remark
  */
 class CurrentTestLibrary extends \yii\db\ActiveRecord
@@ -29,7 +29,7 @@ class CurrentTestLibrary extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userID', 'testlibraryID', 'testTypeID'], 'integer'],
+            [['userId', 'testLibraryId', 'testTypeId'], 'integer'],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -41,9 +41,9 @@ class CurrentTestLibrary extends \yii\db\ActiveRecord
     {
         return [
             'currentTestLibraryId' => 'Current Test Library ID',
-            'userID' => 'User ID',
-            'testlibraryID' => 'Testlibrary ID',
-            'testTypeID' => 'Test Type ID',
+            'userId' => 'User ID',
+            'testLibraryId' => 'Test Library ID',
+            'testTypeId' => 'Test Type ID',
             'remark' => 'Remark',
         ];
     }

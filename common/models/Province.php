@@ -5,21 +5,21 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "usagemode".
+ * This is the model class for table "province".
  *
- * @property integer $usageModeId
- * @property string $usageModeName
- * @property string $type
+ * @property integer $provinceId
+ * @property string $name
+ * @property string $code
  * @property string $remark
  */
-class UsageMode extends \yii\db\ActiveRecord
+class Province extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'usagemode';
+        return 'province';
     }
 
     /**
@@ -28,8 +28,8 @@ class UsageMode extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['usageModeName'], 'string', 'max' => 50],
-            [['type'], 'string', 'max' => 1],
+            [['name'], 'string', 'max' => 50],
+            [['code'], 'string', 'max' => 10],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -40,9 +40,9 @@ class UsageMode extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'usageModeId' => 'Usage Mode ID',
-            'usageModeName' => 'Usage Mode Name',
-            'type' => 'Type',
+            'provinceId' => 'Province ID',
+            'name' => 'Name',
+            'code' => 'Code',
             'remark' => 'Remark',
         ];
     }

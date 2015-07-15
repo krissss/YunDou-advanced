@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
@@ -12,8 +12,7 @@ use Yii;
  * @property string $email
  * @property string $cellphone
  * @property string $weixin
- * @property integer $majorId
- * @property integer $jobId
+ * @property integer $majorJobId
  * @property string $nickname
  * @property string $realname
  * @property string $introduce
@@ -43,7 +42,7 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['majorId', 'jobId', 'bitcoin', 'province', 'city', 'role', 'recommendUserID'], 'integer'],
+            [['majorJobId', 'bitcoin', 'province', 'city', 'role', 'recommendUserID'], 'integer'],
             [['registerDate'], 'safe'],
             [['username', 'email', 'weixin', 'nickname', 'realname', 'company', 'address'], 'string', 'max' => 50],
             [['cellphone'], 'string', 'max' => 11],
@@ -62,8 +61,7 @@ class Users extends \yii\db\ActiveRecord
             'email' => 'Email',
             'cellphone' => 'Cellphone',
             'weixin' => 'Weixin',
-            'majorId' => 'Major ID',
-            'jobId' => 'Job ID',
+            'majorJobId' => 'Major Job ID',
             'nickname' => 'Nickname',
             'realname' => 'Realname',
             'introduce' => 'Introduce',

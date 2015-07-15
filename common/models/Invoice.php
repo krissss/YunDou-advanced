@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
@@ -9,9 +9,10 @@ use Yii;
  *
  * @property integer $invoiceId
  * @property integer $userId
+ * @property string $money
  * @property string $description
  * @property string $address
- * @property integer $createUserID
+ * @property integer $createUserId
  * @property string $createDate
  * @property string $remark
  */
@@ -31,7 +32,8 @@ class Invoice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userId', 'createUserID'], 'integer'],
+            [['userId', 'createUserId'], 'integer'],
+            [['money'], 'number'],
             [['createDate'], 'safe'],
             [['description'], 'string', 'max' => 50],
             [['address'], 'string', 'max' => 60],
@@ -47,9 +49,10 @@ class Invoice extends \yii\db\ActiveRecord
         return [
             'invoiceId' => 'Invoice ID',
             'userId' => 'User ID',
+            'money' => 'Money',
             'description' => 'Description',
             'address' => 'Address',
-            'createUserID' => 'Create User ID',
+            'createUserId' => 'Create User ID',
             'createDate' => 'Create Date',
             'remark' => 'Remark',
         ];

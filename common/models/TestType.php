@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
@@ -8,7 +8,8 @@ use Yii;
  * This is the model class for table "testtype".
  *
  * @property integer $testTypeId
- * @property string $testTypeName
+ * @property string $name
+ * @property string $code
  * @property string $remark
  */
 class TestType extends \yii\db\ActiveRecord
@@ -27,7 +28,8 @@ class TestType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['testTypeName'], 'string', 'max' => 50],
+            [['name'], 'string', 'max' => 50],
+            [['code'], 'string', 'max' => 3],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -39,7 +41,8 @@ class TestType extends \yii\db\ActiveRecord
     {
         return [
             'testTypeId' => 'Test Type ID',
-            'testTypeName' => 'Test Type Name',
+            'name' => 'Name',
+            'code' => 'Code',
             'remark' => 'Remark',
         ];
     }
