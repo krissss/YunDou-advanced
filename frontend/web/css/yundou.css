@@ -1,0 +1,77 @@
+.mui-input-group .mui-input-row{
+	min-height: 40px;
+	height: auto;
+}
+.mui-card{
+	margin-bottom: 5px;
+}
+.mui-card .title{
+	padding-left: 20px;
+	padding-top: 10px;
+	margin-bottom: 10px;
+}
+.mui-card .picture{
+	width: 100%;
+	height: auto;
+	text-align: center;
+}
+.mui-card .picture img{
+	max-width: 100%;
+}
+.mui-card .content{
+	padding-left: 20px;
+	margin-bottom: 10px;
+}
+.pagination .mui-pager{
+	margin-left: 15px;
+	margin-right: 15px;
+	margin-top: 5px;
+}
+
+.mui-input-row .mui-icon-arrowdown{
+	font-size: 20px;
+	position: absolute;
+	z-index: 1;
+	top: 10px;
+	right: 0;
+	width: 38px;
+	height: 38px;
+	text-align: center;
+	color: #999;
+}
+
+.right{
+	background-color: #4cd964;
+	color: #fff;
+}
+.wrong{
+	background-color: #dd524d;
+	color: #fff;
+}
+
+.title{
+	margin: 20px 15px 10px;
+	color: #6d6d72;
+	font-size: 15px;
+}
+
+.input-span-btn{
+	position: absolute;
+	right: 0;
+	border: 0px solid #000000;
+	border-radius: 3px;
+	padding: 3px;
+	margin: 6px;
+	background-color: #CCCCCC;
+	color: #FFFFFF;
+}
+.input-span-btn-active{
+	position: absolute;
+	right: 0;
+	border: 0px solid #000000;
+	border-radius: 3px;
+	padding: 3px;
+	margin: 6px;
+	background-color:#007aff;
+	color: #FFFFFF;
+}
