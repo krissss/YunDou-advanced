@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "testlibrary".
  *
  * @property integer $testLibraryId
- * @property integer $provenceId
+ * @property integer $provinceId
  * @property integer $testTypeId
  * @property integer $majorJobId
  * @property integer $preTypeId
@@ -41,7 +41,7 @@ class TestLibrary extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['provenceId', 'testTypeId', 'majorJobId', 'preTypeId', 'testChapterId', 'createUserId'], 'integer'],
+            [['provinceId', 'testTypeId', 'majorJobId', 'preTypeId', 'testChapterId', 'createUserId'], 'integer'],
             [['createDate'], 'safe'],
             [['problem', 'question', 'options'], 'string', 'max' => 400],
             [['answer'], 'string', 'max' => 10],
@@ -59,7 +59,7 @@ class TestLibrary extends \yii\db\ActiveRecord
     {
         return [
             'testLibraryId' => 'Test Library ID',
-            'provenceId' => 'Provence ID',
+            'provinceId' => 'Province ID',
             'testTypeId' => 'Test Type ID',
             'majorJobId' => 'Major Job ID',
             'preTypeId' => 'Pre Type ID',
@@ -76,5 +76,13 @@ class TestLibrary extends \yii\db\ActiveRecord
             'createUserId' => 'Create User ID',
             'remark' => 'Remark',
         ];
+    }
+
+    public static function findOneByType($provinceId,$majorJobId,$testTypeId,$startTestLibraryId = 0){
+        return TestLibrary::find()
+            ->where(['provinceId'=>$provinceId,'majorJobId'=>$majorJobId,'testTypeId'=>$testTypeId])
+            ->andWhere(['>=','testLibraryId',$startTestLibraryId])
+            ->asArray()
+            ->all();
     }
 }

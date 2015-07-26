@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use frontend\functions\DateFunctions;
 use Yii;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "errorquestion".
@@ -50,5 +52,39 @@ class ErrorQuestion extends \yii\db\ActiveRecord
             'createDate' => 'Create Date',
             'remark' => 'Remark',
         ];
+    }
+
+    /**
+     * @param $userId
+     * @param $testLibraryId
+     * @return null|\common\models\ErrorQuestion
+     */
+    public static function findByUserAndTestLibraryId($userId,$testLibraryId){
+        return ErrorQuestion::find()
+            ->where(['userId'=>$userId, 'testLibraryId'=>$testLibraryId])
+            ->one();
+    }
+
+    public static function saveOrUpdate($userId,$testLibraryId){
+        //查询用户是否有错误记录，有则更新记录时间，无则插入
+        $errorQuestion = self::findByUserAndTestLibraryId($userId,$testLibraryId);
+        if($errorQuestion){
+            $errorQuestion->createDate = DateFunctions::getCurrentDate();
+            if($errorQuestion->update()){
+                return true;
+            }else{
+                throw new Exception('ErrorQuestion update wrong');
+            }
+        }else{
+            $errorQuestion = new ErrorQuestion();
+            $errorQuestion->userId = $userId;
+            $errorQuestion->testLibraryId = $testLibraryId;
+            $errorQuestion->createDate = DateFunctions::getCurrentDate();
+            if($errorQuestion->save()){
+                return true;
+            }else{
+                throw new Exception('ErrorQuestion save wrong');
+            }
+        }
     }
 }

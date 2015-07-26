@@ -46,4 +46,9 @@ class MajorJob extends \yii\db\ActiveRecord
             'remark' => 'Remark',
         ];
     }
+
+    public static function findNameByMajorJobId($majorJobId){
+        $majorJob = MajorJob::findOne($majorJobId);
+        return $majorJob->name;
+    }
 }

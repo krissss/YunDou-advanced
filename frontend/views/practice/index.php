@@ -26,27 +26,27 @@ use frontend\Classes\PracticeParamClass as PPC;
     </div>
     <ul class="mui-table-view mui-grid-view mui-grid-9">
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-            <a href="#">
+            <a href="<?=Url::to(['practice/single','type'=>'danxuan'])?>">
                 <span class="mui-icon mui-icon-home"></span>
                 <div class="mui-media-body">单选题</div>
             </a>
         </li>
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-            <a href="#">
+            <a href="<?=Url::to(['practice/single','type'=>'duoxuan'])?>">
                 <span class="mui-icon mui-icon-email"></span>
                 <div class="mui-media-body">多选题</div>
             </a>
         </li>
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-            <a href="#">
+            <a href="<?=Url::to(['practice/single','type'=>'panduan'])?>">
                 <span class="mui-icon mui-icon-email"></span>
                 <div class="mui-media-body">判断题</div>
             </a>
         </li>
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-            <a href="#">
+            <a href="<?=Url::to(['practice/single','type'=>'anli'])?>">
                 <span class="mui-icon mui-icon-email"></span>
-                <div class="mui-media-body">案例题</div>
+                <div class="mui-media-body">案例计算题</div>
             </a>
         </li>
     </ul>

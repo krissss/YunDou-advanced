@@ -9,6 +9,8 @@ use Yii;
  *
  * @property integer $userId
  * @property string $username
+ * @property string $password
+ * @property string $userIcon
  * @property string $email
  * @property string $cellphone
  * @property string $weixin
@@ -44,7 +46,7 @@ class Users extends \yii\db\ActiveRecord
         return [
             [['majorJobId', 'bitcoin', 'province', 'city', 'role', 'recommendUserID'], 'integer'],
             [['registerDate'], 'safe'],
-            [['username', 'email', 'weixin', 'nickname', 'realname', 'company', 'address'], 'string', 'max' => 50],
+            [['username', 'password', 'userIcon', 'email', 'weixin', 'nickname', 'realname', 'company', 'address'], 'string', 'max' => 50],
             [['cellphone'], 'string', 'max' => 11],
             [['introduce', 'remark'], 'string', 'max' => 100]
         ];
@@ -58,6 +60,8 @@ class Users extends \yii\db\ActiveRecord
         return [
             'userId' => 'User ID',
             'username' => 'Username',
+            'password' => 'Password',
+            'userIcon' => 'User Icon',
             'email' => 'Email',
             'cellphone' => 'Cellphone',
             'weixin' => 'Weixin',

@@ -75,3 +75,14 @@
 	background-color:#007aff;
 	color: #FFFFFF;
 }
+.question-btn{
+	margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    background: #ccc;
+}
+.question-btn-active{
+    background: #007aff;
+    color: #fff;
+}

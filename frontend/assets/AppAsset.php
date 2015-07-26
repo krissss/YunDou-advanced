@@ -24,12 +24,13 @@ class AppAsset extends AssetBundle
         'js/mui.listpicker.js',
         'js/mui.poppicker.js',
         //jquery
-        'js/jquery.min.js',
+        //'js/jquery.min.js',
         //yundou
         'js/yundou.js',
     ];
-    /*public $depends = [
-        'yii\web\YiiAsset',
+    public $depends = [
+        //'yii\web\YiiAsset',
+        'yii\web\JqueryAsset',
         //'frontend\assets\BootstrapAsset',
-    ];*/
+    ];
 }

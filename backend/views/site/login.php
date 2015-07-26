@@ -1,29 +1,48 @@
 <?php
+/* @var $this yii\web\View */
+/* @var $model \backend\models\forms\LoginForm */
+
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
-
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = "登录";
+$this->params['breadcrumbs'] = [
+    'id'=>'empty-container',
+];
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-                <?= $form->field($model, 'username') ?>
-                <?= $form->field($model, 'password')->passwordInput() ?>
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-            <?php ActiveForm::end(); ?>
+<div class="login-container animated fadeInDown">
+    <div class="loginbox bg-white">
+        <div class="loginbox-title">登录</div>
+        <?php $form = ActiveForm::begin([
+            'fieldConfig' => [
+                'template' => "{input}{error}",
+            ],
+        ]); ?>
+        <div class="loginbox-textbox">
+            <?= $form->field($model, 'username')->textInput(['placeholder'=>'用户名']) ?>
         </div>
+        <div class="loginbox-textbox">
+            <?= $form->field($model, 'password')->passwordInput(['placeholder'=>'密码']) ?>
+        </div>
+        <div class="loginbox-textbox">
+            <?= $form->field($model, 'verifyCode')->widget(\yii\captcha\Captcha::className(), [
+                'template' => '<div class="row"><div class="col-sm-6">{image}</div><div class="col-sm-6">{input}</div></div>',
+            ])?>
+        </div>
+        <div class="loginbox-submit">
+            <input type="submit" class="btn btn-primary btn-block" value="登录">
+        </div>
+        <div class="loginbox-forgot">
+            <a href="">忘记密码</a>
+        </div>
+
+        <div class="loginbox-signup">
+            <a href="<?=Url::to(['account/register'])?>">注册账户</a>
+        </div>
+        <?php ActiveForm::end(); ?>
+    </div>
+
+    <div class="logobox">
     </div>
 </div>
