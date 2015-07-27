@@ -7,16 +7,6 @@ use yii\helpers\Url;
 
 $session = Yii::$app->session;
 ?>
-<!--<input type="hidden" value="<?/*=count($testLibraries)*/?>" id="max_length">
-<?php /*foreach($testLibraries as $i=>$testLibrary):*/?>
-    <?php /*$testLibrary = json_encode($testLibrary); */?>
-    <input type="hidden" value='<?/*=$testLibrary*/?>' id="test_<?/*=$i*/?>">
-<?php /*endforeach; */?>
-
---><?php
-/*$testLibrary = $testLibraries[0];
-
-*/?>
 <!-- 头部 -->
 <header class="mui-bar mui-bar-nav">
     <a href="<?=Url::to(['practice/index'])?>" class="mui-icon mui-icon-left-nav mui-pull-left"></a>

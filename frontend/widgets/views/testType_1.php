@@ -26,6 +26,12 @@ $options = explode('|',$testLibrary['options']);
 </div>
 <!-- 解析 -->
 <div class="mui-card" id="analysis" style="display: none">
+    <div class="title" id="answer-title">
+        答案正确
+    </div>
+    <div class="content" id="answer-content">
+        正确答案：A  你的答案：A
+    </div>
     <div class="title">
         解析
     </div>

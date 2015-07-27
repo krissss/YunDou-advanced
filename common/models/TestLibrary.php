@@ -78,11 +78,44 @@ class TestLibrary extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function findOneByType($provinceId,$majorJobId,$testTypeId,$startTestLibraryId = 0){
-        return TestLibrary::find()
-            ->where(['provinceId'=>$provinceId,'majorJobId'=>$majorJobId,'testTypeId'=>$testTypeId])
-            ->andWhere(['>=','testLibraryId',$startTestLibraryId])
-            ->asArray()
-            ->all();
+    /**
+     * 根据用户和测试类型查询第一个试题
+     * @param $user \common\models\Users;
+     * @param $testTypeId -1表示所有
+     * @return \common\models\TestLibrary
+     */
+    public static function findFirstByUserAndTestType($user,$testTypeId){
+        if($testTypeId == -1){
+            $testLibrary = TestLibrary::find()
+                ->where(['provinceId'=>$user['province'],'majorJobId'=>$user['majorJobId']])
+                ->asArray()
+                ->one();
+        }else{
+            $testLibrary = TestLibrary::find()
+                ->where(['provinceId'=>$user['province'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
+                ->asArray()
+                ->one();
+        }
+        return $testLibrary;
+    }
+
+    /**
+     * 根据用户和测试类型查询所有试题
+     * @param $user \common\models\Users;
+     * @param $testTypeId -1表示所有
+     * @return array|\common\models\TestLibrary[]
+     */
+    public static function findAllByUserAndTestType($user,$testTypeId){
+        if($testTypeId == -1){
+            return TestLibrary::find()
+                ->where(['provinceId'=>$user['province'],'majorJobId'=>$user['majorJobId']])
+                ->asArray()
+                ->all();
+        }else{
+            return TestLibrary::find()
+                ->where(['provinceId'=>$user['province'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
+                ->asArray()
+                ->all();
+        }
     }
 }

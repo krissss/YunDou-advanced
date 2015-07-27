@@ -23,9 +23,51 @@ class PracticeController extends Controller
 
     //public $enableCsrfValidation = false;
 
-    public function actionIndex()
-    {
+    public function actionIndex(){
         return $this->render('index');
+    }
+
+    /**
+     * 顺序练习
+     * @param $type
+     * @return string
+     * @throws Exception
+     */
+    public function actionNormal($type){
+        $session = Yii::$app->session;
+        Yii::$app->session->set('user',Users::findOne(1));
+        $user = $session->get('user');
+        $testTypeId = -1;   //-1表示全部练习
+        $testTitle = "顺序练习";
+        if($type == 'continue'){
+            $next = CurrentTestLibrary::findTestLibraryIdByUserAndTestType($user,$testTypeId);
+        }elseif($type == 'restart'){
+            $next = CurrentTestLibrary::resetCurrent($user,$testTypeId);
+        }else{
+            throw new Exception("practice/normal type cannot defined");
+        }
+        $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
+        //以testLibraryId作为数组索引,将所有同类型的题目存入session
+        $testLibraries = ArrayHelper::index($testLibraries,'testLibraryId');
+        $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
+        //将一些必要参数存入session，方便后续页面调用
+        $session->set('testLibraries',$testLibraries);  //所有同类型题目
+        $session->set('totalNumber',count($testLibraries)); //总题数
+        $session->set('testTypeId',$testTypeId);    //测试类型id
+        $session->set('testTitle',$testTitle);    //测试标题
+        $session->set('majorJob',$majorJob);    //测试岗位
+        $questionNumber = 1;
+        $firstNumber = TestLibrary::findFirstByUserAndTestType($user,$testTypeId)['testLibraryId'];
+        for($i=$firstNumber; $i<$next; $i++){
+            if (array_key_exists($i, $testLibraries)) {
+                $questionNumber++;
+            }
+        }
+
+        return $this->render('test',[
+            'testLibrary' => $testLibraries[$next],
+            'questionNumber' => $questionNumber
+        ]);
     }
 
     /**
@@ -59,7 +101,7 @@ class PracticeController extends Controller
             default:
                 break;
         }
-        $testLibraries = TestLibrary::findOneByType($user['province'],$user['majorJobId'],$testTypeId);
+        $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
         //以testLibraryId作为数组索引,将所有同类型的题目存入session
         $testLibraries = ArrayHelper::index($testLibraries,'testLibraryId');
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
@@ -70,10 +112,11 @@ class PracticeController extends Controller
         $session->set('testTitle',$testTitle);    //测试标题
         $session->set('majorJob',$majorJob);    //测试岗位
         //得到用户上一次做到哪一题
-        $next = CurrentTestLibrary::findTestLibraryIdByUserAndTestType($user['userId'],$testTypeId);
+        $next = CurrentTestLibrary::findTestLibraryIdByUserAndTestType($user,$testTypeId);
         //计算题目编号
         $questionNumber = 1;
-        for($i=0; $i<$next; $i++){
+        $firstNumber = TestLibrary::findFirstByUserAndTestType($user,$testTypeId)['testLibraryId'];
+        for($i=$firstNumber; $i<$next; $i++){
             if (array_key_exists($i, $testLibraries)) {
                 $questionNumber++;
             }
