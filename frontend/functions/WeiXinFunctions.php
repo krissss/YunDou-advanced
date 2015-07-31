@@ -59,8 +59,7 @@ class WeiXinFunctions
     public function getUserInfo_in($openId){
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->getAccessToken_in().'&openid='.$openId;
         $fp=file_get_contents($url) or die("can not open $url");
-        $result = json_decode($fp);
-        return $result;
+        return $fp;
     }
 
     /**
