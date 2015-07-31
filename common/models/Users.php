@@ -91,6 +91,10 @@ class Users extends \yii\db\ActiveRecord
         $user = new Users();
         $user->weixin = $openId;
         $userInfo = WeiXinFunctions::getUserInfo($openId);
-        return json_encode($userInfo);
+        $user->role = Users::ROLE_A;
+        $user->weixin = $userInfo->openid;
+        $user->nickname = $userInfo->nickname;
+        $user->userIcon = $userInfo->headimgurl;
+        $user->save();
     }
 }
