@@ -95,6 +95,10 @@ class Users extends \yii\db\ActiveRecord
         $user->weixin = $userInfo->openid;
         $user->nickname = $userInfo->nickname;
         $user->userIcon = $userInfo->headimgurl;
-        $user->save();
+        if($user->save()){
+            return "ok";
+        }else{
+            return "false";
+        }
     }
 }

@@ -54,8 +54,8 @@ class WeChatCallBack
             //订阅事件
             if($event == "subscribe"){
                 $response_msgType = "text";
-                Users::wxSubscribe($fromUsername);
-                $contentStr = "感谢您的关注";
+                $message = Users::wxSubscribe($fromUsername);
+                $contentStr = $message;
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
                 echo $resultStr;
             }
