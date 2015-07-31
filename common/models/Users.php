@@ -52,7 +52,8 @@ class Users extends \yii\db\ActiveRecord
         return [
             [['majorJobId', 'bitcoin', 'province', 'city', 'role', 'recommendUserID'], 'integer'],
             [['registerDate'], 'safe'],
-            [['username', 'password', 'userIcon', 'email', 'weixin', 'nickname', 'realname', 'company', 'address'], 'string', 'max' => 50],
+            [['username', 'password', 'email', 'weixin', 'nickname', 'realname', 'company', 'address'], 'string', 'max' => 50],
+            [['userIcon'], 'string', 'max' => 255],
             [['cellphone'], 'string', 'max' => 11],
             [['introduce', 'remark'], 'string', 'max' => 100]
         ];
@@ -95,10 +96,6 @@ class Users extends \yii\db\ActiveRecord
         $user->weixin = $userInfo->openid;
         $user->nickname = $userInfo->nickname;
         $user->userIcon = $userInfo->headimgurl;
-        if($user->save()){
-            return "ok";
-        }else{
-            return "false";
-        }
+        $user->save();
     }
 }
