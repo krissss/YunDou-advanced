@@ -9,8 +9,9 @@
 namespace frontend\controllers;
 
 use frontend\functions\WeChatCallBack;
+use yii\web\Controller;
 
-class WeChatController
+class WeChatController extends Controller
 {
     public function actionIndex(){
         $wechat = new WeChatCallBack();
