@@ -46,4 +46,16 @@ class Province extends \yii\db\ActiveRecord
             'remark' => 'Remark',
         ];
     }
+
+    /**
+     * 查询所有省份，返回json
+     * @return string||json
+     */
+    public static function findAllForJson(){
+        $provinces = Province::find()
+            ->select(['provinceId as value','name as text'])
+            ->asArray()
+            ->all();
+        return json_encode($provinces);
+    }
 }

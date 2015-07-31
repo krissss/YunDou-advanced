@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use frontend\functions\WeiXinFunctions;
 use Yii;
 
 /**
@@ -30,6 +31,11 @@ use Yii;
  */
 class Users extends \yii\db\ActiveRecord
 {
+    const ROLE_A = 1;
+    const ROLE_AA = 2;
+    const ROLE_AAA = 3;
+    const ROLE_ADMIN = 10;
+
     /**
      * @inheritdoc
      */
@@ -79,5 +85,13 @@ class Users extends \yii\db\ActiveRecord
             'recommendUserID' => 'Recommend User ID',
             'remark' => 'Remark',
         ];
+    }
+
+    public function wxSubscribe($openId){
+        $user = new Users();
+        $user->weixin = $openId;
+        $userInfo = WeiXinFunctions::getUserInfo($openId);
+        print_r($userInfo);
+        exit;
     }
 }

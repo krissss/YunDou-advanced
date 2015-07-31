@@ -86,3 +86,8 @@
     background: #007aff;
     color: #fff;
 }
+
+.has-error{
+	color: #fff;
+	background-color: red;
+}

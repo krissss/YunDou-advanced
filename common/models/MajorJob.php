@@ -51,4 +51,16 @@ class MajorJob extends \yii\db\ActiveRecord
         $majorJob = MajorJob::findOne($majorJobId);
         return $majorJob->name;
     }
+
+    /**
+     * 查询所有职业岗位，返回json
+     * @return string||json
+     */
+    public static function findAllForJson(){
+        $majorJobs = MajorJob::find()
+            ->select(['majorJobId as value','name as text'])
+            ->asArray()
+            ->all();
+        return json_encode($majorJobs);
+    }
 }
