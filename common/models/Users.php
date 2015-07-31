@@ -87,11 +87,11 @@ class Users extends \yii\db\ActiveRecord
         ];
     }
 
-    public function wxSubscribe($openId){
+    public static function wxSubscribe($openId){
         $user = new Users();
         $user->weixin = $openId;
         $userInfo = WeiXinFunctions::getUserInfo($openId);
-        print_r($userInfo);
+        json_encode($userInfo);
         exit;
     }
 }

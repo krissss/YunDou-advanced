@@ -54,8 +54,8 @@ class WeChatCallBack
             //订阅事件
             if($event == "subscribe"){
                 $response_msgType = "text";
-                Users::wxSubscribe($fromUsername);
-                $contentStr = "感谢您的关注!";
+                $json = Users::wxSubscribe($fromUsername);
+                $contentStr = $json;
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
                 echo $resultStr;
             }
@@ -68,7 +68,7 @@ class WeChatCallBack
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $response_content);
                     echo $resultStr;
                 }else{
-                    echo "空格无效";
+                    echo "individual";
                 }
                 exit;
             }
