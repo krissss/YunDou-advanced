@@ -89,13 +89,18 @@ class Users extends \yii\db\ActiveRecord
     }
 
     public static function wxSubscribe($openId){
-        $user = new Users();
-        $user->weixin = $openId;
-        $userInfo = WeiXinFunctions::getUserInfo($openId);
-        $user->role = Users::ROLE_A;
-        $user->weixin = $userInfo->openid;
-        $user->nickname = $userInfo->nickname;
-        $user->userIcon = $userInfo->headimgurl;
-        $user->save();
+        $user = Users::find()
+            ->where(['weixin'=>$openId])
+            ->one();
+        if(!$user){
+            $user = new Users();
+            $user->weixin = $openId;
+            $userInfo = WeiXinFunctions::getUserInfo($openId);
+            $user->role = Users::ROLE_A;
+            $user->weixin = $userInfo->openid;
+            $user->nickname = $userInfo->nickname;
+            $user->userIcon = $userInfo->headimgurl;
+            $user->save();
+        }
     }
 }
