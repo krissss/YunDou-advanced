@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use frontend\functions\WeChatCallBack;
+use frontend\functions\WeiXinFunctions;
 use yii\base\Controller;
 
 class WeChatController extends Controller

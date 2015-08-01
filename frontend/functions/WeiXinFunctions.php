@@ -105,8 +105,8 @@ class WeiXinFunctions
                           "key"=>"CLICK_REGISTER",
                       ],[
                           "type"=>"view",
-                          "name"=>"在线练习",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                          "name"=>"实名认证2",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=account/register",
                       ]
                   ]
               ]
@@ -126,6 +126,13 @@ class WeiXinFunctions
         return $response;
     }
 
+    public function getAuthorizeUrl_in($redirect_uri){
+        $scope = "snsapi_base";
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->appId."&redirect_uri=".$redirect_uri.
+            "&response_type=code&scope=".$scope."&state=STATE#wechat_redirect";
+        return $url;
+    }
+
     /**
      * 外部直接调用的获取access_token方法
      * @return mixed
@@ -143,6 +150,11 @@ class WeiXinFunctions
     public static function createMenu(){
         $wx = WeiXinFunctions::getInstance();
         return $wx->createMenu_in();
+    }
+
+    public static function getAuthorizeUrl($redirect_uri){
+        $wx = WeiXinFunctions::getInstance();
+        return $wx->getAuthorizeUrl_in($redirect_uri);
     }
 
 

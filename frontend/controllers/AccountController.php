@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\functions\WeiXinFunctions;
 use frontend\models\forms\RegisterForm;
 use Yii;
 use common\models\MajorJob;
@@ -17,10 +18,15 @@ class AccountController extends Controller
      * 实名认证
      */
     public function actionRegister(){
-        $url = urlencode(Url::to(['practice/index']));
-        $responseType = 200;
-        $scope = 'snsapi_base';
-        return $this->redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcf0cd66d7cdf0708&redirect_uri='.$url.'&response_type='.$responseType.'&scope='.$scope.'&state=STATE#wechat_redirect');
+        $request = Yii::$app->request;
+        $state = $request->get("state");
+        if($state){
+            echo Url::current();
+            exit;
+        }
+        $redirect_uri = urlencode(Url::current());
+        $url = WeiXinFunctions::getAuthorizeUrl($redirect_uri);
+        return $this->redirect($url);
         $registerForm = new RegisterForm();
         if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
             //$registerForm->register();
