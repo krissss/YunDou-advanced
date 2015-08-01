@@ -88,6 +88,10 @@ class Users extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * 微信用户关注将用户信息导入数据库
+     * @param $openId
+     */
     public static function wxSubscribe($openId){
         $user = Users::find()
             ->where(['weixin'=>$openId])
@@ -102,5 +106,11 @@ class Users extends \yii\db\ActiveRecord
             $user->userIcon = $userInfo->headimgurl;
             $user->save();
         }
+    }
+
+    public static function findByWeiXin($openId){
+        return Users::find()
+            ->where(['weixin'=>$openId])
+            ->one();
     }
 }

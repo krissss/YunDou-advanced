@@ -37,7 +37,7 @@ class WeiXinFunctions
     }
 
     /**
-     * 获取access_token
+     * 获取全局access_token
      * @return mixed
      */
     public function getAccessToken_in(){
@@ -52,12 +52,29 @@ class WeiXinFunctions
     }
 
     /**
-     * 获取用户信息
+     * 获取网页授权access_token
+     * @param $code
+     * @return mixed
+     */
+    public function getAuthorAccessToken_in($code){
+        $
+        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->appId.'&secret='.$this->appSecret.'&code='.$code.'&grant_type=authorization_code';
+        $fp=file_get_contents($url) or die("can not open $url");
+        return json_decode($fp);
+    }
+
+    /**
+     * 获取用户信息，分为两种情况：
+     * $accessToken=null时(即不传该值)，使用全局access_token；传入$accessToken时(即网页授权)，使用网页授权获得的access_token
+     * @param $accessToken
      * @param $openId
      * @return mixed
      */
-    public function getUserInfo_in($openId){
-        $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->getAccessToken_in().'&openid='.$openId;
+    public function getUserInfo_in($openId, $accessToken=null){
+        if(!$accessToken){
+            $accessToken = $this->getAccessToken_in();
+        }
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$accessToken.'&openid='.$openId;
         $fp=file_get_contents($url) or die("can not open $url");
         return json_decode($fp);
     }
@@ -76,11 +93,11 @@ class WeiXinFunctions
                       [
                           "type"=>"view",
                           "name"=>"模拟考试",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                          "url"=>"http://yundou.all123.net/frontend/web/?r=practice",
                       ],[
                           "type"=>"view",
                           "name"=>"在线练习",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                          "url"=>"http://yundou.all123.net/frontend/web/?r=practice",
                       ]
                   ]
               ],[
@@ -89,11 +106,11 @@ class WeiXinFunctions
                       [
                           "type"=>"view",
                           "name"=>"模拟考试",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                          "url"=>"http://yundou.all123.net/frontend/web/?r=practice",
                       ],[
                           "type"=>"view",
                           "name"=>"在线练习",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                          "url"=>"http://yundou.all123.net/frontend/web/?r=practice",
                       ]
                   ]
               ],[
@@ -106,7 +123,7 @@ class WeiXinFunctions
                       ],[
                           "type"=>"view",
                           "name"=>"实名认证2",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=account/register",
+                          "url"=>"http://yundou.all123.net/frontend/web/?r=account/register",
                       ]
                   ]
               ]
@@ -128,8 +145,9 @@ class WeiXinFunctions
 
     public function getAuthorizeUrl_in($redirect_uri){
         $scope = "snsapi_base";
+        $state = "YUN";
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->appId."&redirect_uri=".$redirect_uri.
-            "&response_type=code&scope=".$scope."&state=STATE#wechat_redirect";
+            "&response_type=code&scope=".$scope."&state=".$state."#wechat_redirect";
         return $url;
     }
 
@@ -142,9 +160,14 @@ class WeiXinFunctions
         return $wx->getAccessToken_in();
     }
 
-    public static function getUserInfo($openId){
+    public static function getAuthAccessToken($code){
         $wx = WeiXinFunctions::getInstance();
-        return $wx->getUserInfo_in($openId);
+        return $wx->getAuthorAccessToken_in($code);
+    }
+
+    public static function getUserInfo($openId,$accessToken=null){
+        $wx = WeiXinFunctions::getInstance();
+        return $wx->getUserInfo_in($openId,$accessToken);
     }
 
     public static function createMenu(){

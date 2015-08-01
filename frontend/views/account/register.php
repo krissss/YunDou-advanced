@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+print_r($userInfo);
 ?>
 <div class="mui-content">
     <p class="title">为了更好的为您提供服务，请认真进行实名认证！</p>
