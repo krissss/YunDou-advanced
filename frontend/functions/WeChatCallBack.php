@@ -59,6 +59,12 @@ class WeChatCallBack
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
                 echo $resultStr;
             }
+            if($event == "CLICK_REGISTER"){
+                $response_msgType = "text";
+                $contentStr = "注册！";
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
+                echo $resultStr;
+            }
             //文本消息
             if($msgType == 'text'){
                 if(!empty( $content ))

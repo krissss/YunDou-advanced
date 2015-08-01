@@ -63,6 +63,70 @@ class WeiXinFunctions
     }
 
     /**
+     * 创建菜单
+     * @return mixed
+     */
+    public function createMenu_in(){
+        $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->getAccessToken_in();
+        $data = [
+          "button"=>[
+              [
+                  "name"=>"模拟与学习",
+                  "sub_button"=>[
+                      [
+                          "type"=>"view",
+                          "name"=>"模拟考试",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                      ],[
+                          "type"=>"view",
+                          "name"=>"在线练习",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                      ]
+                  ]
+              ],[
+                  "name"=>"咨询与报名",
+                  "sub_button"=>[
+                      [
+                          "type"=>"view",
+                          "name"=>"模拟考试",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                      ],[
+                          "type"=>"view",
+                          "name"=>"在线练习",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                      ]
+                  ]
+              ],[
+                  "name"=>"我的云豆",
+                  "sub_button"=>[
+                      [
+                          "type"=>"click",
+                          "name"=>"实名认证",
+                          "key"=>"CLICK_REGISTER",
+                      ],[
+                          "type"=>"view",
+                          "name"=>"在线练习",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                      ]
+                  ]
+              ]
+          ]
+        ];
+        $data = json_encode($data,JSON_UNESCAPED_UNICODE);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 跳过证书检查
+        curl_setopt($curl,CURLOPT_URL,$url);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        $response = curl_exec($curl);
+        if($error=curl_error($curl)){
+            die($error);
+        }
+        curl_close($curl);
+        return $response;
+    }
+
+    /**
      * 外部直接调用的获取access_token方法
      * @return mixed
      */
@@ -74,6 +138,11 @@ class WeiXinFunctions
     public static function getUserInfo($openId){
         $wx = WeiXinFunctions::getInstance();
         return $wx->getUserInfo_in($openId);
+    }
+
+    public static function createMenu(){
+        $wx = WeiXinFunctions::getInstance();
+        return $wx->createMenu_in();
     }
 
 
