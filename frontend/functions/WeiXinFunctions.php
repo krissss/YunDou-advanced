@@ -27,28 +27,19 @@ class WeiXinFunctions
     }
 
     /**
-     * 将access_token存入缓存
-     * @param $access_token
-     * @param $expires_in
-     */
-    public function setResult($access_token,$expires_in){
-        $cache = Yii::$app->cache;
-        $cache->set('access_token',$access_token,$expires_in-10);   //缓存时间比预计时间少10秒，确保access_token有效
-    }
-
-    /**
      * 获取全局access_token
      * @return mixed
      */
     public function getAccessToken_in(){
-        $access_token = Yii::$app->cache->get('access_token');
+        $cache = Yii::$app->cache;
+        $access_token = $cache->get('access_token');
         if(!$access_token){
             $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$this->appId.'&secret='.$this->appSecret;
             $fp=file_get_contents($url) or die("can not open $url");
             $result = json_decode($fp);
-            $this->setResult($result->access_token,$result->expires_in);
+            $cache->set('access_token',$result->access_token,$result->expires_in-10);   //缓存时间比预计时间少10秒，确保access_token有效
         }
-        return Yii::$app->cache->get('access_token');
+        return $cache->get('access_token');
     }
 
     /**
@@ -57,7 +48,19 @@ class WeiXinFunctions
      * @return mixed
      */
     public function getAuthorAccessToken_in($code){
-        $
+        /*$cache = Yii::$app->cache;
+        $access_token = $cache->get('author_access_token');
+        if(!$access_token){
+            $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$this->appId.'&secret='.$this->appSecret;
+            $fp=file_get_contents($url) or die("can not open $url");
+            $result = json_decode($fp);
+            $cache->set('access_token',$result->access_token,$result->expires_in-10);   //缓存时间比预计时间少10秒，确保access_token有效
+        }
+        return Yii::$app->cache->get('access_token');
+        $url = "https://api.weixin.qq.com/sns/auth?access_token=ACCESS_TOKEN&openid=OPENID";
+        if(){
+
+        }*/
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->appId.'&secret='.$this->appSecret.'&code='.$code.'&grant_type=authorization_code';
         $fp=file_get_contents($url) or die("can not open $url");
         return json_decode($fp);
@@ -93,11 +96,11 @@ class WeiXinFunctions
                       [
                           "type"=>"view",
                           "name"=>"模拟考试",
-                          "url"=>"http://yundou.all123.net/frontend/web/?r=practice",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
                       ],[
                           "type"=>"view",
                           "name"=>"在线练习",
-                          "url"=>"http://yundou.all123.net/frontend/web/?r=practice",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
                       ]
                   ]
               ],[
@@ -106,11 +109,11 @@ class WeiXinFunctions
                       [
                           "type"=>"view",
                           "name"=>"模拟考试",
-                          "url"=>"http://yundou.all123.net/frontend/web/?r=practice",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
                       ],[
                           "type"=>"view",
                           "name"=>"在线练习",
-                          "url"=>"http://yundou.all123.net/frontend/web/?r=practice",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
                       ]
                   ]
               ],[
@@ -123,7 +126,7 @@ class WeiXinFunctions
                       ],[
                           "type"=>"view",
                           "name"=>"实名认证2",
-                          "url"=>"http://yundou.all123.net/frontend/web/?r=account/register",
+                          "url"=>"http://121.40.228.2/frontend/web/?r=account/register",
                       ]
                   ]
               ]
