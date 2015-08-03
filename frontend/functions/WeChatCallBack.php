@@ -72,7 +72,7 @@ class WeChatCallBack
                         echo $resultStr;
                         break;
                     case "CLICK_ZIXUN": //咨询
-                        $cache->set("zixun_".$fromUsername,'zixuning');
+                        $cache->set("zixun_".$fromUsername,'zixun_start');
                         $response_msgType = "text";
                         $contentStr = "回复：\n1.我要咨询\n2.查看我的咨询\n#.退出咨询";
                         $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
@@ -97,8 +97,8 @@ class WeChatCallBack
                 if(!empty( $content ))
                 {
                     $zixun = $cache->get('zixun_'.$fromUsername);
-                    if($zixun == 'zixuning'){
-                        self::zixunResponse($content,$fromUsername,$toUsername);
+                    if($zixun){
+                        self::zixunResponse($zixun,$content,$fromUsername,$toUsername);
                     }
                     $response_msgType = "text";
                     $response_content = self::switchKeyword($content);
@@ -159,7 +159,8 @@ class WeChatCallBack
         return $msg;
     }
 
-    private function zixunResponse($content,$fromUsername,$toUsername){
+    private function zixunResponse($zixun,$content,$fromUsername,$toUsername){
+        $cache = Yii::$app->cache;
         $type = "text";
         $textTpl = "<xml>
 							<ToUserName><![CDATA[%s]]></ToUserName>
@@ -169,20 +170,27 @@ class WeChatCallBack
 							<Content><![CDATA[%s]]></Content>
 							<FuncFlag>0</FuncFlag>
 							</xml>";
-        switch($content){
-            case "#":
-                Yii::$app->cache->delete("zixun_".$fromUsername);
-                $msg = "已经退出咨询";
-                break;
-            case "1":
-                $msg = "请输入您要咨询的问题";
-                break;
-            case "2":
-                $msg = "查看我的咨询";
-                break;
-            default:
-                $msg = "您的输入有误";
-                break;
+        if($zixun == "zixun_start"){
+            switch($content){
+                case "#":
+                    $cache->delete("zixun_".$fromUsername);
+                    $msg = "已经退出咨询";
+                    break;
+                case "1":
+                    $cache->set("zixun_".$fromUsername,"zixun_1");
+                    $msg = "请输入您要咨询的问题";
+                    break;
+                case "2":
+                    $msg = "查看我的咨询";
+                    break;
+                default:
+                    $msg = "您的输入有误";
+                    break;
+            }
+        }elseif($zixun == "zixun_1"){
+            $msg = "咨询已记录，您可以过段时间查询咨询结果";
+        }else{
+            $msg = "系统错误";
         }
         $resultStr = sprintf($textTpl, $fromUsername, $toUsername, time(), $type, $msg);
         echo $resultStr;
