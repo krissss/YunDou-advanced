@@ -74,7 +74,7 @@ class WeChatCallBack
                     case "CLICK_ZIXUN": //咨询
                         $cache->set("zixun_".$fromUsername,'zixuning');
                         $response_msgType = "text";
-                        $contentStr = "回复：\n1.我要咨询\n2.查看我的咨询\n0.退出咨询";
+                        $contentStr = "回复：\n1.我要咨询\n2.查看我的咨询\n#.退出咨询";
                         $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
                         echo $resultStr;
                         break;
@@ -170,8 +170,8 @@ class WeChatCallBack
 							<FuncFlag>0</FuncFlag>
 							</xml>";
         switch($content){
-            case "0":
-                //Yii::$app->cache->delete("zixun_".$fromUsername);
+            case "#":
+                Yii::$app->cache->delete("zixun_".$fromUsername);
                 $msg = "已经退出咨询";
                 break;
             case "1":
