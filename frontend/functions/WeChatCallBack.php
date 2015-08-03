@@ -42,7 +42,7 @@ class WeChatCallBack
             /** @var  $fromUsername String */
             $fromUsername = $postObj->FromUserName;
             $toUsername = $postObj->ToUserName;
-            $content = trim($postObj->Content);
+            $content = trim($postObj->Content)."";  //转成字符串
             $event = $postObj->Event;
             $msgType = $postObj->MsgType;
             $time = time();
@@ -171,7 +171,7 @@ class WeChatCallBack
 							</xml>";
         switch($content){
             case "0":
-                Yii::$app->cache->delete("zixun_".$fromUsername);
+                //Yii::$app->cache->delete("zixun_".$fromUsername);
                 $msg = "已经退出咨询";
                 break;
             case "1":
@@ -184,7 +184,6 @@ class WeChatCallBack
                 $msg = "您的输入有误";
                 break;
         }
-        $msg .= "\n输入0退出咨询";
         $resultStr = sprintf($textTpl, $fromUsername, $toUsername, time(), $type, $msg);
         echo $resultStr;
         exit;
