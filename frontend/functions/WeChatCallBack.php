@@ -187,20 +187,20 @@ class WeChatCallBack
         exit;
     }
 
-    private function ZIXUN_VIEW_Response($fromUsername, $toUsername)
+    public function ZIXUN_VIEW_Response($fromUsername, $toUsername)
     {
         $text = "<xml>
-                    <ToUserName><![CDATA[".$fromUsername."]]></ToUserName>
-                    <FromUserName><![CDATA[".$toUsername."]]></FromUserName>
-                    <CreateTime>".time()."</CreateTime>
-                    <MsgType><![CDATA[news]]></MsgType>";
+                <ToUserName><![CDATA[".$fromUsername."]]></ToUserName>
+                <FromUserName><![CDATA[".$toUsername."]]></FromUserName>
+                <CreateTime>".time()."</CreateTime>
+                <MsgType><![CDATA[news]]></MsgType>";
         $services = Service::findUserServiceByOpenId($fromUsername);
         $text.="<ArticleCount>".count($services)."</ArticleCount>";
         $text.="<Articles>";
         foreach($services as $service){
-            $url = "www.baidu.com?serviceId".$service->serviceId;
+            $url = "www.baidu.com?serviceId=".$service->serviceId;
             $reply = $service->reply;
-            if($reply){
+            if(!$reply){
                 $reply = "暂时还没回复，请耐心等待";
             }
             $text.="<item>
