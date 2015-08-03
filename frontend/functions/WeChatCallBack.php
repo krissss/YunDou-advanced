@@ -74,7 +74,7 @@ class WeChatCallBack
                     case "CLICK_ZIXUN": //咨询
                         $cache->set("zixun_".$fromUsername,'zixuning');
                         $response_msgType = "text";
-                        $contentStr = "回复：\n1.我要咨询\n2.查看我的咨询";
+                        $contentStr = "回复：\n1.我要咨询\n2.查看我的咨询\n0.退出咨询";
                         $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
                         echo $resultStr;
                         break;
@@ -184,7 +184,7 @@ class WeChatCallBack
                 $msg = "您的输入有误";
                 break;
         }
-        $msg = "\n输入0退出咨询";
+        $msg .= "\n输入0退出咨询";
         $resultStr = sprintf($textTpl, $fromUsername, $toUsername, time(), $type, $msg);
         echo $resultStr;
         exit;
