@@ -4,6 +4,7 @@ namespace frontend\functions;
 
 use common\models\Users;
 use yii\base\Exception;
+use Yii;
 
 class WeChatCallBack
 {
@@ -28,6 +29,7 @@ class WeChatCallBack
      */
     public function responseMsg()
     {
+        $cache = Yii::$app->cache;
         //get post data, May be due to the different environments
         $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
@@ -37,6 +39,7 @@ class WeChatCallBack
                the best way is to check the validity of xml by yourself */
             libxml_disable_entity_loader(true);
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            /** @var  $fromUsername String */
             $fromUsername = $postObj->FromUserName;
             $toUsername = $postObj->ToUserName;
             $content = trim($postObj->Content);
@@ -62,7 +65,26 @@ class WeChatCallBack
             if($event == "CLICK"){
                 $eventKey = $postObj->EventKey;
                 switch($eventKey){
-                    case "CLICK_REGISTER":
+                    case "CLICK_REGISTER":  //实名认证
+                        $response_msgType = "text";
+                        $contentStr = "注册！";
+                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
+                        echo $resultStr;
+                        break;
+                    case "CLICK_ZIXUN": //咨询
+                        $cache->set("zixun_".$fromUsername,'zixuning');
+                        $response_msgType = "text";
+                        $contentStr = "回复：\n1.我要咨询\n2.查看我的咨询";
+                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
+                        echo $resultStr;
+                        break;
+                    case "CLICK_BAOMING":   //报名
+                        $response_msgType = "text";
+                        $contentStr = "注册！";
+                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
+                        echo $resultStr;
+                        break;
+                    case "CLICK_YUNDOU":   //我的云豆
                         $response_msgType = "text";
                         $contentStr = "注册！";
                         $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
@@ -74,6 +96,10 @@ class WeChatCallBack
             if($msgType == 'text'){
                 if(!empty( $content ))
                 {
+                    $zixun = $cache->get('zixun_'.$fromUsername);
+                    if($zixun){
+                        self::zixunResponse($content,$fromUsername,$toUsername);
+                    }
                     $response_msgType = "text";
                     $response_content = self::switchKeyword($content);
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $response_content);
@@ -101,7 +127,6 @@ class WeChatCallBack
         if (!WeChatCallBack::TOKEN) {
             throw new Exception('TOKEN is not defined!');
         }
-
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
@@ -132,5 +157,36 @@ class WeChatCallBack
                 $msg = $keyword;
         }
         return $msg;
+    }
+
+    private function zixunResponse($content,$fromUsername,$toUsername){
+        $type = "text";
+        $textTpl = "<xml>
+							<ToUserName><![CDATA[%s]]></ToUserName>
+							<FromUserName><![CDATA[%s]]></FromUserName>
+							<CreateTime>%s</CreateTime>
+							<MsgType><![CDATA[%s]]></MsgType>
+							<Content><![CDATA[%s]]></Content>
+							<FuncFlag>0</FuncFlag>
+							</xml>";
+        switch($content == "zixuning"){
+            case "0":
+                Yii::$app->cache->delete("zixun_".$fromUsername);
+                $msg = "已经退出咨询";
+                break;
+            case "1":
+                $msg = "请输入您要咨询的问题";
+                break;
+            case "2":
+                $msg = "查看我的咨询";
+                break;
+            default:
+                $msg = "您的输入有误";
+                break;
+        }
+        $msg = "\n输入0退出咨询";
+        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, time(), $type, $msg);
+        echo $resultStr;
+        exit;
     }
 }

@@ -12,6 +12,8 @@ class WeiXinFunctions
     private $appId = "wxcf0cd66d7cdf0708";
     private $appSecret = "8bcd5a776d588ff7dc2f66c10b7efd11";
 
+    private $site_url = "121.40.228.2";
+
     //private标记的构造方法
     private function __construct(){}
 
@@ -96,24 +98,24 @@ class WeiXinFunctions
                       [
                           "type"=>"view",
                           "name"=>"模拟考试",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=practice",
                       ],[
                           "type"=>"view",
                           "name"=>"在线练习",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=practice",
                       ]
                   ]
               ],[
                   "name"=>"咨询与报名",
                   "sub_button"=>[
                       [
-                          "type"=>"view",
-                          "name"=>"模拟考试",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                          "type"=>"click",
+                          "name"=>"咨询",
+                          "key"=>"CLICK_ZIXUN",
                       ],[
-                          "type"=>"view",
-                          "name"=>"在线练习",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=practice",
+                          "type"=>"click",
+                          "name"=>"报名",
+                          "key"=>"CLICK_BAOMING",
                       ]
                   ]
               ],[
@@ -121,12 +123,16 @@ class WeiXinFunctions
                   "sub_button"=>[
                       [
                           "type"=>"click",
-                          "name"=>"实名认证",
-                          "key"=>"CLICK_REGISTER",
+                          "name"=>"我的云豆",
+                          "key"=>"CLICK_YUNDOU",
                       ],[
                           "type"=>"view",
                           "name"=>"实名认证2",
-                          "url"=>"http://121.40.228.2/frontend/web/?r=account/register",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=account/register",
+                      ],[
+                          "type"=>"view",
+                          "name"=>"实名认证2",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=account/register",
                       ]
                   ]
               ]
