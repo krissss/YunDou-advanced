@@ -110,12 +110,16 @@ class WeiXinFunctions
                   "sub_button"=>[
                       [
                           "type"=>"click",
-                          "name"=>"咨询",
-                          "key"=>"CLICK_ZIXUN",
+                          "name"=>"我要咨询",
+                          "key"=>"CLICK_ZIXUN_REQUEST",
                       ],[
                           "type"=>"click",
-                          "name"=>"报名",
-                          "key"=>"CLICK_BAOMING",
+                          "name"=>"查询咨询",
+                          "key"=>"CLICK_ZIXUN_VIEW",
+                      ],[
+                          "type"=>"click",
+                          "name"=>"我要报名",
+                          "key"=>"CLICK_BAOMING_REQUEST",
                       ]
                   ]
               ],[

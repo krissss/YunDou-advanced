@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use frontend\functions\DateFunctions;
 use Yii;
 
 /**
@@ -12,6 +13,8 @@ use Yii;
  * @property string $content
  * @property string $reply
  * @property integer $replyUserId
+ * @property string $createDate
+ * @property string $replyDate
  * @property string $remark
  */
 class Service extends \yii\db\ActiveRecord
@@ -32,7 +35,8 @@ class Service extends \yii\db\ActiveRecord
         return [
             [['userId', 'replyUserId'], 'integer'],
             [['content', 'reply'], 'string', 'max' => 200],
-            [['remark'], 'string', 'max' => 100]
+            [['remark'], 'string', 'max' => 100],
+            [['createDate','replyDate'], 'safe']
         ];
     }
 
@@ -47,7 +51,26 @@ class Service extends \yii\db\ActiveRecord
             'content' => 'Content',
             'reply' => 'Reply',
             'replyUserId' => 'Reply User ID',
+            'createDate' => 'Create Date',
+            'replyDate' => 'Reply Date',
             'remark' => 'Remark',
         ];
+    }
+
+    public static function createServiceByOpenId($content,$openId){
+        $service = new Service();
+        $user = Users::findByWeiXin($openId);
+        $service->userId = $user->userId;
+        $service->content = $content;
+        $service->createDate = DateFunctions::getCurrentDate();
+        $service->save();
+    }
+
+    public static function findUserServiceByOpenId($openId,$limit=5){
+        $user = Users::findByWeiXin($openId);
+        return Service::find()
+            ->where(['userId'=>$user->userId])
+            ->limit($limit)
+            ->all();
     }
 }
