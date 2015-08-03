@@ -97,7 +97,7 @@ class WeChatCallBack
                 if(!empty( $content ))
                 {
                     $zixun = $cache->get('zixun_'.$fromUsername);
-                    if($zixun){
+                    if($zixun == 'zixuning'){
                         self::zixunResponse($content,$fromUsername,$toUsername);
                     }
                     $response_msgType = "text";
@@ -169,7 +169,7 @@ class WeChatCallBack
 							<Content><![CDATA[%s]]></Content>
 							<FuncFlag>0</FuncFlag>
 							</xml>";
-        switch($content == "zixuning"){
+        switch($content){
             case "0":
                 Yii::$app->cache->delete("zixun_".$fromUsername);
                 $msg = "已经退出咨询";
