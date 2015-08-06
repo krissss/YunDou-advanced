@@ -13,29 +13,37 @@ use Yii;
 use common\models\TestLibrary;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\Controller;
-use frontend\Classes\PracticeParamClass as PPC;
 
 class PracticeController extends Controller
 {
-
     public $layout = 'practice';
 
-    //public $enableCsrfValidation = false;
-
     public function actionIndex(){
+        $openId = Yii::$app->request->get('openId');
+        $session = Yii::$app->session;
+        if($openId){    //存在表明来自微信端点击链接
+            $session->removeAll();  //清空session，保证以后的所有操作均从空的session开始
+            $user = Users::findByWeiXin($openId);
+            $session->set('user',$user);
+            if($user['majorJobId']==0){ //判断用户是否经过实名认证
+                Url::remember();    //记住当前url地址，注册后跳转
+                return $this->redirect(['account/register']);
+            }
+        }
         return $this->render('index');
     }
 
     /**
      * 顺序练习
      * @param $type
+     * @param $openId
      * @return string
      * @throws Exception
      */
     public function actionNormal($type){
         $session = Yii::$app->session;
-        Yii::$app->session->set('user',Users::findOne(1));
         $user = $session->get('user');
         $testTypeId = -1;   //-1表示全部练习
         $testTitle = "顺序练习";
@@ -73,11 +81,11 @@ class PracticeController extends Controller
     /**
      * 单项训练
      * @param $type
+     * @param $openId
      * @return string
      */
     public function actionSingle($type){
         $session = Yii::$app->session;
-        Yii::$app->session->set('user',Users::findOne(1));
         $user = $session->get('user');
         $testTypeId = 0;
         $testTitle = "单项练习-";
@@ -145,7 +153,7 @@ class PracticeController extends Controller
         }
         //判断是否没有下一题
         if($next > $max){
-            //单项结束
+            //单项结束//TODO
             return 'all over';
         }
         //下一题
@@ -187,90 +195,6 @@ class PracticeController extends Controller
         }
         //既不是正确也不是错误，正常情况下不出现
         return 'practice/single-save type undefined';
-    }
-
-    public function actionDanxuan(){
-        return $this->render('danxuan');
-    }
-
-    public function actionTest($type, $start)
-    {
-        $user = Yii::$app->session->get('user');
-        //$userId = $user->userId;
-        $userId = 1;
-
-        $testLibrary = "";
-
-        $where = [];
-        $andWhere = [];
-        $order = SORT_ASC;
-        switch ($type) {
-            case PPC::TYPE_SEQUENCE:
-                switch ($start) {
-                    case PPC::START_CONTINUE:
-                        $currentTestLibraryId = CurrentTestLibrary::find()->select('testLibraryId')->where(['userId'=>$userId])->one();
-                        if($currentTestLibraryId){
-                            $testLibrary = TestLibrary::find()->where(['testLibraryId'=>$currentTestLibraryId])->one();
-                        }else{
-                            $testLibrary = TestLibrary::find()->asArray()->one();
-                        }
-                        break;
-                    case PPC::START_RESTART:
-                        $currentTestLibrary = CurrentTestLibrary::find()->where(['userId'=>$userId])->one();
-                        $currentTestLibrary->testLibraryId = 1;
-
-                        $currentTestLibraryId = 1;
-                        $testLibrary = TestLibrary::find()->where(['testLibraryId'=>$currentTestLibraryId])->one();
-                        break;
-                }
-                break;
-            case PPC::TYPE_RANDOM:
-                switch ($start) {
-                    case 'undo':
-                        //去查询已做题
-                        $order = 'rand()';
-                        break;
-                    case 'total':
-                        $order = 'rand()';
-                        break;
-                }
-                break;
-            case PPC::TYPE_SPECIAL:
-                switch ($start) {
-                    case 'danxuan':
-                        $where = ['testTypeId'=>1];
-                        break;
-                    case 'duoxuan':
-                        $where = ['testTypeId'=>2];
-                        break;
-                    case 'panduan':
-                        $where = ['testTypeId'=>3];
-                        break;
-                    case 'anli':
-                        $where = ['testTypeId'=>4];
-                        break;
-                }
-                break;
-            case PPC::TYPE_WRONG:
-                switch ($start) {
-                    case 'total':
-                        $where = ['testTypeId'=>1];
-                        break;
-                    case 'danxuan':
-                        break;
-                    case 'duoxuan':
-                        break;
-                    case 'panduan':
-                        break;
-                    case 'anli':
-                        break;
-                }
-                break;
-        }
-        //$testLibraries = TestLibrary::find()->where($where)->andWhere($andWhere)->orderBy($order)->all();
-        return $this->render('test', [
-            'testLibrary' => $testLibrary
-        ]);
     }
 
 }

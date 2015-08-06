@@ -144,8 +144,8 @@ AppAsset::register($this);
                         </a>
                     </li>
                     <li <?//= $page_id == 'single-test' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['single-test/index']) ?>">
-                            <i class="menu-icon glyphicon glyphicon-pencil"></i>
+                        <a href="<?= Url::to(['users/index']) ?>">
+                            <i class="menu-icon glyphicon glyphicon-user"></i>
                             <span class="menu-text"> 用户管理 </span>
                         </a>
                     </li>

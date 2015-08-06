@@ -6,6 +6,7 @@ use common\models\Service;
 use common\models\Users;
 use yii\base\Exception;
 use Yii;
+use yii\helpers\Url;
 
 class WeChatCallBack
 {
@@ -67,6 +68,18 @@ class WeChatCallBack
             if ($event == "CLICK") {
                 $eventKey = $postObj->EventKey;
                 switch ($eventKey) {
+                    case "online_practice":
+                        $response_msgType = "text";
+                        $contentStr = '<a href="'.Url::to(['practice/index','openId'=>strval($fromUsername)],true).'">点此在线练习</a>';
+                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
+                        echo $resultStr;
+                        break;
+                    case "simulate_exam":
+                        $response_msgType = "text";
+                        $contentStr = '<a href="'.Url::to(['exam/index','openId'=>strval($fromUsername)],true).'">点此模拟考试</a>';
+                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
+                        echo $resultStr;
+                        break;
                     case "CLICK_REGISTER":  //实名认证
                         $response_msgType = "text";
                         $contentStr = "注册！";
@@ -81,11 +94,11 @@ class WeChatCallBack
                         echo $resultStr;
                         break;
                     case "CLICK_ZIXUN_VIEW": //查询咨询
-                        self::ZIXUN_VIEW_Response($content, $fromUsername, $toUsername);
+                        self::ZIXUN_VIEW_Response($fromUsername, $toUsername);
                         break;
-                    case "CLICK_BAOMING":   //报名
+                    case "CLICK_BAOMING_REQUEST":   //我要报名
                         $response_msgType = "text";
-                        $contentStr = "注册！";
+                        $contentStr = "报名功能开发中。。。";
                         $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
                         echo $resultStr;
                         break;
@@ -206,6 +219,7 @@ class WeChatCallBack
             $text.="<item>
                     <Title><![CDATA[".$service->content."]]></Title>
                     <Description><![CDATA[".$reply."]]></Description>
+                    <PicUrl><![CDATA[picurl]]></PicUrl>
                     <Url><![CDATA[".$url."]]></Url>
                     </item>";
         }

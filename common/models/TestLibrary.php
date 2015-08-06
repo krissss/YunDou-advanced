@@ -87,12 +87,12 @@ class TestLibrary extends \yii\db\ActiveRecord
     public static function findFirstByUserAndTestType($user,$testTypeId){
         if($testTypeId == -1){
             $testLibrary = TestLibrary::find()
-                ->where(['provinceId'=>$user['province'],'majorJobId'=>$user['majorJobId']])
+                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId']])
                 ->asArray()
                 ->one();
         }else{
             $testLibrary = TestLibrary::find()
-                ->where(['provinceId'=>$user['province'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
+                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
                 ->asArray()
                 ->one();
         }
@@ -108,14 +108,38 @@ class TestLibrary extends \yii\db\ActiveRecord
     public static function findAllByUserAndTestType($user,$testTypeId){
         if($testTypeId == -1){
             return TestLibrary::find()
-                ->where(['provinceId'=>$user['province'],'majorJobId'=>$user['majorJobId']])
+                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId']])
                 ->asArray()
                 ->all();
         }else{
             return TestLibrary::find()
-                ->where(['provinceId'=>$user['province'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
+                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
                 ->asArray()
                 ->all();
         }
+    }
+
+    public static function findByTemplateDetails($examTemplateDetails,$user){
+        $testLibraries = [];
+        foreach($examTemplateDetails as $preTypeId => $preTypes) {
+            foreach($preTypes as $testTypId => $testTypes){
+                foreach($testTypes as $testChapterId => $number){
+                    $testLibrary = TestLibrary::find()
+                        ->where([
+                            'preTypeId'=>$preTypeId,
+                            'testTypeId'=>$testTypId,
+                            'testChapterId'=>$testChapterId,
+                            'provinceId'=>$user['provinceId'],
+                            'majorJobId'=>$user['majorJobId']
+                        ])
+                        ->limit($number)
+                        ->orderBy('rand()')
+                        ->asArray()
+                        ->all();
+                    $testLibraries = array_merge($testLibraries,$testLibrary);
+                }
+            }
+        }
+        return $testLibraries;
     }
 }

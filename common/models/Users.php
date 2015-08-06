@@ -15,17 +15,19 @@ use Yii;
  * @property string $email
  * @property string $cellphone
  * @property string $weixin
+ * @property string $sex
  * @property integer $majorJobId
  * @property string $nickname
  * @property string $realname
  * @property string $introduce
  * @property integer $bitcoin
- * @property integer $province
- * @property integer $city
+ * @property integer $provinceId
+ * @property integer $cityId
  * @property string $company
  * @property string $address
  * @property string $registerDate
  * @property integer $role
+ * @property string $recommendCode
  * @property integer $recommendUserID
  * @property string $remark
  */
@@ -50,11 +52,13 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['majorJobId', 'bitcoin', 'province', 'city', 'role', 'recommendUserID'], 'integer'],
+            [['majorJobId', 'bitcoin', 'provinceId', 'cityId', 'role', 'recommendUserID'], 'integer'],
             [['registerDate'], 'safe'],
             [['username', 'password', 'email', 'weixin', 'nickname', 'realname', 'company', 'address'], 'string', 'max' => 50],
             [['userIcon'], 'string', 'max' => 255],
+            [['sex'], 'string', 'max' => 2],
             [['cellphone'], 'string', 'max' => 11],
+            [['recommendCode'], 'string', 'max' => 15],
             [['introduce', 'remark'], 'string', 'max' => 100]
         ];
     }
@@ -65,27 +69,48 @@ class Users extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'userId' => 'User ID',
-            'username' => 'Username',
-            'password' => 'Password',
-            'userIcon' => 'User Icon',
-            'email' => 'Email',
-            'cellphone' => 'Cellphone',
-            'weixin' => 'Weixin',
-            'majorJobId' => 'Major Job ID',
-            'nickname' => 'Nickname',
-            'realname' => 'Realname',
-            'introduce' => 'Introduce',
-            'bitcoin' => 'Bitcoin',
-            'province' => 'Province',
-            'city' => 'City',
-            'company' => 'Company',
-            'address' => 'Address',
-            'registerDate' => 'Register Date',
-            'role' => 'Role',
-            'recommendUserID' => 'Recommend User ID',
+            'userId' => '用户id',
+            'username' => '用户名',
+            'password' => '密码',
+            'userIcon' => '用户头像',
+            'email' => '邮件',
+            'cellphone' => '手机',
+            'weixin' => '微信id',
+            'sex' => '性别',
+            'majorJobId' => '专业岗位',
+            'nickname' => '昵称',
+            'realname' => '真名',
+            'introduce' => '简介',
+            'bitcoin' => '云豆',
+            'provinceId' => '省份',
+            'cityId' => '城市',
+            'company' => '工作单位',
+            'address' => '家庭住址',
+            'registerDate' => '注册日期',
+            'role' => '角色等级',
+            'recommendCode' => '推荐码',
+            'recommendUserID' => '推荐用户',
             'remark' => 'Remark',
         ];
+    }
+
+    public function getProvince(){
+        return $this->hasOne(Province::className(),['provinceId'=>'provinceId']);
+    }
+
+    public function getMajorJob(){
+        return $this->hasOne(MajorJob::className(),['majorJobId'=>'majorJobId']);
+    }
+
+    public function getRoleName(){
+        switch($this->role){
+            case 1: $msg = "A级"; break;
+            case 2: $msg = "AA级"; break;
+            case 3: $msg = "AAA级"; break;
+            case 10: $msg = "管理员"; break;
+            default: $msg = "未定义";
+        }
+        return $msg;
     }
 
     /**
@@ -104,13 +129,39 @@ class Users extends \yii\db\ActiveRecord
             $user->weixin = $userInfo->openid;
             $user->nickname = $userInfo->nickname;
             $user->userIcon = $userInfo->headimgurl;
+            if($userInfo->sex == 1){
+                $user->sex = '男';
+            }elseif($userInfo->sex == 2){
+                $user->sex = '女';
+            }else{}
             $user->save();
         }
     }
 
+    /**
+     * 通过微信的openId查询用户
+     * @param $openId
+     * @return array|null|\yii\db\ActiveRecord
+     */
     public static function findByWeiXin($openId){
         return Users::find()
             ->where(['weixin'=>$openId])
             ->one();
+    }
+
+    /**
+     * 根据openId获取用户session
+     * @param $openId
+     * @return mixed
+     */
+    public static function getSessionUser($openId){
+        $session = Yii::$app->session;
+        //$session->remove('user');
+        $user = $session->get('user');
+        if(!$user){
+            $session->set('user',self::findByWeiXin($openId));
+            $user = $session->get('user');
+        }
+        return $user;
     }
 }

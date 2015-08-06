@@ -2,9 +2,14 @@
 /** 判断题 */
 /** @var $testLibrary common\models\TestLibrary */
 /** @var $questionNumber int */
+/** @var $examFlag boolean */
 
 $options = explode('|',$testLibrary['options']);
 ?>
+<?php if($examFlag):    //模拟考试隐藏题目?>
+<div class="mui-hidden question_<?=$questionNumber?>">
+<?php endif;?>
+
 <!-- 题目 -->
 <div class="mui-card">
     <div class="title">
@@ -19,7 +24,7 @@ $options = explode('|',$testLibrary['options']);
         <?php foreach($options as $option): ?>
             <div class="mui-input-row mui-radio mui-left" id="<?=substr($option,0,1)?>">
                 <label><?=$option?></label>
-                <input name="panduan" type="radio" value="<?=substr($option,0,1)?>">
+                <input class="input_question_<?=$questionNumber?>" name="panduan" type="radio" value="<?=substr($option,0,1)?>">
             </div>
         <?php endforeach; ?>
     </form>
@@ -35,3 +40,7 @@ $options = explode('|',$testLibrary['options']);
 </div>
 <div id="testLibraryId" data-id="<?=$testLibrary['testLibraryId']?>"></div>
 <div id="answer" data-answer="<?=$testLibrary['answer']?>"></div>
+
+<?php if($examFlag):    //模拟考试隐藏题目结束?>
+</div>
+<?php endif;?>

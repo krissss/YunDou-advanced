@@ -2,15 +2,20 @@
 /** 单选题 */
 /** @var $testLibrary common\models\TestLibrary */
 /** @var $questionNumber int */
+/** @var $examFlag boolean */
 
 $questions = explode('|',$testLibrary['question']);
 $optionsAll = explode('}',$testLibrary['options']);
 $answers = explode('}',$testLibrary['answer']);
 ?>
+<?php if($examFlag):    //模拟考试隐藏题目?>
+<div class="mui-hidden question_<?=$questionNumber?>">
+<?php endif;?>
+
 <!-- 题目 -->
 <div class="mui-card">
     <div class="title">
-        <?=$questionNumber++?>.<?=$testLibrary['problem'];?>
+        <?=$questionNumber?>.<?=$testLibrary['problem'];?>
     </div>
     <?php foreach($questions as $i=>$question):?>
         <?php $options = explode('|',$optionsAll[$i]); ?>
@@ -26,12 +31,14 @@ $answers = explode('}',$testLibrary['answer']);
             <?php foreach($options as $option): ?>
                 <div class="mui-input-row mui-radio mui-left <?=substr($option,0,1)?>">
                     <label><?=$option?></label>
-                    <input name="danxuan_<?=$i+1?>" type="radio" value="<?=substr($option,0,1)?>">
+                    <input class="input_question_anli_<?=$questionNumber?>" name="danxuan_<?=$i+1?>" type="radio" value="<?=substr($option,0,1)?>">
                 </div>
             <?php endforeach; ?>
         </form>
     <?php endforeach;?>
-    <a href="javascript:void(0);" class="mui-btn question-btn" id="anli-ok">确定</a>
+    <?php if(!$examFlag):    //模拟考试不需要确定按钮?>
+        <a href="javascript:void(0);" class="mui-btn question-btn" id="anli-ok">确定</a>
+    <?php endif;?>
 </div>
 <!-- 解析 -->
 <div class="mui-card" id="analysis" style="display: none">
@@ -43,3 +50,7 @@ $answers = explode('}',$testLibrary['answer']);
     </div>
 </div>
 <div id="testLibraryId" data-id="<?=$testLibrary['testLibraryId']?>"></div>
+
+<?php if($examFlag):    //模拟考试隐藏题目结束?>
+</div>
+<?php endif;?>

@@ -19,6 +19,32 @@ class AccountController extends Controller
      * 实名认证
      */
     public function actionRegister(){
+        $registerForm = new RegisterForm();
+        if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
+            $registerForm->register();
+            $url = Url::previous(); //获取前面记住的url
+            if($url){
+                return $this->redirect($url);
+            }else{
+                echo "恭喜您，注册成功！";
+                exit;
+            }
+        }
+        $majorJobs = MajorJob::findAllForJson();
+        $provinces = Province::findAllForJson();
+        return $this->render('register',[
+            'registerForm' => $registerForm,
+            'majorJobs' => $majorJobs,
+            'provinces' => $provinces
+        ]);
+    }
+
+    /**
+     * 网页获取授权，暂未使用
+     * @param $userInfo
+     * @return string|\yii\web\Response
+     */
+    public function actionSingUp($userInfo){
         $request = Yii::$app->request;
         $state = $request->get("state");
         if($state == 'YUN'){    //需要与getAuthorizeUrl($redirect_uri)中定义的一致，用户认证后回调操作如下
@@ -29,7 +55,23 @@ class AccountController extends Controller
                 $access_token = $result->access_token;
                 $userInfo = Users::findByWeiXin($openId);
                 if($userInfo){
-                    return $this->redirect(['account/sign-up','userInfo'=>$userInfo]);
+                    $registerForm = new RegisterForm();
+                    if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
+                        //$registerForm->register();
+                        exit;
+                    }
+                    $majorJobs = MajorJob::findAllForJson();
+                    $provinces = Province::findAllForJson();
+                    return $this->render('register',[
+                        'userInfo' => $userInfo,
+                        'registerForm' => $registerForm,
+                        'majorJobs' => $majorJobs,
+                        'provinces' => $provinces
+                    ]);
+                    //return $this->redirect(['account/sign-up','userInfo'=>$userInfo]);
+                }else{
+                    echo "用户不存在引起的错误，请联系客服";
+                    exit;
                 }
             }else{
                 echo "用户不允许授权";
@@ -39,22 +81,6 @@ class AccountController extends Controller
         $redirect_uri = urlencode(Url::to(["account/register"],true));
         $url = WeiXinFunctions::getAuthorizeUrl($redirect_uri);
         return $this->redirect($url);
-    }
-
-    public function actionSingUp($userInfo){
-        $registerForm = new RegisterForm();
-        if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
-            //$registerForm->register();
-            exit;
-        }
-        $majorJobs = MajorJob::findAllForJson();
-        $provinces = Province::findAllForJson();
-        return $this->render('register',[
-            'userInfo' => $userInfo,
-            'registerForm' => $registerForm,
-            'majorJobs' => $majorJobs,
-            'provinces' => $provinces
-        ]);
     }
     /*public function actionDoRegister(){
         $registerForm = new RegisterForm();

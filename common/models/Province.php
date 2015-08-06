@@ -48,6 +48,15 @@ class Province extends \yii\db\ActiveRecord
     }
 
     /**
+     * 查询所有省份，返回object
+     * @return \common\models\Province[]
+     */
+    public static function findAllForObject(){
+        $provinces = Province::find()->all();
+        return $provinces;
+    }
+
+    /**
      * 查询所有省份，返回json
      * @return string||json
      */

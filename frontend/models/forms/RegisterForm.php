@@ -2,8 +2,11 @@
 
 namespace frontend\models\forms;
 
+use Yii;
 use common\models\Users;
+use frontend\functions\CommonFunctions;
 use frontend\functions\DateFunctions;
+use yii\base\Exception;
 use yii\base\Model;
 
 class RegisterForm extends Model
@@ -12,6 +15,7 @@ class RegisterForm extends Model
     public $weixin;
     public $majorJobId;
     public $nickname;
+    public $realname;
     public $province;
     public $company;
     public $address;
@@ -21,7 +25,7 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            [['cellphone', 'weixin', 'majorJobId', 'nickname', 'province', 'company', 'address', 'yzm', 'tjm'], 'required'],
+            [['cellphone', 'majorJobId', 'nickname','realname', 'province', 'company', 'address', 'yzm', 'tjm'], 'required'],
             [['majorJobId', 'province'], 'integer'],
             [['weixin', 'nickname', 'company', 'address'], 'string', 'max' => 50],
             [['cellphone'], 'number','min'=>10000000000, 'max'=>19999999999],
@@ -34,7 +38,8 @@ class RegisterForm extends Model
             'cellphone' => '手机',
             'weixin' => '微信',
             'majorJobId' => '专业类型',
-            'nickname' => '姓名',
+            'nickname' => '昵称',
+            'realname' => '真实姓名',
             'province' => '考试区域',
             'company' => '工作单位',
             'address' => '家庭住址',
@@ -44,26 +49,28 @@ class RegisterForm extends Model
     }
 
     public function register(){
-        $user = new Users();
-        $user->username = "";
-        $user->password = "";
-        $user->userIcon = "";
-        $user->email = "";
+        $session_user = Yii::$app->session->get('user');
+        /** @var $user \common\models\Users */
+        $user = Users::findOne($session_user['userId']);
+        if(!$user){
+            throw new Exception("用户未关注微信");
+        }
         $user->cellphone = $this->cellphone;
-        $user->weixin = $this->weixin;
         $user->majorJobId = $this->majorJobId;
         $user->nickname = $this->nickname;
-        $user->realname = "";
-        $user->introduce = "";
+        $user->realname = $this->realname;
         $user->bitcoin = 0;
-        $user->province = $this->province;
-        $user->city = "";
+        $user->provinceId = $this->province;
         $user->company = $this->company;
         $user->address = $this->address;
         $user->registerDate = DateFunctions::getCurrentDate();
         $user->role = Users::ROLE_A;
+        $user->recommendCode = CommonFunctions::createRecommendCode();
         $user->recommendUserID = "";
-
+        if(!$user->update()){
+            throw new Exception("Users Register Error");
+        }
+        Yii::$app->session->set('user',$user);
     }
 
 

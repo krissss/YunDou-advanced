@@ -53,6 +53,15 @@ class MajorJob extends \yii\db\ActiveRecord
     }
 
     /**
+     * 查询所有职业岗位，返回object
+     * @return \common\models\MajorJob[]
+     */
+    public static function findAllForObject(){
+        $majorJobs = MajorJob::find()->all();
+        return $majorJobs;
+    }
+
+    /**
      * 查询所有职业岗位，返回json
      * @return string||json
      */

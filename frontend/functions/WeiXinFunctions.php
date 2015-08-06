@@ -12,7 +12,7 @@ class WeiXinFunctions
     private $appId = "wxcf0cd66d7cdf0708";
     private $appSecret = "8bcd5a776d588ff7dc2f66c10b7efd11";
 
-    private $site_url = "121.40.228.2";
+    private $site_url = "selab.sju.edu.cn/yundou";
 
     //private标记的构造方法
     private function __construct(){}
@@ -96,13 +96,13 @@ class WeiXinFunctions
                   "name"=>"模拟与学习",
                   "sub_button"=>[
                       [
-                          "type"=>"view",
+                          "type"=>"click",
                           "name"=>"模拟考试",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=practice",
+                          "key"=>"simulate_exam",
                       ],[
-                          "type"=>"view",
+                          "type"=>"click",
                           "name"=>"在线练习",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=practice",
+                          "key"=>"online_practice",
                       ]
                   ]
               ],[
