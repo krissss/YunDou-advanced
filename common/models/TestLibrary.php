@@ -78,6 +78,26 @@ class TestLibrary extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getProvince(){
+        return $this->hasOne(Province::className(),['provinceId'=>'provinceId']);
+    }
+
+    public function getMajorJob(){
+        return $this->hasOne(MajorJob::className(),['majorJobId'=>'majorJobId']);
+    }
+
+    public function getTestChapter(){
+        return $this->hasOne(TestChapter::className(),['testChapterId'=>'testChapterId']);
+    }
+
+    public function getTestType(){
+        return $this->hasOne(TestType::className(),['testTypeId'=>'testTypeId']);
+    }
+
+    public function getPreType(){
+        return $this->hasOne(PreType::className(),['preTypeId'=>'preTypeId']);
+    }
+
     /**
      * 根据用户和测试类型查询第一个试题
      * @param $user \common\models\Users;

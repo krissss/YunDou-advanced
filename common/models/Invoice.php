@@ -57,4 +57,9 @@ class Invoice extends \yii\db\ActiveRecord
             'remark' => 'Remark',
         ];
     }
+
+    public function getUsers(){
+        return $this->hasOne(Users::className(),['userId'=>'userId']);
+    }
+
 }

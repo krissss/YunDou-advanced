@@ -133,55 +133,121 @@ AppAsset::register($this);
                 <ul class="nav sidebar-menu">
                     <li <?//= $page_id == 'index' ? 'class="active"' : ''; ?>>
                         <a href="<?= Url::to(['site/index']) ?>">
-                            <i class="menu-icon glyphicon glyphicon-home"></i>
+                            <i class="menu-icon fa fa-dashboard"></i>
                             <span class="menu-text"> 系统信息 </span>
                         </a>
                     </li>
                     <li <?//= $page_id == 'index' ? 'class="active"' : ''; ?>>
                         <a href="<?= Url::to(['site/index']) ?>">
-                            <i class="menu-icon glyphicon glyphicon-home"></i>
+                            <i class="menu-icon fa fa-th-list"></i>
                             <span class="menu-text"> 基础数据 </span>
                         </a>
                     </li>
-                    <li <?//= $page_id == 'single-test' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['users/index']) ?>">
-                            <i class="menu-icon glyphicon glyphicon-user"></i>
-                            <span class="menu-text"> 用户管理 </span>
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-users"></i>
+                                <span class="menu-text">
+                                    用户管理
+                                </span>
+                            <i class="menu-expand"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="<?= Url::to(['users/index']) ?>">
+                                    <span class="menu-text">微信用户管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['users/other']) ?>">
+                                    <span class="menu-text">其他用户管理</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li <?//= $page_id == 'true-exam' ? 'class="active"' : ''; ?>>
+                        <a href="<?= Url::to(['test-library/index']) ?>">
+                            <i class="menu-icon fa fa-list-alt"></i>
+                            <span class="menu-text"> 题库管理 </span>
                         </a>
                     </li>
                     <li <?//= $page_id == 'true-exam' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['true-exam/index']) ?>">
-                            <i class="menu-icon glyphicon glyphicon-list-alt"></i>
-                            <span class="menu-text"> 题库管理 </span>
+                        <a href="<?= Url::to(['exam-template/index']) ?>">
+                            <i class="menu-icon fa fa-list-ol"></i>
+                            <span class="menu-text"> 模板管理 </span>
                         </a>
                     </li>
                     <li <?//= $page_id == 'simulate-exam' ? 'class="active"' : ''; ?>>
                         <a href="<?= Url::to(['simulate-exam/index']) ?>">
-                            <i class="menu-icon glyphicon glyphicon-time"></i>
+                            <i class="menu-icon fa fa-folder"></i>
                             <span class="menu-text"> 课件管理 </span>
                         </a>
                     </li>
-                    <li <?//= $page_id == 'wrong-test' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['wrong-test/index']) ?>">
-                            <i class="menu-icon glyphicon glyphicon-file"></i>
-                            <span class="menu-text"> 云豆管理 </span>
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-leaf"></i>
+                                <span class="menu-text">
+                                    云豆管理
+                                </span>
+                            <i class="menu-expand"></i>
                         </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="<?= Url::to(['income-consume/index']) ?>">
+                                    <span class="menu-text">云豆列表</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['income-consume/rechange']) ?>">
+                                    <span class="menu-text">充值设置</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li <?//= $page_id == 'history' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['history/index']) ?>">
-                            <i class="menu-icon glyphicon glyphicon-calendar"></i>
-                            <span class="menu-text"> 资金管理 </span>
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-money"></i>
+                                <span class="menu-text">
+                                    资金管理
+                                </span>
+                            <i class="menu-expand"></i>
                         </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="<?= Url::to(['pay/index']) ?>">
+                                    <span class="menu-text">现金收支表</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['pay/get-money']) ?>">
+                                    <span class="menu-text">云豆提现记录</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li <?//= $page_id == 'analysis' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['analysis/index']) ?>">
-                            <i class="menu-icon glyphicon glyphicon-list-alt"></i>
-                            <span class="menu-text"> 发票管理 </span>
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-ticket"></i>
+                                <span class="menu-text">
+                                    发票管理
+                                </span>
+                            <i class="menu-expand"></i>
                         </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="<?= Url::to(['invoice/index']) ?>">
+                                    <span class="menu-text">发票申请</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['invoice/opener']) ?>">
+                                    <span class="menu-text">发票开具</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li <?//= $page_id == 'account-index' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['account/index']) ?>">
-                            <i class="menu-icon glyphicon glyphicon-user"></i>
+                        <a href="<?= Url::to(['service/index']) ?>">
+                            <i class="menu-icon fa fa-comment-o"></i>
                             <span class="menu-text"> 咨询管理 </span>
                         </a>
                     </li>

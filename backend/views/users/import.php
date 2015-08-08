@@ -6,7 +6,6 @@ use yii\helpers\Url;
 
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\UsersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->title = Yii::t('app', '导入客户' );
 $this->params['breadcrumbs'][] = ['label' => '返回', 'url' => ['index']];

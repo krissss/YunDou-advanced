@@ -6,6 +6,7 @@ use backend\functions\CommonFunctions;
 use common\models\ExamTemplateDetail;
 use common\models\MajorJob;
 use common\models\Province;
+use common\models\Users;
 use Yii;
 use common\models\ExamTemplate;
 use common\models\TestChapter;
@@ -17,7 +18,7 @@ class ExamTemplateController extends Controller
 {
     public function actionIndex(){
         //Yii::$app->session->set('user',Users::findOne(1));
-        echo "用户session未注册";
+        //echo "用户session未注册";
         $user = Yii::$app->session->get('user');
         $session = Yii::$app->session;
         if(!$session->get("provinces")){
@@ -43,7 +44,7 @@ class ExamTemplateController extends Controller
         }
         $query = ExamTemplate::find();
         $pagination = new Pagination([
-            'defaultPageSize' => 20,
+            'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),
         ]);
         $examTemplates = $query->offset($pagination->offset)
@@ -96,16 +97,12 @@ class ExamTemplateController extends Controller
                     $table_a = ExamTemplate::tableName();
                     $table_b = MajorJob::tableName();
                     $query = ExamTemplate::find()
-                        ->leftJoin($table_b, "$table_a.majorJobId='.$table_b.majorJobId")
-                        ->where(['like', $table_b . ".name", $content]);
+                        ->leftJoin($table_b, "$table_a.majorJobId=$table_b.majorJobId")
+                        ->where(['like', "$table_b.name", $content]);
                     break;
-                case 'name':
+                case 'name':case 'state':
                     $query = ExamTemplate::find()
-                        ->where(['like', 'name', $content]);
-                    break;
-                case 'state':
-                    $query = ExamTemplate::find()
-                        ->where(['like', 'state', $content]);
+                        ->where(['like', $type, $content]);
                     break;
                 default:
                     $query = ExamTemplate::find();
@@ -114,7 +111,7 @@ class ExamTemplateController extends Controller
         }
         Yii::$app->session->setFlash('query',$query);
         $pagination = new Pagination([
-            'defaultPageSize' => 20,
+            'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),
         ]);
         $examTemplates = $query->offset($pagination->offset)

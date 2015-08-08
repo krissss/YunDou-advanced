@@ -53,4 +53,12 @@ class IncomeConsume extends \yii\db\ActiveRecord
             'remark' => 'Remark',
         ];
     }
+
+    public function getUsers(){
+        return $this->hasOne(Users::className(),['userId'=>'userId']);
+    }
+
+    public function getUsageMode(){
+        return $this->hasOne(UsageMode::className(),['usageModeId'=>'usageModeId']);
+    }
 }

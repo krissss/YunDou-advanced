@@ -4,6 +4,7 @@ namespace common\models;
 
 use frontend\functions\DateFunctions;
 use Yii;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "service".
@@ -57,6 +58,14 @@ class Service extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getCreateUser(){
+        return $this->hasOne(Users::className(),['userId'=>'userId']);
+    }
+
+    public function getReplyUser(){
+        return $this->hasOne(Users::className(),['userId'=>'replyUserId']);
+    }
+
     public static function createServiceByOpenId($content,$openId){
         $service = new Service();
         $user = Users::findByWeiXin($openId);
@@ -72,5 +81,19 @@ class Service extends \yii\db\ActiveRecord
             ->where(['userId'=>$user->userId])
             ->limit($limit)
             ->all();
+    }
+
+    public static function replyService($serviceId,$reply){
+        $user = Yii::$app->session->get('user');
+        if(!$user){
+            throw new Exception("Service replyService session user not exist!");
+        }
+        $service = Service::findOne($serviceId);
+        $service->reply = $reply;
+        $service->replyUserId = $user['userId'];
+        $service->replyDate = DateFunctions::getCurrentDate();
+        if(!$service->update()){
+            throw new Exception("Service replyService update error!");
+        }
     }
 }
