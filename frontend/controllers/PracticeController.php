@@ -9,6 +9,7 @@ use common\models\CurrentTestLibrary;
 use common\models\ErrorQuestion;
 use common\models\MajorJob;
 use common\models\Users;
+use frontend\filters\OpenIdFilter;
 use Yii;
 use common\models\TestLibrary;
 use yii\base\Exception;
@@ -20,10 +21,19 @@ class PracticeController extends Controller
 {
     public $layout = 'practice';
 
+    public function behaviors(){
+        return [
+            'access' => [
+                'class' => OpenIdFilter::className(),
+            ],
+        ];
+    }
+
     public function actionIndex(){
-        $openId = Yii::$app->request->get('openId');
-        $session = Yii::$app->session;
-        if($openId){    //存在表明来自微信端点击链接
+        $openId = Yii::$app->session->get('openId');
+        echo $openId;
+        //$session = Yii::$app->session;
+        /*if($openId){    //存在表明来自微信端点击链接
             $session->removeAll();  //清空session，保证以后的所有操作均从空的session开始
             $user = Users::findByWeiXin($openId);
             $session->set('user',$user);
@@ -31,7 +41,7 @@ class PracticeController extends Controller
                 Url::remember();    //记住当前url地址，注册后跳转
                 return $this->redirect(['account/register']);
             }
-        }
+        }*/
         return $this->render('index');
     }
 
