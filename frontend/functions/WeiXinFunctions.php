@@ -96,47 +96,55 @@ class WeiXinFunctions
                   "name"=>"模拟与学习",
                   "sub_button"=>[
                       [
-                          "type"=>"click",
+                          "type"=>"view",
                           "name"=>"模拟考试",
-                          "key"=>"simulate_exam",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=exam/index",
                       ],[
-                          "type"=>"click",
-                          "name"=>"在线练习",
-                          "key"=>"online_practice",
+                          "type"=>"view",
+                          "name"=>"在线学习",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=practice/index",
                       ]
                   ]
               ],[
                   "name"=>"咨询与报名",
                   "sub_button"=>[
                       [
-                          "type"=>"click",
+                          "type"=>"view",
                           "name"=>"我要咨询",
-                          "key"=>"CLICK_ZIXUN_REQUEST",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=service/consult",
                       ],[
-                          "type"=>"click",
-                          "name"=>"查询咨询",
-                          "key"=>"CLICK_ZIXUN_VIEW",
-                      ],[
-                          "type"=>"click",
+                          "type"=>"view",
                           "name"=>"我要报名",
-                          "key"=>"CLICK_BAOMING_REQUEST",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=service/enroll",
+                      ],[
+                          "type"=>"view",
+                          "name"=>"我要建议",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=service/suggest",
                       ]
                   ]
               ],[
                   "name"=>"我的云豆",
                   "sub_button"=>[
                       [
-                          "type"=>"click",
-                          "name"=>"我的云豆",
-                          "key"=>"CLICK_YUNDOU",
+                          "type"=>"view",
+                          "name"=>"云宝官网",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=building",
                       ],[
                           "type"=>"view",
-                          "name"=>"实名认证2",
+                          "name"=>"实名认证",
                           "url"=>"http://".$this->site_url."/frontend/web/?r=account/register",
                       ],[
                           "type"=>"view",
-                          "name"=>"实名认证2",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=account/register",
+                          "name"=>"我的账户",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=account/index",
+                      ],[
+                          "type"=>"view",
+                          "name"=>"我要充值",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=account/recharge",
+                      ],[
+                          "type"=>"view",
+                          "name"=>"我要推荐",
+                          "url"=>"http://".$this->site_url."/frontend/web/?r=account/recommend",
                       ]
                   ]
               ]

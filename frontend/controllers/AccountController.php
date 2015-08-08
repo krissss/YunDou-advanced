@@ -24,9 +24,12 @@ class AccountController extends Controller
         ];
     }
 
-    /**
-     * 实名认证
-     */
+    /** 我的账户 */
+    public function actionIndex(){
+        echo "<h1>我的账户，建设中。。。</h1>";
+    }
+
+    /** 实名认证*/
     public function actionRegister(){
         /*$currentUrl = urlencode(Url::to(['account/index'],true));
         $appid_verify = md5("wxcf0cd66d7cdf07088bcd5a776d588ff7dc2f66c10b7efd11");
@@ -54,68 +57,13 @@ class AccountController extends Controller
         ]);
     }
 
-    /**
-     * 网页获取授权，暂未使用
-     * @param $userInfo
-     * @return string|\yii\web\Response
-     */
-    public function actionSingUp($userInfo){
-        $request = Yii::$app->request;
-        $state = $request->get("state");
-        if($state == 'YUN'){    //需要与getAuthorizeUrl($redirect_uri)中定义的一致，用户认证后回调操作如下
-            $code = $request -> get("code");
-            if($code){  //code存在表示用户允许授权
-                $result = WeiXinFunctions::getAuthAccessToken($code);
-                $openId = $result->openid;
-                $access_token = $result->access_token;
-                $userInfo = Users::findByWeiXin($openId);
-                if($userInfo){
-                    $registerForm = new RegisterForm();
-                    if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
-                        //$registerForm->register();
-                        exit;
-                    }
-                    $majorJobs = MajorJob::findAllForJson();
-                    $provinces = Province::findAllForJson();
-                    return $this->render('register',[
-                        'userInfo' => $userInfo,
-                        'registerForm' => $registerForm,
-                        'majorJobs' => $majorJobs,
-                        'provinces' => $provinces
-                    ]);
-                    //return $this->redirect(['account/sign-up','userInfo'=>$userInfo]);
-                }else{
-                    echo "用户不存在引起的错误，请联系客服";
-                    exit;
-                }
-            }else{
-                echo "用户不允许授权";
-                exit;
-            }
-        }
-        $redirect_uri = urlencode(Url::to(["account/register"],true));
-        $url = WeiXinFunctions::getAuthorizeUrl($redirect_uri);
-        return $this->redirect($url);
+    /** 我要充值 */
+    public function actionRecharge(){
+        echo "<h1>我要充值，建设中。。。</h1>";
     }
-    /*public function actionDoRegister(){
-        $registerForm = new RegisterForm();
-        if($registerForm->load(Yii::$app->request->post())){
-           echo $registerForm->address;
-        }
-        exit;
-        return $this->render('newCodeReading',[
-            'model'=>$model,
-            'courses'=>$courses,
-        ]);
-        $request = Yii::$app->request;
-        $nickname = $request->post("nickname");
-        $weixin = $request->post("weixin");
-        $cellphone = $request->post("cellphone");
-        $yzm = $request->post("yzm");
-        $company = $request->post("company");
-        $address = $request->post("address");
-        $province = $request->post("province");
-        $majorJobId = $request->post("majorJobId");
-        $tjm = $request->post("tjm");
-    }*/
+
+    /** 我要推荐 */
+    public function actionRecommend(){
+        echo "<h1>我要推荐，建设中。。。</h1>";
+    }
 }
