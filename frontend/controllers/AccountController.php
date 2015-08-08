@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Users;
+use frontend\filters\OpenIdFilter;
 use frontend\functions\WeiXinFunctions;
 use frontend\models\forms\RegisterForm;
 use Yii;
@@ -14,6 +15,14 @@ use yii\web\Controller;
 class AccountController extends Controller
 {
     public $layout = 'practice';
+
+    public function behaviors(){
+        return [
+            'access' => [
+                'class' => OpenIdFilter::className(),
+            ],
+        ];
+    }
 
     /**
      * 实名认证
