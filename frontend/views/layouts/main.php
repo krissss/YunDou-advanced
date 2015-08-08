@@ -20,6 +20,16 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <script type="text/javascript">
+        (function() {
+            WgateJs = {};
+            WgateJs.auto_auth=true;
+            var u=(("https:" == document.location.protocol) ? "https" : "http") + "://st.weixingate.com/";
+            u=u+'st/1311';
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+            g.defer=true; g.async=true; g.src=u; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
 </head>
 <body>
     <?php $this->beginBody() ?>
