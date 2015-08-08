@@ -17,7 +17,7 @@ AppAsset::register($this);
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <script type="text/javascript">
+    <!--<script type="text/javascript">
         (function() {
             WgateJs = {};
             WgateJs.auto_auth=true;
@@ -25,8 +25,9 @@ AppAsset::register($this);
             u=u+'st/1311';
             var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
             g.defer=true; g.async=true; g.src=u; s.parentNode.insertBefore(g,s);
+            alert(WgateJs.getWgateid());
         })();
-    </script>
+    </script>-->
     <?php $this->head() ?>
 </head>
 <body>

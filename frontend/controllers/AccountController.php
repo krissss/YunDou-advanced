@@ -19,6 +19,11 @@ class AccountController extends Controller
      * 实名认证
      */
     public function actionRegister(){
+        $currentUrl = Url::current();
+        $appid_verify = md5("wxcf0cd66d7cdf07088bcd5a776d588ff7dc2f66c10b7efd11");
+        $url = "http://www.weixingate.com/gate.php?back=$currentUrl&force=1&appid=wxcf0cd66d7cdf0708&appid_verify=$appid_verify";
+        $fp=file_get_contents($url) or die("can not open $url");
+        print_r($fp);
         $registerForm = new RegisterForm();
         if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
             $registerForm->register();
