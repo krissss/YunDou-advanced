@@ -17,7 +17,7 @@ class RegisterFilter extends ActionFilter
         $session = Yii::$app->session;
         $user = $session->get('user');
         if($user['majorJobId'] == 0){
-            Url::remember();    //记住当前url地址，注册后跳转
+            Url::remember("register");    //记住当前url地址，注册后跳转
             $url = Url::to(["account/register"],true);
             header("Location:$url");
             return false;

@@ -34,7 +34,7 @@ class AccountController extends Controller
         $registerForm = new RegisterForm();
         if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
             $registerForm->register();
-            $url = Url::previous(); //获取前面记住的url
+            $url = Url::previous("register"); //获取前面记住的url
             if($url){
                 return $this->redirect($url);
             }else{

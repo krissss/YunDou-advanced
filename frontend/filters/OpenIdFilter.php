@@ -18,7 +18,7 @@ class OpenIdFilter extends ActionFilter
 
     public function beforeAction($action){
         $session = Yii::$app->session;
-        //$session->set('openId','ow-bOvjH7CpKQtxsvjJuRmg6-g-k');
+        $session->set('openId','ow-bOvjH7CpKQtxsvjJuRmg6-g-k');
         if($openId = $session->get('openId')){
             $session->set('user',Users::findByWeiXin($openId));
             return parent::beforeAction($action);
@@ -38,7 +38,7 @@ class OpenIdFilter extends ActionFilter
                 return false;
             }
         }
-        $redirect_uri = urlencode(Url::to(["account/register"],true));
+        $redirect_uri = urlencode(Url::current([],true));   //认证后跳转至当前网址
         $url = WeiXinFunctions::getAuthorizeUrl($redirect_uri);
         header("Location:$url");
         return false;
