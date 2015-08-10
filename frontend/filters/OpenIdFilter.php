@@ -18,7 +18,7 @@ class OpenIdFilter extends ActionFilter
 
     public function beforeAction($action){
         $session = Yii::$app->session;
-        $session->set('openId','ow-bOvjH7CpKQtxsvjJuRmg6-g-k');
+        //$session->set('openId','ow-bOvjH7CpKQtxsvjJuRmg6-g-k');
         if($openId = $session->get('openId')){
             $session->set('user',Users::findByWeiXin($openId));
             return parent::beforeAction($action);

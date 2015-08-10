@@ -139,11 +139,26 @@ AppAsset::register($this);
                             <span class="menu-text"> 系统信息 </span>
                         </a>
                     </li>
-                    <li <?//= $page_id == 'index' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['site/index']) ?>">
-                            <i class="menu-icon fa fa-th-list"></i>
-                            <span class="menu-text"> 基础数据 </span>
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-users"></i>
+                                <span class="menu-text">
+                                    基础数据
+                                </span>
+                            <i class="menu-expand"></i>
                         </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="<?= Url::to(['users/index']) ?>">
+                                    <span class="menu-text">微信用户管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['users/other']) ?>">
+                                    <span class="menu-text">其他用户管理</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="#" class="menu-dropdown">

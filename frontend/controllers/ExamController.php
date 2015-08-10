@@ -7,31 +7,33 @@ use common\models\ExamTemplateDetail;
 use common\models\MajorJob;
 use common\models\TestLibrary;
 use common\models\Users;
+use frontend\filters\OpenIdFilter;
+use frontend\filters\RegisterFilter;
 use Yii;
 use yii\helpers\Url;
 use yii\web\Controller;
 
 class ExamController extends Controller
 {
+    public function behaviors(){
+        return [
+            'access' => [
+                'class' => OpenIdFilter::className(),
+            ],[
+                'class' => RegisterFilter::className()
+            ]
+        ];
+    }
+
     public $layout = 'practice';
 
     public function actionIndex(){
-        $openId = Yii::$app->request->get('openId');
         $session = Yii::$app->session;
-        if($openId){    //存在表明来自微信端点击链接
-            $session->removeAll();  //清空session，保证以后的所有操作均从空的session开始
-            $user = Users::findByWeiXin($openId);
-            $session->set('user',$user);
-            if($user['majorJobId']==0){ //判断用户是否经过实名认证
-                Url::remember();    //记住当前url地址，注册后跳转
-                return $this->redirect(['account/register']);
-            }
-        }
         $user = $session->get('user');
         $examTemplates = ExamTemplate::findByMajorJobAndProvince($user['majorJobId'],$user['provinceId']);
         $totalNumber = count($examTemplates);
         if($totalNumber == 0){
-            return "没有模拟试卷";
+            return "<h1>没有模拟试卷</h1>";
         }
         $rand = rand(1,$totalNumber);
         $examTemplateDetails = ExamTemplateDetail::findByExamTemplate($examTemplates[$rand-1]['examTemplateId']);

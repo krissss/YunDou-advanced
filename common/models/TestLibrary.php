@@ -162,4 +162,34 @@ class TestLibrary extends \yii\db\ActiveRecord
         }
         return $testLibraries;
     }
+
+    public static function findTotalNumber($user,$testTypeId){
+        if($testTypeId == -1){
+            return TestLibrary::find()
+                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId']])
+                ->count();
+        }else{
+            return TestLibrary::find()
+                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
+                ->count();
+        }
+    }
+
+    public static function findByUserAndTestType($user,$testTypeId,$limit,$offset){
+        if($testTypeId == -1){
+            return TestLibrary::find()
+                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId']])
+                ->limit($limit)
+                ->offset($offset)
+                ->asArray()
+                ->all();
+        }else{
+            return TestLibrary::find()
+                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
+                ->limit($limit)
+                ->offset($offset)
+                ->asArray()
+                ->all();
+        }
+    }
 }

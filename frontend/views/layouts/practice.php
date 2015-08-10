@@ -17,17 +17,6 @@ AppAsset::register($this);
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <!--<script type="text/javascript">
-        (function() {
-            WgateJs = {};
-            WgateJs.auto_auth=true;
-            var u=(("https:" == document.location.protocol) ? "https" : "http") + "://st.weixingate.com/";
-            u=u+'st/1311';
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
-            g.defer=true; g.async=true; g.src=u; s.parentNode.insertBefore(g,s);
-            alert(WgateJs.getWgateid());
-        })();
-    </script>-->
     <?php $this->head() ?>
 </head>
 <body>
@@ -35,8 +24,5 @@ AppAsset::register($this);
 <?= $content ?>
 <?php $this->endBody() ?>
 </body>
-<script>
-    mui.init();
-</script>
 </html>
 <?php $this->endPage() ?>

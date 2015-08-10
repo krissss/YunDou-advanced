@@ -67,6 +67,7 @@ a:active{
     padding-right: 1px !important;
 }
 
+/** practice/index */
 .nav-icon{
     display: inline-block;
     padding: 5px;
@@ -80,5 +81,14 @@ a:active{
     height: 40px;
     font-size: 30px;
     line-height: 40px;
+    margin-bottom: 5px;
+}
+
+/** practice/test */
+.my_hide{
+    display: none;
+}
+
+.answer_show{
     margin-bottom: 5px;
 }

@@ -10,6 +10,7 @@ use common\models\ErrorQuestion;
 use common\models\MajorJob;
 use common\models\Users;
 use frontend\filters\OpenIdFilter;
+use frontend\filters\RegisterFilter;
 use Yii;
 use common\models\TestLibrary;
 use yii\base\Exception;
@@ -25,7 +26,9 @@ class PracticeController extends Controller
         return [
             'access' => [
                 'class' => OpenIdFilter::className(),
-            ],
+            ],[
+                'class' => RegisterFilter::className()
+            ]
         ];
     }
 
@@ -62,14 +65,14 @@ class PracticeController extends Controller
         }elseif($type == 'restart'){
             $next = CurrentTestLibrary::resetCurrent($user,$testTypeId);
         }else{
-            throw new Exception("practice/normal type cannot defined");
+            throw new Exception("practice/normal type does not defined");
         }
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
         //以testLibraryId作为数组索引,将所有同类型的题目存入session
         $testLibraries = ArrayHelper::index($testLibraries,'testLibraryId');
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
         //将一些必要参数存入session，方便后续页面调用
-        $session->set('testLibraries',$testLibraries);  //所有同类型题目
+        //$session->set('testLibraries',$testLibraries);  //所有同类型题目
         $session->set('totalNumber',count($testLibraries)); //总题数
         $session->set('testTypeId',$testTypeId);    //测试类型id
         $session->set('testTitle',$testTitle);    //测试标题
@@ -79,11 +82,12 @@ class PracticeController extends Controller
         for($i=$firstNumber; $i<$next; $i++){
             if (array_key_exists($i, $testLibraries)) {
                 $questionNumber++;
+                unset($testLibraries[$i]);  //去掉前面已经练习过的数据
             }
         }
 
         return $this->render('test',[
-            'testLibrary' => $testLibraries[$next],
+            'testLibraries' => $testLibraries,
             'questionNumber' => $questionNumber
         ]);
     }
@@ -119,13 +123,16 @@ class PracticeController extends Controller
             default:
                 break;
         }
+        //$totalNumber = TestLibrary::findTotalNumber($user,$testTypeId);
+        //$testLibraries = TestLibrary::findByUserAndTestType($user,$testTypeId,10,0);
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
         //以testLibraryId作为数组索引,将所有同类型的题目存入session
         $testLibraries = ArrayHelper::index($testLibraries,'testLibraryId');
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
         //将一些必要参数存入session，方便后续页面调用
-        $session->set('testLibraries',$testLibraries);  //所有同类型题目
+        //$session->set('testLibraries',$testLibraries);  //所有同类型题目
         $session->set('totalNumber',count($testLibraries)); //总题数
+        //$session->set('totalNumber',$totalNumber); //总题数
         $session->set('testTypeId',$testTypeId);    //测试类型id
         $session->set('testTitle',$testTitle);    //测试标题
         $session->set('majorJob',$majorJob);    //测试岗位
@@ -137,14 +144,35 @@ class PracticeController extends Controller
         for($i=$firstNumber; $i<$next; $i++){
             if (array_key_exists($i, $testLibraries)) {
                 $questionNumber++;
+                unset($testLibraries[$i]);  //去掉前面已经练习过的数据
             }
         }
 
         return $this->render('test',[
-            'testLibrary' => $testLibraries[$next],
+            'testLibraries' => $testLibraries,
             'questionNumber' => $questionNumber
         ]);
     }
+
+    public function actionNext(){
+        $request = Yii::$app->request;
+        $session = Yii::$app->session;
+        $testLibraryId = $request->post('testLibraryId');
+        $type = $request->post('type');
+        $testTypeId = $session->get('testTypeId');
+        $user = $session->get('user');
+        CurrentTestLibrary::saveOrUpdate($user['userId'],$testTypeId,$testLibraryId);
+        if($type == "wrong"){
+            ErrorQuestion::saveOrUpdate($user['userId'],$testLibraryId);
+        }
+    }
+
+
+
+
+
+
+
 
     /**
      * 出下一题，URL地址栏中next显示的为上一题的编号

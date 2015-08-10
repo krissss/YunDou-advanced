@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    //弃用
+
     /**
      * 答对答错的解析显示
      */

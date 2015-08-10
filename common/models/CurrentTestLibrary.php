@@ -103,14 +103,14 @@ class CurrentTestLibrary extends \yii\db\ActiveRecord
      */
     public static function saveOrUpdate($userId, $testTypeId, $testLibraryId){
         //查询用户是否有记录，有则更新，无则插入
-        $next = self::findByUserAndTestType($userId,$testTypeId);
-        if($next){
+        $currentTestLibrary = self::findByUserAndTestType($userId,$testTypeId);
+        if($currentTestLibrary){
             //如果上次记录和这次一样则直接跳过，不然update出错
-            if($testLibraryId == $next->testLibraryId){
+            if($testLibraryId == $currentTestLibrary->testLibraryId){
                 return true;
             }
-            $next->testLibraryId = $testLibraryId;
-            if($next->update()){
+            $currentTestLibrary->testLibraryId = $testLibraryId;
+            if($currentTestLibrary->update()){
                 return true;
             }else{
                 throw new Exception("CurrentTestLibrary update wrong");
