@@ -1,0 +1,16 @@
+.login-container .loginbox {
+    height: auto !important;
+    padding-bottom: 20px;
+}
+
+.loginbox-title {
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.login-container .loginbox .loginbox-textbox {
+    padding-bottom: 0;
+}

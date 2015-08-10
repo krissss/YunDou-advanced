@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\UserLoginFilter;
 use backend\functions\CommonFunctions;
 use Yii;
 use common\models\Users;
@@ -10,13 +11,20 @@ use common\models\MajorJob;
 use backend\models\forms\UploadForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\data\Pagination;
 //use server\Spreadsheet_Excel_Reader;
 use yii\web\UploadedFile;
 
 class UsersController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => UserLoginFilter::className(),
+            ],
+        ];
+    }
 
     public function actionIndex()
     {

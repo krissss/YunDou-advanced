@@ -31,7 +31,7 @@ class PracticeController extends Controller
 
     public function actionIndex(){
         $openId = Yii::$app->session->get('openId');
-        echo $openId;
+        //echo $openId;
         //$session = Yii::$app->session;
         /*if($openId){    //存在表明来自微信端点击链接
             $session->removeAll();  //清空session，保证以后的所有操作均从空的session开始

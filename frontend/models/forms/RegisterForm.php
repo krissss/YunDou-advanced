@@ -11,12 +11,11 @@ use yii\base\Model;
 
 class RegisterForm extends Model
 {
-    public $cellphone;
-    public $weixin;
-    public $majorJobId;
     public $nickname;
     public $realname;
-    public $province;
+    public $provinceId;
+    public $majorJobId;
+    public $cellphone;
     public $company;
     public $address;
     public $yzm;
@@ -25,9 +24,9 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            [['cellphone', 'majorJobId', 'nickname','realname', 'province', 'company', 'address', 'yzm', 'tjm'], 'required'],
-            [['majorJobId', 'province'], 'integer'],
-            [['weixin', 'nickname', 'company', 'address'], 'string', 'max' => 50],
+            [['nickname','realname','majorJobId',  'provinceId','cellphone', 'company', 'address', 'yzm', 'tjm'], 'required'],
+            [['majorJobId', 'provinceId'], 'integer'],
+            [['nickname', 'company', 'address'], 'string', 'max' => 50],
             [['cellphone'], 'number','min'=>10000000000, 'max'=>19999999999],
         ];
     }
@@ -35,12 +34,11 @@ class RegisterForm extends Model
     public function attributeLabels()
     {
         return [
-            'cellphone' => '手机',
-            'weixin' => '微信',
-            'majorJobId' => '专业类型',
             'nickname' => '昵称',
             'realname' => '真实姓名',
-            'province' => '考试区域',
+            'provinceId' => '考试区域',
+            'majorJobId' => '专业类型',
+            'cellphone' => '手机号',
             'company' => '工作单位',
             'address' => '家庭住址',
             'yzm' => '验证码',
@@ -48,27 +46,50 @@ class RegisterForm extends Model
         ];
     }
 
-    public function register(){
-        $session_user = Yii::$app->session->get('user');
+    public function init(){
+        $openId = Yii::$app->session->get('openId');
         /** @var $user \common\models\Users */
-        $user = Users::findOne($session_user['userId']);
-        if(!$user){
-            throw new Exception("用户未关注微信");
+        $user = Users::findByWeiXin($openId);
+        if($user){
+            $this->nickname = $user->nickname;
+            $this->realname = $user->realname;
+            $this->provinceId = $user->provinceId;
+            $this->majorJobId = $user->majorJobId;
+            $this->cellphone = $user->cellphone;
+            $this->company = $user->company;
+            $this->address = $user->address;
         }
-        $user->cellphone = $this->cellphone;
-        $user->majorJobId = $this->majorJobId;
+    }
+
+    public function register(){
+        $newUserFlag = false;
+        $openId = Yii::$app->session->get('openId');
+        $user = Users::findByWeiXin($openId);
+        if(!$user){ //如果用户不存在，即关注的时候没有把微信的相关信息存入
+            $user = new Users();
+            $user->weixin = $openId;
+            $newUserFlag = true;
+        }
         $user->nickname = $this->nickname;
         $user->realname = $this->realname;
-        $user->bitcoin = 0;
         $user->provinceId = $this->province;
+        $user->majorJobId = $this->majorJobId;
+        $user->cellphone = $this->cellphone;
         $user->company = $this->company;
         $user->address = $this->address;
+        $user->bitcoin = 0;
         $user->registerDate = DateFunctions::getCurrentDate();
         $user->role = Users::ROLE_A;
         $user->recommendCode = CommonFunctions::createRecommendCode();
         $user->recommendUserID = "";
-        if(!$user->update()){
-            throw new Exception("Users Register Error");
+        if($newUserFlag){   //如果是新用户
+            if(!$user->save()){
+                throw new Exception("RegisterForm register Save Error");
+            }
+        } else{
+            if(!$user->update()){
+                throw new Exception("RegisterForm register update Error");
+            }
         }
         Yii::$app->session->set('user',$user);
     }

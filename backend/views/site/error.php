@@ -1,27 +1,23 @@
 <?php
+/* @var $this \yii\web\View */
 
-use yii\helpers\Html;
+use yii\helpers\Url;
 
-/* @var $this yii\web\View */
-/* @var $name string */
-/* @var $message string */
-/* @var $exception Exception */
-
-$this->title = $name;
+$this->title = "404";
+$this->params['breadcrumbs'] = [
+    'id'=>'empty-container'
+];
 ?>
-<div class="site-error">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
-    </div>
-
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
-
+<body class="body-404">
+<div class="error-header"> </div>
+<div class="container ">
+    <section class="error-container text-center">
+        <h1>404</h1>
+        <div class="error-divider">
+            <h2>页面未找到</h2>
+            <p class="description">您访问的页面不存在</p>
+        </div>
+        <a href="<?=Url::to(['site/index'])?>" class="return-btn"><i class="fa fa-home"></i>首页</a>
+    </section>
 </div>
+</body>

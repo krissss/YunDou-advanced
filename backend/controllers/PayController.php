@@ -2,13 +2,12 @@
 
 namespace backend\controllers;
 
+use backend\filters\UserLoginFilter;
 use Yii;
 use common\models\Pay;
 use common\models\Users;
 use yii\web\Controller;
 use yii\data\Pagination;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 class PayController extends Controller
 
@@ -16,11 +15,8 @@ class PayController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
+            'access' => [
+                'class' => UserLoginFilter::className(),
             ],
         ];
     }

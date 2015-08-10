@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use backend\filters\UserLoginFilter;
 use backend\models\forms\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
@@ -12,38 +13,16 @@ use yii\filters\VerbFilter;
  */
 class SiteController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
-            /*'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout', 'index'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
+            'access' => [
+                'class' => UserLoginFilter::className(),
+                'except' => ['login','captcha','error']
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],*/
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function actions()
     {
         return [
@@ -57,8 +36,7 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
+    public function actionIndex(){
         return $this->render('index');
     }
 

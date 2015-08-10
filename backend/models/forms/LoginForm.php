@@ -5,6 +5,7 @@ namespace backend\models\forms;
 use Yii;
 use common\models\Users;
 use yii\base\Model;
+use backend\functions\CommonFunctions;
 
 class LoginForm extends Model{
     public $username;
@@ -30,7 +31,7 @@ class LoginForm extends Model{
     }
 
     public function login(){
-        $user = Users::find()->where(['username'=>$this->username,'password'=>$this->password])->asArray()->one();
+        $user = Users::find()->where(['username'=>$this->username,'password'=>CommonFunctions::encrypt($this->password)])->one();
         if($user){
             Yii::$app->session->set('user',$user);
             return true;

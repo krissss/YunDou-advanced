@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\UserLoginFilter;
 use backend\functions\CommonFunctions;
 use common\models\ExamTemplateDetail;
 use common\models\MajorJob;
@@ -16,6 +17,15 @@ use yii\web\Controller;
 
 class ExamTemplateController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => UserLoginFilter::className(),
+            ],
+        ];
+    }
+
     public function actionIndex(){
         //Yii::$app->session->set('user',Users::findOne(1));
         //echo "用户session未注册";

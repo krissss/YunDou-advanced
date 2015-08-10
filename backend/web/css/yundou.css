@@ -1,17 +1,12 @@
-.table_four_column tr td:nth-child(2n-1){
-    width: 15%;
-}
-.table_four_column tr td:nth-child(2n){
-    width: 35%;
-}
-.table_four_column .form-group{
-    margin-bottom: 0;
-}
-.table_bg_grey{
-    background-color: #f5f5f5;
-    font-weight: bold;
+.footer{
+    width: 100%;
+    position: absolute;
+    bottom: 2px;
 }
 
-label{
-    margin-bottom: 0;
+.navbar .navbar-inner .navbar-header .navbar-account .account-area .login-area{
+    width: 200px;
+}
+.navbar .navbar-inner .navbar-header .navbar-account .account-area .login-area .avatar{
+    border-left: 1px solid #FFF;
 }

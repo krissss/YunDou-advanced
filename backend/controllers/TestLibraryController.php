@@ -2,38 +2,27 @@
 
 namespace backend\controllers;
 
+use backend\filters\UserLoginFilter;
 use Yii;
 use common\models\TestLibrary;
 use common\models\Province;
 use common\models\TestType;
 use common\models\MajorJob;
-use backend\models\TestLirarySearch;
 use yii\web\Controller;
 use yii\data\Pagination;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
-/**
- * TestLibraryController implements the CRUD actions for TestLibrary model.
- */
 class TestLibraryController extends Controller
 {
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
+            'access' => [
+                'class' => UserLoginFilter::className(),
             ],
         ];
     }
 
-    /**
-     * Lists all TestLibrary models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $query = TestLibrary::find();
@@ -49,6 +38,7 @@ class TestLibraryController extends Controller
             'pages' => $pagination
         ]);
     }
+
     public function actionSearch(){
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
@@ -105,11 +95,6 @@ class TestLibraryController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single TestLibrary model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -117,11 +102,6 @@ class TestLibraryController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new TestLibrary model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new TestLibrary();
@@ -135,12 +115,6 @@ class TestLibraryController extends Controller
         }
     }
 
-    /**
-     * Updates an existing TestLibrary model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -154,12 +128,6 @@ class TestLibraryController extends Controller
         }
     }
 
-    /**
-     * Deletes an existing TestLibrary model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
@@ -167,13 +135,6 @@ class TestLibraryController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the TestLibrary model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return TestLibrary the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = TestLibrary::findOne($id)) !== null) {

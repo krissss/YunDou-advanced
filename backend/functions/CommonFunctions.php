@@ -15,4 +15,12 @@ class CommonFunctions
         Yii::$app->session->setFlash('message',$message);
         Yii::$app->session->setFlash('message_type',$message_type);
     }
+
+    public static function encrypt($str){
+        return md5($str);
+    }
+
+    public static function decrypt($str){
+
+    }
 }

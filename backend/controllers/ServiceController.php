@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\UserLoginFilter;
 use backend\functions\CommonFunctions;
 use common\models\Users;
 use frontend\functions\DateFunctions;
@@ -9,8 +10,6 @@ use Yii;
 use common\models\Service;
 use yii\web\Controller;
 use yii\data\Pagination;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 class ServiceController extends Controller
 
@@ -18,11 +17,8 @@ class ServiceController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
+            'access' => [
+                'class' => UserLoginFilter::className(),
             ],
         ];
     }

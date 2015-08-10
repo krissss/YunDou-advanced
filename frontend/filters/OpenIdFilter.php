@@ -18,7 +18,9 @@ class OpenIdFilter extends ActionFilter
 
     public function beforeAction($action){
         $session = Yii::$app->session;
-        if($session->get('openId')){
+        $session->set('openId','ow-bOvjH7CpKQtxsvjJuRmg6-g-k');
+        if($openId = $session->get('openId')){
+            $session->set('user',Users::findByWeiXin($openId));
             return parent::beforeAction($action);
         }
         $request = Yii::$app->request;
@@ -29,7 +31,6 @@ class OpenIdFilter extends ActionFilter
                 $result = WeiXinFunctions::getAuthAccessToken($code);
                 $openId = $result->openid;
                 $access_token = $result->access_token;
-                $userInfo = Users::findByWeiXin($openId);
                 $session->set('openId',$openId);
                 return parent::beforeAction($action);
             }else{
@@ -41,15 +42,5 @@ class OpenIdFilter extends ActionFilter
         $url = WeiXinFunctions::getAuthorizeUrl($redirect_uri);
         header("Location:$url");
         return false;
-        /*$request = Yii::$app->request;
-        if($request->get('openId')){
-            return parent::beforeAction($action);
-        }else{
-            $currentUrl = urlencode(Url::to(['account/register'],true));
-            $appid_verify = md5("wxcf0cd66d7cdf07088bcd5a776d588ff7dc2f66c10b7efd11");
-            $url = "http://www.weixingate.com/gate.php?back=$currentUrl&force=1&appid=wxcf0cd66d7cdf0708&appid_verify=$appid_verify";
-            header("Location:$url");
-            return false;
-        }*/
     }
 }
