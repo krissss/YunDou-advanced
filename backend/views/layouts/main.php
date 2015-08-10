@@ -22,6 +22,8 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="description" content="云宝云豆在线学习平台"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?//360使用急速模式?>
+    <meta name="renderer" content="webkit">
     <link rel="shortcut icon" href="<?= $imagePath ?>favicon.png" type="image/x-icon">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
