@@ -8,8 +8,8 @@ use yii\helpers\Url;
 use common\models\ExamTemplate;
 
 $this->title = '模拟题管理';
-$this->registerCssFile('css/yundou-exam-template.css',['depends'=>'backend\assets\AppAsset']);
-$this->registerJsFile('js/exam-template.js',['depends'=>['backend\assets\AppAsset']]);
+$this->registerCssFile('backend/web/css/yundou-exam-template.css',['depends'=>'backend\assets\AppAsset']);
+$this->registerJsFile('backend/web/js/exam-template.js',['depends'=>['backend\assets\AppAsset']]);
 $session = Yii::$app->session;
 ?>
 

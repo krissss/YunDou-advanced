@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = '模拟题管理';
-$this->registerCssFile('css/yundou-exam-template.css',['depends'=>'backend\assets\AppAsset']);
+$this->registerCssFile('backend/web/css/yundou-exam-template.css',['depends'=>'backend\assets\AppAsset']);
 ?>
 <div class="widget flat">
     <div class="widget-body">

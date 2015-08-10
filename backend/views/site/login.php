@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 
 $this->title = "登录";
-$this->registerCssFile('css/yundou-login.css',['depends'=>'backend\assets\AppAsset']);
+$this->registerCssFile('backend/web/css/yundou-login.css',['depends'=>'backend\assets\AppAsset']);
 $this->params['breadcrumbs'] = [
     'id'=>'empty-container',
 ];
