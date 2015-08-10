@@ -3,7 +3,7 @@
 /** @var $testLibraries common\models\TestLibrary[] */
 /** @var $questionNumber int */
 
-$this->registerJsFile('YunDou-advanced/frontend/web/js/yundou-testtype.js',['depends'=>['frontend\assets\AppAsset']]);
+$this->registerJsFile('frontend/web/js/yundou-testtype.js',['depends'=>['frontend\assets\AppAsset']]);
 $session = Yii::$app->session;
 $questionNumber = 1;
 ?>
