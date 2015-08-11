@@ -14,6 +14,8 @@ use Yii;
  */
 class UsageMode extends \yii\db\ActiveRecord
 {
+    const USAGE_PRACTICE = 1;
+
     /**
      * @inheritdoc
      */

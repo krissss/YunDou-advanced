@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use frontend\functions\DateFunctions;
 use Yii;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "collection".
@@ -47,5 +49,37 @@ class Collection extends \yii\db\ActiveRecord
             'createDate' => 'Create Date',
             'remark' => 'Remark',
         ];
+    }
+
+    public static function saveOrDelete($userId,$testLibraryId){
+        $collection = Collection::find()
+            ->where(['userId'=>$userId,'testLibraryId'=>$testLibraryId])
+            ->one();
+        if($collection){
+            if(!$collection->delete()){
+                throw new Exception("Collection delete error");
+            }
+            return "delete";
+        }else{
+            $collection = new Collection();
+            $collection->userId = $userId;
+            $collection->testLibraryId = $testLibraryId;
+            $collection->createDate = DateFunctions::getCurrentDate();
+            if(!$collection->save()){
+                throw new Exception("Collection save error");
+            }
+            return "collected";
+        }
+    }
+
+    public static function findAllByUserWithTestLibrary($userId){
+        $table_a = Collection::tableName();
+        $table_b = TestLibrary::tableName();
+        return (new \yii\db\Query())
+            ->from([$table_a, $table_b])
+            ->where(["$table_a.userId" => $userId])
+            ->andWhere("$table_b.testLibraryId = $table_a.testLibraryId")
+            ->orderBy(["$table_a.createDate" => SORT_DESC])
+            ->all();
     }
 }

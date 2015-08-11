@@ -164,4 +164,13 @@ class Users extends \yii\db\ActiveRecord
         }
         return $user;
     }
+
+    public static function findBitcoin($userId){
+        $user = Users::find()
+            ->select('bitcoin')
+            ->where(["userId"=>$userId])
+            ->asArray()
+            ->one();
+        return $user['bitcoin'];
+    }
 }

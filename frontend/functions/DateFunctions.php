@@ -10,7 +10,7 @@ class DateFunctions {
      * @return bool|string
      */
     public static function getCurrentDate(){
-        return date('y-m-d H:i:s',time());
+        return date('Y-m-d H:i:s',time());
     }
 
     /**

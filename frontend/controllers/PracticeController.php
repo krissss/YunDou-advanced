@@ -5,53 +5,54 @@
 
 namespace frontend\controllers;
 
+use common\models\Collection;
 use common\models\CurrentTestLibrary;
 use common\models\ErrorQuestion;
 use common\models\MajorJob;
+use common\models\PracticeRecord;
 use common\models\Users;
 use frontend\filters\OpenIdFilter;
+use frontend\filters\PracticeRecordFilter;
 use frontend\filters\RegisterFilter;
 use Yii;
 use common\models\TestLibrary;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 use yii\web\Controller;
 
 class PracticeController extends Controller
 {
-    public $layout = 'practice';
-
     public function behaviors(){
         return [
             'access' => [
                 'class' => OpenIdFilter::className(),
             ],[
                 'class' => RegisterFilter::className()
+            ],[
+                'class' => PracticeRecordFilter::className(),
+                'only' => ['index','normal','single']
             ]
         ];
     }
 
+    /**
+     * 首页
+     * @return string
+     */
     public function actionIndex(){
-        $openId = Yii::$app->session->get('openId');
-        //echo $openId;
-        //$session = Yii::$app->session;
-        /*if($openId){    //存在表明来自微信端点击链接
-            $session->removeAll();  //清空session，保证以后的所有操作均从空的session开始
-            $user = Users::findByWeiXin($openId);
-            $session->set('user',$user);
-            if($user['majorJobId']==0){ //判断用户是否经过实名认证
-                Url::remember();    //记住当前url地址，注册后跳转
-                return $this->redirect(['account/register']);
-            }
-        }*/
+        //首页获取collections，以备后面要用
+        $session = Yii::$app->session;
+        $user = $session->get('user');
+        $collections = Collection::findAll(['userId'=>$user['userId']]);
+        //以testLibraryId为索引，方便以后查key是否存在
+        $collections = ArrayHelper::index($collections,'testLibraryId');
+        $session->set('collections',$collections);
         return $this->render('index');
     }
 
     /**
      * 顺序练习
      * @param $type
-     * @param $openId
      * @return string
      * @throws Exception
      */
@@ -95,7 +96,6 @@ class PracticeController extends Controller
     /**
      * 单项训练
      * @param $type
-     * @param $openId
      * @return string
      */
     public function actionSingle($type){
@@ -154,17 +154,90 @@ class PracticeController extends Controller
         ]);
     }
 
+    /**
+     * 练习模式下一题点击后操作
+     * @throws Exception
+     */
     public function actionNext(){
         $request = Yii::$app->request;
-        $session = Yii::$app->session;
-        $testLibraryId = $request->post('testLibraryId');
-        $type = $request->post('type');
-        $testTypeId = $session->get('testTypeId');
-        $user = $session->get('user');
-        CurrentTestLibrary::saveOrUpdate($user['userId'],$testTypeId,$testLibraryId);
-        if($type == "wrong"){
-            ErrorQuestion::saveOrUpdate($user['userId'],$testLibraryId);
+        if($request->isAjax){
+            $session = Yii::$app->session;
+            $testLibraryId = $request->post('testLibraryId');
+            $type = $request->post('type');
+            $testTypeId = $session->get('testTypeId');
+            $user = $session->get('user');
+            if($testTypeId==-1||$testTypeId==1||$testTypeId==2||$testTypeId==3||$testTypeId==4){    //只有这五种练习方式记录当前练习到哪一题
+                CurrentTestLibrary::saveOrUpdate($user['userId'],$testTypeId,$testLibraryId);
+            }
+            if($type == "wrong"){
+                ErrorQuestion::saveOrUpdate($user['userId'],$testLibraryId);
+            }
+        }else{
+            throw new Exception("非法提交");
         }
+    }
+
+    /**
+     * 收藏
+     * @return string
+     * @throws Exception
+     */
+    public function actionCollection(){
+        $request = Yii::$app->request;
+        if($request->isAjax) {
+            $session = Yii::$app->session;
+            $testLibraryId = $request->post('testLibraryId');
+            $user = $session->get('user');
+            return Collection::saveOrDelete($user['userId'], $testLibraryId);
+        }else{
+            throw new Exception("非法提交");
+        }
+    }
+
+    /**
+     * 错题练习
+     * @return string
+     */
+    public function actionWrongTest(){
+        $session = Yii::$app->session;
+        $user = $session->get('user');
+        $errorQuestions = ErrorQuestion::findAllByUserWithTestLibrary($user['userId']);
+        //重置由ErrorQuestion关联而来的testLibrary的索引
+        $testLibraries = ArrayHelper::index($errorQuestions,'testLibraryId');
+        //将一些必要参数存入session，方便后续页面调用
+        $session->set('totalNumber',count($testLibraries)); //总题数
+        $session->set('testTitle',"错题练习");    //测试标题
+        $session->set('majorJob',$user['nickname']);    //测试岗位使用用户昵称
+        $session->set('testType',6);    //测试类型，6表示错题练习
+        return $this->render('test',[
+            'testLibraries' => $testLibraries,
+            'questionNumber' => 1
+        ]);
+    }
+
+    /**
+     * 重点题练习
+     * @return string
+     */
+    public function actionCollectionTest(){
+        $session = Yii::$app->session;
+        $user = $session->get('user');
+        $collections = Collection::findAllByUserWithTestLibrary($user['userId']);
+        //重置由Collection关联而来的testLibrary的索引
+        $testLibraries = ArrayHelper::index($collections,'testLibraryId');
+        //将一些必要参数存入session，方便后续页面调用
+        $session->set('totalNumber',count($testLibraries)); //总题数
+        $session->set('testTitle',"错题练习");    //测试标题
+        $session->set('majorJob',$user['nickname']);    //测试岗位使用用户昵称
+        $session->set('testType',7);    //测试类型，7表示重点题练习
+        return $this->render('test',[
+            'testLibraries' => $testLibraries,
+            'questionNumber' => 1
+        ]);
+    }
+
+    public function actionOver(){
+        return $this->render('over');
     }
 
 

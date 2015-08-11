@@ -2,6 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\IncomeConsume;
+use common\models\Pay;
+use common\models\PracticeRecord;
+use common\models\UsageMode;
 use common\models\Users;
 use frontend\filters\OpenIdFilter;
 use frontend\functions\WeiXinFunctions;
@@ -9,13 +13,12 @@ use frontend\models\forms\RegisterForm;
 use Yii;
 use common\models\MajorJob;
 use common\models\Province;
+use yii\base\Exception;
 use yii\helpers\Url;
 use yii\web\Controller;
 
 class AccountController extends Controller
 {
-    //public $layout = 'practice';
-
     public function behaviors(){
         return [
             'access' => [
@@ -59,5 +62,22 @@ class AccountController extends Controller
     /** 我要推荐 */
     public function actionRecommend(){
         echo "<h1>我要推荐，建设中。。。</h1>";
+    }
+
+    public function actionPay(){
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            $session = Yii::$app->session;
+            $user = $session->get('user');
+            $leftBitcoin = Users::findBitcoin($user['userId']);
+            $scheme = $session->get('practice-scheme');
+            if($leftBitcoin < $scheme['payBitcoin']){
+                return '您的云豆余额不足';
+            }
+            IncomeConsume::saveRecord($user['userId'],$scheme['payBitcoin'],UsageMode::USAGE_PRACTICE,IncomeConsume::TYPE_CONSUME);
+            PracticeRecord::saveRecord($user['userId'],$scheme);
+            return true;
+        }
+        throw new Exception("非法支付");
     }
 }

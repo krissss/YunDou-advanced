@@ -1,21 +1,25 @@
-a{
-    text-decoration:none;
+a {
+    text-decoration: none;
     color: #000;
 }
-a:link{
-    text-decoration:none;
+
+a:link {
+    text-decoration: none;
     color: #000;
 }
-a:visited{
-    text-decoration:none;
+
+a:visited {
+    text-decoration: none;
     color: #000;
 }
-a:hover{
-    text-decoration:none;
+
+a:hover {
+    text-decoration: none;
     color: #000;
 }
-a:active{
-    text-decoration:none;
+
+a:active {
+    text-decoration: none;
     color: #000;
 }
 
@@ -59,16 +63,16 @@ a:active{
     margin-right: 0 !important
 }
 
-.padding-left-1{
+.padding-left-1 {
     padding-left: 1px !important;
 }
 
-.padding-right-1{
+.padding-right-1 {
     padding-right: 1px !important;
 }
 
 /** practice/index */
-.nav-icon{
+.nav-icon {
     display: inline-block;
     padding: 5px;
     margin: 2px;
@@ -76,7 +80,8 @@ a:active{
     height: 80px;
     text-align: center;
 }
-.nav-icon .glyphicon{
+
+.nav-icon .glyphicon {
     display: block;
     height: 40px;
     font-size: 30px;
@@ -85,10 +90,28 @@ a:active{
 }
 
 /** practice/test */
-.my_hide{
+.my_hide {
     display: none;
 }
 
-.answer_show{
+.answer_show {
     margin-bottom: 5px;
+}
+
+.test_library h4 {
+    font-size: 16px;
+}
+
+.test_library .form-group {
+    margin-bottom: 3px;
+}
+
+.test_library .form-group label {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.test_library h5 {
+    font-size: 16px;
+    padding-top: 5px;
 }

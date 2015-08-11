@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use frontend\functions\DateFunctions;
 use Yii;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "incomeconsume".
@@ -17,6 +19,9 @@ use Yii;
  */
 class IncomeConsume extends \yii\db\ActiveRecord
 {
+    const TYPE_INCOME = "0";
+    const TYPE_CONSUME = "1";
+
     /**
      * @inheritdoc
      */
@@ -60,5 +65,30 @@ class IncomeConsume extends \yii\db\ActiveRecord
 
     public function getUsageMode(){
         return $this->hasOne(UsageMode::className(),['usageModeId'=>'usageModeId']);
+    }
+
+    public static function saveRecord($userId,$bitcoin,$usageModeId,$type){
+        $record = new IncomeConsume();
+        $record->userId = $userId;
+        $record->bitcoin = $bitcoin;
+        $record->usageModeId = $usageModeId;
+        $record->type = $type;
+        $record->createDate = DateFunctions::getCurrentDate();
+        if(!$record->save()){
+            throw new Exception("IncomeConsume save error");
+        }
+        $user = Users::findOne($userId);
+        if($type == IncomeConsume::TYPE_INCOME){
+            $user->bitcoin += $bitcoin;
+        }elseif($type == IncomeConsume::TYPE_CONSUME){
+            if($user->bitcoin < $bitcoin){
+                throw new Exception("IncomeConsume user bitcoin less than need error");
+            }else{
+                $user->bitcoin -= $bitcoin;
+            }
+        }
+        if(!$user->update()){
+            throw new Exception("IncomeConsume user update error");
+        }
     }
 }

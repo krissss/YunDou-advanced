@@ -25,8 +25,6 @@ class ExamController extends Controller
         ];
     }
 
-    public $layout = 'practice';
-
     public function actionIndex(){
         $session = Yii::$app->session;
         $user = $session->get('user');

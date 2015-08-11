@@ -2,7 +2,7 @@
 /** 判断题 */
 /** @var $testLibrary common\models\TestLibrary */
 /** @var $questionNumber int */
-/** @var $examFlag boolean */
+/** @var $collected boolean */
 
 $options = explode('|',$testLibrary['options']);
 $id = $testLibrary['testLibraryId'];
@@ -30,6 +30,15 @@ $id = $testLibrary['testLibraryId'];
             &nbsp;&nbsp; 你的答案：<span class="user_answer_<?=$id?>"></span>
         </div>
     </div>
-    <button class="btn btn-primary show_answer" data-id="<?=$id?>">确定</button>
-    <button class="btn btn-primary pull-right next_test_library" data-id="<?=$id?>">下一题</button>
+    <div class="col-xs-3">
+        <button class="btn btn-primary show_answer" data-id="<?= $id ?>">确定</button>
+    </div>
+    <div class="col-xs-6 text-center">
+        <?php $collected?$class = "btn-danger":$class = "btn-primary";?>
+        <button class="btn <?=$class?> add_collection text-center" data-id="<?= $id ?>"><span class="glyphicon glyphicon-star"></span></button>
+    </div>
+    <div class="col-xs-3">
+        <button class="btn btn-primary next_test_library pull-right" data-id="<?= $id ?>">下一题</button>
+    </div>
+    <div class="clearfix"></div>
 </div>

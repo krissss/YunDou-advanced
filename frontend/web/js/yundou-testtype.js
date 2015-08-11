@@ -2,8 +2,13 @@ $(document).ready(function(){
     var number = 0;
     var testLibraries = $(".test_library");
     testLibraries.eq(number).show();
+    var totalNumber = parseInt($(".total_number").text());
 
     var examFlag = $("input[name=examFlag]").val();
+
+    if(examFlag){   //如果是模拟考试，隐藏收藏按钮
+        $(".add_collection").hide();
+    }
 
     var showAnswerFlag = false; //是否点击确定的标志
 
@@ -88,5 +93,23 @@ $(document).ready(function(){
             var answerType = $("input[name=answer_type_" + id + "]").val();
             $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
         }
+        if(parseInt(currentNumber.text()) == totalNumber){    //题目全部做完
+            window.location.href= "?r=practice/over";
+        }
+    });
+
+    $(".add_collection").click(function(){
+        var id = $(this).data('id');
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+        var $this = $(this);
+        $.post("?r=practice/collection", {_csrf: csrfToken, testLibraryId: id},function(data){
+            if(data == 'delete'){
+                $this.removeClass("btn-danger").addClass("btn-primary");
+            }else if(data == 'collected'){
+                $this.removeClass("btn-primary").addClass("btn-danger");
+            }else{
+                alert("返回值无效，收藏失败");
+            }
+        });
     });
 });

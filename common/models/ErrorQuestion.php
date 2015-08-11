@@ -54,6 +54,10 @@ class ErrorQuestion extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getTestLibrary(){
+        return $this->hasOne(TestLibrary::className(),['testLibraryId'=>'testLibraryId']);
+    }
+
     /**
      * @param $userId
      * @param $testLibraryId
@@ -86,5 +90,16 @@ class ErrorQuestion extends \yii\db\ActiveRecord
                 throw new Exception('ErrorQuestion save wrong');
             }
         }
+    }
+
+    public static function findAllByUserWithTestLibrary($userId){
+        $table_a = ErrorQuestion::tableName();
+        $table_b = TestLibrary::tableName();
+        return (new \yii\db\Query())
+            ->from([$table_a,$table_b])
+            ->where(["$table_a.userId"=>$userId])
+            ->andWhere("$table_b.testLibraryId = $table_a.testLibraryId")
+            ->orderBy(["$table_a.createDate"=>SORT_DESC])
+            ->all();
     }
 }
