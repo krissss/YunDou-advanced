@@ -12,8 +12,12 @@ use Yii;
  * @property string $money
  * @property string $description
  * @property string $address
- * @property integer $createUserId
  * @property string $createDate
+ * @property string $state
+ * @property integer $replyUserId
+ * @property string $replyContent
+ * @property string $orderNumber
+ * @property string $replyDate
  * @property string $remark
  */
 class Invoice extends \yii\db\ActiveRecord
@@ -32,11 +36,13 @@ class Invoice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userId', 'createUserId'], 'integer'],
+            [['userId', 'replyUserId'], 'integer'],
             [['money'], 'number'],
-            [['createDate'], 'safe'],
-            [['description'], 'string', 'max' => 50],
+            [['createDate', 'replyDate'], 'safe'],
+            [['description', 'replyContent'], 'string', 'max' => 50],
             [['address'], 'string', 'max' => 60],
+            [['state'], 'string', 'max' => 1],
+            [['orderNumber'], 'string', 'max' => 30],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -52,8 +58,12 @@ class Invoice extends \yii\db\ActiveRecord
             'money' => 'Money',
             'description' => 'Description',
             'address' => 'Address',
-            'createUserId' => 'Create User ID',
             'createDate' => 'Create Date',
+            'state' => 'State',
+            'replyUserId' => 'Reply User ID',
+            'replyContent' => 'Reply Content',
+            'orderNumber' => 'Order Number',
+            'replyDate' => 'Reply Date',
             'remark' => 'Remark',
         ];
     }
@@ -61,5 +71,4 @@ class Invoice extends \yii\db\ActiveRecord
     public function getUsers(){
         return $this->hasOne(Users::className(),['userId'=>'userId']);
     }
-
 }

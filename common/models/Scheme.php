@@ -17,7 +17,7 @@ use Yii;
  * @property string $startDate
  * @property string $endDate
  * @property string $state
- * @property integer $type
+ * @property string $type
  * @property string $remark
  */
 class Scheme extends \yii\db\ActiveRecord
@@ -36,10 +36,10 @@ class Scheme extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['payBitcoin', 'day', 'time', 'payMoney', 'getBitcoin', 'type'], 'integer'],
+            [['payBitcoin', 'day', 'time', 'payMoney', 'getBitcoin'], 'integer'],
             [['startDate', 'endDate'], 'safe'],
             [['name'], 'string', 'max' => 50],
-            [['state'], 'string', 'max' => 1],
+            [['state','type'], 'string', 'max' => 1],
             [['remark'], 'string', 'max' => 100]
         ];
     }
