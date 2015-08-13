@@ -5,6 +5,8 @@ use frontend\functions\WeiXinFunctions;
 use yii\helpers\Url;
 $this->registerJsFile('frontend/web/js/yundou-wechat.js',['depends'=>['frontend\assets\AppAsset']]);
 
+$user = Yii::$app->session->get('user');
+
 $timestamp = time();
 $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 ?>
@@ -22,20 +24,14 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
     });
     wx.ready(function(){
         wx.onMenuShareTimeline({
-            title: '推荐码：1438857749W6a1p',
+            title: '<?=$user['nickname']?>的推荐码：<?=$user['recommendCode']?>',
             link: 'http://baidu.com',
             imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
-            trigger: function (res) {
-                alert('用户点击分享到朋友圈');
-            },
             success: function (res) {
-                alert('已分享');
+                alert('分享成功');
             },
             cancel: function (res) {
-                alert('已取消');
-            },
-            fail: function (res) {
-                alert(JSON.stringify(res));
+                alert('已取消分享');
             }
         });
     });
@@ -52,7 +48,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 </div>
 <div class="container-fluid">
     <div class="text-center">
-        <span class="recommend_code"><strong>我的推荐码:</strong>1438857749W6a1p</span>
+        <span class="recommend_code"><strong>我的推荐码:</strong><?=$user['recommendCode']?></span>
         <button class="btn btn-primary margin-left-10" data-code="1438857749W6a1p">复制</button>
     </div>
     <div class="text-center">
