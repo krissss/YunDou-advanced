@@ -57,7 +57,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 </div>
 
 <div id="share" style="display:none; position: fixed; top: 0; right: 0; text-align: right; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.498039);">
-    <img src="http://dev.vxtong.com/cases/nuannan/imgs/share-it.png" style="width: 230px;">
+    <img src="images/share-it.png" style="position: absolute;right: 10%;top: 5%">
 </div>
 <script>
     var shareBox = document.getElementById("share");
