@@ -12,4 +12,11 @@ class WeChatController extends Controller
         //$wechat->valid();
         $wechat->responseMsg();
     }
+
+    public function actionGetjJsTicket(){
+        $request = \Yii::$app->request;
+        if($request->isAjax){
+
+        }
+    }
 }

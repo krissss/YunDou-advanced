@@ -29,6 +29,14 @@ class WeiXinFunctions
     }
 
     /**
+     * 获取appId
+     * @return string
+     */
+    public function getAppId_in(){
+        return $this->appId;
+    }
+
+    /**
      * 获取全局access_token
      * @return mixed
      */
@@ -164,6 +172,37 @@ class WeiXinFunctions
         return $response;
     }
 
+    /**
+     * 获取jsapi_ticket
+     * @return mixed
+     */
+    public function getJsApiTicket_in(){
+        $cache = Yii::$app->cache;
+        $jsapi_ticket = $cache->get('jsapi_ticket');
+        if(!$jsapi_ticket){
+            $accessToken = $this->getAccessToken_in();
+            $url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='.$accessToken.'&type=jsapi';
+            $fp=file_get_contents($url) or die("can not open $url");
+            $result = json_decode($fp);
+            $cache->set('jsapi_ticket',$result->ticket,$result->expires_in-10);   //缓存时间比预计时间少10秒，确保jsapi_ticket有效
+        }
+        return $cache->get('jsapi_ticket');
+    }
+
+    /**
+     * 生成js的签名
+     * @param $url
+     * @param $timestamp
+     * @return string
+     */
+    public function generateJsSignature_in($url,$timestamp){
+        $jsapi_ticket = $this->getJsApiTicket_in();
+        $nonceStr = 'yundou-js';
+        $str = 'jsapi_ticket='.$jsapi_ticket.'&noncestr='.$nonceStr.'&timestamp='.$timestamp.'&url='.$url;
+        $signature = sha1($str);
+        return $signature;
+    }
+
     public function getAuthorizeUrl_in($redirect_uri){
         $scope = "snsapi_base";
         $state = "YUN";
@@ -173,9 +212,15 @@ class WeiXinFunctions
     }
 
     /**
-     * 外部直接调用的获取access_token方法
+     * 外部直接调用接口方法
      * @return mixed
      */
+
+    public static function getAppId(){
+        $wx = WeiXinFunctions::getInstance();
+        return $wx->getAppId_in();
+    }
+
     public static function getAccessToken(){
         $wx = WeiXinFunctions::getInstance();
         return $wx->getAccessToken_in();
@@ -199,6 +244,16 @@ class WeiXinFunctions
     public static function getAuthorizeUrl($redirect_uri){
         $wx = WeiXinFunctions::getInstance();
         return $wx->getAuthorizeUrl_in($redirect_uri);
+    }
+
+    public static function getJsApiTicket(){
+        $wx = WeiXinFunctions::getInstance();
+        return $wx->getJsApiTicket_in();
+    }
+
+    public static function generateJsSignature($url,$timestamp){
+        $wx = WeiXinFunctions::getInstance();
+        return $wx->generateJsSignature_in($url,$timestamp);
     }
 
 

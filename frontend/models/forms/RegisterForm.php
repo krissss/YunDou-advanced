@@ -24,7 +24,7 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            [['nickname','realname','majorJobId',  'provinceId','cellphone', 'company', 'address', 'yzm', 'tjm'], 'required'],
+            [['nickname','realname','majorJobId',  'provinceId','cellphone', 'yzm'], 'required'],
             [['majorJobId', 'provinceId'], 'integer'],
             [['nickname', 'company', 'address'], 'string', 'max' => 50],
             [['cellphone'], 'number','min'=>10000000000, 'max'=>19999999999],
@@ -70,18 +70,20 @@ class RegisterForm extends Model
             $user->weixin = $openId;
             $newUserFlag = true;
         }
+        if(!$user->registerDate){    //如果用户注册日期不存在，表明用户第一次实名认证
+            $user->bitcoin = 0;
+            $user->registerDate = DateFunctions::getCurrentDate();
+            $user->role = Users::ROLE_A;
+            $user->recommendCode = CommonFunctions::createRecommendCode();
+            $user->recommendUserID = "";
+        }
         $user->nickname = $this->nickname;
         $user->realname = $this->realname;
-        $user->provinceId = $this->province;
+        $user->provinceId = $this->provinceId;
         $user->majorJobId = $this->majorJobId;
         $user->cellphone = $this->cellphone;
         $user->company = $this->company;
         $user->address = $this->address;
-        $user->bitcoin = 0;
-        $user->registerDate = DateFunctions::getCurrentDate();
-        $user->role = Users::ROLE_A;
-        $user->recommendCode = CommonFunctions::createRecommendCode();
-        $user->recommendUserID = "";
         if($newUserFlag){   //如果是新用户
             if(!$user->save()){
                 throw new Exception("RegisterForm register Save Error");

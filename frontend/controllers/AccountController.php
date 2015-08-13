@@ -9,6 +9,7 @@ use common\models\UsageMode;
 use common\models\Users;
 use frontend\filters\OpenIdFilter;
 use frontend\functions\WeiXinFunctions;
+use frontend\models\forms\RechargeForm;
 use frontend\models\forms\RegisterForm;
 use Yii;
 use common\models\MajorJob;
@@ -56,12 +57,18 @@ class AccountController extends Controller
 
     /** 我要充值 */
     public function actionRecharge(){
-        echo "<h1>我要充值，建设中。。。</h1>";
+        $rechargeForm = new RechargeForm();
+        if($rechargeForm->load(Yii::$app->request->post()) && $rechargeForm->validate()){
+            //
+        }
+        return $this->render('recharge',[
+            'rechargeForm' => $rechargeForm
+        ]);
     }
 
     /** 我要推荐 */
     public function actionRecommend(){
-        echo "<h1>我要推荐，建设中。。。</h1>";
+        return $this->render('recommend');
     }
 
     public function actionPay(){

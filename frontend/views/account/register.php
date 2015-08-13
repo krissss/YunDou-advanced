@@ -20,8 +20,6 @@ $openId = $session->get('openId');
             'options' => ['class' => 'form-group no-margin-bottom'],
             'template' => "{label}<div class='col-xs-9 no-padding-left'>{input}</div><div class='col-xs-9 col-xs-offset-3'>{error}</div>",
             'labelOptions' => ['class'=>'col-xs-3 control-label'],
-            //'inputOptions' => ['class' => 'col-sm-10'],
-            //'inline' => true,
         ],
     ]) ?>
     <?= $form->field($registerForm, 'nickname')->textInput(['value'=>$user['nickname']]) ?>
