@@ -3,7 +3,7 @@
 //\frontend\assets\WeChatJsAsset::register($this);
 use frontend\functions\WeiXinFunctions;
 use yii\helpers\Url;
-$this->registerJsFile('frontend/web/js/yundou-wechat.js',['depends'=>['frontend\assets\AppAsset']]);
+//$this->registerJsFile('frontend/web/js/yundou-wechat.js',['depends'=>['frontend\assets\AppAsset']]);
 
 $user = Yii::$app->session->get('user');
 
@@ -57,7 +57,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 </div>
 
 <div id="share" style="display:none; position: fixed; top: 0; right: 0; text-align: right; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.498039);">
-    <img src="images/shuijiao.jpg" style="width: 230px;">
+    <img src="http://dev.vxtong.com/cases/nuannan/imgs/share-it.png" style="width: 230px;">
 </div>
 <script>
     var shareBox = document.getElementById("share");
