@@ -10,6 +10,7 @@ $(document).ready(function(){
     //});
     wx.ready(function(){
         $(".share").click(function(){
+            alert("share");
             wx.onMenuShareTimeline({
                 title: '互联网之子',
                 link: 'http://movie.douban.com/subject/25785114/',
