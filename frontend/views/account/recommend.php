@@ -14,12 +14,15 @@ $timestamp = time();
         appId: '<?=WeiXinFunctions::getAppId()?>', // 必填，公众号的唯一标识
         timestamp: '<?=$timestamp?>', // 必填，生成签名的时间戳
         nonceStr: 'yundou-js', // 必填，生成签名的随机串
+        jsticket: '<?=WeiXinFunctions::getJsApiTicket()?>',
+        url: '<?=Url::current([],true)?>',
         signature: '<?=WeiXinFunctions::generateJsSignature(Url::current([],true),$timestamp)?>',// 必填，签名，见附录1
         jsApiList: [
             'checkJsApi',
             'onMenuShareTimeline',    //分享到朋友圈
         ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
+    alert('<?=Url::current([],true)?>');
     wx.error(function(res){
         console.log(res);
     });
