@@ -102,7 +102,7 @@ $(document).ready(function(){
             var answerType = $("input[name=answer_type_" + id + "]").val();
             $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
         }
-        if(parseInt(currentNumber.text()) == totalNumber){    //题目全部做完
+        if(parseInt(currentNumber.text()) > totalNumber){    //题目全部做完
             over();
         }
     });
