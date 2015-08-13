@@ -2,12 +2,11 @@
 
 //\frontend\assets\WeChatJsAsset::register($this);
 use frontend\functions\WeiXinFunctions;
-use frontend\functions\CommonFunctions;
 use yii\helpers\Url;
 $this->registerJsFile('frontend/web/js/yundou-wechat.js',['depends'=>['frontend\assets\AppAsset']]);
 
 $timestamp = time();
-$currentUrl = CommonFunctions::parseSlash(Url::current([],true));
+$currentUrl = explode(urldecode(Url::current([],true)),'#')[0];
 ?>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>

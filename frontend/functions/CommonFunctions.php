@@ -14,7 +14,4 @@ class CommonFunctions
         return $code;
     }
 
-    public static function parseSlash($str){
-        return preg_replace("/%2F/", "/", $str);
-    }
 }

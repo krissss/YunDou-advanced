@@ -16,4 +16,4 @@ use yii\helpers\Html;
 //echo \frontend\functions\DateFunctions::getCurrentDate();
 //echo \common\models\PracticeRecord::findByUser(5);
 
-echo \frontend\functions\CommonFunctions::parseSlash(Url::current([],true));
+echo urldecode(Url::current([],true));
