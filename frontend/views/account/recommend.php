@@ -6,7 +6,7 @@ use yii\helpers\Url;
 $this->registerJsFile('frontend/web/js/yundou-wechat.js',['depends'=>['frontend\assets\AppAsset']]);
 
 $timestamp = time();
-$currentUrl = explode('#',urldecode(Url::current([],true)))[0];
+$currentUrl = explode('#',Url::current([],true))[0];
 ?>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
@@ -23,7 +23,6 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             'onMenuShareTimeline',    //分享到朋友圈
         ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
-    alert('<?=$currentUrl?>');
     wx.error(function(res){
         console.log(res);
     });

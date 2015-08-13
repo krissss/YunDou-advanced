@@ -106,11 +106,11 @@ class WeiXinFunctions
                       [
                           "type"=>"view",
                           "name"=>"模拟考试",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=exam/index",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=exam/index",
                       ],[
                           "type"=>"view",
                           "name"=>"在线学习",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=practice/index",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=practice/index",
                       ]
                   ]
               ],[
@@ -119,15 +119,15 @@ class WeiXinFunctions
                       [
                           "type"=>"view",
                           "name"=>"我要咨询",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=service/consult",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=service/consult",
                       ],[
                           "type"=>"view",
                           "name"=>"我要报名",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=service/enroll",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=service/enroll",
                       ],[
                           "type"=>"view",
                           "name"=>"我要建议",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=service/suggest",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=service/suggest",
                       ]
                   ]
               ],[
@@ -136,23 +136,23 @@ class WeiXinFunctions
                       [
                           "type"=>"view",
                           "name"=>"云宝官网",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=building",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=building",
                       ],[
                           "type"=>"view",
                           "name"=>"实名认证",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=account/register",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/register",
                       ],[
                           "type"=>"view",
                           "name"=>"我的账户",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=account/index",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/index",
                       ],[
                           "type"=>"view",
                           "name"=>"我要充值",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=account/recharge",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/recharge",
                       ],[
                           "type"=>"view",
                           "name"=>"我要推荐",
-                          "url"=>"http://".$this->site_url."/frontend/web/?r=account/recommend",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/recommend",
                       ]
                   ]
               ]
