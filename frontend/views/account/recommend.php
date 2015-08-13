@@ -17,14 +17,14 @@ $currentUrl = CommonFunctions::parseSlash(Url::current([],true));
         timestamp: '<?=$timestamp?>', // 必填，生成签名的时间戳
         nonceStr: 'yundou-js', // 必填，生成签名的随机串
         //jsticket: '<?//=WeiXinFunctions::getJsApiTicket()?>',
-        //url: '<?=$currentUrl?>',
+        //url: '<?//=$currentUrl?>',
         signature: '<?=WeiXinFunctions::generateJsSignature($currentUrl,$timestamp)?>',// 必填，签名，见附录1
         jsApiList: [
             'checkJsApi',
             'onMenuShareTimeline',    //分享到朋友圈
         ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
-    //alert('<?=Url::current([],true)?>');
+    alert('<?=$currentUrl?>');
     wx.error(function(res){
         console.log(res);
     });
