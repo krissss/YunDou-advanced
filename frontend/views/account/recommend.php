@@ -6,7 +6,9 @@ use yii\helpers\Url;
 //$this->registerJsFile('frontend/web/js/yundou-wechat.js',['depends'=>['frontend\assets\AppAsset']]);
 
 $user = Yii::$app->session->get('user');
+?>
 
+<?php
 $timestamp = time();
 $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 ?>
