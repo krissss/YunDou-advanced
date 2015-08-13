@@ -47,4 +47,8 @@ class ExamController extends Controller
             'testLibraries' => $testLibraries
         ]);
     }
+
+    public function actionOver(){
+        return $this->render('over');
+    }
 }

@@ -109,8 +109,16 @@ class WeiXinFunctions
                           "url"=>"http://".$this->site_url."/frontend/web/index.php?r=exam/index",
                       ],[
                           "type"=>"view",
+                          "name"=>"实名认证",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/register",
+                      ],[
+                          "type"=>"view",
                           "name"=>"在线学习",
                           "url"=>"http://".$this->site_url."/frontend/web/index.php?r=practice/index",
+                      ],[
+                          "type"=>"view",
+                          "name"=>"云端讲堂",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=building",
                       ]
                   ]
               ],[
@@ -126,8 +134,8 @@ class WeiXinFunctions
                           "url"=>"http://".$this->site_url."/frontend/web/index.php?r=service/enroll",
                       ],[
                           "type"=>"view",
-                          "name"=>"我要建议",
-                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=service/suggest",
+                          "name"=>"我要推荐",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/recommend",
                       ]
                   ]
               ],[
@@ -135,12 +143,8 @@ class WeiXinFunctions
                   "sub_button"=>[
                       [
                           "type"=>"view",
-                          "name"=>"云宝官网",
+                          "name"=>"关于云宝",
                           "url"=>"http://".$this->site_url."/frontend/web/index.php?r=building",
-                      ],[
-                          "type"=>"view",
-                          "name"=>"实名认证",
-                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/register",
                       ],[
                           "type"=>"view",
                           "name"=>"我的账户",
@@ -151,8 +155,12 @@ class WeiXinFunctions
                           "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/recharge",
                       ],[
                           "type"=>"view",
-                          "name"=>"我要推荐",
-                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/recommend",
+                          "name"=>"大客户管理",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=building",
+                      ],[
+                          "type"=>"view",
+                          "name"=>"云宝商城",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=building",
                       ]
                   ]
               ]

@@ -6,8 +6,17 @@ $(document).ready(function(){
 
     var examFlag = $("input[name=examFlag]").val();
 
-    if(examFlag){   //如果是模拟考试，隐藏收藏按钮
-        $(".add_collection").hide();
+    if(examFlag){   //如果是模拟考试
+        $(".add_collection").hide();    //隐藏收藏按钮
+        //模拟考试倒计时
+        var totalTime = 150;
+        var setIntervalResult = setInterval(function(){
+            if(totalTime == 0){
+                window.clearInterval(setIntervalResult);
+                over();
+            }
+            $(".time").text(totalTime--);
+        },60000);
     }
 
     var showAnswerFlag = false; //是否点击确定的标志
@@ -94,7 +103,7 @@ $(document).ready(function(){
             $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
         }
         if(parseInt(currentNumber.text()) == totalNumber){    //题目全部做完
-            window.location.href= "?r=practice/over";
+            over();
         }
     });
 
@@ -112,4 +121,12 @@ $(document).ready(function(){
             }
         });
     });
+
+    function over(){
+        if(examFlag) {   //如果是模拟考试
+            window.location.href = "?r=exam/over";
+        }else{
+            window.location.href = "?r=practice/over";
+        }
+    }
 });

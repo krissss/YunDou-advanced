@@ -24,7 +24,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
     });
     wx.ready(function(){
         wx.onMenuShareTimeline({
-            title: '<?=$user['nickname']?>的推荐码：<?=$user['recommendCode']?>',
+            title: '我的推荐码：<?=$user['recommendCode']?>',
             link: 'http://baidu.com',
             imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
             success: function (res) {
@@ -49,16 +49,13 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 <div class="container-fluid">
     <div class="text-center">
         <span class="recommend_code"><strong>我的推荐码:</strong><?=$user['recommendCode']?></span>
-        <button class="btn btn-primary margin-left-10" data-code="1438857749W6a1p">复制</button>
-    </div>
-    <div class="text-center">
-        <button class="btn btn-primary share" onclick="share()">分享</button>
+        <button class="btn btn-primary" onclick="share()">分享</button>
     </div>
 </div>
 
 <div id="share" style="display:none; position: fixed; top: 0; right: 0; text-align: right; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.498039);">
     <img src="images/share-it.png" style="position: relative;right: 10%;top: 2%">
-    <p class="text-center" style="font-size: 30px;color: #fff;">分享好友或朋友圈</p>
+    <p class="text-center" style="font-size: 26px;color: #fff;">分享好友或朋友圈</p>
 </div>
 <script>
     var shareBox = document.getElementById("share");

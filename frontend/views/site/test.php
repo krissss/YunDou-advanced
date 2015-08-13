@@ -4,7 +4,7 @@
  */
 use yii\helpers\Url;
 use yii\helpers\Html;
-//echo \frontend\functions\WeiXinFunctions::createMenu();
+echo \frontend\functions\WeiXinFunctions::createMenu();
 //::remember([Url::current([],true)],"openFilter");
 //echo Url::current([],true);
 //echo Url::to(['practice/normal','type'=>'continue','openId'=>"123"],true);

@@ -1,26 +1,21 @@
 a {
     text-decoration: none;
-    color: #000;
 }
 
 a:link {
     text-decoration: none;
-    color: #000;
 }
 
 a:visited {
     text-decoration: none;
-    color: #000;
 }
 
 a:hover {
     text-decoration: none;
-    color: #000;
 }
 
 a:active {
     text-decoration: none;
-    color: #000;
 }
 
 .no-padding {
@@ -84,6 +79,10 @@ a:active {
     height: 80px;
     text-align: center;
 }
+.nav-icon a{
+    color: #000;
+}
+
 
 .nav-icon .glyphicon {
     display: block;
