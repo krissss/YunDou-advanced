@@ -14,8 +14,8 @@ $timestamp = time();
         appId: '<?=WeiXinFunctions::getAppId()?>', // 必填，公众号的唯一标识
         timestamp: '<?=$timestamp?>', // 必填，生成签名的时间戳
         nonceStr: 'yundou-js', // 必填，生成签名的随机串
-        jsticket: '<?=WeiXinFunctions::getJsApiTicket()?>',
-        url: '<?=Url::current([],true)?>',
+        //jsticket: '<?//=WeiXinFunctions::getJsApiTicket()?>',
+        //url: '<?//=Url::current([],true)?>',
         signature: '<?=WeiXinFunctions::generateJsSignature(Url::current([],true),$timestamp)?>',// 必填，签名，见附录1
         jsApiList: [
             'checkJsApi',
