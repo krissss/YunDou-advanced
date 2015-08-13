@@ -57,7 +57,8 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 </div>
 
 <div id="share" style="display:none; position: fixed; top: 0; right: 0; text-align: right; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.498039);">
-    <img src="images/share-it.png" style="position: absolute;right: 10%;top: 5%">
+    <img src="images/share-it.png" style="position: relative;right: 10%;top: 2%">
+    <p class="text-center" style="font-size: 30px;color: #fff;">分享好友或朋友圈</p>
 </div>
 <script>
     var shareBox = document.getElementById("share");
