@@ -15,21 +15,23 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
         appId: '<?=WeiXinFunctions::getAppId()?>', // 必填，公众号的唯一标识
         timestamp: <?=$timestamp?>, // 必填，生成签名的时间戳
         nonceStr: 'yundou-js', // 必填，生成签名的随机串
-        //jsticket: '<?//=WeiXinFunctions::getJsApiTicket()?>',
-        //url: '<?//=$currentUrl?>',
         signature: '<?=WeiXinFunctions::generateJsSignature($currentUrl,$timestamp)?>',// 必填，签名，见附录1
         jsApiList: [
             'checkJsApi',
             'onMenuShareTimeline',    //分享到朋友圈
         ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
-    wx.checkJsApi({
-        jsApiList: ['onMenuShareTimeline'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-        success: function(res) {
-            console.log(res);
-            alert(res);
-            // 以键值对的形式返回，可用的api值true，不可用为false
-            // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+    wx.onMenuShareTimeline({
+        title: '你好吗', // 分享标题
+        link: 'http://baidu.com', // 分享链接
+        imgUrl: '', // 分享图标
+        success: function () {
+            alert('success');
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () {
+            alert('cancel');
+            // 用户取消分享后执行的回调函数
         }
     });
     wx.error(function(res){

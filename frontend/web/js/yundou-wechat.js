@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    wx.checkJsApi({
+    /*wx.checkJsApi({
         jsApiList: ['onMenuShareTimeline'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
         success: function(res) {
             console.log(res);
@@ -10,18 +10,6 @@ $(document).ready(function(){
     });
 
     $(".share").click(function(){
-        wx.onMenuShareTimeline({
-            title: '你好吗', // 分享标题
-            link: 'http://baidu.com', // 分享链接
-            imgUrl: '', // 分享图标
-            success: function () {
-                alert('success');
-                // 用户确认分享后执行的回调函数
-            },
-            cancel: function () {
-                alert('cancel');
-                // 用户取消分享后执行的回调函数
-            }
-        });
-    });
+
+    });*/
 });
