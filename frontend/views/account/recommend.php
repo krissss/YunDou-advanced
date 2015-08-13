@@ -21,18 +21,24 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             'onMenuShareTimeline',    //分享到朋友圈
         ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
-    wx.onMenuShareTimeline({
-        title: '你好吗', // 分享标题
-        link: 'http://baidu.com', // 分享链接
-        imgUrl: '', // 分享图标
-        success: function () {
-            alert('success');
-            // 用户确认分享后执行的回调函数
-        },
-        cancel: function () {
-            alert('cancel');
-            // 用户取消分享后执行的回调函数
-        }
+    wx.ready(function(){
+        wx.onMenuShareTimeline({
+            title: '互联网之子',
+            link: 'http://movie.douban.com/subject/25785114/',
+            imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+            trigger: function (res) {
+                alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                alert('已分享');
+            },
+            cancel: function (res) {
+                alert('已取消');
+            },
+            fail: function (res) {
+                alert(JSON.stringify(res));
+            }
+        });
     });
     wx.error(function(res){
         console.log(res);
