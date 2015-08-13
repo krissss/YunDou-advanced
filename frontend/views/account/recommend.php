@@ -2,10 +2,12 @@
 
 //\frontend\assets\WeChatJsAsset::register($this);
 use frontend\functions\WeiXinFunctions;
+use frontend\functions\CommonFunctions;
 use yii\helpers\Url;
 $this->registerJsFile('frontend/web/js/yundou-wechat.js',['depends'=>['frontend\assets\AppAsset']]);
 
 $timestamp = time();
+$currentUrl = CommonFunctions::parseSlash(Url::current([],true));
 ?>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
@@ -15,14 +17,14 @@ $timestamp = time();
         timestamp: '<?=$timestamp?>', // 必填，生成签名的时间戳
         nonceStr: 'yundou-js', // 必填，生成签名的随机串
         //jsticket: '<?//=WeiXinFunctions::getJsApiTicket()?>',
-        //url: '<?//=Url::current([],true)?>',
-        signature: '<?=WeiXinFunctions::generateJsSignature(Url::current([],true),$timestamp)?>',// 必填，签名，见附录1
+        //url: '<?=$currentUrl?>',
+        signature: '<?=WeiXinFunctions::generateJsSignature($currentUrl,$timestamp)?>',// 必填，签名，见附录1
         jsApiList: [
             'checkJsApi',
             'onMenuShareTimeline',    //分享到朋友圈
         ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
-    alert('<?=Url::current([],true)?>');
+    //alert('<?=Url::current([],true)?>');
     wx.error(function(res){
         console.log(res);
     });
