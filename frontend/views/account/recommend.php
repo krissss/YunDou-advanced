@@ -6,7 +6,7 @@ use yii\helpers\Url;
 $this->registerJsFile('frontend/web/js/yundou-wechat.js',['depends'=>['frontend\assets\AppAsset']]);
 
 $timestamp = time();
-$currentUrl = explode('#',Url::current([],true))[0];
+$currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 ?>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
