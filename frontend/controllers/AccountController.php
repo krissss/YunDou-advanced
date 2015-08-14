@@ -6,6 +6,7 @@ use common\functions\CommonFunctions;
 use common\models\IncomeConsume;
 use common\models\Pay;
 use common\models\PracticeRecord;
+use common\models\Scheme;
 use common\models\UsageMode;
 use common\models\Users;
 use frontend\filters\OpenIdFilter;
@@ -81,7 +82,7 @@ class AccountController extends Controller
             if($leftBitcoin < $scheme['payBitcoin']){
                 return '您的云豆余额不足';
             }
-            IncomeConsume::saveRecord($user['userId'],$scheme['payBitcoin'],UsageMode::USAGE_PRACTICE,IncomeConsume::TYPE_CONSUME);
+            IncomeConsume::saveRecord($user['userId'],$scheme['payBitcoin'],Scheme::USAGE_PRACTICE,IncomeConsume::TYPE_CONSUME);
             PracticeRecord::saveRecord($user['userId'],$scheme);
             return true;
         }
