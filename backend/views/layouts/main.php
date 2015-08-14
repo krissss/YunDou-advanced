@@ -91,12 +91,12 @@ AppAsset::register($this);
                                 </a>
                                 <!--下拉-->
                                 <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
-                                    <li class="username"><a><?= $userSession['username'] ?></a></li>
+                                    <li class="username"><a><?= $userSession['nickname'] ?></a></li>
                                     <li class="email"><a><?= $userSession['email'] ?></a></li>
                                     <li>
                                         <div class="avatar-area">
                                             <img src="<?= Yii::$app->params['headPath'] ?><?= $userSession['userIcon'] ?>" class="avatar">
-                                            <span id="change-avatar" class="caption" data-href="<?=Url::to(['account/index','#'=>'avatar'])?>">更改头像</span>
+                                            <span id="change-avatar" class="caption">更改头像</span>
                                         </div>
                                     </li>
                                     <li class="edit">
