@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "testlibrary".
@@ -139,6 +140,12 @@ class TestLibrary extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * 根据模板查题
+     * @param $examTemplateDetails
+     * @param $user
+     * @return array
+     */
     public static function findByTemplateDetails($examTemplateDetails,$user){
         $testLibraries = [];
         foreach($examTemplateDetails as $preTypeId => $preTypes) {
@@ -163,6 +170,34 @@ class TestLibrary extends \yii\db\ActiveRecord
         return $testLibraries;
     }
 
+    /**
+     * 查询用户当前做到哪种题型的第几题
+     * @param $user
+     * @param $testTypeId
+     * @return mixed
+     */
+    public static function findCurrentNumber($user,$testTypeId){
+        $current = CurrentTestLibrary::findByUserAndTestType($user,$testTypeId);
+        if(!$current){
+            return 0;
+        }
+        $table = TestLibrary::tableName();
+        if($testTypeId == -1){
+            $subQuery = (new Query())->select('testLibraryId')->from($table);
+        }else{
+            $subQuery = (new Query())->select('testLibraryId')->from($table)->where(['testTypeId'=>$testTypeId]);
+        }
+        $query = (new Query())->select('count(*)')->from([$subQuery])->where(['<','testLibraryId',$current['testLibraryId']]);
+        $result = $query->one();
+        return $result['count(*)'];
+    }
+
+    /**
+     * 查询总题数
+     * @param $user
+     * @param $testTypeId
+     * @return int|string
+     */
     public static function findTotalNumber($user,$testTypeId){
         if($testTypeId == -1){
             return TestLibrary::find()
@@ -175,6 +210,14 @@ class TestLibrary extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * 根据用户查询一定数量的题目
+     * @param $user
+     * @param $testTypeId
+     * @param $limit
+     * @param $offset
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function findByUserAndTestType($user,$testTypeId,$limit,$offset){
         if($testTypeId == -1){
             return TestLibrary::find()

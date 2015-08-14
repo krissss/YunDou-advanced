@@ -10,6 +10,8 @@ use common\models\Users;
 use frontend\filters\OpenIdFilter;
 use frontend\filters\RegisterFilter;
 use Yii;
+use yii\base\Exception;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
 
@@ -49,6 +51,21 @@ class ExamController extends Controller
     }
 
     public function actionOver(){
-        return $this->render('over');
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $result = $request->post('result');
+            $time = $request->post('time');
+            $result = json_decode($result,true);
+            //重新以testLibraryId索引数组，确保同testLibraryId只存在最后一个数据
+            $result = ArrayHelper::index($result,'testLibraryId');
+            //TODO
+            $score = 123;
+            return $this->render('over',[
+                'time' => $time,
+                'score' => $score
+            ]);
+        }else{
+            throw new Exception("非法提交");
+        }
     }
 }

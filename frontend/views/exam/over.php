@@ -1,5 +1,6 @@
 <?php
-
+/** @var $time */
+/** @var $score */
 
 use yii\helpers\Url;
 $session = Yii::$app->session;
@@ -44,10 +45,10 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
         </h3>
     </div>
     <div class="panel-body">
-        <p>本次模拟考试用时为：120分钟</p>
+        <p>本次模拟考试用时为：<?=$time?>分钟</p>
         <p>标准考试时间为：150分钟</p>
         <p></p>
-        <p>本次模拟考试分数为：60分</p>
+        <p>本次模拟考试分数为：<?=$score?>分</p>
         <p>您本次模拟考试分数在168168名模拟人员中排名在第108158位</p>
     </div>
     <div class="panel-footer">

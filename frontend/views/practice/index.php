@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Url;
-use yii\helpers\Html;
 
 $this->registerJsFile('frontend/web/js/yundou-practice-index.js',['depends'=>['frontend\assets\AppAsset']]);
 //$this->registerJsFile('YunDou-advanced/frontend/web/js/yundou-practice-index.js',['depends'=>['frontend\assets\AppAsset']]);

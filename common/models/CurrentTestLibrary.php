@@ -50,24 +50,6 @@ class CurrentTestLibrary extends \yii\db\ActiveRecord
     }
 
     /**
-     * 根据用户和测试类型获取上一次用户做到哪一题，如果第一次做题，使用TestLibrary中类型为testTypeId的第一题
-     * @param $user \common\models\Users
-     * @param $testTypeId
-     * @return int
-     */
-    public static function findTestLibraryIdByUserAndTestType($user,$testTypeId){
-        $next = CurrentTestLibrary::find()
-            ->where(['userId'=>$user['userId'],'testTypeId'=>$testTypeId])
-            ->one();
-        if($next){
-            return $next['testLibraryId'];
-        }else{
-            $first = TestLibrary::findFirstByUserAndTestType($user,$testTypeId);
-            return $first['testLibraryId'];
-        }
-    }
-
-    /**
      * 根据用户id和测试类型查询
      * @param $userId
      * @param $testTypeId
@@ -89,7 +71,7 @@ class CurrentTestLibrary extends \yii\db\ActiveRecord
     public static function resetCurrent($user,$testTypeId){
         $testLibrary = TestLibrary::findFirstByUserAndTestType($user,$testTypeId);
         self::saveOrUpdate($user['userId'],$testTypeId,$testLibrary['testLibraryId']);
-        return $testLibrary['testLibraryId'];
+        return 0;
     }
 
     /**

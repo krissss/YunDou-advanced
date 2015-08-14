@@ -1,116 +1,133 @@
 $(document).ready(function(){
-    var number = 0;
+    var questionNumber; //题号，获取当前题号，用于显示上下一题
     var testLibraries = $(".test_library");
-    testLibraries.eq(number).show();
-    var totalNumber = parseInt($(".total_number").text());
 
-    var examFlag = $("input[name=examFlag]").val();
+    var examFlag = $("input[name=examFlag]").val(); //模拟考试的标志
 
     if(examFlag){   //如果是模拟考试
-        $(".add_collection").hide();    //隐藏收藏按钮
+        questionNumber = 0;
         //模拟考试倒计时
-        var totalTime = 150;
-        var setIntervalResult = setInterval(function(){
-            if(totalTime == 0){
+        var TOTAL_TIME = 150;    //总时间
+        var leftTime = 150;    //剩余时间
+        var setIntervalResult = setInterval(function(){ //每分钟减一
+            if(leftTime == 0){
                 window.clearInterval(setIntervalResult);
                 over();
             }
-            $(".time").text(totalTime--);
+            $(".time").text(leftTime--);
         },60000);
+    }else{
+        questionNumber= $("input[name=currentNumber]").val();
+        var currentTestLibraryId = $("input[name=currentTestLibraryId]").val(); //当前题目的testLibraryId，用于判断是否要记录当前做到哪一题
     }
+    //显示第一题
+    testLibraries.eq(questionNumber).show();
 
-    var showAnswerFlag = false; //是否点击确定的标志
+    //显示上一题
+    $(".previous_text_library").click(function(){
+        testLibraries.eq(questionNumber).hide();
+        questionNumber--;
+        testLibraries.eq(questionNumber).show();
+    });
 
-    $(".show_answer").click(function(){
-        showAnswerFlag = true;
-        var id = $(this).data('id');
-        $("input[name=input_question_" + id + "]").each(function () {
-            value += $(this).attr("disabled","disabled");
-        });
+    //显示下一题
+    $(".next_test_library").click(function(){
+        testLibraries.eq(questionNumber).hide();
+        questionNumber++;
+        testLibraries.eq(questionNumber).show();
         if(examFlag != 'examFlag') {    //非模拟考试情况下执行
-            var value = "";
-            $("input[name=input_question_" + id + "]:checked").each(function () {
-                value += $(this).val();
-            });
-            var trueAnswer = $(".true_answer_" + id).text();
-            $(".user_answer_" + id).text(value);
-            if (value == trueAnswer) {
-                $("input[name=answer_type_" + id + "]").val("right");
+            var id = $(this).data("id");
+            if(id > currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
+                var csrfToken = $('meta[name="csrf-token"]').attr("content");
+                var answerType = $("input[name=answer_type_" + id + "]").val();
+                $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
+            }
+        }
+    });
+
+    //最后一题点击后
+    $(".over_test_library").click(function(){
+        if(examFlag != 'examFlag') {    //非模拟考试情况下执行
+            var id = $(this).data("id");
+            if(id > currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
+                var csrfToken = $('meta[name="csrf-token"]').attr("content");
+                var answerType = $("input[name=answer_type_" + id + "]").val();
+                $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
+            }
+        }
+        over();
+    });
+
+    var result = [];    //存放结果，是一个json数组
+    $("input[type=radio]").click(function(){
+        var id = $(this).data("id");
+        var testType = $(this).data("testtype");
+        var value = $(this).val();
+        var trueAnswer;
+        var answerType = 0; //0错误，1正确
+        if(testType == 4 ){ //案例题
+            var testLibraryId = id.split("_")[0];
+            var number = id.split("_")[1];
+            trueAnswer = $(".true_answer_"+testLibraryId).text();
+            var trueAnswers = trueAnswer.split(" ");
+            if(value == trueAnswers[number]){
+                answerType = 1;
+            }else{
+                answerType = 0;
+            }
+            $(".user_answer_"+id).text(value);
+        }else{
+            trueAnswer = $(".true_answer_"+id).text();
+            if(value == trueAnswer){
+                answerType = 1;
                 $(".answer_type_" + id).text("答案正确");
-            } else {
-                $("input[name=answer_type_" + id + "]").val("wrong");
+            }else{
+                answerType = 0;
                 $(".answer_type_" + id).text("答案错误");
             }
-            $(".answer_show_" + id).show(200);
+            $(".user_answer_"+id).text(value);
         }
+        result.push({testLibraryId:id,answerType:answerType,testType:testType});
     });
 
-    $(".show_answer_anli").click(function(){
-        showAnswerFlag = true;
-        if(examFlag != 'examFlag') {    //非模拟考试情况下执行
-            var id = $(this).data('id');
-            var number = $(this).data('number');    //大题包含的小题数
-            var trueAnswers = $("input[name=true_answer_" + id + "]").val();    //正确答案
-            var trueAnswerArray = trueAnswers.split("}");   //将正确答案分割成数组
-            var userAnswer = "";    //填写用户答案
-            var trueAnswer = "";    //填写正确答案
-            var trueNumber = 0;     //正确题数
-            for (var i = 0; i < number; i++) {
-                var value = "";
-                var innerId = "input_question_" + id + "_" + i;
-                $("input[name=" + innerId + "]:checked").each(function () {
-                    value += $(this).val();
-                });
-                if (value) {
-                    userAnswer += value + " ";
-                    if (value == trueAnswerArray[i]) {
-                        trueNumber++;
-                    }
-                } else {
-                    userAnswer += "&nbsp;&nbsp;" + " ";
-                }
-                trueAnswer += trueAnswerArray[i] + " ";
-            }
-            if (trueNumber != number) {  //不全正确则添加wrong，用于保存错题
-                $("input[name=answer_type_" + id + "]").val("wrong");
-            } else {
-                $("input[name=answer_type_" + id + "]").val("right");
-            }
-            $(".answer_type_" + id).text("正确" + trueNumber + "题,错误" + (number - trueNumber) + "题");
-            $(".true_answer_" + id).html(trueAnswer);
-            $(".user_answer_" + id).html(userAnswer);
-            $(".answer_show_" + id).show(200);
+    $("input[type=checkbox]").click(function(){
+        var id = $(this).data("id");
+        var testType = $(this).data("testtype");
+        var value = "";
+        $("input[name=input_question_"+id+"]:checked").each(function(){
+            value += $(this).val();
+        });
+        var trueAnswer = $(".true_answer_"+id).text();
+        var answerType = 0;
+        if(value == trueAnswer){
+            answerType = 1; //0错误，1正确
+            $(".answer_type_" + id).text("答案正确");
+        }else{
+            answerType = 0; //0错误，1正确
+            $(".answer_type_" + id).text("答案错误");
         }
+        result.push({testLibraryId:id,answerType:answerType,testType:testType});
+        $(".user_answer_"+id).text(value);
     });
 
-    $(".next_test_library").click(function(){
-        if(!showAnswerFlag){    //如果没有点击过确定按钮
-            alert("请先点击确定后再做下一题");
-            return false;
-        }
-        showAnswerFlag = false; //显示下一题前把该标志置为false，保证下一题也需要做确定判断
-        //显示下一题
-        testLibraries.eq(number).hide();
-        number++;
-        var currentNumber = $(".current_number");
-        currentNumber.text(parseInt(currentNumber.text())+1);
-        testLibraries.eq(number).show();
-        if(examFlag != 'examFlag') {    //非模拟考试情况下执行
-            //提交数据
-            var id = $(this).data("id");
-            var csrfToken = $('meta[name="csrf-token"]').attr("content");
-            var answerType = $("input[name=answer_type_" + id + "]").val();
-            $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
-        }
-        if(parseInt(currentNumber.text()) > totalNumber){    //题目全部做完
-            over();
-        }
+    $(".btn_over").click(function(){
+        over();
+    });
+
+    $(".show_answer").click(function(){
+        var id = $(this).data('id');
+        $(".answer_show_" + id).show(200);
     });
 
     $(".add_collection").click(function(){
         var id = $(this).data('id');
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
         var $this = $(this);
+        if($this.hasClass("btn-danger")){
+            $this.removeClass("btn-danger").addClass("btn-primary");
+        }else{
+            $this.removeClass("btn-primary").addClass("btn-danger");
+        }
         $.post("?r=practice/collection", {_csrf: csrfToken, testLibraryId: id},function(data){
             if(data == 'delete'){
                 $this.removeClass("btn-danger").addClass("btn-primary");
@@ -124,9 +141,34 @@ $(document).ready(function(){
 
     function over(){
         if(examFlag) {   //如果是模拟考试
-            window.location.href = "?r=exam/over";
+            post("?r=exam/over",JSON.stringify(result),TOTAL_TIME-leftTime);
         }else{
-            window.location.href = "?r=practice/over";
+            post("?r=practice/over",JSON.stringify(result),null);
         }
+    }
+
+    function post(URL, jsonArray, time) {
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+        var temp = document.createElement("form");
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        var opt = document.createElement("textarea");
+        opt.name = '_csrf';
+        opt.value = csrfToken;
+        temp.appendChild(opt);
+        opt = document.createElement("textarea");
+        opt.name = 'result';
+        opt.value = jsonArray;
+        temp.appendChild(opt);
+        if(time!=null){
+            opt = document.createElement("textarea");
+            opt.name = 'time';
+            opt.value = time;
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
     }
 });
