@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $(".loading").hide(200);
+    $(".loading").hide();
 
     var questionNumber; //题号，获取当前题号，用于显示上下一题
     var testLibraries = $(".test_library");

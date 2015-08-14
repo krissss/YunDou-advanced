@@ -7,6 +7,10 @@ $this->registerJsFile('frontend/web/js/yundou-testtype.js',['depends'=>['fronten
 $session = Yii::$app->session;
 $questionNumber = 1;
 ?>
+<div class="load-container loading">
+    <div class="loader">Loading...</div>
+    <p>题库资源载入中，请耐心等待。。。</p>
+</div>
 <input type="hidden" name="examFlag" value="examFlag">
 <?php foreach($testLibraries as $i=>$testLibrary):?>
     <div class="test_library my_hide">
