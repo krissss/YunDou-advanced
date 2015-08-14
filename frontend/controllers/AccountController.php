@@ -4,13 +4,10 @@ namespace frontend\controllers;
 
 use common\functions\CommonFunctions;
 use common\models\IncomeConsume;
-use common\models\Pay;
 use common\models\PracticeRecord;
 use common\models\Scheme;
-use common\models\UsageMode;
 use common\models\Users;
 use frontend\filters\OpenIdFilter;
-use frontend\functions\WeiXinFunctions;
 use frontend\models\forms\RechargeForm;
 use frontend\models\forms\RegisterForm;
 use Yii;
