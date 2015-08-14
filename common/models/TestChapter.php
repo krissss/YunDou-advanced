@@ -16,17 +16,12 @@ use Yii;
  */
 class TestChapter extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return 'testchapter';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -38,9 +33,6 @@ class TestChapter extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -51,5 +43,13 @@ class TestChapter extends \yii\db\ActiveRecord
             'code' => 'Code',
             'remark' => 'Remark',
         ];
+    }
+
+    public function getPreType(){
+        return $this->hasOne(PreType::className(),['preTypeId'=>'preTypeId']);
+    }
+
+    public function getMajorJob(){
+        return $this->hasOne(MajorJob::className(),['majorJobId'=>'majorJobId']);
     }
 }

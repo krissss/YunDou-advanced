@@ -7,7 +7,6 @@ use yii\widgets\ActiveForm;
 
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\UsersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->title = Yii::t('app', '导入客户' );
 $this->params['breadcrumbs'][] = ['label' => '返回', 'url' => ['index']];
@@ -35,14 +34,13 @@ $this->params['breadcrumbs'][] = $this->title;
 				   </tr>
 				    <tr ><td align="left" valign="top" colspan="2">&nbsp;</td></tr>
 				      <tr>
-					<td align="center" valign="top"  class=small><b>请选择要的Excel文件: 
-					
+					<td align="center" valign="top"  class=small><b>请选择要的Excel文件:
 							<td><input type="file" name="file"></td>
      			 	<tr>
      			 		<td colspan="2" height="50">&nbsp</td>
      			 	</tr>
 		</tr> 
-		<tr><td colspan="2" align="right" style="padding-right:40px;"><button type="submit" class="btn btn-primary">下一步</button></td></td>
+		<tr><td colspan="2" align="right" style="padding-right:40px;"><button type="submit" class="btn btn-primary">下一步</button></td></tr>
 	<?= Html::endForm() ?>
 	</tbody>
 </table>

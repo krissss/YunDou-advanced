@@ -30,7 +30,7 @@ class PracticeRecordFilter extends ActionFilter
             $leftBitcoin = Users::findBitcoin($user['userId']);
             //获取支付方案
             /** @var $scheme \common\models\Scheme*/
-            $scheme = Scheme::findOne(['type'=>1]);
+            $scheme = Scheme::findOne(['usageModeId'=>Scheme::USAGE_PRACTICE]);
             $session->set('practice-scheme',$scheme);   //存入session，在支付的时候使用
             $payBitcoin = $scheme->payBitcoin;
             $session->setFlash('leftBitcoin',$leftBitcoin); //剩余云豆

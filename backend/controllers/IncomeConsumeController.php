@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
+use common\models\Scheme;
 use Yii;
 use common\models\IncomeConsume;
 use common\models\Users;
@@ -12,8 +13,7 @@ use yii\data\Pagination;
 
 class IncomeConsumeController extends Controller
 {
-    public function behaviors()
-    {
+    public function behaviors(){
         return [
             'access' => [
                 'class' => UserLoginFilter::className(),
@@ -21,8 +21,7 @@ class IncomeConsumeController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
+    public function actionIndex(){
         $query = IncomeConsume::find();
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
@@ -37,8 +36,7 @@ class IncomeConsumeController extends Controller
         ]);
     }
 
-    public function actionSearch()
-    {
+    public function actionSearch(){
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
         if ($request->isPost) {
@@ -57,41 +55,41 @@ class IncomeConsumeController extends Controller
                         ->leftJoin($table_b, "$table_a.usageModeId=$table_b.usageModeId")
                         ->where(['like', "$table_b.usageModeName", $content]);
                     break;
-                case 'username';
+                case 'nickname';
                     $table_a = IncomeConsume::tableName();
                     $table_b = Users::tableName();
                     $query = IncomeConsume::find()
                         ->leftJoin($table_b, "$table_a.UserId=$table_b.UserId")
-                        ->where(['like', "$table_b.username", $content]);
+                        ->where(['like', "$table_b.nickname", $content]);
                     break;
                 case 'income-more':
                     $query = IncomeConsume::find()
-                        ->where(['type' => 0])
+                        ->where(['type' => IncomeConsume::TYPE_INCOME])
                         ->andWhere(['>', 'bitcoin', $content]);
                     break;
                 case 'income-equal':
                     $query = IncomeConsume::find()
-                        ->where(['type' => 0])
+                        ->where(['type' => IncomeConsume::TYPE_INCOME])
                         ->andwhere(['=', 'bitcoin', $content]);
                     break;
                 case 'income-less':
                     $query = IncomeConsume::find()
-                        ->where(['type' => 0])
+                        ->where(['type' => IncomeConsume::TYPE_INCOME])
                         ->andWhere(['<', 'bitcoin', $content]);
                     break;
                 case 'pay-more':
                     $query = IncomeConsume::find()
-                        ->where(['type' => 1])
+                        ->where(['type' => IncomeConsume::TYPE_CONSUME])
                         ->andWhere(['>', 'bitcoin', $content]);
                     break;
                 case 'pay-equal':
                     $query = IncomeConsume::find()
-                        ->where(['type' => 1])
+                        ->where(['type' => IncomeConsume::TYPE_CONSUME])
                         ->andwhere(['=', 'bitcoin', $content]);
                     break;
                 case 'pay-less':
                     $query = IncomeConsume::find()
-                        ->where(['type' => 1])
+                        ->where(['type' => IncomeConsume::TYPE_CONSUME])
                         ->andWhere(['<', 'bitcoin', $content]);
                     break;
                 case 'role':
@@ -112,8 +110,7 @@ class IncomeConsumeController extends Controller
                         ->where(["$table_b.role" => $role]);
                     break;
                 default:
-                    $query = IncomeConsume::find()
-                        ->where(['like', $type, $content]);
+                    $query = IncomeConsume::find();
                     break;
             }
         }
@@ -131,9 +128,37 @@ class IncomeConsumeController extends Controller
         ]);
     }
 
-    public function actionRecharge()
-    {
-        $query = IncomeConsume::find();
+    public function actionRecharge(){
+        $query = Scheme::find();
+        $pagination = new Pagination([
+            'defaultPageSize' => Yii::$app->params['pageSize'],
+            'totalCount' => $query->count(),
+        ]);
+        $model = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return $this->render('recharge', [
+            'models' => $model,
+            'pages' => $pagination
+        ]);
+    }
+    public function actionFind(){
+        $request = Yii::$app->request;
+        $query = Yii::$app->session->getFlash('query');
+        if ($request->isPost) {
+            $type = $request->post('type');
+            $content = $request->post('content');
+        } else {
+            $type = $request->get('type');
+            $content = trim($request->get('content'));
+        }
+        if ($type || !$query) {
+             {
+                    $query = Scheme::find()
+                        ->where(['like', $type, $content]);
+            }
+        }
+        Yii::$app->session->setFlash('query', $query);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),

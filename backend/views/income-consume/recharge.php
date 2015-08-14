@@ -15,23 +15,21 @@ $this->title = '充值设置';
         <div class="well bordered-left bordered-blue">
             <a class="btn btn-default" href="<?=Url::to(['income-consume/index'])?>"  ><i class="fa fa-plus"></i>添加新方案</a>
             <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询方案</a>
-            <hr>
-            <div class="view">
+
                 <label>快速查找:</label>
-                <a class="btn btn-default" href="<?=Url::to(['income-consume/index'])?>">所有</a>
+                <a class="btn btn-default" href="<?=Url::to(['income-consume/recharge'])?>">所有</a>
 <!--                <a class="btn btn-default" href="--><?//=Url::to(['income-consume/search','type'=>'usageModeName','content'=>'充值'])?><!--">充值用户</a>-->
 <!--                <a class="btn btn-default" href="javascript:void(0);">收入云豆用户</a>-->
 <!--                <a class="btn btn-default" href="javascript:void(0);">支出云豆用户</a>-->
-            </div>
             <div id="search" class="collapse">
                 <hr>
-                <?= Html::beginForm(['income-consume/search'], 'post', ['class' => 'form-inline']) ?>
+                <?= Html::beginForm(['income-consume/find'], 'post', ['class' => 'form-inline']) ?>
                 <div class="form-group">
                     <label>搜索：</label>
                     <select class="form-control" name="type">
-                        <option value="userId">A方案</option>
-                        <option value="role">B方案</option>
-                        <option value="username">C方案</option>
+                        <option value="name">方案名称</option>
+<!--                        <option value="role">B方案</option>-->
+<!--                        <option value="username">C方案</option>-->
 <!--                        <option value="bitcoin">收入云豆数大于</option>-->
 <!--                        <option value="bitcoin">收入云豆数等于</option>-->
 <!--                        <option value="bitcoin">收入云豆数小于</option>-->
@@ -59,18 +57,17 @@ $this->title = '充值设置';
             </tr>
             </thead>
             <tbody>
-<!--            --><?//=print_r($models)?>
             <?php foreach($models as $model):?>
                 <tr>
-                    <td><?= $model->incomeConsumeId ?></td>
-                    <td>A方案</td>
+                    <td><?= $model->schemeId ?></td>
+                    <td><?= $model->name ?></td>
                     <td>1</td>
                     <td>100</td>
-                    <td>2015年8月15日</td>
-                    <td>执行</td>
+                    <td><?= $model->startDate ?></td>
+                    <td><?= $model->stateName ?></td>
                     <td>
-                       <a href="<?= Url::to(['income-consume/update', 'incomeConsumeId' => $model->incomeConsumeId]) ?>"><span class="glyphicon glyphicon-pencil">  </span></a>
-                       <?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'incomeConsumeId' => $model->incomeConsumeId], [
+                       <a href="<?= Url::to(['income-consume/update', 'schemeId' => $model->schemeId]) ?>"><span class="glyphicon glyphicon-pencil">  </span></a>
+                       <?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'schemeId' => $model->schemeId], [
                             'data' => [
                                 'confirm' => '你确定要删除这条信息记录吗？',
                                 'method' => 'post',

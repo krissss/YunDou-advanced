@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 $this->title = 'Update Users: ' . ' ' . $model->userId;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->userId, 'url' => ['view', 'userId' => $model->userId]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = '修改';
 ?>
 <div class="widget flat">
     <div class="widget-body">
@@ -25,19 +25,17 @@ $this->params['breadcrumbs'][] = 'Update';
                 <td class="text-align-right table_bg_grey">微信id</td>
                 <td><?= $form->field($model, 'weixin')->textInput(['readonly'=>'readonly']) ?></td>
                 <td class="text-align-right table_bg_grey">昵称</td>
-                <td><?= $form->field($model, 'nickname') ?></td>
+                <td><?= $form->field($model, 'nickname')->textInput(['readonly'=>'readonly'])  ?></td>
             </tr>
             <tr>
-                <td class="text-align-right table_bg_grey">手机号</td>
-                <td><?= $form->field($model, 'cellphone') ?></td>
-                <td class="text-align-right table_bg_grey">性别</td>
-                <td><?= $form->field($model, 'sex') ?></td>
+                <td class="text-align-right table_bg_grey">密码</td>
+                <td><?= $form->field($model, 'password') ?></td>
+                <td class="text-align-right table_bg_grey">地址</td>
+                <td><?= $form->field($model, 'address') ?></td>
             </tr>
             <tr>
-                <td class="text-align-right table_bg_grey">真实姓名</td>
-                <td><?= $form->field($model, 'realname') ?></td>
-                <td class="text-align-right table_bg_grey">简介</td>
-                <td><?= $form->field($model, 'introduce') ?></td>
+                <td class="text-align-right table_bg_grey">单位</td>
+                <td><?= $form->field($model, 'company') ?></td>
             </tr>
             </tbody>
         </table>
@@ -47,12 +45,4 @@ $this->params['breadcrumbs'][] = 'Update';
         <?php ActiveForm::end(); ?>
     </div>
 </div>
-<div class="users-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>

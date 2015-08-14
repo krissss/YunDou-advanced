@@ -10,12 +10,10 @@ use common\models\TestType;
 use common\models\MajorJob;
 use yii\web\Controller;
 use yii\data\Pagination;
-use yii\web\NotFoundHttpException;
 
 class TestLibraryController extends Controller
 {
-    public function behaviors()
-    {
+    public function behaviors(){
         return [
             'access' => [
                 'class' => UserLoginFilter::className(),
@@ -23,8 +21,7 @@ class TestLibraryController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
+    public function actionIndex(){
         $query = TestLibrary::find();
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
@@ -95,52 +92,16 @@ class TestLibraryController extends Controller
         ]);
     }
 
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+    public function actionCreate(){
+        return "暂未开发";
     }
 
-    public function actionCreate()
-    {
-        $model = new TestLibrary();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->testLibraryId]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+    public function actionUpdate($id){
+        return "暂未开发";
     }
 
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->testLibraryId]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
+    public function actionDelete($id){
+        TestLibrary::findOne($id)->delete();
         return $this->redirect(['index']);
-    }
-
-    protected function findModel($id)
-    {
-        if (($model = TestLibrary::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

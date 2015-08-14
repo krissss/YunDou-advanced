@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\base\Exception;
+use yii\db\Query;
 
 /**
  * This is the model class for table "invoice".
@@ -22,17 +24,16 @@ use Yii;
  */
 class Invoice extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+    const STATE_ING = 'A';
+    const STATE_PASS = 'B';
+    const STATE_REFUSE = 'C';
+    const STATE_OVER = 'D';
+
     public static function tableName()
     {
         return 'invoice';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -69,6 +70,48 @@ class Invoice extends \yii\db\ActiveRecord
     }
 
     public function getUsers(){
-        return $this->hasOne(Users::className(),['userId'=>'userId']);
+        return $this->hasOne(Users::className(), ['userId' => 'userId']);
+    }
+
+    public function getPay(){
+        return $this->hasOne(Pay::className(), ['userId' => 'userId']);
+    }
+
+    public function getStateName(){
+        switch($this->state) {
+            case Invoice::STATE_ING: $content="申请中";break;
+            case Invoice::STATE_PASS: $content="管理员允许";break;
+            case Invoice::STATE_REFUSE: $content="管理员拒绝";break;
+            case Invoice::STATE_OVER: $content="已完成配送";break;
+            default :  $content="状态未定义";
+        }
+        return $content;
+    }
+
+    public function getRemain(){
+        $table_a = Invoice::tableName();
+        $table_b = Pay::tableName();
+        $consume =(new Query())
+            ->select('sum(money)')
+            ->from($table_a)
+            ->where(['userId' => $this->userId])
+            ->andWhere(['state' => 'D'])
+            ->one();
+        $income = (new Query())
+            ->select('sum(money)')
+            ->from($table_b)
+            ->where(['userId' => $this->userId])
+            ->one();
+        return $income['sum(money)']-$consume['sum(money)'];
+    }
+
+    public static function updateNumber($invoiceId,$orderNumber){
+        $invoice = Invoice::findOne($invoiceId);
+        $invoice->orderNumber = $orderNumber;
+//        $invoice->replyUserId = $user['userId'];
+//        $invoice->replyDate = DateFunctions::getCurrentDate();
+        if(!$invoice->update()){
+            throw new Exception("Invoice updateNumber update error!");
+        }
     }
 }

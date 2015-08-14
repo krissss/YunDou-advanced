@@ -127,21 +127,14 @@ AppAsset::register($this);
             <!-- Page Sidebar -->
             <div class="page-sidebar" id="sidebar">
                 <div class="sidebar-header-wrapper">
-                    <input type="text" class="searchinput"/>
-                    <i class="searchicon fa fa-search"></i>
-                    <div class="searchhelper">搜索</div>
+                    <i class="searchicon"></i>
+                    <div class="searchhelper"></div>
                 </div>
                 <!-- Sidebar Menu -->
                 <ul class="nav sidebar-menu">
-                    <li <?//= $page_id == 'index' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['site/index']) ?>">
-                            <i class="menu-icon fa fa-dashboard"></i>
-                            <span class="menu-text"> 系统信息 </span>
-                        </a>
-                    </li>
                     <li>
                         <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-users"></i>
+                            <i class="menu-icon fa fa-book"></i>
                                 <span class="menu-text">
                                     基础数据
                                 </span>
@@ -149,13 +142,28 @@ AppAsset::register($this);
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="<?= Url::to(['users/index']) ?>">
-                                    <span class="menu-text">微信用户管理</span>
+                                <a href="<?= Url::to(['basic-data/area']) ?>">
+                                    <span class="menu-text">区域类型</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= Url::to(['users/other']) ?>">
-                                    <span class="menu-text">其他用户管理</span>
+                                <a href="<?= Url::to(['basic-data/major']) ?>">
+                                    <span class="menu-text">岗位专业</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['basic-data/test-type']) ?>">
+                                    <span class="menu-text">试题类型</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['basic-data/test-chapter']) ?>">
+                                    <span class="menu-text">试题章节</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['basic-data/usage-mode']) ?>">
+                                    <span class="menu-text">消费方式</span>
                                 </a>
                             </li>
                         </ul>

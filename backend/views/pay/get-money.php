@@ -14,16 +14,14 @@ $this->title = Yii::t('app', '云豆提现');
     <div class="widget-body">
         <div class="well bordered-left bordered-blue">
             <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询</a>
-
-
-            <hr>
-            <div class="view">
                 <label>快速查找:</label>
                 <a class="btn btn-default" href="<?=Url::to(['pay/index'])?>">所有</a>
-                <a class="btn btn-default" href="<?=Url::to(['pay/search','type'=>'money','content'=>'500'])?>">提现金额大于500</a>
-                <a class="btn btn-default" href="<?=Url::to(['pay/search','type'=>'money','content'=>'750'])?>">提现金额大于750</a>
-                <a class="btn btn-default" href="<?=Url::to(['pay/search','type'=>'money','content'=>'1000'])?>">提现金额大于1000</a>
-            </div>
+                <a class="btn btn-default" href="<?=Url::to(['pay/search','type'=>'money','content'=>'500'])?>">单次提现大于500</a>
+                <a class="btn btn-default" href="<?=Url::to(['pay/search','type'=>'money','content'=>'750'])?>">单次提现大于1000</a>
+                <a class="btn btn-default" href="<?=Url::to(['pay/search','type'=>'money','content'=>'750'])?>">单次提现大于5000</a>
+                <a class="btn btn-default" href="<?=Url::to(['pay/search','type'=>'money','content'=>'750'])?>">累计提现大于5000</a>
+                <a class="btn btn-default" href="<?=Url::to(['pay/search','type'=>'money','content'=>'750'])?>">累计提现大于10000</a>
+                <a class="btn btn-default" href="<?=Url::to(['pay/search','type'=>'money','content'=>'1000'])?>">累计提现大于50000</a>
             <div id="search" class="collapse">
                 <hr>
                 <?= Html::beginForm(['pay/search'], 'post', ['class' => 'form-inline']) ?>
@@ -51,13 +49,13 @@ $this->title = Yii::t('app', '云豆提现');
             <thead class="bordered-blue">
             <tr> <th class="text-align-center">序号</th>
                 <th class="text-align-center">用户号</th>
-                <th class="text-align-center">用户名称</th>
+                <th class="text-align-center">用户昵称</th>
                 <th class="text-align-center">用户类型</th>
                 <th class="text-align-center">云豆余额</th>
                 <th class="text-align-center">申请提现金额</th>
                 <th class="text-align-center">累计云豆数</th>
-                <th class="text-align-center">累计提现额</th>
-                <th class="text-align-center">是否提现</th>
+                <th class="text-align-center">累计提现</th>
+                <th class="text-align-center">提现数据审批</th>
             </tr>
             </thead>
             <tbody>

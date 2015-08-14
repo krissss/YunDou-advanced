@@ -14,19 +14,14 @@ use Yii;
  */
 class UsageMode extends \yii\db\ActiveRecord
 {
-    const USAGE_PRACTICE = 1;
+    const TYPE_INCOME = 0;
+    const TYPE_CONSUME = 1;
 
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'usagemode';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -36,9 +31,6 @@ class UsageMode extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -47,5 +39,19 @@ class UsageMode extends \yii\db\ActiveRecord
             'type' => 'Type',
             'remark' => 'Remark',
         ];
+    }
+
+    public function getTypeName(){
+        if($this->type == UsageMode::TYPE_INCOME){
+            return "收入";
+        }elseif($this->type==UsageMode::TYPE_CONSUME){
+            return "支出";
+        }else{
+            return "类型未定义";
+        }
+    }
+
+    public static function findAllForObject(){
+        return UsageMode::find()->all();
     }
 }

@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
-use common\functions\CommonFunctions;
+use backend\functions\CommonFunctions;
 use Yii;
 use common\models\Users;
 use common\models\Province;
@@ -148,7 +148,7 @@ public function actionView($userId)
         $model = $this->findModel($userId);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'userId' => $model->userId]);
+            return $this->redirect(['index', 'userId' => $model->userId]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -167,7 +167,8 @@ public function actionView($userId)
     {
         if (($model = Users::findOne($userId)) !== null) {
             return $model;
-        } else {
+        }
+        else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
@@ -254,75 +255,4 @@ public function actionView($userId)
 
         return $this->redirect(['users/index']);
     }
-
-
-         public function actionSearch1()
-    {
-        $query = Users::find();
-        $pagination = new Pagination([
-            'defaultPageSize' =>100,
-            'totalCount' =>$query->count()
-        ]);
-      $users = $query ->where(['role' => 1])->offset($pagination->offset)
-                ->limit($pagination->limit)->all();
-               
-        return $this->render('index',[
-            'user' => $users,
-            'pages' => $pagination
-        ]);
-
-    }
-    public function actionSearch2()
-    {
-        $query = Users::find();
-        $pagination = new Pagination([
-            'defaultPageSize' =>100,
-            'totalCount' =>$query->count()
-        ]);
-      $users = $query ->where(['province' =>1])->offset($pagination->offset)
-                ->limit($pagination->limit)->all();
-               
-        return $this->render('index',[
-            'user' => $users,
-            'pages' => $pagination
-        ]);
-
-    }
-             public function actionSearch3()
-    {
-        $query = Users::find();
-        $pagination = new Pagination([
-            'defaultPageSize' =>100,
-            'totalCount' =>$query->count()
-        ]);
-      $users = $query ->where(['province' => 2])->offset($pagination->offset)
-                ->limit($pagination->limit)->all();
-               
-        return $this->render('index',[
-            'user' => $users,
-            'pages' => $pagination
-        ]);
-
-    }
-             public function actionSearch4()
-    {   
-
-        $query = Users::find();
-        $pagination = new Pagination([
-            'defaultPageSize' =>100,
-            'totalCount' =>$query->count()
-        ]);
-      $users = $query ->where(['role' => 1])->offset($pagination->offset)
-                ->limit($pagination->limit)->all();
-               
-        return $this->render('index',[
-            'user' => $users,
-            'pages' => $pagination
-        ]);
-
-    }
-
-
-
-
 }

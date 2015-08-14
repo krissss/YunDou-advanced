@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "pay".
@@ -54,5 +55,16 @@ class Pay extends \yii\db\ActiveRecord
 
     public function getUsers(){
         return $this->hasOne(Users::className(),['userId'=>'userId']);
+    }
+
+    public function getIncome()
+    {
+        $table_b= Pay::className();
+        $income = (new Query())
+            ->select('sum(money)')
+            ->from($table_b)
+            ->where(['userId' => $this->userId])
+            ->one();
+        return $income['sum(money)'];
     }
 }

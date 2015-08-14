@@ -46,4 +46,8 @@ class TestType extends \yii\db\ActiveRecord
             'remark' => 'Remark',
         ];
     }
+
+    public static function findAllForObject(){
+        return TestType::find()->all();
+    }
 }

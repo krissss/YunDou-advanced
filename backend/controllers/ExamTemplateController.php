@@ -7,7 +7,6 @@ use common\functions\CommonFunctions;
 use common\models\ExamTemplateDetail;
 use common\models\MajorJob;
 use common\models\Province;
-use common\models\Users;
 use Yii;
 use common\models\ExamTemplate;
 use common\models\TestChapter;
@@ -27,9 +26,6 @@ class ExamTemplateController extends Controller
     }
 
     public function actionIndex(){
-        //Yii::$app->session->set('user',Users::findOne(1));
-        //echo "用户session未注册";
-        $user = Yii::$app->session->get('user');
         $session = Yii::$app->session;
         if(!$session->get("provinces")){
             $session->set('provinces',Province::findAllForObject());

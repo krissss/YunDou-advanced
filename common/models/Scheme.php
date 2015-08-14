@@ -17,36 +17,35 @@ use Yii;
  * @property string $startDate
  * @property string $endDate
  * @property string $state
- * @property string $type
+ * @property integer $usageModeId
  * @property string $remark
  */
 class Scheme extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+    const STATE_ABLE = 'T';
+    const STATE_DISABLE = 'F';
+
+    //务必保持和usageMode表一致
+    const USAGE_PRACTICE = 2;
+    const USAGE_PAY = 1;
+    const USAGE_COURSE = 3;
+
     public static function tableName()
     {
         return 'scheme';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
-            [['payBitcoin', 'day', 'time', 'payMoney', 'getBitcoin'], 'integer'],
+            [['payBitcoin', 'day', 'time', 'payMoney', 'getBitcoin','usageModeId'], 'integer'],
             [['startDate', 'endDate'], 'safe'],
             [['name'], 'string', 'max' => 50],
-            [['state','type'], 'string', 'max' => 1],
+            [['state'], 'string', 'max' => 1],
             [['remark'], 'string', 'max' => 100]
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -60,8 +59,19 @@ class Scheme extends \yii\db\ActiveRecord
             'startDate' => 'Start Date',
             'endDate' => 'End Date',
             'state' => 'State',
-            'type' => 'Type',
+            'usageModeId' => 'Usage Mode ID',
             'remark' => 'Remark',
         ];
+    }
+
+    public function getStateName(){
+        if($this->state == Scheme::STATE_ABLE){
+            $content = "已启用";
+        }elseif($this->state == Scheme::STATE_DISABLE){
+            $content = "未启用";
+        }else{
+            $content="状态未定义";
+        }
+        return $content;
     }
 }
