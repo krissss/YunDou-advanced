@@ -177,7 +177,7 @@ class TestLibrary extends \yii\db\ActiveRecord
      * @return mixed
      */
     public static function findCurrentNumber($user,$testTypeId){
-        $current = CurrentTestLibrary::findByUserAndTestType($user,$testTypeId);
+        $current = CurrentTestLibrary::findByUserAndTestType($user['userId'],$testTypeId);
         if(!$current){
             return 0;
         }
