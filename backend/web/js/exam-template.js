@@ -43,4 +43,37 @@ $(document).ready(function(){
             return confirm("该模板删除后将不能恢复，确定删除？");
         }
     });
+
+/*    var totalObj = $(".total");
+    if(totalObj.length>0){
+        totalObj.each(function(){
+            var p = $(this).data("p");
+            var total = 0;
+            $("."+p).each(function(){
+                var val = parseInt($(this).val());
+                if(!isNaN(val)){
+                    total += val;
+                }
+            });
+            $(this).text(total);
+        });
+    }*/
+
+    $(".btn_p").change(function(){
+        var p = $(this).data("p");
+        if(isNaN($(this).val())){
+            alert("请填写数字");
+            $(this).focus();
+            return false;
+        }
+        var total = 0;
+        $("."+p).each(function(){
+            var val = parseInt($(this).val());
+            if(!isNaN(val)){
+                total += val;
+            }
+        });
+        $(".total_"+p).text(total);
+        $("input[name=number_"+p+"]").val(total);
+    });
 });

@@ -16,6 +16,14 @@ use yii\base\Exception;
  * @property string $createDate
  * @property integer $createUserId
  * @property string $state
+ * @property string $pa1
+ * @property string $pa2
+ * @property string $pa3
+ * @property string $pa4
+ * @property string $pb1
+ * @property string $pb2
+ * @property string $pb3
+ * @property string $pb4
  * @property string $remark
  */
 class ExamTemplate extends \yii\db\ActiveRecord
@@ -41,6 +49,7 @@ class ExamTemplate extends \yii\db\ActiveRecord
             [['createDate'], 'safe'],
             [['name'], 'string', 'max' => 50],
             [['state'], 'string', 'max' => 1],
+            [['pa1', 'pa2', 'pa3', 'pa4', 'pb1', 'pb2', 'pb3', 'pb4'], 'string', 'max' => 8],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -53,11 +62,19 @@ class ExamTemplate extends \yii\db\ActiveRecord
         return [
             'examTemplateId' => 'Exam Template ID',
             'provinceId' => 'Province ID',
-            'marjorJobId' => 'Marjor Job ID',
+            'majorJobId' => 'Major Job ID',
             'name' => 'Name',
             'createDate' => 'Create Date',
             'createUserId' => 'Create User ID',
             'state' => 'State',
+            'pa1' => 'Pa1',
+            'pa2' => 'Pa2',
+            'pa3' => 'Pa3',
+            'pa4' => 'Pa4',
+            'pb1' => 'Pb1',
+            'pb2' => 'Pb2',
+            'pb3' => 'Pb3',
+            'pb4' => 'Pb4',
             'remark' => 'Remark',
         ];
     }
@@ -85,12 +102,29 @@ class ExamTemplate extends \yii\db\ActiveRecord
     }
 
     public function getQuestionCount(){
-        $examTemplateDetails = ExamTemplateDetail::findByExamTemplate($this->examTemplateId);
-        $number = 0;
-        foreach($examTemplateDetails as $examTemplateDetail){
-            $number += $examTemplateDetail['testNumber'];
-        }
-        return $number;
+        $number_pa1 = intval(explode('|',$this->pa1)[0]);
+        $number_pa2 = intval(explode('|',$this->pa2)[0]);
+        $number_pa3 = intval(explode('|',$this->pa3)[0]);
+        $number_pa4 = intval(explode('|',$this->pa4)[0]);
+        $number_pb1 = intval(explode('|',$this->pb1)[0]);
+        $number_pb2 = intval(explode('|',$this->pb2)[0]);
+        $number_pb3 = intval(explode('|',$this->pb3)[0]);
+        $number_pb4 = intval(explode('|',$this->pb4)[0]);
+        return $number_pa1 + $number_pa2 + $number_pa3 + $number_pa4
+             + $number_pb1 + $number_pb2 + $number_pb3 + $number_pb4;
+    }
+
+    public function getQuestionScore(){
+        $score_pa1 = intval(explode('|',$this->pa1)[1]);
+        $score_pa2 = intval(explode('|',$this->pa2)[1]);
+        $score_pa3 = intval(explode('|',$this->pa3)[1]);
+        $score_pa4 = intval(explode('|',$this->pa4)[1]);
+        $score_pb1 = intval(explode('|',$this->pb1)[1]);
+        $score_pb2 = intval(explode('|',$this->pb2)[1]);
+        $score_pb3 = intval(explode('|',$this->pb3)[1]);
+        $score_pb4 = intval(explode('|',$this->pb4)[1]);
+        return $score_pa1 + $score_pa2 + $score_pa3 + $score_pa4
+             + $score_pb1 + $score_pb2 + $score_pb3 + $score_pb4;
     }
 
     public static function saveOne($provinceId, $majorJobId, $name, $createUserId){
@@ -99,6 +133,14 @@ class ExamTemplate extends \yii\db\ActiveRecord
         $examTemplate->provinceId = $provinceId;
         $examTemplate->majorJobId = $majorJobId;
         $examTemplate->createUserId = $createUserId;
+        $examTemplate->pa1 = "0|0";
+        $examTemplate->pa2 = "0|0";
+        $examTemplate->pa3 = "0|0";
+        $examTemplate->pa4 = "0|0";
+        $examTemplate->pb1 = "0|0";
+        $examTemplate->pb2 = "0|0";
+        $examTemplate->pb3 = "0|0";
+        $examTemplate->pb4 = "0|0";
         $examTemplate->createDate = DateFunctions::getCurrentDate();
         $examTemplate->state = ExamTemplate::STATE_DISABLE;
         if(!$examTemplate->save()){

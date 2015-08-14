@@ -1,6 +1,7 @@
 <?php
 /** @var $time */
-/** @var $score */
+/** @var $finalScore */
+/** @var $totalScore */
 
 use yii\helpers\Url;
 $session = Yii::$app->session;
@@ -48,7 +49,8 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
         <p>本次模拟考试用时为：<?=$time?>分钟</p>
         <p>标准考试时间为：150分钟</p>
         <p></p>
-        <p>本次模拟考试分数为：<?=$score?>分</p>
+        <p>本次模拟考试您的分数为：<?=$finalScore?>分</p>
+        <p>本次模拟考试总分为：<?=$totalScore?>分</p>
         <p>您本次模拟考试分数在168168名模拟人员中排名在第108158位</p>
     </div>
     <div class="panel-footer">

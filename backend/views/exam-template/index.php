@@ -10,6 +10,8 @@ use common\models\ExamTemplate;
 $this->title = '模拟题管理';
 $this->registerCssFile('backend/web/css/yundou-exam-template.css',['depends'=>'backend\assets\AppAsset']);
 $this->registerJsFile('backend/web/js/exam-template.js',['depends'=>['backend\assets\AppAsset']]);
+//$this->registerCssFile('YunDou-advanced/backend/web/css/yundou-exam-template.css',['depends'=>'backend\assets\AppAsset']);
+//$this->registerJsFile('YunDou-advanced/backend/web/js/exam-template.js',['depends'=>['backend\assets\AppAsset']]);
 $session = Yii::$app->session;
 ?>
 
@@ -56,6 +58,7 @@ $session = Yii::$app->session;
                 <th class="text-align-center">创建日期</th>
                 <th class="text-align-center">创建者</th>
                 <th class="text-align-center">总题数</th>
+                <th class="text-align-center">总分数</th>
                 <th class="text-align-center">状态</th>
                 <th class="text-align-center">操作</th>
             </tr>
@@ -70,6 +73,7 @@ $session = Yii::$app->session;
                     <td><?= $examTemplate->createDate ?></td>
                     <td><?= $examTemplate->createUser['nickname'] ?></td>
                     <td class="question_count_<?=$examTemplate->examTemplateId?>"><?= $examTemplate->questionCount ?></td>
+                    <td><?= $examTemplate->questionScore ?></td>
                     <td>
                         <label>
                         <?php if($examTemplate->state==ExamTemplate::STATE_ABLE): ?>

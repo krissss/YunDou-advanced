@@ -12,6 +12,10 @@
     font-weight: bold;
 }
 
+.score{
+    width: 20px;
+}
+
 label{
     margin-bottom: 0;
 }

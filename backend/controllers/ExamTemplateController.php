@@ -152,6 +152,19 @@ class ExamTemplateController extends Controller
                 CommonFunctions::createAlertMessage("模板启用状态下删除题目出错",'error');
                 return $this->redirect(['exam-template/index']);
             }
+            //保存题目数量和分数
+            $examTemplate->pa1 = $request->post("number_pa1")."|".$request->post("score_pa1");
+            $examTemplate->pa2 = $request->post("number_pa2")."|".$request->post("score_pa2");
+            $examTemplate->pa3 = $request->post("number_pa3")."|".$request->post("score_pa3");
+            $examTemplate->pa4 = $request->post("number_pa4")."|".$request->post("score_pa4");
+            $examTemplate->pb1 = $request->post("number_pb1")."|".$request->post("score_pb1");
+            $examTemplate->pb2 = $request->post("number_pb2")."|".$request->post("score_pb2");
+            $examTemplate->pb3 = $request->post("number_pb3")."|".$request->post("score_pb3");
+            $examTemplate->pb4 = $request->post("number_pb4")."|".$request->post("score_pb4");
+            if(!$examTemplate->save()){
+                CommonFunctions::createAlertMessage("题目保存出错",'error');
+                return $this->redirect(['exam-template/index']);
+            }
             $testChapters = TestChapter::find()->where(['majorJobId'=>$examTemplate->majorJobId])->all();
             foreach($testChapters as $testChapter){
                 $testNumber_1 = $request->post("danxuan_".$testChapter->testChapterId);
@@ -179,6 +192,7 @@ class ExamTemplateController extends Controller
         $examTemplateDetails = ExamTemplateDetail::findByExamTemplate($examTemplate->examTemplateId);
         $examTemplateDetails = ExamTemplateDetail::remakeArray($examTemplateDetails);
         return $this->render('create-detail',[
+            'examTemplate' => $examTemplate,
             'testChapters_1' => $testChapters_1,
             'testChapters_2' => $testChapters_2,
             'examTemplateDetails' => $examTemplateDetails

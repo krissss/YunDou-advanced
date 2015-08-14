@@ -4,10 +4,12 @@
 /** @var $questionNumber int */
 /** @var $collected boolean */
 /** @var $examFlag boolean */
+
 $session = Yii::$app->session;
 $options = explode('|', $testLibrary['options']);
 $id = $testLibrary['testLibraryId'];
-$testTypeId = 3;
+$testTypeId = $testLibrary['testTypeId'];
+$preTypeId = $testLibrary['preTypeId'];
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -35,7 +37,8 @@ $testTypeId = 3;
             <?php foreach ($options as $option): ?>
                 <?php $value = substr(trim($option), 0, 1); ?>
                 <div class="form-group">
-                    <input id="input_<?= $id ?>_<?= $value ?>" name="input_question_<?= $id ?>" data-id="<?= $id ?>" data-testtype="<?=$testTypeId?>" type="radio" value="<?= $value ?>">
+                    <input id="input_<?= $id ?>_<?= $value ?>" name="input_question_<?= $id ?>" type="radio" value="<?= $value ?>"
+                           data-id="<?= $id ?>" data-testtype="<?=$testTypeId?>" data-pretype="<?=$preTypeId?>">
                     <label for="input_<?= $id ?>_<?= $value ?>"><?= $option ?></label>
                 </div>
             <?php endforeach; ?>

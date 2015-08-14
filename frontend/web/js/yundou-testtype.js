@@ -64,6 +64,7 @@ $(document).ready(function(){
     $("input[type=radio]").click(function(){
         var id = $(this).data("id");
         var testType = $(this).data("testtype");
+        var preType = $(this).data("pretype");
         var value = $(this).val();
         var trueAnswer;
         var answerType = 0; //0错误，1正确
@@ -89,12 +90,13 @@ $(document).ready(function(){
             }
             $(".user_answer_"+id).text(value);
         }
-        result.push({testLibraryId:id,answerType:answerType,testType:testType});
+        result.push({testLibraryId:id,answerType:answerType,testType:testType,preType:preType});
     });
 
     $("input[type=checkbox]").click(function(){
         var id = $(this).data("id");
         var testType = $(this).data("testtype");
+        var preType = $(this).data("pretype");
         var value = "";
         $("input[name=input_question_"+id+"]:checked").each(function(){
             value += $(this).val();
@@ -108,7 +110,7 @@ $(document).ready(function(){
             answerType = 0; //0错误，1正确
             $(".answer_type_" + id).text("答案错误");
         }
-        result.push({testLibraryId:id,answerType:answerType,testType:testType});
+        result.push({testLibraryId:id,answerType:answerType,testType:testType,preType:preType});
         $(".user_answer_"+id).text(value);
     });
 
