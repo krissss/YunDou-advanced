@@ -10,8 +10,7 @@ $session = Yii::$app->session;
 $user = $session->get('user');
 $openId = $session->get('openId');
 ?>
-
-<div class="alert alert-info" role="alert">为了更好的为您提供服务，请认真进行实名认证！</div>
+<?=\common\widgets\AlertWidget::widget();?>
 <div class="container-fluid">
     <?php $form = ActiveForm::begin([
         'id' => 'account-register',

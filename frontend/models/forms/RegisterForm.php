@@ -4,8 +4,8 @@ namespace frontend\models\forms;
 
 use Yii;
 use common\models\Users;
-use frontend\functions\CommonFunctions;
-use frontend\functions\DateFunctions;
+use common\functions\CommonFunctions;
+use common\functions\DateFunctions;
 use yii\base\Exception;
 use yii\base\Model;
 
@@ -24,10 +24,10 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            [['nickname','realname','majorJobId',  'provinceId','cellphone', 'yzm'], 'required'],
+            [['nickname','realname','majorJobId', 'provinceId','cellphone', 'yzm'], 'required'],
             [['majorJobId', 'provinceId'], 'integer'],
             [['nickname', 'company', 'address'], 'string', 'max' => 50],
-            [['cellphone'], 'number','min'=>10000000000, 'max'=>19999999999],
+            [['cellphone'], 'string','min'=>11, 'max' => 11],
         ];
     }
 
@@ -62,13 +62,11 @@ class RegisterForm extends Model
     }
 
     public function register(){
-        $newUserFlag = false;
         $openId = Yii::$app->session->get('openId');
         $user = Users::findByWeiXin($openId);
         if(!$user){ //如果用户不存在，即关注的时候没有把微信的相关信息存入
             $user = new Users();
             $user->weixin = $openId;
-            $newUserFlag = true;
         }
         if(!$user->registerDate){    //如果用户注册日期不存在，表明用户第一次实名认证
             $user->bitcoin = 0;
@@ -84,14 +82,8 @@ class RegisterForm extends Model
         $user->cellphone = $this->cellphone;
         $user->company = $this->company;
         $user->address = $this->address;
-        if($newUserFlag){   //如果是新用户
-            if(!$user->save()){
-                throw new Exception("RegisterForm register Save Error");
-            }
-        } else{
-            if(!$user->update()){
-                throw new Exception("RegisterForm register update Error");
-            }
+        if(!$user->save()){
+            throw new Exception("RegisterForm register Save Error");
         }
         Yii::$app->session->set('user',$user);
     }

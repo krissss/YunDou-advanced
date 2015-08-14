@@ -5,7 +5,7 @@ namespace backend\models\forms;
 use Yii;
 use common\models\Users;
 use yii\base\Model;
-use backend\functions\CommonFunctions;
+use common\functions\CommonFunctions;
 
 class LoginForm extends Model{
     public $username;

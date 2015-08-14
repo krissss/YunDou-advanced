@@ -70,6 +70,14 @@ a:active {
     margin-left: 10px !important;
 }
 
+.padding-left-15{
+    padding-left: 15px !important;
+}
+.padding-right-15{
+    padding-right: 15px !important;
+}
+
+
 /** practice/index */
 .nav-icon {
     display: inline-block;
@@ -82,7 +90,6 @@ a:active {
 .nav-icon a{
     color: #000;
 }
-
 
 .nav-icon .glyphicon {
     display: block;
@@ -118,4 +125,5 @@ a:active {
     font-size: 16px;
     padding-top: 5px;
 }
+
 

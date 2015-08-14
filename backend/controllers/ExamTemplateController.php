@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
-use backend\functions\CommonFunctions;
+use common\functions\CommonFunctions;
 use common\models\ExamTemplateDetail;
 use common\models\MajorJob;
 use common\models\Province;
@@ -35,7 +35,23 @@ class ExamTemplateController extends Controller
             $session->set('provinces',Province::findAllForObject());
             $session->set('majorJobs',MajorJob::findAllForObject());
         }
+        $query = ExamTemplate::find();
+        $pagination = new Pagination([
+            'defaultPageSize' => Yii::$app->params['pageSize'],
+            'totalCount' => $query->count(),
+        ]);
+        $examTemplates = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return $this->render('index',[
+            'examTemplates' => $examTemplates,
+            'pages' => $pagination
+        ]);
+    }
+
+    public function actionCreateTemplate(){
         $request = Yii::$app->request;
+        $user = Yii::$app->session->get('user');
         if($request->isPost){   //创建模板
             $majorJobId = $request->post('majorJobId');
             $provinceId = $request->post('provinceId');
@@ -51,19 +67,10 @@ class ExamTemplateController extends Controller
                 CommonFunctions::createAlertMessage("模板创建成功，你可以点击编辑添加题目","success");
                 return $this->redirect(['exam-template/index']);
             }
+        } else {
+            CommonFunctions::createAlertMessage("非正常请求，错误！", 'error');
         }
-        $query = ExamTemplate::find();
-        $pagination = new Pagination([
-            'defaultPageSize' => Yii::$app->params['pageSize'],
-            'totalCount' => $query->count(),
-        ]);
-        $examTemplates = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-        return $this->render('index',[
-            'examTemplates' => $examTemplates,
-            'pages' => $pagination
-        ]);
+        return $this->redirect(['service/index']);
     }
 
     public function actionView($id){

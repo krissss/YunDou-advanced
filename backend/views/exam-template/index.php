@@ -15,7 +15,7 @@ $session = Yii::$app->session;
 
 <div class="widget flat">
     <div class="widget-body">
-        <?=\backend\widgets\AlertWidget::widget();?>
+        <?= \common\widgets\AlertWidget::widget();?>
         <div class="well bordered-left bordered-blue">
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#create_template">
                 <i class="fa fa-plus"></i>添加新模板
@@ -105,7 +105,7 @@ $session = Yii::$app->session;
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">创建新模板</h4>
             </div>
-            <?=Html::beginForm(['exam-template/index'], 'post', ['class' => 'form-inline']);?>
+            <?=Html::beginForm(['exam-template/create-template'], 'post', ['class' => 'form-inline']);?>
             <div class="modal-body">
                 <div class="form-group">
                     <select class="form-control" name="provinceId">

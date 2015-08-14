@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\functions;
+namespace common\functions;
 
 
 class DateFunctions {

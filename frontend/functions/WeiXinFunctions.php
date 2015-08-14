@@ -126,7 +126,7 @@ class WeiXinFunctions
                   "sub_button"=>[
                       [
                           "type"=>"view",
-                          "name"=>"我要咨询",
+                          "name"=>"咨询与建议",
                           "url"=>"http://".$this->site_url."/frontend/web/index.php?r=service/consult",
                       ],[
                           "type"=>"view",

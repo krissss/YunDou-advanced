@@ -3,9 +3,8 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
-use backend\functions\CommonFunctions;
+use common\functions\CommonFunctions;
 use common\models\Users;
-use frontend\functions\DateFunctions;
 use Yii;
 use common\models\Service;
 use yii\web\Controller;
@@ -39,13 +38,6 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function actionDelete($id){
-        /** @var  $service \common\models\Service */
-        $service = Service::findOne($id);
-        $service->delete();
-        return $this->redirect(['exam-template/index']);
-    }
-
     public function actionSearch()
     {
         $request = Yii::$app->request;
@@ -65,9 +57,11 @@ class ServiceController extends Controller
                     break;
                 case 'state':
                     if($content=='noReply'){
-                        $query = Service::find()->where(['reply'=>null]);
+                        $query = Service::find()->where(['state'=>Service::STATE_UNREPLY]);
                     }elseif($content=='replied'){
-                        $query = Service::find()->where('reply is not null');
+                        $query = Service::find()->where(['state'=>Service::STATE_REPLIED]);
+                    }elseif($content=='published'){
+                        $query = Service::find()->where(['state'=>Service::STATE_PUBLISH]);
                     }else{
                         $query = Service::find();
                     }
@@ -106,11 +100,26 @@ class ServiceController extends Controller
         if($request->isPost){
             $serviceId = $request->post('serviceId');
             $reply = $request->post('reply');
-            Service::replyService($serviceId,$reply);
+            $publish = $request->post('publish');
+            if($publish == 'publish'){
+                Service::replyService($serviceId,$reply,true);
+            }else{
+                Service::replyService($serviceId,$reply);
+            }
         }else{
             CommonFunctions::createAlertMessage("非正常请求，错误！",'error');
         }
         return $this->redirect(['service/index']);
     }
 
+    public function actionPublish(){
+        $request = Yii::$app->request;
+        if ($request->isPost) {
+            $serviceId = $request->post('serviceId');
+            return Service::changePublish($serviceId);
+        } else {
+            CommonFunctions::createAlertMessage("非正常请求，错误！", 'error');
+        }
+        return $this->redirect(['service/index']);
+    }
 }

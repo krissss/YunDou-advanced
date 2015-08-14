@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\functions\CommonFunctions;
 use common\models\IncomeConsume;
 use common\models\Pay;
 use common\models\PracticeRecord;
@@ -36,14 +37,13 @@ class AccountController extends Controller
     /** 实名认证*/
     public function actionRegister(){
         $registerForm = new RegisterForm();
+        CommonFunctions::createAlertMessage("为了更好的为您提供服务，请认真进行实名认证！","info");
         if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
             $registerForm->register();
+            CommonFunctions::createAlertMessage("恭喜您，注册成功","success");
             $url = Url::previous("register"); //获取前面记住的url
             if($url){
                 return $this->redirect($url);
-            }else{
-                echo "恭喜您，注册成功！";
-                exit;
             }
         }
         $majorJobs = MajorJob::findAllForObject();

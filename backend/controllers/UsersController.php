@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
-use backend\functions\CommonFunctions;
+use common\functions\CommonFunctions;
 use Yii;
 use common\models\Users;
 use common\models\Province;
