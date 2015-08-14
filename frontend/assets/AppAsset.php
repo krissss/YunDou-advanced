@@ -10,6 +10,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     //public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
     public $css = [
+        'css/loading.css',
         'css/yundou2.css',
     ];
     public $js = [
