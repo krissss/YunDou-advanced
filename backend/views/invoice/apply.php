@@ -47,9 +47,8 @@ $this->title =  '发票管理';
                 <th class="text-align-center">申请开票时间</th>
                 <th class="text-align-center">状态</th>
                 <th class="text-align-center">详细地址</th>
-                <th class="text-align-center">经手人</th>
-                <th class="text-align-center">回复日期</th>
-                <th class="text-align-center">快递单号</th>
+                <th class="text-align-center">备注</th>
+                <th class="text-align-center">操作</th>
             </tr>
             </thead>
             <tbody>
@@ -63,9 +62,11 @@ $this->title =  '发票管理';
                     <td><?= $model->createDate ?></td>
                     <td><?= $model->stateName  ?></td>
                     <td><?= $model->address ?></td>
-                    <td><?= $model->replyUser['nickname'] ?></td>
-                    <td><?= $model->replyDate ?></td>
-                    <td><?= $model->orderNumber ?></td>
+                    <td><?= $model->description ?></td>
+                    <td>
+                        <button class="btn btn-xs btn-default agree_invoice" data-id="<?=$model->invoiceId?>">同意开票</button>
+                        <button class="btn btn-xs btn-default refuse_invoice" data-id="<?=$model->invoiceId?>">拒绝开票</button>
+                    </td>
                 </tr>
             <?php endforeach;?>
             </tbody>

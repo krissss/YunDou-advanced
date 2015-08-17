@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\functions\DateFunctions;
 use Yii;
 use yii\base\Exception;
 use yii\db\Query;
@@ -73,6 +74,10 @@ class Invoice extends \yii\db\ActiveRecord
         return $this->hasOne(Users::className(), ['userId' => 'userId']);
     }
 
+    public function getReplyUser(){
+        return $this->hasOne(Users::className(), ['userId' => 'replyUserId']);
+    }
+
     public function getPay(){
         return $this->hasOne(Pay::className(), ['userId' => 'userId']);
     }
@@ -105,11 +110,10 @@ class Invoice extends \yii\db\ActiveRecord
         return $income['sum(money)']-$consume['sum(money)'];
     }
 
-    public static function updateNumber($invoiceId,$orderNumber){
+    public static function updateOrderNumber($invoiceId,$orderNumber){
         $invoice = Invoice::findOne($invoiceId);
         $invoice->orderNumber = $orderNumber;
-//        $invoice->replyUserId = $user['userId'];
-//        $invoice->replyDate = DateFunctions::getCurrentDate();
+        $invoice->state = Invoice::STATE_OVER;
         if(!$invoice->update()){
             throw new Exception("Invoice updateNumber update error!");
         }
@@ -134,8 +138,22 @@ class Invoice extends \yii\db\ActiveRecord
      */
     public static function findApplyingByUser($userId){
         return Invoice::find()
-            ->where(['userId'=>$userId,'state'=>Invoice::STATE_ING])
+            ->where(['userId'=>$userId])
+            ->andWhere(['state'=>Invoice::STATE_ING])
+            ->orWhere(['state'=>Invoice::STATE_PASS])
             ->orderBy(['createDate'=>SORT_DESC])
             ->all();
+    }
+
+    public static function changeState($invoiceId,$state,$replyContent){
+        $user = Yii::$app->session->get('user');
+        $invoice = Invoice::findOne($invoiceId);
+        $invoice->state = $state;
+        $invoice->replyContent = $replyContent;
+        $invoice->replyDate = DateFunctions::getCurrentDate();
+        $invoice->replyUserId = $user['userId'];
+        if(!$invoice->update()){
+            throw new Exception("Invoice update error");
+        }
     }
 }

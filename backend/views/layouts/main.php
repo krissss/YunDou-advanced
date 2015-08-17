@@ -260,6 +260,11 @@ AppAsset::register($this);
                         <ul class="submenu">
                             <li>
                                 <a href="<?= Url::to(['invoice/index']) ?>">
+                                    <span class="menu-text">发票列表</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['invoice/apply']) ?>">
                                     <span class="menu-text">发票申请</span>
                                 </a>
                             </li>

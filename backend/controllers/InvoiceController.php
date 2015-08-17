@@ -7,6 +7,7 @@ use common\models\Pay;
 use Yii;
 use common\models\Invoice;
 use common\models\Users;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\data\Pagination;
 use common\functions\CommonFunctions;
@@ -23,7 +24,7 @@ class InvoiceController extends Controller
     }
 
     public function actionIndex(){
-        $query = Invoice::find();
+        $query = Invoice::find()->orderBy(['createDate'=>SORT_DESC]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),
@@ -32,6 +33,44 @@ class InvoiceController extends Controller
             ->limit($pagination->limit)
             ->all();
         return $this->render('index', [
+            'models' => $model,
+            'pages' => $pagination
+        ]);
+    }
+
+    public function actionApply(){
+        $query = Invoice::find()->where(['state'=>Invoice::STATE_ING])->orderBy(['createDate'=>SORT_DESC]);;
+        $pagination = new Pagination([
+            'defaultPageSize' => Yii::$app->params['pageSize'],
+            'totalCount' => $query->count(),
+        ]);
+        $model = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return $this->render('apply', [
+            'models' => $model,
+            'pages' => $pagination
+        ]);
+    }
+
+    public function actionOpener(){
+        $request = Yii::$app->request;
+        if($request->isPost) {
+            $invoiceId = $request->post('invoiceId');
+            $orderNumber=$request->post('orderNumber');
+            Invoice::updateOrderNumber($invoiceId,$orderNumber);
+            CommonFunctions::createAlertMessage("填写快递单号成功","success");
+        }
+        $query = Invoice::find()->where(['state'=>Invoice::STATE_PASS])->orderBy(['createDate'=>SORT_DESC]);;
+        $pagination = new Pagination([
+            'defaultPageSize' => Yii::$app->params['pageSize'],
+            'totalCount' => $query->count(),
+        ]);
+        $model = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return $this->render('opener', [
             'models' => $model,
             'pages' => $pagination
         ]);
@@ -104,6 +143,7 @@ class InvoiceController extends Controller
             'pages' => $pagination
         ]);
     }
+
     public function actionFind(){
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
@@ -139,29 +179,27 @@ class InvoiceController extends Controller
             'pages' => $pagination
         ]);
     }
-    public function actionOpener(){
-        $request = Yii::$app->request;
-        if($request->isPost)
-        {
-            $invoiceId = $request->post('invoiceId');
-            $ordernumber=$request->post('ordernumber');
-            Invoice::updateNumber($invoiceId,$ordernumber);
-        } else{
-                CommonFunctions::createAlertMessage("非正常请求，错误！",'error');
-            }
-        $query = Invoice::find();
-        $pagination = new Pagination([
-            'defaultPageSize' => Yii::$app->params['pageSize'],
-            'totalCount' => $query->count(),
-        ]);
-        $model = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
 
-        return $this->render('opener', [
-            'models' => $model,
-            'pages' => $pagination
-        ]);
+    public function actionChangeState(){
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $invoiceId = $request->post('invoiceId');
+            $state = $request->post('state');
+            $replyContent = $request->post('replyContent');
+            if($state == 'agree'){
+                $invoiceState = Invoice::STATE_PASS;
+                CommonFunctions::createAlertMessage("已同意开票",'success');
+            }elseif($state == 'refuse'){
+                $invoiceState = Invoice::STATE_REFUSE;
+                CommonFunctions::createAlertMessage("已拒绝开票",'success');
+            }else{
+                throw new Exception("state undefined");
+            }
+            Invoice::changeState($invoiceId,$invoiceState,$replyContent);
+        }else{
+            CommonFunctions::createAlertMessage("非正常请求，错误！",'error');
+        }
+        return $this->redirect(['invoice/apply']);
     }
 
 }

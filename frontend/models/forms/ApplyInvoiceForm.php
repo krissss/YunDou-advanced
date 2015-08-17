@@ -40,7 +40,7 @@ class ApplyInvoiceForm extends Model
 
     public function init(){
         $user= Yii::$app->session->get('user');
-        $maxMoney = Pay::findSumMoneyByUser($user['userId']);
+        $maxMoney = Pay::findRemainMoneyByUser($user['userId']);
         if($maxMoney){
             $this->maxMoney = intval($maxMoney);
         }else{

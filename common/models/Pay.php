@@ -64,14 +64,21 @@ class Pay extends \yii\db\ActiveRecord
             ->all();
     }
 
-    public static function findSumMoneyByUser($userId){
-        $table = Pay::tableName();
-        $sum = (new Query())
-            ->from($table)
+    public static function findRemainMoneyByUser($userId){
+        $table_a = Invoice::tableName();
+        $table_b = Pay::tableName();
+        $consume =(new Query())
             ->select('sum(money)')
-            ->where(['userId'=>$userId])
+            ->from($table_a)
+            ->where(['userId' => $userId])
+            ->andWhere(['state' => 'D'])
             ->one();
-        return $sum['sum(money)'];
+        $income = (new Query())
+            ->select('sum(money)')
+            ->from($table_b)
+            ->where(['userId' => $userId])
+            ->one();
+        return $income['sum(money)']-$consume['sum(money)'];
     }
 
 }
