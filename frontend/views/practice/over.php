@@ -48,7 +48,14 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
         <p>本次练习总题目数为：<?=$rightNumber + $wrongNumber?>题</p>
         <p>正确：<?=$rightNumber?>题</p>
         <p>错误：<?=$wrongNumber?>题</p>
-        <p>正确率为：<?=sprintf("%.2f", $rightNumber/($rightNumber+$wrongNumber))*100;?>%</p>
+        <?php
+        if(($rightNumber+$wrongNumber) != 0){   //除数不能为0
+            $accuracy = sprintf("%.2f", $rightNumber/($rightNumber+$wrongNumber))*100;
+        }else{
+            $accuracy = 0;
+        }
+        ?>
+        <p>正确率为：<?=$accuracy?>%</p>
     </div>
     <div class="panel-footer">
         <a href="<?=Url::to(['practice/index'])?>" class="btn btn-primary">继续练习</a>
