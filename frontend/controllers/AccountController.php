@@ -4,11 +4,14 @@ namespace frontend\controllers;
 
 use common\functions\CommonFunctions;
 use common\models\IncomeConsume;
+use common\models\Invoice;
+use common\models\Pay;
 use common\models\PracticeRecord;
 use common\models\Scheme;
 use common\models\Users;
 use frontend\filters\OpenIdFilter;
 use frontend\functions\SMS;
+use frontend\models\forms\ApplyInvoiceForm;
 use frontend\models\forms\RechargeForm;
 use frontend\models\forms\RegisterForm;
 use Yii;
@@ -34,6 +37,32 @@ class AccountController extends Controller
         $incomeConsumes = IncomeConsume::findByUser($user['userId']);
         return $this->render('index',[
             'incomeConsumes' => $incomeConsumes
+        ]);
+    }
+
+    /** 充值记录 */
+    public function actionPayRecord(){
+        $user = Yii::$app->session->get('user');
+        $payRecords = Pay::findByUser($user['userId']);
+        return $this->render('pay-record',[
+            'payRecords' => $payRecords
+        ]);
+    }
+
+    /** 发票申请 */
+    public function actionInvoiceApply(){
+        $applyInvoiceForm = new ApplyInvoiceForm();
+        CommonFunctions::createAlertMessage("为了更好的为您提供服务，请认真填写相关信息！","info");
+        if($applyInvoiceForm->load(Yii::$app->request->post()) && $applyInvoiceForm->validate()){
+            if($applyInvoiceForm->record()) {
+                CommonFunctions::createAlertMessage("您的申请已经记录，请耐心等待管理员审核和配送", "success");
+            }
+        }
+        $user = Yii::$app->session->get('user');
+        $invoices = Invoice::findAllByUser($user['userId']);
+        return $this->render('invoice-apply',[
+            'applyInvoiceForm' => $applyInvoiceForm,
+            'invoices' => $invoices
         ]);
     }
 

@@ -57,14 +57,21 @@ class Pay extends \yii\db\ActiveRecord
         return $this->hasOne(Users::className(),['userId'=>'userId']);
     }
 
-    public function getIncome()
-    {
-        $table_b= Pay::className();
-        $income = (new Query())
-            ->select('sum(money)')
-            ->from($table_b)
-            ->where(['userId' => $this->userId])
-            ->one();
-        return $income['sum(money)'];
+    public static function findByUser($userId){
+        return Pay::find()
+            ->where(['userId'=>$userId])
+            ->orderBy(['createDate'=>SORT_DESC])
+            ->all();
     }
+
+    public static function findSumMoneyByUser($userId){
+        $table = Pay::tableName();
+        $sum = (new Query())
+            ->from($table)
+            ->select('sum(money)')
+            ->where(['userId'=>$userId])
+            ->one();
+        return $sum['sum(money)'];
+    }
+
 }

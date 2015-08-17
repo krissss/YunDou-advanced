@@ -28,7 +28,7 @@ $openId = $session->get('openId');
     <?= $form->field($registerForm, 'realname') ?>
     <?= $form->field($registerForm, 'provinceId')->dropDownList(ArrayHelper::map($provinces,'provinceId','name'),['prompt'=>'请选择'])?>
     <?= $form->field($registerForm, 'majorJobId')->dropDownList(ArrayHelper::map($majorJobs,'majorJobId','name'),['prompt'=>'请选择'])?>
-    <?= $form->field($registerForm, 'cellphone')->textInput(['class'=>'form-control mobile']) ?>
+    <?= $form->field($registerForm, 'cellphone')->textInput(['class'=>'form-control mobile','type'=>'number']) ?>
     <?= $form->field($registerForm, 'yzm', [
         'template' => "{label}<div class='col-xs-4 no-padding-left'>{input}</div><div class='col-xs-5 no-padding-left'>
                     <span class='btn btn-primary get_yzm'>获取验证码</span></div><div class='col-xs-9 col-xs-offset-3'>{error}</div>",

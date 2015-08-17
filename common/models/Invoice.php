@@ -114,4 +114,28 @@ class Invoice extends \yii\db\ActiveRecord
             throw new Exception("Invoice updateNumber update error!");
         }
     }
+
+    /**
+     * 查询用户的所有发票
+     * @param $userId
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function findAllByUser($userId){
+        return Invoice::find()
+            ->where(['userId'=>$userId])
+            ->orderBy(['createDate'=>SORT_DESC])
+            ->all();
+    }
+
+    /**
+     * 查询用户正在申请中的发票
+     * @param $userId
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function findApplyingByUser($userId){
+        return Invoice::find()
+            ->where(['userId'=>$userId,'state'=>Invoice::STATE_ING])
+            ->orderBy(['createDate'=>SORT_DESC])
+            ->all();
+    }
 }

@@ -1,5 +1,5 @@
 <?php
-/** @var $incomeConsumes \common\models\IncomeConsume[] */
+/** @var $payRecords \common\models\Pay[] */
 
 use yii\helpers\Url;
 use common\models\IncomeConsume;
@@ -18,31 +18,25 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
 </div>
 <hr>
 <div class="container-fluid">
-    <h4 class="col-xs-8">云豆收入支出记录</h4>
-    <a href="<?= Url::to(['account/pay-record']) ?>" class="btn btn-primary pull-right">充值记录</a>
+    <h4 class="col-xs-4">充值记录</h4>
+    <a href="<?= Url::to(['account/index']) ?>" class="btn btn-primary pull-right margin-left-10">云豆记录</a>
+    <a href="<?= Url::to(['account/invoice-apply']) ?>" class="btn btn-primary pull-right">发票申请</a>
     <table class="table table-striped text-center">
         <thead>
             <tr>
                 <th class="text-center">#</th>
+                <th class="text-center">金额</th>
                 <th class="text-center">云豆</th>
-                <th class="text-center">方式</th>
                 <th class="text-center">日期</th>
             </tr>
         </thead>
         <tbody>
-        <?php foreach($incomeConsumes as $i=>$incomeConsume): ?>
+        <?php foreach($payRecords as $i=>$payRecord): ?>
             <tr>
                 <th scope="row"><?=$i+1?></th>
-                <?php
-                if($incomeConsume['type']==IncomeConsume::TYPE_INCOME){
-                    $class = "glyphicon glyphicon-plus";
-                }elseif($incomeConsume['type']==IncomeConsume::TYPE_CONSUME){
-                    $class = "glyphicon glyphicon-minus";
-                }
-                ?>
-                <td><span class="small <?=$class?>"></span><?=$incomeConsume['bitcoin']?></td>
-                <td><?=$incomeConsume->usageMode['usageModeName']?></td>
-                <td><?=$incomeConsume['createDate']?></td>
+                <td><?=$payRecord['money']?></td>
+                <td><?=$payRecord['bitcoin']?></td>
+                <td><?=$payRecord['createDate']?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
