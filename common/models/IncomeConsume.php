@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use frontend\functions\DateFunctions;
+use common\functions\DateFunctions;
 use Yii;
 use yii\base\Exception;
 

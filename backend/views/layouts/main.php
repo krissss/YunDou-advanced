@@ -222,7 +222,7 @@ AppAsset::register($this);
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= Url::to(['income-consume/rechange']) ?>">
+                                <a href="<?= Url::to(['income-consume/recharge']) ?>">
                                     <span class="menu-text">充值设置</span>
                                 </a>
                             </li>
