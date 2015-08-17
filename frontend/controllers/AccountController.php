@@ -30,7 +30,11 @@ class AccountController extends Controller
 
     /** 我的账户 */
     public function actionIndex(){
-        echo "<h1>我的账户，建设中。。。</h1>";
+        $user = Yii::$app->session->get('user');
+        $incomeConsumes = IncomeConsume::findByUser($user['userId']);
+        return $this->render('index',[
+            'incomeConsumes' => $incomeConsumes
+        ]);
     }
 
     /** 实名认证*/
@@ -88,6 +92,7 @@ class AccountController extends Controller
         throw new Exception("非法支付");
     }
 
+    /** 用户注册获取验证码 */
     public function actionGetYzm(){
         $request = Yii::$app->request;
         if($request->isAjax){

@@ -91,4 +91,11 @@ class IncomeConsume extends \yii\db\ActiveRecord
             throw new Exception("IncomeConsume user update error");
         }
     }
+
+    public static function findByUser($userId){
+        return IncomeConsume::find()
+            ->where(['userId'=>$userId])
+            ->orderBy(['createDate'=>SORT_DESC])
+            ->all();
+    }
 }

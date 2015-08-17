@@ -16,6 +16,11 @@ class CommonFunctions
         Yii::$app->session->setFlash('message_type',$message_type);
     }
 
+    /**
+     * 加密密码
+     * @param $str
+     * @return string
+     */
     public static function encrypt($str){
         return md5($str);
     }
@@ -24,6 +29,10 @@ class CommonFunctions
 
     }
 
+    /**
+     * 创建验证码
+     * @return int|string
+     */
     public static function createRecommendCode(){
         $code = time();
         $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
@@ -31,5 +40,21 @@ class CommonFunctions
             $code .= $pattern {mt_rand ( 0, 61 )}; //生成php随机数
         }
         return $code;
+    }
+
+    /**
+     * 创建http图片路径，仅适用与frontend
+     * @param $imagePath
+     * @return string
+     */
+    public static function createHttpImagePath($imagePath){
+        if($imagePath == null){
+            return "http://".$_SERVER['SERVER_NAME']."/frontend/web/images/default.jpg";
+        }
+        if(strpos($imagePath,"http")==0){
+            return $imagePath;
+        }else{
+            return "http://".$_SERVER['SERVER_NAME']."/frontend/web/images/".$imagePath;
+        }
     }
 }
