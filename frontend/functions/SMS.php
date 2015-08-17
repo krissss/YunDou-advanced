@@ -7,17 +7,18 @@ namespace frontend\functions;
 
 class SMS
 {
-    const API_KEY = "fbdfc21ca9755fef969b02208b1507e9";
+    const API_KEY = "9c56db9c1906de2c8c813e54b2b7377d";
 
     /**
      * 通用接口发短信
-     * @param $text //短信内容
+     * @param $yzm //短信验证码
      * @param $mobile  //接受短信的手机号
      * @return string
      */
-    public static function send_sms($text, $mobile){
+    public static function send_sms($yzm, $mobile){
         $apiKey = SMS::API_KEY;
         $url="http://yunpian.com/v1/sms/send.json";
+        $text = "【云宝网络】您的验证码是".$yzm."。如非本人操作，请忽略本短信";
         $encoded_text = urlencode("$text");
         $post_string="apikey=$apiKey&text=$encoded_text&mobile=$mobile";
         return self::sock_post($url, $post_string);
