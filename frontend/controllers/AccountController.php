@@ -8,6 +8,7 @@ use common\models\PracticeRecord;
 use common\models\Scheme;
 use common\models\Users;
 use frontend\filters\OpenIdFilter;
+use frontend\functions\SMS;
 use frontend\models\forms\RechargeForm;
 use frontend\models\forms\RegisterForm;
 use Yii;
@@ -69,6 +70,7 @@ class AccountController extends Controller
         return $this->render('recommend');
     }
 
+    /** 在线练习支付 */
     public function actionPay(){
         $request = Yii::$app->request;
         if($request->isAjax){
@@ -84,5 +86,24 @@ class AccountController extends Controller
             return true;
         }
         throw new Exception("非法支付");
+    }
+
+    public function actionGetYzm(){
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            $mobile = $request->post('mobile');
+            $yzm = mt_rand(100000,999999);
+            Yii::$app->cache->set($mobile,$yzm,600);    //验证码缓存10分钟
+            echo $yzm;
+            $text="【云豆在线学习】您的验证码是".$yzm."。如非本人操作，请忽略本短信";
+            $result = json_decode(SMS::send_sms($text,$mobile));
+            if($result->code == 0 && $result->msg == 'OK'){
+                return true;
+            }else{
+                echo json_encode($result);
+                return false;
+            }
+        }
+        throw new Exception("非法获取");
     }
 }

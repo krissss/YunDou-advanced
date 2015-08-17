@@ -6,6 +6,9 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
+$this->registerJsFile('frontend/web/js/yundou-register.js',['depends'=>['frontend\assets\AppAsset']]);
+//$this->registerJsFile('YunDou-advanced/frontend/web/js/yundou-register.js',['depends'=>['frontend\assets\AppAsset']]);
+
 $session = Yii::$app->session;
 $user = $session->get('user');
 $openId = $session->get('openId');
@@ -25,9 +28,10 @@ $openId = $session->get('openId');
     <?= $form->field($registerForm, 'realname') ?>
     <?= $form->field($registerForm, 'provinceId')->dropDownList(ArrayHelper::map($provinces,'provinceId','name'),['prompt'=>'请选择'])?>
     <?= $form->field($registerForm, 'majorJobId')->dropDownList(ArrayHelper::map($majorJobs,'majorJobId','name'),['prompt'=>'请选择'])?>
-    <?= $form->field($registerForm, 'cellphone') ?>
+    <?= $form->field($registerForm, 'cellphone')->textInput(['class'=>'form-control mobile']) ?>
     <?= $form->field($registerForm, 'yzm', [
-        'template' => "{label}<div class='col-xs-5 no-padding-left'>{input}</div><div class='col-xs-4 no-padding-left'><span class='btn btn-primary'>获取验证码</span></div><div class='col-xs-9 col-xs-offset-3'>{error}</div>",
+        'template' => "{label}<div class='col-xs-4 no-padding-left'>{input}</div><div class='col-xs-5 no-padding-left'>
+                    <span class='btn btn-primary get_yzm'>获取验证码</span></div><div class='col-xs-9 col-xs-offset-3'>{error}</div>",
         'labelOptions' => ['class'=>'col-xs-3 control-label'],
     ]) ?>
     <?= $form->field($registerForm, 'company') ?>

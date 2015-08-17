@@ -28,6 +28,7 @@ class RegisterForm extends Model
             [['majorJobId', 'provinceId'], 'integer'],
             [['nickname', 'company', 'address'], 'string', 'max' => 50],
             [['cellphone'], 'string','min'=>11, 'max' => 11],
+            [['yzm'], 'validateYZM'],
         ];
     }
 
@@ -44,6 +45,15 @@ class RegisterForm extends Model
             'yzm' => '验证码',
             'tjm' => '推荐码',
         ];
+    }
+
+    public function validateYZM($attribute){
+        $yzm = Yii::$app->cache->get($this->cellphone);
+        if(!$yzm){
+            $this->addError($attribute, '手机号与验证码不匹配');
+        }elseif($yzm != $this->yzm){
+            $this->addError($attribute, '验证码不正确');
+        }
     }
 
     public function init(){
@@ -85,6 +95,7 @@ class RegisterForm extends Model
         if(!$user->save()){
             throw new Exception("RegisterForm register Save Error");
         }
+        Yii::$app->cache->delete($user->cellphone); //注册成功后将验证码缓存清除
         Yii::$app->session->set('user',$user);
     }
 
