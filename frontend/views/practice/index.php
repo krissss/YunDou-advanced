@@ -11,7 +11,10 @@ $payBitcoin = $session->getFlash('payBitcoin');
 
 
 ?>
-
+<div class="load-container loading" style="display: none;">
+    <div class="loader">Loading...</div>
+    <p>题库资源载入中，请耐心等待。。。</p>
+</div>
 <div class="panel panel-info">
     <div class="panel-heading">顺序练习</div>
     <div class="panel-body">

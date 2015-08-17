@@ -5,7 +5,7 @@ $(document).ready(function(){
 
     $(".show_modal").click(function(){
         if(pay_modal.length==0){
-            window.location.href=$(this).data("href");
+            redirect($(this).data("href"));
         }else{
             redirect_url = $(this).data("href");
             pay_modal.modal('show');
@@ -16,7 +16,7 @@ $(document).ready(function(){
         var r = confirm("重新开始将重置顺序练习进度");
         if(r == true){
             if(pay_modal.length==0){
-                window.location.href=$(this).data("href");
+                redirect($(this).data("href"));
             }else{
                 redirect_url = $(this).data("href");
                 pay_modal.modal('show');
@@ -38,8 +38,9 @@ $(document).ready(function(){
                 alert(data);
             }else{
                 alert("支付成功");
+                pay_modal.modal('hide');
                 if(redirect_url){
-                    window.location.href=redirect_url;
+                    redirect(redirect_url);
                 }
             }
             pay_click_flag = false;
@@ -47,6 +48,11 @@ $(document).ready(function(){
     });
 
     $(".pay_redirect").click(function(){
-        window.location.href=$(this).data("href");
+        redirect($(this).data("href"));
     });
+
+    function redirect(url){
+        $(".loading").show();
+        window.location.href=url;
+    }
 });
