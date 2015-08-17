@@ -94,14 +94,12 @@ class AccountController extends Controller
             $mobile = $request->post('mobile');
             $yzm = mt_rand(100000,999999);
             Yii::$app->cache->set($mobile,$yzm,600);    //验证码缓存10分钟
-            echo $yzm;
             $text="【云豆在线学习】您的验证码是".$yzm."。如非本人操作，请忽略本短信";
             $result = json_decode(SMS::send_sms($text,$mobile));
             if($result->code == 0 && $result->msg == 'OK'){
                 return true;
             }else{
-                echo json_encode($result);
-                return false;
+                return json_encode($result);    //调试用，js端上线后不应该弹出
             }
         }
         throw new Exception("非法获取");

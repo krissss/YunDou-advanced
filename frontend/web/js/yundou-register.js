@@ -24,6 +24,8 @@ $(document).ready(function(){
         $.post("?r=account/get-yzm",{mobile:mobile},function(data){
             if(data == true){
                 alert("发送成功");
+            }else{
+                alert(data);    //调试用，上线后不应该弹出
             }
         });
     });
