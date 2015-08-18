@@ -14,7 +14,6 @@ $answers = str_replace('}',' ',$testLibrary['answer']);
 $testLibraryId = $testLibrary['testLibraryId'];
 $testTypeId = $testLibrary['testTypeId'];
 $preTypeId = $testLibrary['preTypeId'];
-$imagePath = Yii::$app->params['imagePath'];    //图片路径
 $smallPictures = explode('|',$testLibrary['pictureSmall']);   //小图片数组
 $bigPictures = explode('|',$testLibrary['pictureBig']);   //小图片数组
 $smallPictureIndex = 0;  //图片数组下标
