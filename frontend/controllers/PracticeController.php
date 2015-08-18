@@ -118,6 +118,8 @@ class PracticeController extends Controller
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
         //测试图片显示的$testLibraries
         //$testLibraries = TestLibrary::find()->where('pictureSmall is not null')->orWhere('pictureBig is not null')->andWhere(['majorJobId'=>4,'testTypeId'=>1])->all();
+        //测试案例题为多选
+        //$testLibraries = TestLibrary::find()->where('LENGTH(answer) > 10')->andWhere(['majorJobId'=>4,'testTypeId'=>4])->all();
         if(count($testLibraries)==0){
             echo "<h1>题库建设中</h1>";
             exit;

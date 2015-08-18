@@ -101,17 +101,32 @@ $(document).ready(function(){
         $("input[name=input_question_"+id+"]:checked").each(function(){
             value += $(this).val();
         });
-        var trueAnswer = $(".true_answer_"+id).text();
-        var answerType = 0;
-        if(value == trueAnswer){
-            answerType = 1; //0错误，1正确
-            $(".answer_type_" + id).text("答案正确");
+        if(testType == 4 ){ //案例题
+            var testLibraryId = id.split("_")[0];
+            var number = id.split("_")[1];
+            trueAnswer = $(".true_answer_"+testLibraryId).text();
+            var trueAnswers = trueAnswer.split(" ");
+            if(value == trueAnswers[number]){
+                answerType = 1;
+            }else{
+                answerType = 0;
+            }
+            $(".user_answer_"+id).text(value);
         }else{
-            answerType = 0; //0错误，1正确
-            $(".answer_type_" + id).text("答案错误");
+            var trueAnswer = $(".true_answer_"+id).text();
+            var answerType = 0;
+            if(value == trueAnswer){
+                answerType = 1; //0错误，1正确
+                $(".answer_type_" + id).text("答案正确");
+            }else{
+                answerType = 0; //0错误，1正确
+                $(".answer_type_" + id).text("答案错误");
+            }
+            $(".user_answer_"+id).text(value);
         }
+
         result.push({testLibraryId:id,answerType:answerType,testType:testType,preType:preType});
-        $(".user_answer_"+id).text(value);
+
     });
 
     $(".btn_over").click(function(){
