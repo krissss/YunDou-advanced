@@ -93,7 +93,7 @@ $payBitcoin = $session->getFlash('payBitcoin');
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary pay_click">确定</button>
-                <button type="button" class="btn btn-primary pay_redirect" data-href="<?=Url::to(['account/pay'])?>">去充值</button>
+                <button type="button" class="btn btn-primary pay_redirect" data-href="<?=Url::to(['account/recharge'])?>">去充值</button>
             </div>
         </div>
     </div>
