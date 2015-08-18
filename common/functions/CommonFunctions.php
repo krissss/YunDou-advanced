@@ -57,4 +57,38 @@ class CommonFunctions
             return "http://".$_SERVER['SERVER_NAME']."/frontend/web/images/".$imagePath;
         }
     }
+
+    /**
+     * 替换[simg]为图片，前台使用
+     * @param $preStr   //需要替换的字符串
+     * @param $pictures //图片数组
+     * @param $pictureIndex //图片数组下标
+     * @return String
+     */
+    public static function replaceSmallImage($preStr,$pictures,&$pictureIndex){
+        $imagePath = "./images/";
+        $imgCount = substr_count($preStr,'[simg]'); //计算数量
+        $finalStr = $preStr;  //最终构成的字符串
+        for($i=0;$i<$imgCount;$i++){    //逐个替换[img]为对应的图片
+            $finalStr = preg_replace('/\[simg\]/','<img class="inner_img_small" src="'.$imagePath.$pictures[$pictureIndex++].'">',$finalStr,1);
+        }
+        return $finalStr;
+    }
+
+    /**
+     * 替换[bimg]为图片，前台使用
+     * @param $preStr   //需要替换的字符串
+     * @param $pictures //图片数组
+     * @param $pictureIndex //图片数组下标
+     * @return String
+     */
+    public static function replaceBigImage($preStr,$pictures,&$pictureIndex){
+        $imagePath = "./images/";
+        $imgCount = substr_count($preStr,'[bimg]'); //计算数量
+        $finalStr = $preStr;  //最终构成的字符串
+        for($i=0;$i<$imgCount;$i++){    //逐个替换[img]为对应的图片
+            $finalStr = preg_replace('/\[bimg\]/','<div class="inner_img_big"><img src="'.$imagePath.$pictures[$pictureIndex++].'"></div>',$finalStr,1);
+        }
+        return $finalStr;
+    }
 }

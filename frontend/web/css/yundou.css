@@ -77,6 +77,17 @@ a:active {
 	padding-right: 15px !important;
 }
 
+.inner_img_small{
+	height: 17px;
+}
+.inner_img_big{
+    width: 100%;
+    text-align: center;
+}
+.inner_img_big img{
+    width: 300px;
+}
+
 
 /** practice/index */
 .nav-icon {

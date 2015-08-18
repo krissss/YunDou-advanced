@@ -116,6 +116,12 @@ class PracticeController extends Controller
         //$totalNumber = TestLibrary::findTotalNumber($user,$testTypeId);
         //$testLibraries = TestLibrary::findByUserAndTestType($user,$testTypeId,70,$currentNumber);
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
+        //测试图片显示的$testLibraries
+        $testLibraries = TestLibrary::find()->where('pictureSmall is not null')->andWhere(['majorJobId'=>13,'testTypeId'=>4])->all();
+        if(count($testLibraries)==0){
+            echo "<h1>题库建设中</h1>";
+            exit;
+        }
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
         //将一些必要参数存入session，方便后续页面调用
         $session->set('totalNumber',count($testLibraries)); //总题数

@@ -19,7 +19,8 @@ use yii\db\Query;
  * @property string $options
  * @property string $answer
  * @property string $analysis
- * @property string $picture
+ * @property string $pictureSmall
+ * @property string $pictureBig
  * @property string $score
  * @property string $status
  * @property string $createDate
@@ -46,7 +47,7 @@ class TestLibrary extends \yii\db\ActiveRecord
             [['createDate'], 'safe'],
             [['problem', 'question', 'options'], 'string', 'max' => 400],
             [['answer'], 'string', 'max' => 10],
-            [['analysis', 'picture'], 'string', 'max' => 200],
+            [['analysis', 'pictureSmall','pictureBig'], 'string', 'max' => 200],
             [['score'], 'string', 'max' => 20],
             [['status'], 'string', 'max' => 2],
             [['remark'], 'string', 'max' => 100]
@@ -70,7 +71,8 @@ class TestLibrary extends \yii\db\ActiveRecord
             'options' => 'Options',
             'answer' => 'Answer',
             'analysis' => 'Analysis',
-            'picture' => 'Picture',
+            'pictureSmall' => 'Picture Small',
+            'pictureBig' => 'Picture Big',
             'score' => 'Score',
             'status' => 'Status',
             'createDate' => 'Create Date',

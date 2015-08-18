@@ -5,6 +5,8 @@
 /** @var $collected boolean */
 /** @var $examFlag boolean */
 
+use common\functions\CommonFunctions;
+
 $session = Yii::$app->session;
 $questions = explode('|',$testLibrary['question']);
 $optionsAll = explode('}',$testLibrary['options']);
@@ -12,6 +14,11 @@ $answers = str_replace('}',' ',$testLibrary['answer']);
 $testLibraryId = $testLibrary['testLibraryId'];
 $testTypeId = $testLibrary['testTypeId'];
 $preTypeId = $testLibrary['preTypeId'];
+$imagePath = Yii::$app->params['imagePath'];    //图片路径
+$smallPictures = explode('|',$testLibrary['pictureSmall']);   //小图片数组
+$bigPictures = explode('|',$testLibrary['pictureBig']);   //小图片数组
+$smallPictureIndex = 0;  //图片数组下标
+$bigPictureIndex = 0;  //图片数组下标
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -33,7 +40,11 @@ $preTypeId = $testLibrary['preTypeId'];
     <?php endif; ?>
     <div class="panel-body">
         <h4>
-            <?= $questionNumber ?>.<?= $testLibrary['problem']; ?>
+            <?php
+            $problem = CommonFunctions::replaceSmallImage($testLibrary['problem'],$smallPictures,$smallPictureIndex);
+            $problem = CommonFunctions::replaceBigImage($problem,$bigPictures,$bigPictureIndex);
+            ?>
+            <?= $questionNumber ?>.<?= $problem; ?>
         </h4>
         <?php foreach($questions as $i=>$question):?>
             <?php
@@ -42,10 +53,17 @@ $preTypeId = $testLibrary['preTypeId'];
             ?>
             <form>
                 <h5>
-                    <?= $i+1 ?>.<?= $questions[$i]; ?>
+                    <?php
+                    $question = CommonFunctions::replaceSmallImage($questions[$i],$smallPictures,$smallPictureIndex);
+                    $question = CommonFunctions::replaceBigImage($question,$bigPictures,$bigPictureIndex);
+                    ?>
+                    <?= $i+1 ?>.<?= $question; ?>
                 </h5>
                 <?php foreach ($options as $option): ?>
-                    <?php $value = substr(trim($option), 0, 1); ?>
+                    <?php
+                    $value = substr(trim($option), 0, 1);
+                    $option = CommonFunctions::replaceSmallImage($option,$smallPictures,$smallPictureIndex);
+                    ?>
                     <div class="form-group">
                         <input id="input_<?= $id ?>_<?= $value ?>" name="input_question_<?= $id ?>" type="radio" value="<?= $value ?>"
                                data-id="<?= $id ?>" data-testtype="<?=$testTypeId?>" data-pretype="<?=$preTypeId?>">

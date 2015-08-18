@@ -5,11 +5,18 @@
 /** @var $collected boolean */
 /** @var $examFlag boolean */
 
+use common\functions\CommonFunctions;
+
 $session = Yii::$app->session;
 $options = explode('|', $testLibrary['options']);
 $id = $testLibrary['testLibraryId'];
 $testTypeId = $testLibrary['testTypeId'];
 $preTypeId = $testLibrary['preTypeId'];
+$imagePath = Yii::$app->params['imagePath'];    //图片路径
+$smallPictures = explode('|',$testLibrary['pictureSmall']);   //小图片数组
+$bigPictures = explode('|',$testLibrary['pictureBig']);   //小图片数组
+$smallPictureIndex = 0;  //图片数组下标
+$bigPictureIndex = 0;  //图片数组下标
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -32,10 +39,17 @@ $preTypeId = $testLibrary['preTypeId'];
     <div class="panel-body">
         <form>
             <h4>
-                <?= $questionNumber ?>.<?= $testLibrary['question']; ?>
+                <?php
+                $question = CommonFunctions::replaceSmallImage($testLibrary['question'],$smallPictures,$smallPictureIndex);
+                $question = CommonFunctions::replaceBigImage($question,$bigPictures,$bigPictureIndex);
+                ?>
+                <?= $questionNumber ?>.<?= $question; ?>
             </h4>
             <?php foreach ($options as $option): ?>
-                <?php $value = substr(trim($option), 0, 1); ?>
+                <?php
+                $value = substr(trim($option), 0, 1);   //A、B、C、D
+                $option = CommonFunctions::replaceSmallImage($option,$smallPictures,$smallPictureIndex);
+                ?>
                 <div class="form-group">
                     <input id="input_<?= $id ?>_<?= $value ?>" name="input_question_<?= $id ?>" type="radio" value="<?= $value ?>"
                            data-id="<?= $id ?>" data-testtype="<?=$testTypeId?>" data-pretype="<?=$preTypeId?>">
