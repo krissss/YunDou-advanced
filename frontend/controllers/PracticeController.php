@@ -117,7 +117,7 @@ class PracticeController extends Controller
         //$testLibraries = TestLibrary::findByUserAndTestType($user,$testTypeId,70,$currentNumber);
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
         //测试图片显示的$testLibraries
-        $testLibraries = TestLibrary::find()->where('pictureSmall is not null')->andWhere(['majorJobId'=>13,'testTypeId'=>4])->all();
+        //$testLibraries = TestLibrary::find()->where('pictureSmall is not null')->orWhere('pictureBig is not null')->andWhere(['majorJobId'=>4,'testTypeId'=>1])->all();
         if(count($testLibraries)==0){
             echo "<h1>题库建设中</h1>";
             exit;
