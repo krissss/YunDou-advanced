@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\caching\DbDependency;
 use yii\db\Query;
 
 /**
@@ -130,16 +131,28 @@ class TestLibrary extends \yii\db\ActiveRecord
      */
     public static function findAllByUserAndTestType($user,$testTypeId){
         if($testTypeId == -1){
-            return TestLibrary::find()
-                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId']])
-                ->asArray()
-                ->all();
+            $dependency = new DbDependency([
+                'sql'=> 'select count(*) from testlibrary where provinceId='.$user['provinceId'].' and majorJobId='.$user['majorJobId']
+            ]);
+            $result = Collection::getDb()->cache(function () use ($user) {
+                return TestLibrary::find()
+                    ->where(['provinceId' => $user['provinceId'], 'majorJobId' => $user['majorJobId']])
+                    ->asArray()
+                    ->all();
+            },null,$dependency);
         }else{
-            return TestLibrary::find()
-                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
-                ->asArray()
-                ->all();
+            $dependency = new DbDependency([
+                'sql'=> 'select count(*) from testlibrary where provinceId='.$user['provinceId'].' and majorJobId='.$user['majorJobId'].' and testTypeId='.$testTypeId
+            ]);
+            $result = Collection::getDb()->cache(function () use ($user,$testTypeId) {
+                return TestLibrary::find()
+                    ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
+                    ->asArray()
+                    ->all();
+            },null,$dependency);
         }
+        return $result;
+
     }
 
     /**
@@ -185,11 +198,15 @@ class TestLibrary extends \yii\db\ActiveRecord
         }
         $table = TestLibrary::tableName();
         if($testTypeId == -1){
-            $subQuery = (new Query())->select('testLibraryId')->from($table);
+            $subQuery = (new Query())->select('testLibraryId')
+                ->from($table)
+                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId']]);
         }else{
-            $subQuery = (new Query())->select('testLibraryId')->from($table)->where(['testTypeId'=>$testTypeId]);
+            $subQuery = (new Query())->select('testLibraryId')
+                ->from($table)
+                ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId]);
         }
-        $query = (new Query())->select('count(*)')->from([$subQuery])->where(['<','testLibraryId',$current['testLibraryId']]);
+        $query = (new Query())->select('count(*)')->from([$subQuery])->where(['<=','testLibraryId',$current['testLibraryId']]);
         $result = $query->one();
         return $result['count(*)'];
     }
