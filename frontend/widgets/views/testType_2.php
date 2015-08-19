@@ -50,7 +50,7 @@ $bigPictureIndex = 0;  //图片数组下标
                 $option = CommonFunctions::replaceSmallImage($option,$smallPictures,$smallPictureIndex);
                 ?>
                 <div class="form-group">
-                    <input id="input_<?= $id ?>_<?= $value ?>" name="input_question_<?= $id ?>" type="radio" value="<?= $value ?>"
+                    <input id="input_<?= $id ?>_<?= $value ?>" name="input_question_<?= $id ?>" type="checkbox" value="<?= $value ?>"
                            data-id="<?= $id ?>" data-testtype="<?=$testTypeId?>" data-pretype="<?=$preTypeId?>">
                     <label for="input_<?=$id?>_<?= $value ?>"><?= $option ?></label>
                 </div>
