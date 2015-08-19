@@ -31,7 +31,26 @@ class PracticeController extends Controller
             ],[
                 'class' => PracticeRecordFilter::className(),
                 'only' => ['index','normal','single']
-            ]
+            ],
+            /*'pageCache' => [
+                'class' => 'yii\filters\PageCache',
+                'only' => ['normal'],
+                'duration' => 60,
+                'dependency' => [
+                    'class' => 'yii\caching\DbDependency',
+                    'sql' => 'SELECT COUNT(*) FROM testLibrary',
+                ], 'variations' => [
+                    Yii::$app->request->get('type')
+                ],
+            ],[
+                'class' => 'yii\filters\PageCache',
+                'only' => ['normal'],
+                'duration' => 10,
+                'dependency' => [
+                    'class' => 'yii\caching\DbDependency',
+                    'sql' => 'SELECT COUNT(*) FROM testLibrary',
+                ]
+            ]*/
         ];
     }
 
@@ -42,8 +61,9 @@ class PracticeController extends Controller
     public function actionIndex(){
         //首页获取collections，以备后面要用
         $session = Yii::$app->session;
+        //$session->removeAll();
         $user = $session->get('user');
-        $collections = Collection::findAll(['userId'=>$user['userId']]);
+        $collections = Collection::findAllByUser($user['userId']);
         //以testLibraryId为索引，方便以后查key是否存在
         $collections = ArrayHelper::index($collections,'testLibraryId');
         $session->set('collections',$collections);
@@ -68,6 +88,7 @@ class PracticeController extends Controller
         }else{
             throw new Exception("practice/normal type does not defined");
         }
+        //$testLibraries = TestLibrary::findByUserAndTestType($user,$testTypeId,50,$currentNumber);
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
         //将一些必要参数存入session，方便后续页面调用

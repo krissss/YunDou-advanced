@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\caching\DbDependency;
 
 /**
  * This is the model class for table "majorjob".
@@ -47,9 +48,17 @@ class MajorJob extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * 查询专业岗位名称
+     * @param $majorJobId
+     * @return mixed
+     * @throws \Exception
+     */
     public static function findNameByMajorJobId($majorJobId){
-        $majorJob = MajorJob::findOne($majorJobId);
-        return $majorJob->name;
+        $result = Collection::getDb()->cache(function () use ($majorJobId) {
+            return MajorJob::findOne($majorJobId);
+        });
+        return $result->name;
     }
 
     /**
@@ -57,19 +66,12 @@ class MajorJob extends \yii\db\ActiveRecord
      * @return \common\models\MajorJob[]
      */
     public static function findAllForObject(){
-        $majorJobs = MajorJob::find()->all();
-        return $majorJobs;
-    }
-
-    /**
-     * 查询所有职业岗位，返回json
-     * @return string||json
-     */
-    public static function findAllForJson(){
-        $majorJobs = MajorJob::find()
-            ->select(['majorJobId as value','name as text'])
-            ->asArray()
-            ->all();
-        return json_encode($majorJobs);
+        $dependency = new DbDependency([
+            'sql'=> 'select count(*) from majorjob'
+        ]);
+        $result = Collection::getDb()->cache(function () {
+            return MajorJob::find()->all();
+        },null,$dependency);
+        return $result;
     }
 }

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\caching\DbDependency;
 
 /**
  * This is the model class for table "province".
@@ -52,19 +53,12 @@ class Province extends \yii\db\ActiveRecord
      * @return \common\models\Province[]
      */
     public static function findAllForObject(){
-        $provinces = Province::find()->all();
-        return $provinces;
-    }
-
-    /**
-     * 查询所有省份，返回json
-     * @return string||json
-     */
-    public static function findAllForJson(){
-        $provinces = Province::find()
-            ->select(['provinceId as value','name as text'])
-            ->asArray()
-            ->all();
-        return json_encode($provinces);
+        $dependency = new DbDependency([
+            'sql'=> 'select count(*) from province'
+        ]);
+        $result = Collection::getDb()->cache(function () {
+            return Province::find()->all();
+        },null,$dependency);
+        return $result;
     }
 }
