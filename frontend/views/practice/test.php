@@ -18,9 +18,9 @@ $session = Yii::$app->session;
 <input type="hidden" name="currentNumber" value="<?=$currentNumber?>">
 <input type="hidden" name="currentTestLibraryId" value="<?=$testLibraries[$currentNumber]['testLibraryId']?>">
 <?php foreach($testLibraries as $i=>$testLibrary): ?>
-    <?//php if ($this->beginCache($testLibrary['testLibraryId'], ['duration' => 60])) :?>
+    <?php if ($this->beginCache($testLibrary['testLibraryId'], ['duration' => 3600])) :?>
         <div class="test_library my_hide">
             <?= \frontend\widgets\TestTypeWidget::widget(['testLibrary'=>$testLibrary,'questionNumber'=>$i+1])?>
         </div>
-    <?//php $this->endCache(); endif;?>
+    <?php $this->endCache(); endif;?>
 <?php endforeach; ?>
