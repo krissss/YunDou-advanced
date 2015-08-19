@@ -2,13 +2,12 @@
 
 use yii\helpers\Url;
 
-$this->registerJsFile('frontend/web/js/yundou-practice-index.js',['depends'=>['frontend\assets\AppAsset']]);
+//$this->registerJsFile('frontend/web/js/yundou-practice-index.js',['depends'=>['frontend\assets\AppAsset']]);
 //$this->registerJsFile('YunDou-advanced/frontend/web/js/yundou-practice-index.js',['depends'=>['frontend\assets\AppAsset']]);
 
 $session = Yii::$app->session;
 $leftBitcoin = $session->getFlash('leftBitcoin');
 $payBitcoin = $session->getFlash('payBitcoin');
-
 
 ?>
 <div class="load-container loading" style="display: none;">

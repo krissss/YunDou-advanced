@@ -8,19 +8,14 @@
 use common\functions\CommonFunctions;
 
 $session = Yii::$app->session;
-
-$id = $testLibrary['testLibraryId'];
-if ($this->beginCache("part1_".$id, ['duration' => 3600])) :
-
 $options = explode('|', $testLibrary['options']);
+$id = $testLibrary['testLibraryId'];
 $testTypeId = $testLibrary['testTypeId'];
 $preTypeId = $testLibrary['preTypeId'];
 $smallPictures = explode('|',$testLibrary['pictureSmall']);   //小图片数组
 $bigPictures = explode('|',$testLibrary['pictureBig']);   //小图片数组
 $smallPictureIndex = 0;  //图片数组下标
 $bigPictureIndex = 0;  //图片数组下标
-
-$this->endCache(); endif;
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -40,7 +35,6 @@ $this->endCache(); endif;
         <div class="clearfix"></div>
     </div>
     <?php endif; ?>
-    <?php if ($this->beginCache("part2_".$id, ['duration' => 3600])) :?>
     <div class="panel-body">
         <form>
             <h4>
@@ -70,11 +64,9 @@ $this->endCache(); endif;
             <?php endif; ?>
         </div>
         <div class="col-xs-6 text-center">
-            <?php $this->endCache(); endif;?>
             <?php if(!$examFlag):   //非考试显示答案?>
             <button class="btn btn-primary show_answer text-center" data-id="<?= $id ?>">答案</button>
             <?php endif;?>
-            <?php if ($this->beginCache("part3_".$id, ['duration' => 3600])) :?>
         </div>
         <div class="col-xs-3">
             <?php if($questionNumber == $session->get('totalNumber')):  //最后一题?>
@@ -84,7 +76,6 @@ $this->endCache(); endif;
             <?php endif; ?>
         </div>
         <div class="clearfix"></div>
-        <?php $this->endCache(); endif;?>
         <?php if(!$examFlag):   //非考试显示答案?>
         <div class="my_hide answer_show answer_show_<?= $id ?>">
             <div class="answer_type_<?= $id ?>"></div>
@@ -94,7 +85,5 @@ $this->endCache(); endif;
             </div>
         </div>
         <?php endif;?>
-        <?php if ($this->beginCache("part4_".$id, ['duration' => 3600])) :?>
     </div>
-    <?php $this->endCache(); endif;?>
 </div>

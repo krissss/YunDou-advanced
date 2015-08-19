@@ -1,220 +1,286 @@
 $(document).ready(function(){
-    //弃用
+    /**  account/register */
+    var yzmFlag = false;    //是否正在获取验证码的标志
+    $(".get_yzm").click(function(){
+        if(yzmFlag){    //如过正在获取，则不允许再点击
+            alert("60秒内请勿重复点击");
+            return false;
+        }
+        yzmFlag = true;
+        var mobile = $(".mobile").val();
+        var leftTime = 60;
+        $this = $(this);
+        $this.removeClass("btn-primary").addClass("btn-default");
+        $this.text(leftTime + "秒后可重新获取");
+        var setIntervalResult = setInterval(function(){ //60秒内最多发一条
+            if(leftTime == 0){
+                window.clearInterval(setIntervalResult);
+                $this.text("获取验证码");
+                $this.removeClass("btn-default").addClass("btn-primary");
+                yzmFlag = false;
+            }else{
+                $this.text(--leftTime + "秒后可重新获取");
+            }
+        },1000);
+        $.post("?r=account/get-yzm",{mobile:mobile},function(data){
+            if(data == true){
+                alert("发送成功");
+            }else{
+                alert(data);    //调试用，上线后不应该弹出
+            }
+        });
+    });
 
-    /**
-     * 答对答错的解析显示
-     */
-    $(function(){
-        if($("#examFlag").val()!="exam") {
-            $("#analysis").hide();
-            var csrfToken = $('meta[name="csrf-token"]').attr("content");
-            var answer = $("#answer").data("answer");
-            var user_answer = "";
-            var testLibraryId = parseInt($("#testLibraryId").data("id"));
-            var answerType = "";
+    /** practice/index */
+    var pay_modal = $("#pay_modal");
 
-            //单选
-            $("input[name=danxuan]").change(function () {
-                user_answer = $("input[name=danxuan]:checked").val();
-                if (user_answer == answer) {
-                    answerType = 'right';
-                    $(this).parent(".mui-radio").addClass("right");
-                } else {
-                    answerType = 'wrong';
-                    $(this).parent(".mui-radio").addClass("wrong");
-                    $("#" + answer).addClass("right");
-                }
-                $("input[name=danxuan]").attr("disabled", "disabled");
-                $("#analysis").show();
-                $.ajax({
-                    type: "post",
-                    url: "index.php?r=practice/single-save",
-                    cache: false,
-                    async: true,
-                    data: {_csrf: csrfToken, type: answerType, testLibraryId: testLibraryId},
-                    dataType: "text",
-                    success: function (date) {
-                        if (date != 'success') {
-                            alert(date);
-                        }
-                    }
-                });
-            });
+    var redirect_url = "";
 
-            //判断
-            $("input[name=panduan]").change(function () {
-                user_answer = $("input[name=panduan]:checked").val();
-                if (user_answer == answer) {
-                    answerType = 'right';
-                    $(this).parent(".mui-radio").addClass("right");
-                } else {
-                    answerType = 'wrong';
-                    $(this).parent(".mui-radio").addClass("wrong");
-                    $("#" + answer).addClass("right");
-                }
-                $("input[name=panduan]").attr("disabled", "disabled");
-                $("#analysis").show();
-                $.ajax({
-                    type: "post",
-                    url: "index.php?r=practice/single-save",
-                    cache: false,
-                    async: true,
-                    data: {_csrf: csrfToken, type: answerType, testLibraryId: testLibraryId},
-                    dataType: "text",
-                    success: function (date) {
-                        if (date != 'success') {
-                            alert(date);
-                        }
-                    }
-                });
-            });
-
-            //多选
-            $("input[name=duoxuan]").change(function () {
-                user_answer = "";
-                $("input[name=duoxuan]:checked").each(function () {
-                    user_answer += $(this).val();
-                });
-                if (user_answer) {
-                    $("#duoxuan-ok").addClass("question-btn-active");
-                } else {
-                    $("#duoxuan-ok").removeClass("question-btn-active");
-                }
-            });
-            $("#duoxuan-ok").click(function () {
-                if ($(this).hasClass("question-btn-active")) {
-                    var i = 0;
-                    if (user_answer == answer) {
-                        answerType = 'right';
-                        for (i = 0; i < answer.length; i++) {
-                            $("#" + answer[i]).addClass("right");
-                        }
-                    } else {
-                        answerType = 'wrong';
-                        for (i = 0; i < answer.length; i++) {
-                            $("#" + answer[i]).addClass("right");
-                        }
-                        for (i = 0; i < user_answer.length; i++) {
-                            var obj = $("#" + user_answer[i]);
-                            if (!obj.hasClass("right")) {
-                                obj.addClass("wrong");
-                            }
-                        }
-                    }
-                    $("input[name=duoxuan]").attr("disabled", "disabled");
-                    $("#analysis").show();
-                    $.ajax({
-                        type: "post",
-                        url: "index.php?r=practice/single-save",
-                        cache: false,
-                        async: true,
-                        data: {_csrf: csrfToken, type: answerType, testLibraryId: testLibraryId},
-                        dataType: "text",
-                        success: function (date) {
-                            if (date != 'success') {
-                                alert(date);
-                            }
-                        }
-                    });
-                }
-            });
-
-            //案例
-            var questionNumber = $(".mui-input-group").length;
-            $("input[type=radio]").change(function () {
-                var parent = $(this).parent().parent(".mui-input-group");
-                parent.addClass("done");
-                parent.attr("data-user_answer", $(this).val());
-                if ($(".done").length == questionNumber) {
-                    $("#anli-ok").addClass("question-btn-active");
-                }
-            });
-            $("#anli-ok").click(function () {
-                if ($(".done").length == questionNumber) {
-                    var obj = "";
-                    for (var i = 1; i <= questionNumber; i++) {
-                        obj = $("#question_" + i);
-                        answer = obj.data('answer');
-                        user_answer = obj.data('user_answer');
-                        if (answer == user_answer) {
-                            answerType = 'right';
-                            obj.children("." + answer).addClass("right");
-                        } else {
-                            answerType = 'wrong';
-                            obj.children("." + user_answer).addClass("wrong");
-                            obj.children("." + answer).addClass("right");
-                        }
-                    }
-                    $("input[type=radio]").attr("disabled", "disabled");
-                    $("#analysis").show();
-                    $.ajax({
-                        type: "post",
-                        url: "index.php?r=practice/single-save",
-                        cache: false,
-                        async: true,
-                        data: {_csrf: csrfToken, type: answerType, testLibraryId: testLibraryId},
-                        dataType: "text",
-                        success: function (date) {
-                            if (date != 'success') {
-                                alert(date);
-                            }
-                        }
-                    });
-                }
-            });
+    $(".show_modal").click(function(){
+        if(pay_modal.length==0){
+            redirect($(this).data("href"));
         }else{
-            var number = 1; //题目编号
-            var max = parseInt($(".totalNumber").text());   //题目数
-            var lastFlag = false;   //最后一题的标志
-            var anliFlag = false;   //案例题的标志
-            $(".question_"+number).removeClass("mui-hidden");
-            $(".next_question").click(function(){
-                var input = $(".input_question_"+number);
-                if(input.length==0){    //表明当前题目是案例题
-                    input = $(".input_question_anli_"+number);
-                    anliFlag = true;
-                }
-                var userAnswer = "";
-                var length = input.length;
-                for(var i=0;i<length;i++){
-                    if(input[i].checked){
-                        if(anliFlag){   //案例题答案合成
-                            userAnswer += input[i].value+"}";
-                        }else{  //非案例题答案合成
-                            userAnswer += input[i].value;
-                        }
-                    }
-                }
-                if(userAnswer){
-                    $(".answer_"+number).attr("data-useranswer",userAnswer);
-                }
-                if(!lastFlag){  //点击到最后一题
-                    $(".question_"+number).addClass("mui-hidden");
-                    $(".question_"+(++number)).removeClass("mui-hidden");
-                    $(".currentNumber").text(number);
-                    if(number >= max){  //点到最后一题
-                        $(this).text("完成");
-                        lastFlag = true;
-                    }
-                }else{  //点击完成按钮后的处理
-                    $("header").hide(); //隐藏header
-                    $(".question_"+number).addClass("mui-hidden");  //隐藏最后一题
-                    $(this).hide(); //隐藏完成按钮
-                    var rightNumber = 0;
-                    var wrongNumber = 0;
-                    $(".allAnswers").each(function(key,obj){
-                        if($(obj).data('answer') == $(obj).data('useranswer')){
-                            rightNumber++;
-                        }else{
-                            wrongNumber++;
-                        }
-                    });
-                    $(".rightNumber").text(rightNumber);
-                    $(".wrongNumber").text(wrongNumber);
-                    $("#over").removeClass("mui-hidden");   //显示结束界面
-                }
-            });
+            redirect_url = $(this).data("href");
+            pay_modal.modal('show');
         }
     });
+
+    $(".show_modal_restart").click(function(){
+        var r = confirm("重新开始将重置顺序练习进度");
+        if(r == true){
+            if(pay_modal.length==0){
+                redirect($(this).data("href"));
+            }else{
+                redirect_url = $(this).data("href");
+                pay_modal.modal('show');
+            }
+        }
+        return false;
+    });
+
+    var pay_click_flag = false;
+    $(".pay_click").click(function(){
+        if(pay_click_flag){
+            alert("正在支付，请勿频繁点击");
+            return false;
+        }
+        pay_click_flag = true;
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+        $.post("?r=account/pay", {_csrf: csrfToken},function(data){
+            if(data!=true){
+                alert(data);
+            }else{
+                alert("支付成功");
+                pay_modal.modal('hide');
+                if(redirect_url){
+                    redirect(redirect_url);
+                }
+            }
+            pay_click_flag = false;
+        });
+    });
+
+    $(".pay_redirect").click(function(){
+        redirect($(this).data("href"));
+    });
+
+    function redirect(url){
+        $(".loading").show();
+        window.location.href=url;
+    }
+
+
+    /** practice/test */
+    $(".loading").hide();
+
+    var questionNumber; //题号，获取当前题号，用于显示上下一题
+    var testLibraries = $(".test_library");
+
+    var examFlag = $("input[name=examFlag]").val(); //模拟考试的标志
+
+    if(examFlag){   //如果是模拟考试
+        questionNumber = 0;
+        //模拟考试倒计时
+        var TOTAL_TIME = 150;    //总时间
+        var leftTime = 150;    //剩余时间
+        var setIntervalResult = setInterval(function(){ //每分钟减一
+            if(leftTime == 0){
+                window.clearInterval(setIntervalResult);
+                over();
+            }
+            $(".time").text(leftTime--);
+        },60000);
+    }else{
+        questionNumber= $("input[name=currentNumber]").val();
+        var currentTestLibraryId = $("input[name=currentTestLibraryId]").val(); //当前题目的testLibraryId，用于判断是否要记录当前做到哪一题
+    }
+    //显示第一题
+    testLibraries.eq(questionNumber).show();
+
+    //显示上一题
+    $(".previous_text_library").click(function(){
+        testLibraries.eq(questionNumber).hide();
+        questionNumber--;
+        testLibraries.eq(questionNumber).show();
+    });
+
+    //显示下一题
+    $(".next_test_library").click(function(){
+        testLibraries.eq(questionNumber).hide();
+        questionNumber++;
+        testLibraries.eq(questionNumber).show();
+        if(examFlag != 'examFlag') {    //非模拟考试情况下执行
+            var id = $(this).data("id");
+            if(id > currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
+                var csrfToken = $('meta[name="csrf-token"]').attr("content");
+                var answerType = $("input[name=answer_type_" + id + "]").val();
+                $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
+            }
+        }
+    });
+
+    //最后一题点击后
+    $(".over_test_library").click(function(){
+        if(examFlag != 'examFlag') {    //非模拟考试情况下执行
+            var id = $(this).data("id");
+            if(id > currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
+                var csrfToken = $('meta[name="csrf-token"]').attr("content");
+                var answerType = $("input[name=answer_type_" + id + "]").val();
+                $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
+            }
+        }
+        over();
+    });
+
+    var result = [];    //存放结果，是一个json数组
+    $("input[type=radio]").click(function(){
+        var id = $(this).data("id");
+        var testType = $(this).data("testtype");
+        var preType = $(this).data("pretype");
+        var value = $(this).val();
+        var trueAnswer;
+        var answerType = 0; //0错误，1正确
+        if(testType == 4 ){ //案例题
+            var testLibraryId = id.split("_")[0];
+            var number = id.split("_")[1];
+            trueAnswer = $(".true_answer_"+testLibraryId).text();
+            var trueAnswers = trueAnswer.split(" ");
+            if(value == trueAnswers[number]){
+                answerType = 1;
+            }else{
+                answerType = 0;
+            }
+            $(".user_answer_"+id).text(value);
+        }else{
+            trueAnswer = $(".true_answer_"+id).text();
+            if(value == trueAnswer){
+                answerType = 1;
+                $(".answer_type_" + id).text("答案正确");
+            }else{
+                answerType = 0;
+                $(".answer_type_" + id).text("答案错误");
+            }
+            $(".user_answer_"+id).text(value);
+        }
+        result.push({testLibraryId:id,answerType:answerType,testType:testType,preType:preType});
+    });
+
+    $("input[type=checkbox]").click(function(){
+        var id = $(this).data("id");
+        var testType = $(this).data("testtype");
+        var preType = $(this).data("pretype");
+        var value = "";
+        $("input[name=input_question_"+id+"]:checked").each(function(){
+            value += $(this).val();
+        });
+        if(testType == 4 ){ //案例题
+            var testLibraryId = id.split("_")[0];
+            var number = id.split("_")[1];
+            trueAnswer = $(".true_answer_"+testLibraryId).text();
+            var trueAnswers = trueAnswer.split(" ");
+            if(value == trueAnswers[number]){
+                answerType = 1;
+            }else{
+                answerType = 0;
+            }
+            $(".user_answer_"+id).text(value);
+        }else{
+            var trueAnswer = $(".true_answer_"+id).text();
+            var answerType = 0;
+            if(value == trueAnswer){
+                answerType = 1; //0错误，1正确
+                $(".answer_type_" + id).text("答案正确");
+            }else{
+                answerType = 0; //0错误，1正确
+                $(".answer_type_" + id).text("答案错误");
+            }
+            $(".user_answer_"+id).text(value);
+        }
+
+        result.push({testLibraryId:id,answerType:answerType,testType:testType,preType:preType});
+
+    });
+
+    $(".btn_over").click(function(){
+        over();
+    });
+
+    $(".show_answer").click(function(){
+        var id = $(this).data('id');
+        $(".answer_show_" + id).show(200);
+    });
+
+    $(".add_collection").click(function(){
+        var id = $(this).data('id');
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+        var $this = $(this);
+        if($this.hasClass("btn-danger")){
+            $this.removeClass("btn-danger").addClass("btn-primary");
+        }else{
+            $this.removeClass("btn-primary").addClass("btn-danger");
+        }
+        $.post("?r=practice/collection", {_csrf: csrfToken, testLibraryId: id},function(data){
+            if(data == 'delete'){
+                $this.removeClass("btn-danger").addClass("btn-primary");
+            }else if(data == 'collected'){
+                $this.removeClass("btn-primary").addClass("btn-danger");
+            }else{
+                alert("返回值无效，收藏失败");
+            }
+        });
+    });
+
+    function over(){
+        if(examFlag) {   //如果是模拟考试
+            post("?r=exam/over",JSON.stringify(result),TOTAL_TIME-leftTime);
+        }else{
+            post("?r=practice/over",JSON.stringify(result),null);
+        }
+    }
+
+    function post(URL, jsonArray, time) {
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+        var temp = document.createElement("form");
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        var opt = document.createElement("textarea");
+        opt.name = '_csrf';
+        opt.value = csrfToken;
+        temp.appendChild(opt);
+        opt = document.createElement("textarea");
+        opt.name = 'result';
+        opt.value = jsonArray;
+        temp.appendChild(opt);
+        if(time!=null){
+            opt = document.createElement("textarea");
+            opt.name = 'time';
+            opt.value = time;
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
 
 });

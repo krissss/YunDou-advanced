@@ -50,7 +50,15 @@ class PracticeController extends Controller
                     'class' => 'yii\caching\DbDependency',
                     'sql' => 'SELECT COUNT(*) FROM testLibrary',
                 ]
-            ]*/
+            ],*/
+            /*'httpCache'=> [
+                'class' => 'yii\filters\HttpCache',
+                'only' => ['normal'],
+                'lastModified' => function ($action, $params) {
+                    $q = new \yii\db\Query();
+                    return $q->from('testLibrary')->count();
+                },
+            ],*/
         ];
     }
 
