@@ -3,8 +3,8 @@
 
 use yii\widgets\ActiveForm;
 
-require_once "../../functions/wxPayLibs/WxPay.Api.php";
-require_once "../../functions/wxPay/WxPay.JsApiPay.php";
+require_once "./../functions/wxPayLibs/WxPay.Api.php";
+require_once "./../functions/wxPay/WxPay.JsApiPay.php";
 
 //①、获取用户openid
 $session = Yii::$app->session;
