@@ -91,7 +91,11 @@ class AccountController extends Controller
     public function actionRecharge(){
         $rechargeForm = new RechargeForm();
         if($rechargeForm->load(Yii::$app->request->post()) && $rechargeForm->validate()){
-            //
+            $order = $rechargeForm->generateOrder();
+            return $this->render('recharge',[
+                'rechargeForm' => $rechargeForm,
+                'order' => $order
+            ]);
         }
         return $this->render('recharge',[
             'rechargeForm' => $rechargeForm

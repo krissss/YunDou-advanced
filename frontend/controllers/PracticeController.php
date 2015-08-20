@@ -146,7 +146,7 @@ class PracticeController extends Controller
         $currentNumber = TestLibrary::findCurrentNumber($user,$testTypeId);
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
         //测试图片
-        //$testLibraries = TestLibrary::find()->where('pictureBig is not null')->all();
+        //$testLibraries = TestLibrary::find()->where('pictureBig is not null')->orWhere('pictureSmall is not null')->all();
         if(count($testLibraries)==0){
             echo "<h1>题库建设中</h1>";
             exit;
