@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    var body = $("body");
+
     /**  account/register */
     var yzmFlag = false;    //是否正在获取验证码的标志
     $(".get_yzm").click(function(){
@@ -94,7 +96,10 @@ $(document).ready(function(){
     $(".loading").hide();
 
     var questionNumber; //题号，获取当前题号，用于显示上下一题
-    var testLibraries = $(".test_library");
+    var minNumber = parseInt($("input[name=minNumber]").val()); //当前显示的最小题号
+    var maxNumber = parseInt($("input[name=maxNumber]").val()); //当前显示的最大题号
+
+    //var testLibraries = $(".test_library");
 
     var examFlag = $("input[name=examFlag]").val(); //模拟考试的标志
 
@@ -115,21 +120,53 @@ $(document).ready(function(){
         var currentTestLibraryId = $("input[name=currentTestLibraryId]").val(); //当前题目的testLibraryId，用于判断是否要记录当前做到哪一题
     }
     //显示第一题
-    testLibraries.eq(questionNumber).show();
-
+    $(".test_library_"+questionNumber).show();
+    var defaultOnceNumber = 10;  //需要与params-local.php中保持一致
     //显示上一题
-    $(".previous_text_library").click(function(){
-        testLibraries.eq(questionNumber).hide();
-        questionNumber--;
-        testLibraries.eq(questionNumber).show();
+    var minNumberFlag = false;
+    body.on("click",".previous_text_library",function(){
+        if(minNumber == questionNumber){
+            alert("题目还没加载出来，请稍后点击");
+        }else{
+            $(".test_library_"+questionNumber).hide();
+            $(".test_library_"+(--questionNumber)).show();
+        }
+        if((minNumber+5) >= questionNumber){    //当前题号达到一定值时需要去ajax获取数据
+            if(minNumberFlag){  //避免点击后还没请求完再次请求
+                return false;
+            }else{
+                minNumberFlag = true;
+                $.post("?r=practice/get-data",{minNumber:minNumber},function(data){
+                    body.append(data);
+                    minNumber = (minNumber-defaultOnceNumber <0) ? 0 : minNumber-defaultOnceNumber;
+                    minNumberFlag = false;
+                });
+            }
+        }
     });
-
     //显示下一题
-    $(".next_test_library").click(function(){
-        testLibraries.eq(questionNumber).hide();
-        questionNumber++;
-        testLibraries.eq(questionNumber).show();
+    var maxNumberFlag = false;
+    var totalNumber = parseInt($("input[name=totalNumber]").val());
+    body.on("click",".next_test_library",function(){
+        if(maxNumber == questionNumber){
+            alert("题目还没加载出来，请稍后点击");
+        }else{
+            $(".test_library_"+questionNumber).hide();
+            $(".test_library_"+(++questionNumber)).show();
+        }
         if(examFlag != 'examFlag') {    //非模拟考试情况下执行
+            if((maxNumber-5) <= questionNumber){    //当前题号达到一定值时需要去ajax获取数据
+                if(maxNumberFlag){  //避免点击后还没请求完再次请求
+                    return false;
+                }else{
+                    maxNumberFlag = true;
+                    $.post("?r=practice/get-data",{maxNumber:maxNumber},function(data){
+                        body.append(data);
+                        maxNumber = (maxNumber+defaultOnceNumber > totalNumber) ? totalNumber : maxNumber+defaultOnceNumber;
+                        maxNumberFlag = false;
+                    });
+                }
+            }
             var id = $(this).data("id");
             if(id > currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
                 var csrfToken = $('meta[name="csrf-token"]').attr("content");

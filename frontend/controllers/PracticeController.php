@@ -35,16 +35,6 @@ class PracticeController extends Controller
             /*'pageCache' => [
                 'class' => 'yii\filters\PageCache',
                 'only' => ['normal'],
-                'duration' => 60,
-                'dependency' => [
-                    'class' => 'yii\caching\DbDependency',
-                    'sql' => 'SELECT COUNT(*) FROM testLibrary',
-                ], 'variations' => [
-                    Yii::$app->request->get('type')
-                ],
-            ],[
-                'class' => 'yii\filters\PageCache',
-                'only' => ['normal'],
                 'duration' => 10,
                 'dependency' => [
                     'class' => 'yii\caching\DbDependency',
@@ -100,14 +90,26 @@ class PracticeController extends Controller
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
         //将一些必要参数存入session，方便后续页面调用
+        $session->set('testLibraries',$testLibraries); //所有题目
         $session->set('totalNumber',count($testLibraries)); //总题数
         $session->set('testTypeId',$testTypeId);    //测试类型id
         $session->set('testTitle',$testTitle);    //测试标题
         $session->set('majorJob',$majorJob);    //测试岗位
 
+        //取出特定的题目量
+        $defaultOnceNumber = Yii::$app->params['defaultOnceNumber'];
+        if($currentNumber<=$defaultOnceNumber){
+            $testLibraries = array_slice($testLibraries,0,$defaultOnceNumber);
+            $startNumber = 0;
+        }else{
+            $testLibraries = array_slice($testLibraries,$currentNumber-$defaultOnceNumber,2*$defaultOnceNumber+1);
+            $startNumber = $currentNumber-$defaultOnceNumber;
+        }
+
         return $this->render('test',[
             'testLibraries' => $testLibraries,
-            'currentNumber' => $currentNumber
+            'startNumber' => $startNumber,  //页面上的题目准确的开始题号
+            'currentNumber' => $currentNumber   //用户做到题库中的第几题
         ]);
     }
 
@@ -142,28 +144,33 @@ class PracticeController extends Controller
                 break;
         }
         $currentNumber = TestLibrary::findCurrentNumber($user,$testTypeId);
-        //$totalNumber = TestLibrary::findTotalNumber($user,$testTypeId);
-        //$testLibraries = TestLibrary::findByUserAndTestType($user,$testTypeId,70,$currentNumber);
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
-        //测试图片显示的$testLibraries
-        //$testLibraries = TestLibrary::find()->where('pictureSmall is not null')->orWhere('pictureBig is not null')->andWhere(['majorJobId'=>4,'testTypeId'=>1])->all();
-        //测试案例题为多选
-        //$testLibraries = TestLibrary::find()->where('LENGTH(answer) > 10')->andWhere(['majorJobId'=>4,'testTypeId'=>4])->all();
         if(count($testLibraries)==0){
             echo "<h1>题库建设中</h1>";
             exit;
         }
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
         //将一些必要参数存入session，方便后续页面调用
+        $session->set('testLibraries',$testLibraries); //所有题目
         $session->set('totalNumber',count($testLibraries)); //总题数
-        //$session->set('totalNumber',$totalNumber); //总题数
         $session->set('testTypeId',$testTypeId);    //测试类型id
         $session->set('testTitle',$testTitle);    //测试标题
         $session->set('majorJob',$majorJob);    //测试岗位
 
+        //取出特定的题目量
+        $defaultOnceNumber = Yii::$app->params['defaultOnceNumber'];
+        if($currentNumber<=$defaultOnceNumber){
+            $testLibraries = array_slice($testLibraries,0,$defaultOnceNumber+$currentNumber+1);
+            $startNumber = 0;
+        }else{
+            $testLibraries = array_slice($testLibraries,$currentNumber-$defaultOnceNumber,2*$defaultOnceNumber+1);
+            $startNumber = $currentNumber-$defaultOnceNumber;
+        }
+
         return $this->render('test',[
             'testLibraries' => $testLibraries,
-            'currentNumber' => $currentNumber
+            'startNumber' => $startNumber,  //页面上的题目准确的开始题号
+            'currentNumber' => $currentNumber   //用户做到题库中的第几题
         ]);
     }
 
@@ -199,13 +206,20 @@ class PracticeController extends Controller
         $user = $session->get('user');
         $testLibraries = ErrorQuestion::findAllByUserWithTestLibrary($user['userId']);
         //将一些必要参数存入session，方便后续页面调用
+        $session->set('testLibraries',$testLibraries); //所有题目
         $session->set('totalNumber',count($testLibraries)); //总题数
         $session->set('testTitle',"错题练习");    //测试标题
         $session->set('majorJob',$user['nickname']);    //测试岗位使用用户昵称
         $session->set('testType',6);    //测试类型，6表示错题练习
+
+        //取出特定的题目量
+        $defaultOnceNumber = Yii::$app->params['defaultOnceNumber'];
+        $testLibraries = array_slice($testLibraries,0,$defaultOnceNumber);
+
         return $this->render('test',[
             'testLibraries' => $testLibraries,
-            'currentNumber' => 0
+            'startNumber' => 0,  //页面上的题目准确的开始题号
+            'currentNumber' => 0   //用户做到题库中的第几题
         ]);
     }
 
@@ -218,13 +232,20 @@ class PracticeController extends Controller
         $user = $session->get('user');
         $testLibraries = Collection::findAllByUserWithTestLibrary($user['userId']);
         //将一些必要参数存入session，方便后续页面调用
+        $session->set('testLibraries',$testLibraries); //所有题目
         $session->set('totalNumber',count($testLibraries)); //总题数
         $session->set('testTitle',"错题练习");    //测试标题
         $session->set('majorJob',$user['nickname']);    //测试岗位使用用户昵称
         $session->set('testType',7);    //测试类型，7表示重点题练习
+
+        //取出特定的题目量
+        $defaultOnceNumber = Yii::$app->params['defaultOnceNumber'];
+        $testLibraries = array_slice($testLibraries,0,$defaultOnceNumber);
+
         return $this->render('test',[
             'testLibraries' => $testLibraries,
-            'currentNumber' => 0
+            'startNumber' => 0,  //页面上的题目准确的开始题号
+            'currentNumber' => 0   //用户做到题库中的第几题
         ]);
     }
 
@@ -265,6 +286,49 @@ class PracticeController extends Controller
             $testLibraryId = $request->post('testLibraryId');
             $user = $session->get('user');
             return Collection::saveOrDelete($user['userId'], $testLibraryId);
+        }else{
+            throw new Exception("非法提交");
+        }
+    }
+
+    public function actionGetData(){
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            $session = Yii::$app->session;
+            $testLibraries = $session->get('testLibraries');
+            $defaultOnceNumber = Yii::$app->params['defaultOnceNumber'];
+            $minNumber = $request->post('minNumber');
+            $maxNumber = $request->post('maxNumber');
+            if($minNumber!=0){
+                if($minNumber-$defaultOnceNumber<=0){
+                    return $this->renderAjax('append',[
+                        'testLibraries' => array_slice($testLibraries,0,$minNumber-1),
+                        'startNumber' => 0,  //页面上的题目准确的开始题号
+                    ]);
+                }else{
+                    return $this->renderAjax('append',[
+                        'testLibraries' => array_slice($testLibraries,$minNumber-$defaultOnceNumber-1,$defaultOnceNumber),
+                        'startNumber' => $minNumber-$defaultOnceNumber-1,  //页面上的题目准确的开始题号
+                    ]);
+                }
+            }elseif($maxNumber){
+                $totalNumber = count($testLibraries);
+                if($maxNumber+$defaultOnceNumber>=$totalNumber){
+                    return $this->renderAjax('append',[
+                        'testLibraries' => array_slice($testLibraries,$maxNumber,$totalNumber-$maxNumber),
+                        'startNumber' => $maxNumber,  //页面上的题目准确的开始题号
+                    ]);
+                }else{
+                    return $this->renderAjax('append',[
+                        'testLibraries' => array_slice($testLibraries,$maxNumber,$defaultOnceNumber),
+                        'startNumber' => $maxNumber,  //页面上的题目准确的开始题号
+                    ]);
+                }
+            }elseif($minNumber == 0){
+                return true;
+            }else{
+                throw new Exception("参数错误");
+            }
         }else{
             throw new Exception("非法提交");
         }

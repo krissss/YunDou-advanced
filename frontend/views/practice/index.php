@@ -64,13 +64,13 @@ $payBitcoin = $session->getFlash('payBitcoin');
     <div class="panel-heading">错题与重点题</div>
     <div class="panel-body">
         <div class="nav-icon">
-            <a href="<?=Url::to(['practice/wrong-test'])?>">
+            <a class="show_modal" href="#" data-href="<?=Url::to(['practice/wrong-test'])?>">
                 <span class="glyphicon glyphicon-remove"></span>
                 <span>错题</span>
             </a>
         </div>
         <div class="nav-icon">
-            <a href="<?=Url::to(['practice/collection-test'])?>">
+            <a class="show_modal" href="#" data-href="<?=Url::to(['practice/collection-test'])?>">
                 <span class="glyphicon glyphicon-star"></span>
                 <span>重点题</span>
             </a>

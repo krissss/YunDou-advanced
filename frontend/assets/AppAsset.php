@@ -14,8 +14,8 @@ class AppAsset extends AssetBundle
         'css/yundou.css',
     ];
     public $js = [
-        'js/yundou.min.js',
-        //'js/yundou.js',
+        //'js/yundou.min.js',
+        'js/yundou.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
