@@ -1,3 +1,4 @@
+/** common *?
 .footer{
     width: 100%;
     position: absolute;
@@ -9,4 +10,45 @@
 }
 .navbar .navbar-inner .navbar-header .navbar-account .account-area .login-area .avatar{
     border-left: 1px solid #FFF;
+}
+
+/** login */
+.login-container .loginbox {
+    height: auto !important;
+    padding-bottom: 20px;
+}
+
+.loginbox-title {
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.login-container .loginbox .loginbox-textbox {
+    padding-bottom: 0;
+}
+
+/** exam-template */
+.table_four_column tr td:nth-child(2n-1){
+    width: 15%;
+}
+.table_four_column tr td:nth-child(2n){
+    width: 35%;
+}
+.table_four_column .form-group{
+    margin-bottom: 0;
+}
+.table_bg_grey{
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.score{
+    width: 20px;
+}
+
+label{
+    margin-bottom: 0;
 }

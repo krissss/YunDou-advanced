@@ -7,7 +7,6 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 
 $this->title = "登录";
-$this->registerCssFile('backend/web/css/yundou-login.css',['depends'=>'backend\assets\AppAsset']);
 $this->params['breadcrumbs'] = [
     'id'=>'empty-container',
 ];
@@ -36,16 +35,6 @@ $this->params['breadcrumbs'] = [
         <div class="loginbox-submit">
             <input type="submit" class="btn btn-primary btn-block" value="登录">
         </div>
-        <!--<div class="loginbox-forgot">
-            <a href="">忘记密码</a>
-        </div>
-
-        <div class="loginbox-signup">
-            <a href="<?/*=Url::to(['account/register'])*/?>">注册账户</a>
-        </div>-->
         <?php ActiveForm::end(); ?>
     </div>
-
-    <!--<div class="logobox">
-    </div>-->
 </div>
