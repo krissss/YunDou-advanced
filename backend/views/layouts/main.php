@@ -320,7 +320,7 @@ AppAsset::register($this);
     <?php endif;//空的容器去除所有body以下样式结束 ?>
     <footer class="footer">
         <div class="container">
-            <p class="text-align-center">版权所有：南京云宝网络有限公司@2015 | <a href="http://www.miitbeian.gov.cn">苏ICP备15038143号</a></p>
+            <p class="text-align-center">版权所有：南京云宝网络有限公司@2015 | <a href="http://www.miitbeian.gov.cn">苏ICP备15038143-2号</a></p>
         </div>
     </footer>
     <?php if ($page_id != $str_emptyContainer)://空的容器去除所有body以下样式  ?>

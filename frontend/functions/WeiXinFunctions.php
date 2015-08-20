@@ -12,7 +12,7 @@ class WeiXinFunctions
     private $appId = "wxcf0cd66d7cdf0708";
     private $appSecret = "8bcd5a776d588ff7dc2f66c10b7efd11";
 
-    private $site_url = "www.yunbaonet.cn";
+    private $site_url = "www.yunbaonet.cc";
 
     //private标记的构造方法
     private function __construct(){}
