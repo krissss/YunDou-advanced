@@ -1,5 +1,6 @@
 $(document).ready(function(){
     var body = $("body");
+    var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
     /**  account/register */
     var yzmFlag = false;    //是否正在获取验证码的标志
@@ -67,7 +68,6 @@ $(document).ready(function(){
             return false;
         }
         pay_click_flag = true;
-        var csrfToken = $('meta[name="csrf-token"]').attr("content");
         $.post("?r=account/pay", {_csrf: csrfToken},function(data){
             if(data!=true){
                 alert(data);
@@ -131,16 +131,18 @@ $(document).ready(function(){
             $(".test_library_"+questionNumber).hide();
             $(".test_library_"+(--questionNumber)).show();
         }
-        if((minNumber+5) >= questionNumber){    //当前题号达到一定值时需要去ajax获取数据
-            if(minNumberFlag){  //避免点击后还没请求完再次请求
-                return false;
-            }else{
-                minNumberFlag = true;
-                $.post("?r=practice/get-data",{minNumber:minNumber},function(data){
-                    body.append(data);
-                    minNumber = (minNumber-defaultOnceNumber <0) ? 0 : minNumber-defaultOnceNumber;
-                    minNumberFlag = false;
-                });
+        if(examFlag != 'examFlag') {   //非模拟考试
+            if ((minNumber + 5) >= questionNumber) {    //当前题号达到一定值时需要去ajax获取数据
+                if (minNumberFlag) {  //避免点击后还没请求完再次请求
+                    return false;
+                } else {
+                    minNumberFlag = true;
+                    $.post("?r=practice/get-data", {_csrf: csrfToken,minNumber: minNumber}, function (data) {
+                        body.append(data);
+                        minNumber = (minNumber - defaultOnceNumber < 0) ? 0 : minNumber - defaultOnceNumber;
+                        minNumberFlag = false;
+                    });
+                }
             }
         }
     });
@@ -160,7 +162,7 @@ $(document).ready(function(){
                     return false;
                 }else{
                     maxNumberFlag = true;
-                    $.post("?r=practice/get-data",{maxNumber:maxNumber},function(data){
+                    $.post("?r=practice/get-data",{_csrf: csrfToken,maxNumber:maxNumber},function(data){
                         body.append(data);
                         maxNumber = (maxNumber+defaultOnceNumber > totalNumber) ? totalNumber : maxNumber+defaultOnceNumber;
                         maxNumberFlag = false;
@@ -181,7 +183,7 @@ $(document).ready(function(){
         if(examFlag != 'examFlag') {    //非模拟考试情况下执行
             var id = $(this).data("id");
             if(id > currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
-                var csrfToken = $('meta[name="csrf-token"]').attr("content");
+
                 var answerType = $("input[name=answer_type_" + id + "]").val();
                 $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
             }
@@ -296,7 +298,6 @@ $(document).ready(function(){
     }
 
     function post(URL, jsonArray, time) {
-        var csrfToken = $('meta[name="csrf-token"]').attr("content");
         var temp = document.createElement("form");
         temp.action = URL;
         temp.method = "post";

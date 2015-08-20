@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    var csrfToken = $('meta[name="csrf-token"]').attr("content");
     $(".checkbox-state").change(function(){
         var state = "";
         var id = $(this).data("id");
@@ -15,7 +16,7 @@ $(document).ready(function(){
                 state = "open";
             }
         }
-        $.post("?r=exam-template/change-state",{newState:state,id:id},function(data){
+        $.post("?r=exam-template/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
             if(data == 'open'){
                 $(".state_"+id).text("已启用");
             }else if(data == 'close'){

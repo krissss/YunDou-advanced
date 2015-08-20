@@ -50,4 +50,11 @@ class TestType extends \yii\db\ActiveRecord
     public static function findAllForObject(){
         return TestType::find()->all();
     }
+
+    public static function findNameById($testTypeId){
+        $result = TestType::getDb()->cache(function() use ($testTypeId){
+            return TestType::findOne($testTypeId);
+        });
+        return $result->name;
+    }
 }

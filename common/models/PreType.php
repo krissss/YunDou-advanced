@@ -46,4 +46,11 @@ class PreType extends \yii\db\ActiveRecord
             'remark' => 'Remark',
         ];
     }
+
+    public static function findNameById($preTypeId){
+        $result = PreType::getDb()->cache(function() use ($preTypeId){
+            return PreType::findOne($preTypeId);
+        });
+        return $result->name;
+    }
 }
