@@ -1,5 +1,5 @@
 <?php
-namespace frontend\wxPay;
+require_once "../wxPayLibs/WxPay.Api.php";
 
 /**
  * 

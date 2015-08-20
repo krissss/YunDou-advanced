@@ -2,7 +2,9 @@
 /** @var $rechargeForm \frontend\models\forms\RechargeForm */
 
 use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
+
+require_once "../../functions/wxPayLibs/WxPay.Api.php";
+require_once "../../functions/wxPay/WxPay.JsApiPay.php";
 
 //①、获取用户openid
 $session = Yii::$app->session;
@@ -12,13 +14,13 @@ if($user['weixin']!=$openId){
     echo ("用户标识不一致，无法完成订单");
     exit;
 }
-$tools = new \frontend\wxPay\JsApiPay();
+$tools = new JsApiPay();
 
 //②、统一下单
-$input = new \frontend\wxPay\WxPayUnifiedOrder();
+$input = new WxPayUnifiedOrder();
 $input->SetBody("test");
 $input->SetAttach("test");
-$input->SetOut_trade_no(\frontend\wxPay\WxPayConfig::MCHID.date("YmdHis"));
+$input->SetOut_trade_no(WxPayConfig::MCHID.date("YmdHis"));
 $input->SetTotal_fee("1");
 $input->SetTime_start(date("YmdHis"));
 $input->SetTime_expire(date("YmdHis", time() + 600));
@@ -27,7 +29,7 @@ $input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
 $input->SetTrade_type("JSAPI");
 $input->SetOpenid($openId);
 /** @var $order array */
-$order = \frontend\wxPay\WxPayApi::unifiedOrder($input);
+$order = WxPayApi::unifiedOrder($input);
 echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
 //打印输出数组信息
 foreach($order as $key=>$value){
