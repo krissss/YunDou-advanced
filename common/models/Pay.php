@@ -91,11 +91,13 @@ class Pay extends \yii\db\ActiveRecord
         $pay = new Pay();
         $pay->userId = $user['userId'];
         $pay->money = $money;
-        $pay->bitcoin = intval($money)*intval($scheme['getBitcoin'])/intval($scheme['payMoney']);
+        $addBitcoin = intval($money)*intval($scheme['getBitcoin'])/intval($scheme['payMoney']);
+        $pay->bitcoin = $addBitcoin;
         $pay->createDate = DateFunctions::getCurrentDate();
         if(!$pay->save()){
             throw new Exception("pay save error");
         }
+        Users::addBitcoin($user['userId'],$addBitcoin);
         $session->remove('scheme');
         $session->remove('money');
     }

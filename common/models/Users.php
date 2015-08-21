@@ -4,6 +4,7 @@ namespace common\models;
 
 use frontend\functions\WeiXinFunctions;
 use Yii;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "users".
@@ -172,5 +173,13 @@ class Users extends \yii\db\ActiveRecord
             ->asArray()
             ->one();
         return $user['bitcoin'];
+    }
+
+    public static function addBitcoin($userId,$bitcoin){
+        $user = Users::findOne($userId);
+        $user->bitcoin+=intval($bitcoin);
+        if(!$user->update()){
+            throw new Exception("Users update error");
+        }
     }
 }

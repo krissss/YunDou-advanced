@@ -91,7 +91,7 @@ class AccountController extends Controller
     public function actionRecharge(){
         $rechargeForm = new RechargeForm();
         $request = Yii::$app->request;
-        if($request->isPost){
+        if($request->isPost){   //调用微信支付页面
             $rechargeForm->money = $request->post('money');
             if($rechargeForm->validate()){
                 $order = $rechargeForm->generateOrder();
@@ -105,7 +105,7 @@ class AccountController extends Controller
         Yii::$app->session->set("scheme",$scheme);  //将充值方式存入，在后面记录用户充值记录的时候使用
         $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例
         if($request->get('type')=='over'){  //支付成功后
-            Pay::recordOne();   //记录充值记录
+            Pay::recordOne();   //记录充值记录+用户云豆数增加
             CommonFunctions::createAlertMessage("充值成功","success");
         }else{
             CommonFunctions::createAlertMessage("当前充值比例：1:$proportion","info");
