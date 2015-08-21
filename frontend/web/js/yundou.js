@@ -321,4 +321,16 @@ $(document).ready(function(){
         return temp;
     }
 
+    /** 支付界面相关 */
+    $(".wxPay").click(function(){
+        var money = $("#rechargeform-money").val();
+        if(isNaN(money)){
+            alert("充值金额必须为数字");
+            return false;
+        }
+        $.post("?r=account/recharge",{money:money},function(){
+
+        });
+    });
+
 });

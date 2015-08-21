@@ -90,11 +90,16 @@ class AccountController extends Controller
     /** 我要充值 */
     public function actionRecharge(){
         $rechargeForm = new RechargeForm();
-        if($rechargeForm->load(Yii::$app->request->post()) && $rechargeForm->validate()){
-            $order = $rechargeForm->generateOrder();
-            return $this->render('recharge-order',[
-                'order' => $order
-            ]);
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $rechargeForm->money = $request->post('money');
+            if($rechargeForm->validate()){
+                //echo 123;exit;
+                $order = $rechargeForm->generateOrder();
+                return $this->renderAjax('recharge-order',[
+                    'order' => $order
+                ]);
+            }
         }
         return $this->render('recharge',[
             'rechargeForm' => $rechargeForm
