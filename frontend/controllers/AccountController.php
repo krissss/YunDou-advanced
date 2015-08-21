@@ -92,8 +92,7 @@ class AccountController extends Controller
         $rechargeForm = new RechargeForm();
         if($rechargeForm->load(Yii::$app->request->post()) && $rechargeForm->validate()){
             $order = $rechargeForm->generateOrder();
-            return $this->render('recharge',[
-                'rechargeForm' => $rechargeForm,
+            return $this->render('recharge-order',[
                 'order' => $order
             ]);
         }
