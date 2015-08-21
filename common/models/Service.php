@@ -40,7 +40,8 @@ class Service extends \yii\db\ActiveRecord
     {
         return [
             [['userId', 'replyUserId'], 'integer'],
-            [['content', 'reply'], 'string', 'max' => 200],
+            [['content'], 'string', 'max' => 200],
+            [['reply'], 'string', 'max' => 1000],
             [['state'], 'string', 'max' => 1],
             [['remark'], 'string', 'max' => 100],
             [['createDate','replyDate'], 'safe']
