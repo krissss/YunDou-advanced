@@ -30,6 +30,7 @@ $editAddress = $tools->GetEditAddressParameters();
             'getBrandWCPayRequest',
             <?php echo $jsApiParameters; ?>,
             function(res){
+                alert(res.err_msg);
                 if(res.err_msg == "get_brand_wcpay_request：ok" ) {
 
                 }
