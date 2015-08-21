@@ -11,12 +11,6 @@ use yii\widgets\ActiveForm;
     <p>订单生成中，请耐心等待。。。</p>
 </div>
 <?=\common\widgets\AlertWidget::widget()?>
-<div class="alert alert-info" role="alert">
-    123<br>
-    query:<?=Yii::$app->cache->get('notify');?><br>
-    call:<?=Yii::$app->cache->get('notify');?><br>
-    handle:<?=Yii::$app->cache->get('handle');?><br>
-</div>
 <div class="container-fluid">
     <?php $form = ActiveForm::begin([
         'id' => 'account-register',
