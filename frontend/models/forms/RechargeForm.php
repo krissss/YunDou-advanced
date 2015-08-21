@@ -47,8 +47,7 @@ class RechargeForm extends Model
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         //$input->SetGoods_tag("test");
-        $notifyUrl = Url::to(['account/notify',true]);
-        $input->SetNotify_url($notifyUrl);
+        $input->SetNotify_url(Url::base(true).'/wxNotify.php');
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
         /** @var $order array */
