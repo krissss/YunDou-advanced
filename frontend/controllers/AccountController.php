@@ -107,13 +107,9 @@ class AccountController extends Controller
 
     /** 接收微信支付异步通知回调地址 */
     public function actionNotify(){
-        $request = Yii::$app->request;
-        if($request->isPost){
-            Yii::$app->cache->set("notify",$request->post(),60);
-            return true;
-        }else{
-            return false;
-        }
+        require_once "./../functions/PayNotifyCallBack.php";
+        $notify = new \PayNotifyCallBack();
+        $notify->Handle(false);
     }
 
     /** 我要推荐 */

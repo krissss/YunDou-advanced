@@ -10,8 +10,9 @@ use yii\widgets\ActiveForm;
     <p>订单生成中，请耐心等待。。。</p>
 </div>
 <div class="alert alert-info" role="alert">
-    123
-    <?=Yii::$app->cache->get('notify');?>
+    123<br>
+    query:<?=Yii::$app->cache->get('notify');?><br>
+    call:<?=Yii::$app->cache->get('notify');?>
 </div>
 <div class="container-fluid">
     <?php $form = ActiveForm::begin([
