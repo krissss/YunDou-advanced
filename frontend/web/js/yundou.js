@@ -323,6 +323,7 @@ $(document).ready(function(){
 
     /** 支付界面相关 */
     $(".wxPay").click(function(){
+        $(".loading").show();
         var money = $("#rechargeform-money").val();
         if(isNaN(money)){
             alert("充值金额必须为数字");
