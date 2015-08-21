@@ -322,6 +322,7 @@ $(document).ready(function(){
     }
 
     /** 支付界面相关 */
+    /** 微信支付 */
     $(".wxPay").click(function(){
         $(".loading").show();
         var money = $("#rechargeform-money").val();

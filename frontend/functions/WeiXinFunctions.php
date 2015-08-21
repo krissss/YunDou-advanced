@@ -152,7 +152,7 @@ class WeiXinFunctions
                       ],[
                           "type"=>"view",
                           "name"=>"我要充值",
-                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/recharge",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/recharge&showwxpaytitle=1",
                       ],[
                           "type"=>"view",
                           "name"=>"大客户管理",

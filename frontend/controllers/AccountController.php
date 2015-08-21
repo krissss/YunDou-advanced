@@ -94,7 +94,6 @@ class AccountController extends Controller
         if($request->isPost){
             $rechargeForm->money = $request->post('money');
             if($rechargeForm->validate()){
-                //echo 123;exit;
                 $order = $rechargeForm->generateOrder();
                 return $this->renderAjax('recharge-order',[
                     'order' => $order
@@ -108,7 +107,13 @@ class AccountController extends Controller
 
     /** 接收微信支付异步通知回调地址 */
     public function actionNotify(){
-
+        $request = Yii::$app->request;
+        if($request->isPost){
+            Yii::$app->cache->set("notify",$request->post(),60);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /** 我要推荐 */

@@ -9,7 +9,10 @@ use yii\widgets\ActiveForm;
     <div class="loader">Loading...</div>
     <p>订单生成中，请耐心等待。。。</p>
 </div>
-<div class="alert alert-info" role="alert">支付接口申请中</div>
+<div class="alert alert-info" role="alert">
+    123
+    <?=Yii::$app->cache->get('notify');?>
+</div>
 <div class="container-fluid">
     <?php $form = ActiveForm::begin([
         'id' => 'account-register',

@@ -4,6 +4,7 @@ namespace frontend\models\forms;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\Url;
 
 class RechargeForm extends Model
 {
@@ -41,12 +42,13 @@ class RechargeForm extends Model
         $input->SetBody("云豆充值");
         //$input->SetAttach("test");
         $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
-        $totalFee = $this->money*100;
+        $totalFee = $this->money;
         $input->SetTotal_fee($totalFee);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         //$input->SetGoods_tag("test");
-        $input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
+        $notifyUrl = Url::to(['account/notify',true]);
+        $input->SetNotify_url($notifyUrl);
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
         /** @var $order array */
