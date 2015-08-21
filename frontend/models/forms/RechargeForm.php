@@ -21,7 +21,7 @@ class RechargeForm extends Model
     public function attributeLabels()
     {
         return [
-            'money' => '充值金额',
+            'money' => '充值金额（元）',
         ];
     }
 
@@ -42,12 +42,13 @@ class RechargeForm extends Model
         $input->SetBody("云豆充值");
         //$input->SetAttach("test");
         $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
+        Yii::$app->session->set('money',$this->money);
         $totalFee = $this->money;
         $input->SetTotal_fee($totalFee);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         //$input->SetGoods_tag("test");
-        $input->SetNotify_url(Url::base(true).'/wxNotify.php');
+        $input->SetNotify_url(Url::base(true).'/notify.php');
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
         /** @var $order array */

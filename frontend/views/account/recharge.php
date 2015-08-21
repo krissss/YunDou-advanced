@@ -1,6 +1,7 @@
 <?php
 /** @var $rechargeForm \frontend\models\forms\RechargeForm */
-/** @var $order */
+/** @var $leftBitcoin */
+/** @var $proportion */
 
 use yii\widgets\ActiveForm;
 
@@ -9,10 +10,12 @@ use yii\widgets\ActiveForm;
     <div class="loader">Loading...</div>
     <p>订单生成中，请耐心等待。。。</p>
 </div>
+<?=\common\widgets\AlertWidget::widget()?>
 <div class="alert alert-info" role="alert">
     123<br>
     query:<?=Yii::$app->cache->get('notify');?><br>
-    call:<?=Yii::$app->cache->get('notify');?>
+    call:<?=Yii::$app->cache->get('notify');?><br>
+    handle:<?=Yii::$app->cache->get('handle');?><br>
 </div>
 <div class="container-fluid">
     <?php $form = ActiveForm::begin([
@@ -27,14 +30,15 @@ use yii\widgets\ActiveForm;
     <div class="form-group">
         <label class="col-xs-3 control-label">您的账户余额</label>
         <div class="col-xs-9 no-padding-left">
-            <p class="form-control-static">1000</p>
+            <p class="form-control-static"><?=$leftBitcoin;?>云豆</p>
         </div>
     </div>
     <?= $form->field($rechargeForm, 'money')->textInput(['type'=>'number','name'=>'money']) ?>
     <div class="form-group">
-        <label class="col-xs-3 control-label">您能够获得的云豆数</label>
+        <label class="col-xs-3 control-label">您能够获得</label>
         <div class="col-xs-9 no-padding-left">
-            <p class="form-control-static">10000</p>
+            <input type="hidden" name="proportion" value="<?=$proportion;?>">
+            <p class="form-control-static"><span class="get_bitcoin">0</span>云豆</p>
         </div>
     </div>
     <div class="form-group">

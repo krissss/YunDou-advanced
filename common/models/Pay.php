@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use common\functions\DateFunctions;
 use Yii;
+use yii\base\Exception;
 use yii\db\Query;
 
 /**
@@ -79,6 +81,23 @@ class Pay extends \yii\db\ActiveRecord
             ->where(['userId' => $userId])
             ->one();
         return $income['sum(money)']-$consume['sum(money)'];
+    }
+
+    public static function recordOne(){
+        $session = Yii::$app->session;
+        $user = $session->get('user');
+        $scheme = $session->get('scheme');
+        $money = $session->get('money');
+        $pay = new Pay();
+        $pay->userId = $user['userId'];
+        $pay->money = $money;
+        $pay->bitcoin = intval($money)*intval($scheme['getBitcoin'])/intval($scheme['payMoney']);
+        $pay->createDate = DateFunctions::getCurrentDate();
+        if(!$pay->save()){
+            throw new Exception("pay save error");
+        }
+        $session->remove('scheme');
+        $session->remove('money');
     }
 
 }

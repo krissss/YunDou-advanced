@@ -74,4 +74,10 @@ class Scheme extends \yii\db\ActiveRecord
         }
         return $content;
     }
+
+    public static function findPayScheme(){
+        return Scheme::find()
+            ->where(['usageModeId'=>Scheme::USAGE_PAY,'state'=>Scheme::STATE_ABLE])
+            ->one();
+    }
 }

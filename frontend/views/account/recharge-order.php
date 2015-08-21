@@ -7,7 +7,7 @@ $jsApiParameters = $tools->GetJsApiParameters($order);
 
 //获取共享收货地址js函数参数
 /** @var $editAddress String //JSON */
-$editAddress = $tools->GetEditAddressParameters();
+//$editAddress = $tools->GetEditAddressParameters();
 
 //③、在支持成功回调通知中处理成功之后的事宜，见 notify.php
 /**
@@ -26,9 +26,9 @@ $editAddress = $tools->GetEditAddressParameters();
             'getBrandWCPayRequest',
             <?php echo $jsApiParameters; ?>,
             function(res){
-                alert(res.err_msg);
                 if(res.err_msg == "get_brand_wcpay_request：ok" ) {
-
+                    alert("支付成功");
+                    window.location.href = "?r=account/recharge-over";
                 }
             }
         );

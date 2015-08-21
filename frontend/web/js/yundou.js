@@ -322,6 +322,12 @@ $(document).ready(function(){
     }
 
     /** 支付界面相关 */
+    /** 充值金额改变 */
+    $("input[name=money]").change(function(){
+        var proportion = parseInt($("input[name=proportion]").val());
+        $(".get_bitcoin").text(parseInt($(this).val())*proportion);
+    });
+
     /** 微信支付 */
     $(".wxPay").click(function(){
         $(".loading").show();
