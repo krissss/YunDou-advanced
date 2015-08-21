@@ -26,13 +26,13 @@ $timestamp = time();
 $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 ?>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script>
+<!--<script>
     wx.config({
         debug: true,
-        appId: '<?=WeiXinFunctions::getAppId()?>',
-        timestamp: <?=$timestamp?>,
+        appId: '<?/*=WeiXinFunctions::getAppId()*/?>',
+        timestamp: <?/*=$timestamp*/?>,
         nonceStr: 'yundou-js',
-        signature: '<?=WeiXinFunctions::generateJsSignature($currentUrl,$timestamp)?>',
+        signature: '<?/*=WeiXinFunctions::generateJsSignature($currentUrl,$timestamp)*/?>',
         jsApiList: [
             'onMenuShareTimeline',    //分享到朋友圈
             'chooseWXPay',    //分享到朋友圈
@@ -40,25 +40,44 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
     });
     wx.ready(function(){
         wx.chooseWXPay({
-            timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-            nonceStr: '<?=$jsApiParameters->nonceStr?>', // 支付签名随机串，不长于 32 位
-            package: '<?=$jsApiParameters->package?>', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-            signType: '<?=$jsApiParameters->signType?>', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-            paySign: '<?=$jsApiParameters->paySign?>', // 支付签名
+            timestamp: <?/*=$timestamp*/?>, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+            nonceStr: '<?/*=$jsApiParameters->nonceStr*/?>', // 支付签名随机串，不长于 32 位
+            package: 'prepay_id=<?/*=$jsApiParameters->prepay_id*/?>', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+            signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+            paySign: '<?/*=$jsApiParameters->paySign*/?>', // 支付签名
             success: function (res) {
                 // 支付成功后的回调函数
                 alert(res.err_msg);
             }
         });
     });
-</script>
-<!--<script type="text/javascript">
-    //调用微信JS api 支付
+</script>-->
+<script type="text/javascript">
+    function onBridgeReady(){
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',
+            <?php echo $jsApiParameters; ?>,
+            function(res){
+                if(res.err_msg == "get_brand_wcpay_request：ok" ) {}     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+            }
+        );
+    }
+    if (typeof WeixinJSBridge == "undefined"){
+        if( document.addEventListener ){
+            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+        }else if (document.attachEvent){
+            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+        }
+    }else{
+        onBridgeReady();
+    }
+    /*//调用微信JS api 支付
     function jsApiCall()
     {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
-            <?php /*echo $jsApiParameters; */?>,
+            <?//php echo $jsApiParameters; ?>,
             function(res){
                 if(res.err_msg == "get_brand_wcpay_request：ok" ) {
 
@@ -79,9 +98,9 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
         }else{
             jsApiCall();
         }
-    }
+    }*/
 
-</script>-->
+</script>
 <?php
 echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
 //打印输出数组信息
