@@ -329,9 +329,21 @@ $(document).ready(function(){
             alert("充值金额必须为数字");
             return false;
         }
-        $.post("?r=account/recharge",{_csrf: csrfToken,money:money},function(data){
-            body.append(data);
-            $(".loading").hide();
+        $.ajax({
+            url:"?r=account/recharge",
+            timeout: 6000,
+            type: "post",
+            data: {_csrf: csrfToken,money:money},
+            success: function(data) {
+                body.append(data);
+                $(".loading").hide();
+            },
+            complete : function(XMLHttpRequest,status){
+                if(status=='timeout'){
+                    $(".loading").hide();
+                    alert("请求超时，请稍后再试");
+                }
+            }
         });
     });
 
