@@ -6,7 +6,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
-$this->registerJsFile('frontend/web/js/yundou-register.js',['depends'=>['frontend\assets\AppAsset']]);
+//$this->registerJsFile('frontend/web/js/yundou-register.js',['depends'=>['frontend\assets\AppAsset']]);
 //$this->registerJsFile('YunDou-advanced/frontend/web/js/yundou-register.js',['depends'=>['frontend\assets\AppAsset']]);
 
 $session = Yii::$app->session;

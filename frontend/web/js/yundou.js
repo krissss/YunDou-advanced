@@ -16,7 +16,7 @@ $(document).ready(function(){
         $this.removeClass("btn-primary").addClass("btn-default");
         $this.text(leftTime + "秒后可重新获取");
         var setIntervalResult = setInterval(function(){ //60秒内最多发一条
-            if(leftTime == 0){
+            if(leftTime <= 0){
                 window.clearInterval(setIntervalResult);
                 $this.text("获取验证码");
                 $this.removeClass("btn-default").addClass("btn-primary");
@@ -25,7 +25,7 @@ $(document).ready(function(){
                 $this.text(--leftTime + "秒后可重新获取");
             }
         },1000);
-        $.post("?r=account/get-yzm",{mobile:mobile},function(data){
+        $.post("?r=account/get-yzm",{_csrf: csrfToken,mobile:mobile},function(data){
             if(data == true){
                 alert("发送成功");
             }else{
