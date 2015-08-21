@@ -331,6 +331,7 @@ $(document).ready(function(){
         }
         $.post("?r=account/recharge",{_csrf: csrfToken,money:money},function(data){
             body.append(data);
+            $(".loading").hide();
         });
     });
 

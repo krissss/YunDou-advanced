@@ -44,11 +44,3 @@ $editAddress = $tools->GetEditAddressParameters();
         jsApiCall();
     }
 </script>
-<?php
-echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
-//打印输出数组信息
-foreach($order as $key=>$value){
-    echo "<font color='#00ff55;'>$key</font> : $value <br/>";
-}
-?>
-<button onclick="callpay()">确认</button>

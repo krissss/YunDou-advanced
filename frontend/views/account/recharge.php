@@ -5,7 +5,7 @@
 use yii\widgets\ActiveForm;
 
 ?>
-<div class="load-container loading">
+<div class="load-container loading my_hide">
     <div class="loader">Loading...</div>
     <p>订单生成中，请耐心等待。。。</p>
 </div>
