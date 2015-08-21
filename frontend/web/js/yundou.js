@@ -328,8 +328,8 @@ $(document).ready(function(){
             alert("充值金额必须为数字");
             return false;
         }
-        $.post("?r=account/recharge",{money:money},function(){
-
+        $.post("?r=account/recharge",{_csrf: csrfToken,money:money},function(data){
+            body.append(data);
         });
     });
 
