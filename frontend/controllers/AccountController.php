@@ -101,22 +101,21 @@ class AccountController extends Controller
             }
         }
         $user = Yii::$app->session->get('user');
-        $leftBitcoin = Users::findBitcoin($user['userId']); //剩余的云豆
         $scheme = Scheme::findPayScheme();  //获取充值方案
         Yii::$app->session->set("scheme",$scheme);  //将充值方式存入，在后面记录用户充值记录的时候使用
         $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例
-        CommonFunctions::createAlertMessage("当前充值比例：1:$proportion","info");
+        if($request->get('type')=='over'){  //支付成功后
+            Pay::recordOne();   //记录充值记录
+            CommonFunctions::createAlertMessage("充值成功","success");
+        }else{
+            CommonFunctions::createAlertMessage("当前充值比例：1:$proportion","info");
+        }
+        $leftBitcoin = Users::findBitcoin($user['userId']); //剩余的云豆
         return $this->render('recharge',[
             'rechargeForm' => $rechargeForm,
             'leftBitcoin' => $leftBitcoin,
             'proportion' => $proportion
         ]);
-    }
-
-    public function actionRechargeOver(){
-        Pay::recordOne();
-        CommonFunctions::createAlertMessage("充值成功","success");
-        return $this->redirect(Url::to(['account/recharge']));
     }
 
     /** 接收微信支付异步通知回调地址，貌似不起作用 */
