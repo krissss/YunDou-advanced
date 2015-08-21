@@ -1,10 +1,6 @@
 <?php
 /** @var $order */
-require_once './log.php';
 
-//初始化日志
-$logHandler= new CLogFileHandler("./logs/".date('Y-m-d').'.log');
-$log = Log::Init($logHandler, 15);
 $tools = new JsApiPay();
 /** @var $jsApiParameters String //JSON */
 $jsApiParameters = $tools->GetJsApiParameters($order);

@@ -101,6 +101,11 @@ class AccountController extends Controller
         ]);
     }
 
+    /** 接收微信支付异步通知回调地址 */
+    public function actionNotify(){
+
+    }
+
     /** 我要推荐 */
     public function actionRecommend(){
         return $this->render('recommend');

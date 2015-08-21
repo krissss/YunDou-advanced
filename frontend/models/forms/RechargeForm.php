@@ -38,13 +38,14 @@ class RechargeForm extends Model
 
         //②、统一下单
         $input = new \WxPayUnifiedOrder();
-        $input->SetBody("test");
-        $input->SetAttach("test");
+        $input->SetBody("云豆充值");
+        //$input->SetAttach("test");
         $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
-        $input->SetTotal_fee("1");
+        $totalFee = $this->money*100;
+        $input->SetTotal_fee($totalFee);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
-        $input->SetGoods_tag("test");
+        //$input->SetGoods_tag("test");
         $input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
