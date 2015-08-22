@@ -114,6 +114,10 @@ class Users extends \yii\db\ActiveRecord
         return $msg;
     }
 
+    public function getRecommendUser(){
+        return $this->hasOne(Users::className(),['userId'=>'recommendUserID']);
+    }
+
     /**
      * 微信用户关注将用户信息导入数据库
      * @param $openId

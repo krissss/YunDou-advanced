@@ -2,7 +2,6 @@
 /* @var $this yii\web\View */
 /* @var $users common\models\Users[] */
 /* @var $pages */
-/* @var $searchModel backend\models\UsersSearch */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -21,7 +20,6 @@ $this->title = '微信用户管理';
             <a class="btn btn-default" href="javascript:void(0);">四周未登陆</a>
             <a class="btn btn-default" href="<?=Url::to(['users/search-wx','type'=>'province','content'=>'江苏'])?>">江苏</a>
             <a class="btn btn-default" href="<?=Url::to(['users/search-wx','type'=>'province','content'=>'安徽 '])?>">安徽</a>
-            <a class="btn btn-default" href="javascript:void(0);">考试通过</a>
             <div id="search" class="collapse">
                 <hr>
                 <?= Html::beginForm(['users/search-wx'], 'post', ['class' => 'form-inline']) ?>
@@ -50,10 +48,9 @@ $this->title = '微信用户管理';
                     <th class="text-align-center">性别</th>
                     <th class="text-align-center">用户等级</th>
                     <th class="text-align-center">推荐码</th>
-                    <th class="text-align-center">绑定码</th>
+                    <th class="text-align-center">推荐用户</th>
                     <th class="text-align-center">专业岗位</th>
                     <th class="text-align-center">考试区域</th>
-                    <th class="text-align-center">是否通过</th>
                     <th class="text-align-center">工作单位</th>
                     <th class="text-align-center">地址</th>
                 </tr>
@@ -66,11 +63,10 @@ $this->title = '微信用户管理';
                     <td><?= $user->cellphone ?></td>
                     <td><?= $user->sex ?></td>
                     <td><?= $user->roleName ?></td>
-                    <td><?= $user->roleName ?></td>
-                    <td><?= $user->roleName ?></td>
+                    <td><?= $user->recommendCode ?></td>
+                    <td><?= $user->recommendUser['nickname'] ?></td>
                     <td><?= $user->majorJob['name'] ?></td>
                     <td><?= $user->province['name'] ?></td>
-                    <td><?= $user->roleName ?></td>
                     <td><?= $user->company ?></td>
                     <td><?= $user->address ?></td>
                 </tr>
