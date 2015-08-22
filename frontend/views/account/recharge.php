@@ -38,7 +38,7 @@ use yii\widgets\ActiveForm;
     <div class="form-group">
         <div class="col-xs-offset-3 col-xs-9 no-padding-left">
             <button type="button" class="btn btn-primary wxPay">微信支付</button>
-            <button type="submit" class="btn btn-primary">支付宝支付</button>
+            <!--<button type="button" class="btn btn-primary">支付宝支付</button>-->
         </div>
     </div>
     <?php ActiveForm::end() ?>
