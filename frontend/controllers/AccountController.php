@@ -157,4 +157,23 @@ class AccountController extends Controller
         }
         throw new Exception("非法获取");
     }
+
+    /** 用户验证推荐用户 */
+    public function actionGetRecommend(){
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            $recommendCode = $request->post('recommendCode');
+            if($recommendCode){
+                $recommendUser = Users::findUserByRecommendCode($recommendCode);
+                if($recommendUser){
+                    return "您要绑定的推荐人是：".$recommendUser['nickname'];
+                }else{
+                    return "该推荐码不存在";
+                }
+            }else{
+                return "请先填写推荐码";
+            }
+        }
+        throw new Exception("非法获取");
+    }
 }

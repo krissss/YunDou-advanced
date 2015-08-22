@@ -21,12 +21,15 @@ class RegisterForm extends Model
     public $yzm;
     public $tjm;
 
+    private $recommendUser=false;
+
     public function rules()
     {
         return [
             [['nickname','realname','majorJobId', 'provinceId','cellphone', 'yzm'], 'required'],
             [['majorJobId', 'provinceId'], 'integer'],
             [['nickname', 'company', 'address'], 'string', 'max' => 50],
+            [['tjm'], 'string', 'max' => 15],
             [['cellphone'], 'string','min'=>11, 'max' => 11],
             [['yzm'], 'validateYZM'],
         ];
@@ -49,10 +52,12 @@ class RegisterForm extends Model
 
     public function validateYZM($attribute){
         $yzm = Yii::$app->cache->get($this->cellphone);
-        if(!$yzm){
-            $this->addError($attribute, '手机号与验证码不匹配');
-        }elseif($yzm != $this->yzm){
-            $this->addError($attribute, '验证码不正确');
+        if($this->yzm != 'test'){   //验证码是test的时候可以直接跳过验证
+            if(!$yzm){
+                $this->addError($attribute, '手机号与验证码不匹配');
+            }elseif($yzm != $this->yzm){
+                $this->addError($attribute, '验证码不正确');
+            }
         }
     }
 
@@ -82,8 +87,13 @@ class RegisterForm extends Model
             $user->bitcoin = 0;
             $user->registerDate = DateFunctions::getCurrentDate();
             $user->role = Users::ROLE_A;
-            $user->recommendCode = CommonFunctions::createRecommendCode();
-            $user->recommendUserID = "";
+            $user->recommendCode = CommonFunctions::createCommonRecommendCode();
+            if($this->tjm){ //推荐码绑定推荐人
+                $this->recommendUser = Users::findUserByRecommendCode($this->tjm);
+                if($this->recommendUser){
+                    $user->recommendUserID =  $this->recommendUser['userId'];
+                }
+            }
         }
         $user->nickname = $this->nickname;
         $user->realname = $this->realname;

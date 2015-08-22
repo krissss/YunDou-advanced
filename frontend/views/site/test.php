@@ -18,4 +18,4 @@ use yii\helpers\Html;
 
 //echo urldecode(Url::current([],true));
 
-echo \common\models\Scheme::checkPayScheme(\common\models\Scheme::USAGE_PAY,"2015-08-22 00:00:00","2015-08-23 00:00:00");
+echo \common\functions\CommonFunctions::createCommonRecommendCode();

@@ -2,7 +2,8 @@ $(document).ready(function(){
     var body = $("body");
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
-    /**  account/register */
+    /** 实名认证相关 */
+    /** 获取手机验证码 */
     var yzmFlag = false;    //是否正在获取验证码的标志
     $(".get_yzm").click(function(){
         if(yzmFlag){    //如过正在获取，则不允许再点击
@@ -33,8 +34,27 @@ $(document).ready(function(){
             }
         });
     });
+    /** 验证推荐人 */
+    var validateRecommendFlag = false;  //防止频繁点击
+    $(".validate_recommend").click(function(){
+        if(!validateRecommendFlag){
+            var recommendCode = $("#registerform-tjm").val();
+            if(recommendCode){
+                var $this = $(this);
+                $this.text("检查中。。。");
+                validateRecommendFlag = true;
+                $.post("?r=account/get-recommend",{_csrf: csrfToken,recommendCode:recommendCode},function(data){
+                    $this.text("推荐人检查");
+                    validateRecommendFlag = false;
+                    alert(data);
+                });
+            }else{
+                alert("请先填写推荐码");
+            }
+        }
+    });
 
-    /** practice/index */
+    /** 练习首页相关 */
     var pay_modal = $("#pay_modal");
 
     var redirect_url = "";

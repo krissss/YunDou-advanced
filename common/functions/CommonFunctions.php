@@ -30,11 +30,11 @@ class CommonFunctions
     }
 
     /**
-     * 创建验证码
+     * 创建普通推荐
      * @return int|string
      */
-    public static function createRecommendCode(){
-        $code = time();
+    public static function createCommonRecommendCode(){
+        $code = 'U';
         $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
         for($i = 0; $i < 5; $i ++) {
             $code .= $pattern {mt_rand ( 0, 61 )}; //生成php随机数

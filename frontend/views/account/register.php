@@ -33,7 +33,11 @@ $openId = $session->get('openId');
     ]) ?>
     <?= $form->field($registerForm, 'company') ?>
     <?= $form->field($registerForm, 'address') ?>
-    <?= $form->field($registerForm, 'tjm') ?>
+    <?= $form->field($registerForm, 'tjm',[
+        'template' => "{label}<div class='col-xs-4 no-padding-left'>{input}</div><div class='col-xs-5 no-padding-left'>
+                    <span class='btn btn-primary validate_recommend'>推荐人检查</span></div><div class='col-xs-9 col-xs-offset-3'>{error}</div>",
+        'labelOptions' => ['class'=>'col-xs-3 control-label'],
+    ]) ?>
     <div class="form-group">
         <div class="col-xs-offset-3 col-xs-9 no-padding-left">
             <button type="submit" class="btn btn-primary">提交</button>

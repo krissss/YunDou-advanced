@@ -170,6 +170,11 @@ class Users extends \yii\db\ActiveRecord
         return $user;
     }
 
+    /**
+     * 获取用户的云豆数
+     * @param $userId
+     * @return mixed
+     */
     public static function findBitcoin($userId){
         $user = Users::find()
             ->select('bitcoin')
@@ -179,11 +184,33 @@ class Users extends \yii\db\ActiveRecord
         return $user['bitcoin'];
     }
 
+    /**
+     * 用户添加云豆
+     * @param $userId
+     * @param $bitcoin
+     * @throws Exception
+     * @throws \Exception
+     */
     public static function addBitcoin($userId,$bitcoin){
         $user = Users::findOne($userId);
         $user->bitcoin+=intval($bitcoin);
         if(!$user->update()){
             throw new Exception("Users update error");
         }
+    }
+
+    /**
+     * 根据推荐码查询用户
+     * @param $recommendCode
+     * @return bool|mixed
+     */
+    public static function findUserByRecommendCode($recommendCode){
+        $user = Users::find()
+            ->where(['recommendCode'=>$recommendCode])
+            ->one();
+        if($user){
+            return $user;
+        }
+        return false;
     }
 }
