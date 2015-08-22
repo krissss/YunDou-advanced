@@ -20,4 +20,5 @@ use yii\helpers\Html;
 
 //echo \common\functions\CommonFunctions::createCommonRecommendCode();
 
-echo Url::base(true);
+//echo Url::base(true);
+\common\models\Users::addBitcoin(5,10000);

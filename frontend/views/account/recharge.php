@@ -5,8 +5,6 @@
 
 use yii\widgets\ActiveForm;
 
-$this->title = "云豆充值";
-
 ?>
 <div class="load-container loading my_hide">
     <div class="loader">Loading...</div>

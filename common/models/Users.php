@@ -185,21 +185,6 @@ class Users extends \yii\db\ActiveRecord
     }
 
     /**
-     * 用户添加云豆
-     * @param $userId
-     * @param $bitcoin
-     * @throws Exception
-     * @throws \Exception
-     */
-    public static function addBitcoin($userId,$bitcoin){
-        $user = Users::findOne($userId);
-        $user->bitcoin+=intval($bitcoin);
-        if(!$user->update()){
-            throw new Exception("Users update error");
-        }
-    }
-
-    /**
      * 根据推荐码查询用户
      * @param $recommendCode
      * @return bool|mixed

@@ -67,6 +67,15 @@ class IncomeConsume extends \yii\db\ActiveRecord
         return $this->hasOne(UsageMode::className(),['usageModeId'=>'usageModeId']);
     }
 
+    /**
+     * 保存一条记录，注意：此处会对应增加或减少用户的云豆数！！
+     * @param $userId
+     * @param $bitcoin
+     * @param $usageModeId
+     * @param $type
+     * @throws Exception
+     * @throws \Exception
+     */
     public static function saveRecord($userId,$bitcoin,$usageModeId,$type){
         $record = new IncomeConsume();
         $record->userId = $userId;
@@ -92,6 +101,11 @@ class IncomeConsume extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * 根据用户查询记录
+     * @param $userId
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function findByUser($userId){
         return IncomeConsume::find()
             ->where(['userId'=>$userId])

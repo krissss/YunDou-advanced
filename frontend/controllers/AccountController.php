@@ -78,7 +78,7 @@ class AccountController extends Controller
         $provinces = Province::findAllForObject();
         $user = Yii::$app->session->get('user');
         //已经进行过实名认证的用户
-        if($user['registerDate']&&$user['registerDate']>0){
+        if($user['majorJobId'] != 0&&$user['registerDate']&&$user['registerDate']>0){
             CommonFunctions::createAlertMessage("您已经进行过实名认证，可以选择修改某些信息！","info");
             $updateInfoForm = new UpdateInfoForm();
             if($updateInfoForm->load(Yii::$app->request->post()) && $updateInfoForm->validate()){
@@ -140,7 +140,7 @@ class AccountController extends Controller
         Yii::$app->session->set("scheme",$scheme);  //将充值方式存入，在后面记录用户充值记录的时候使用
         $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例
         if($request->get('type')=='over'){  //支付成功后
-            Pay::recordOne();   //记录充值记录+用户云豆数增加+收入支出表变化
+            Pay::recordOne();   //记录充值记录+收入支出表变化+用户云豆数增加
             CommonFunctions::createAlertMessage("充值成功","success");
         }else{
             CommonFunctions::createAlertMessage("当前充值比例：1:$proportion","info");

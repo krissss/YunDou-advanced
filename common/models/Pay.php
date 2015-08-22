@@ -88,7 +88,7 @@ class Pay extends \yii\db\ActiveRecord
         $user = $session->get('user');
         $scheme = $session->get('scheme');
         $money = $session->get('money');
-        $pay = new Pay();
+        $pay = new Pay();   //充值记录
         $pay->userId = $user['userId'];
         $pay->money = $money;
         $addBitcoin = intval($money)*intval($scheme['getBitcoin'])/intval($scheme['payMoney']);
@@ -97,7 +97,7 @@ class Pay extends \yii\db\ActiveRecord
         if(!$pay->save()){
             throw new Exception("pay save error");
         }
-        Users::addBitcoin($user['userId'],$addBitcoin);
+        //云豆收入支出记录+用户余额改变
         IncomeConsume::saveRecord($user['userId'],$addBitcoin,Scheme::USAGE_PAY,IncomeConsume::TYPE_INCOME);
         $session->remove('scheme');
         $session->remove('money');
