@@ -4,7 +4,7 @@
  */
 use yii\helpers\Url;
 use yii\helpers\Html;
-echo \frontend\functions\WeiXinFunctions::createMenu();
+//echo \frontend\functions\WeiXinFunctions::createMenu();
 //::remember([Url::current([],true)],"openFilter");
 //echo Url::current([],true);
 //echo Url::to(['practice/normal','type'=>'continue','openId'=>"123"],true);
@@ -17,3 +17,5 @@ echo \frontend\functions\WeiXinFunctions::createMenu();
 //echo \common\models\PracticeRecord::findByUser(5);
 
 //echo urldecode(Url::current([],true));
+
+echo \common\models\Scheme::checkPayScheme(\common\models\Scheme::USAGE_PAY,"2015-08-22 00:00:00","2015-08-23 00:00:00");

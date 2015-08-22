@@ -47,9 +47,9 @@ $this->title = '充值设置';
             </tr>
             </thead>
             <tbody>
-            <?php foreach($schemes as $scheme):?>
+            <?php foreach($schemes as $i=>$scheme):?>
                 <tr>
-                    <td><?= $scheme->schemeId ?></td>
+                    <td><?= $i+1 ?></td>
                     <td><?= $scheme->name ?></td>
                     <td><?= $scheme->payMoney ?></td>
                     <td><?= $scheme->getBitcoin ?></td>

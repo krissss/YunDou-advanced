@@ -52,7 +52,9 @@ class RechargeController extends Controller
         $addRechargeForm = new AddRechargeForm();
         if($addRechargeForm->load(Yii::$app->request->post()) && $addRechargeForm->validate()) {
             if ($request->post("state") == "able") {
-                $addRechargeForm->recordOne(true);
+                if($addRechargeForm->recordOne(true)){  //返回值为true则为存在冲突
+                    return $this->redirect(['recharge/index']);
+                }
             } else {
                 $addRechargeForm->recordOne();
             }
@@ -71,7 +73,10 @@ class RechargeController extends Controller
             $schemeId = intval($request->post('id'));
             if($newState == 'open'){
                 $newState = Scheme::STATE_ABLE;
-                Scheme::updateState($schemeId,$newState);
+                $result = Scheme::updateState($schemeId,$newState);
+                if($result){    //冲突错误
+                    return $result;
+                }
                 return 'open';
             }elseif($newState == 'close'){
                 $newState = Scheme::STATE_DISABLE;

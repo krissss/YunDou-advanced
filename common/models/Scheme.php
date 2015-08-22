@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\functions\DateFunctions;
 use Yii;
 use yii\base\Exception;
 
@@ -96,9 +97,19 @@ class Scheme extends \yii\db\ActiveRecord
      * @return array|null|\yii\db\ActiveRecord
      */
     public static function findPayScheme(){
-        return Scheme::find()
+        $currentDate = DateFunctions::getCurrentDate();
+        $scheme = Scheme::find()
             ->where(['usageModeId'=>Scheme::USAGE_PAY,'state'=>Scheme::STATE_ABLE])
+            ->andWhere(['>','level',Scheme::LEVEL_UNDO])
+            ->andWhere(['<=','startDate',$currentDate])
+            ->andWhere(['>=','endDate',$currentDate])
             ->one();
+        if(!$scheme){
+            $scheme = Scheme::find()
+                ->where(['usageModeId'=>Scheme::USAGE_PAY,'state'=>Scheme::STATE_ABLE,'level'=>Scheme::LEVEL_UNDO])
+                ->one();
+        }
+        return $scheme;
     }
 
     /**
@@ -116,15 +127,54 @@ class Scheme extends \yii\db\ActiveRecord
      * @return array|null|\yii\db\ActiveRecord
      */
     public static function findPracticeScheme(){
-        return Scheme::find()
+        $currentDate = DateFunctions::getCurrentDate();
+        $scheme = Scheme::find()
             ->where(['usageModeId'=>Scheme::USAGE_PRACTICE,'state'=>Scheme::STATE_ABLE])
+            ->andWhere(['>','level',Scheme::LEVEL_UNDO])
+            ->andWhere(['<=','startDate',$currentDate])
+            ->andWhere(['>=','endDate',$currentDate])
             ->one();
+        if(!$scheme){
+            $scheme = Scheme::find()
+                ->where(['usageModeId'=>Scheme::USAGE_PRACTICE,'state'=>Scheme::STATE_ABLE,'level'=>Scheme::LEVEL_UNDO])
+                ->one();
+        }
+        return $scheme;
+    }
+
+    /**
+     * 检查方案是否有启用冲突
+     * @param $usageModeId
+     * @param $startDate
+     * @param $endDate
+     * @return bool|mixed
+     */
+    public static function checkScheme($usageModeId,$startDate,$endDate){
+        $scheme = $scheme = Scheme::find()
+            ->where(['usageModeId'=>$usageModeId,'state'=>Scheme::STATE_ABLE])
+            ->andWhere(['>','level',Scheme::LEVEL_UNDO])
+            ->andWhere(['<=','startDate',$startDate])
+            ->andWhere(['>=','endDate',$startDate])
+            ->one();
+        if(!$scheme){   //如果开始时间不在启用的时间当中
+            $scheme = $scheme = Scheme::find()
+                ->where(['usageModeId'=>$usageModeId,'state'=>Scheme::STATE_ABLE])
+                ->andWhere(['>','level',Scheme::LEVEL_UNDO])
+                ->andWhere(['<=','startDate',$endDate])
+                ->andWhere(['>=','endDate',$endDate])
+                ->one();
+        }
+        if(!$scheme){   //如果结束时间不在启用的时间当中
+            return false;   //表示没有冲突
+        }
+        return $scheme->name; //返回冲突的方案的名称
     }
 
     /**
      * 更新状态
      * @param $schemeId
      * @param $newState
+     * @return bool
      * @throws Exception
      * @throws \Exception
      */
@@ -133,9 +183,16 @@ class Scheme extends \yii\db\ActiveRecord
         if(!$scheme){
             throw new Exception("Scheme id not exist");
         }
+        if($newState == Scheme::STATE_ABLE){
+            $checkResult = Scheme::checkScheme($scheme->usageModeId,$scheme->startDate,$scheme->endDate);   //更新开启状态前检查冲突
+            if($checkResult){
+                return "方案启用失败，启用的方案中存在与想要设置的方案时间存在冲突，冲突方案名称是：".$checkResult;
+            }
+        }
         $scheme->state = $newState;
         if(!$scheme->update()){
             throw new Exception("ExamTemplate update error");
         }
+        return false;
     }
 }

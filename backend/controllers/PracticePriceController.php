@@ -52,7 +52,9 @@ class PracticePriceController extends Controller
         $addPracticeForm = new AddPracticeForm();
         if($addPracticeForm->load(Yii::$app->request->post()) && $addPracticeForm->validate()) {
             if ($request->post("state") == "able") {
-                $addPracticeForm->recordOne(true);
+                if($addPracticeForm->recordOne(true)){  //返回值为true则为存在冲突
+                    return $this->redirect(['practice-price/index']);
+                }
             } else {
                 $addPracticeForm->recordOne();
             }
@@ -71,7 +73,10 @@ class PracticePriceController extends Controller
             $schemeId = intval($request->post('id'));
             if($newState == 'open'){
                 $newState = Scheme::STATE_ABLE;
-                Scheme::updateState($schemeId,$newState);
+                $result = Scheme::updateState($schemeId,$newState);
+                if($result){    //冲突错误
+                    return $result;
+                }
                 return 'open';
             }elseif($newState == 'close'){
                 $newState = Scheme::STATE_DISABLE;

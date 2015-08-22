@@ -180,20 +180,24 @@ $(document).ready(function(){
     $(".recharge-checkbox").change(function(){
         var state = "";
         var id = $(this).data("id");
-        if($(this).attr("checked") == "checked"){   //关闭操作
-            $(this).removeAttr("checked");
+        var $this = $(this);
+        if($this.attr("checked") == "checked"){   //关闭操作
+            $this.removeAttr("checked");
             state = "close";
         }else{  //开启操作
-            $(this).attr("checked","checked");
+            $this.attr("checked","checked");
             state = "open";
         }
         $.post("?r=recharge/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
             if(data == 'open'){
                 $(".state_"+id).text("已启用");
+                $this.attr("checked","checked");
             }else if(data == 'close'){
                 $(".state_"+id).text("未启用");
+                $this.removeAttr("checked");
             }else{
                 alert(data);
+                $this.removeAttr("checked");
             }
         });
     });
@@ -232,20 +236,24 @@ $(document).ready(function(){
     $(".practice-checkbox").change(function(){
         var state = "";
         var id = $(this).data("id");
-        if($(this).attr("checked") == "checked"){   //关闭操作
-            $(this).removeAttr("checked");
+        var $this = $(this);
+        if($this.attr("checked") == "checked"){   //关闭操作
+            $this.removeAttr("checked");
             state = "close";
         }else{  //开启操作
-            $(this).attr("checked","checked");
+            $this.attr("checked","checked");
             state = "open";
         }
         $.post("?r=practice-price/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
             if(data == 'open'){
                 $(".state_"+id).text("已启用");
+                $this.attr("checked","checked");
             }else if(data == 'close'){
                 $(".state_"+id).text("未启用");
+                $this.removeAttr("checked");
             }else{
                 alert(data);
+                $this.removeAttr("checked");
             }
         });
     });
