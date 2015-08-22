@@ -32,7 +32,7 @@ class AccountController extends Controller
                 'class' => OpenIdFilter::className(),
             ],[
                 'class' => RegisterFilter::className(),
-                'except' => ['register']
+                'except' => ['register','get-yzm','get-recommend']
             ],
         ];
     }
