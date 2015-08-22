@@ -14,6 +14,8 @@ use frontend\functions\SMS;
 use frontend\models\forms\ApplyInvoiceForm;
 use frontend\models\forms\RechargeForm;
 use frontend\models\forms\RegisterForm;
+use frontend\models\forms\UpdateCellphoneForm;
+use frontend\models\forms\UpdateInfoForm;
 use Yii;
 use common\models\MajorJob;
 use common\models\Province;
@@ -68,6 +70,24 @@ class AccountController extends Controller
 
     /** 实名认证*/
     public function actionRegister(){
+        $majorJobs = MajorJob::findAllForObject();
+        $provinces = Province::findAllForObject();
+        $user = Yii::$app->session->get('user');
+        //已经进行过实名认证的用户
+        if($user['registerDate']&&$user['registerDate']>0){
+            CommonFunctions::createAlertMessage("您已经进行过实名认证，可以选择修改某些信息！","info");
+            $updateInfoForm = new UpdateInfoForm();
+            if($updateInfoForm->load(Yii::$app->request->post()) && $updateInfoForm->validate()){
+                $updateInfoForm->update();
+                CommonFunctions::createAlertMessage("恭喜您，修改成功","success");
+            }
+            return $this->render('update-info',[
+                'updateInfoForm' => $updateInfoForm,
+                'majorJobs' => $majorJobs,
+                'provinces' => $provinces
+            ]);
+        }
+        //未进行过实名认证的用户
         $registerForm = new RegisterForm();
         CommonFunctions::createAlertMessage("为了更好的为您提供服务，请认真进行实名认证！","info");
         if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
@@ -78,12 +98,22 @@ class AccountController extends Controller
                 return $this->redirect($url);
             }
         }
-        $majorJobs = MajorJob::findAllForObject();
-        $provinces = Province::findAllForObject();
         return $this->render('register',[
             'registerForm' => $registerForm,
             'majorJobs' => $majorJobs,
             'provinces' => $provinces
+        ]);
+    }
+
+    public function actionUpdateCellphone(){
+        $updateCellphoneForm = new UpdateCellphoneForm();
+        CommonFunctions::createAlertMessage("您可以在此修改您的手机号！","info");
+        if($updateCellphoneForm->load(Yii::$app->request->post()) && $updateCellphoneForm->validate()){
+            $updateCellphoneForm->update();
+            CommonFunctions::createAlertMessage("恭喜您，修改成功","success");
+        }
+        return $this->render('update-cellphone',[
+            'updateCellphoneForm' => $updateCellphoneForm
         ]);
     }
 
@@ -166,6 +196,10 @@ class AccountController extends Controller
             if($recommendCode){
                 $recommendUser = Users::findUserByRecommendCode($recommendCode);
                 if($recommendUser){
+                    $user = Yii::$app->session->get('user');
+                    if($recommendUser['weixin']==$user['weixin']){
+                        return "您要绑定的推荐人你自己，且绑定只能一次，这将造成您后期无法获得返点，请慎重考虑！";
+                    }
                     return "您要绑定的推荐人是：".$recommendUser['nickname'];
                 }else{
                     return "该推荐码不存在";

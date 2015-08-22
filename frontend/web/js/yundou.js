@@ -6,6 +6,14 @@ $(document).ready(function(){
     /** 获取手机验证码 */
     var yzmFlag = false;    //是否正在获取验证码的标志
     $(".get_yzm").click(function(){
+        var verifyCode = $("#updatecellphoneform-verifycode");
+        if(verifyCode.length>0){    //存在图片验证码，需要先验证图片验证码
+            if(!verifyCode.val()){
+                alert("请先填写图片验证码");
+                verifyCode.focus();
+                return false;
+            }
+        }
         if(yzmFlag){    //如过正在获取，则不允许再点击
             alert("60秒内请勿重复点击");
             return false;
@@ -31,6 +39,7 @@ $(document).ready(function(){
                 alert("发送成功");
             }else{
                 alert(data);    //调试用，上线后不应该弹出
+                console.log(data);
             }
         });
     });

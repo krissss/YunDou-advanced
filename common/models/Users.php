@@ -213,4 +213,13 @@ class Users extends \yii\db\ActiveRecord
         }
         return false;
     }
+
+    public static function findRecommendUserName($userId){
+        $user = Users::findOne($userId);
+        if($user){
+            return $user['nickname'];
+        }else{
+            return "无推荐人";
+        }
+    }
 }

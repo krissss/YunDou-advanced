@@ -6,9 +6,6 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
-$session = Yii::$app->session;
-$user = $session->get('user');
-$openId = $session->get('openId');
 ?>
 <?=\common\widgets\AlertWidget::widget();?>
 <div class="container-fluid">
@@ -21,7 +18,7 @@ $openId = $session->get('openId');
             'labelOptions' => ['class'=>'col-xs-3 control-label'],
         ],
     ]) ?>
-    <?= $form->field($registerForm, 'nickname')->textInput(['value'=>$user['nickname']]) ?>
+    <?= $form->field($registerForm, 'nickname') ?>
     <?= $form->field($registerForm, 'realname') ?>
     <?= $form->field($registerForm, 'provinceId')->dropDownList(ArrayHelper::map($provinces,'provinceId','name'),['prompt'=>'请选择'])?>
     <?= $form->field($registerForm, 'majorJobId')->dropDownList(ArrayHelper::map($majorJobs,'majorJobId','name'),['prompt'=>'请选择'])?>

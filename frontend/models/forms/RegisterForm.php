@@ -1,5 +1,5 @@
 <?php
-
+/** 实名认证表单 */
 namespace frontend\models\forms;
 
 use Yii;
@@ -83,7 +83,7 @@ class RegisterForm extends Model
             $user = new Users();
             $user->weixin = $openId;
         }
-        if(!$user->registerDate){    //如果用户注册日期不存在，表明用户第一次实名认证
+        if(!$user->registerDate || $user->registerDate==0){    //如果用户注册日期不存在或为0，表明用户第一次实名认证
             $user->bitcoin = 0;
             $user->registerDate = DateFunctions::getCurrentDate();
             $user->role = Users::ROLE_A;
@@ -91,7 +91,9 @@ class RegisterForm extends Model
             if($this->tjm){ //推荐码绑定推荐人
                 $this->recommendUser = Users::findUserByRecommendCode($this->tjm);
                 if($this->recommendUser){
-                    $user->recommendUserID =  $this->recommendUser['userId'];
+                    if($this->recommendUser['userId'] != $user['userId']){  //推荐人不是自己
+                        $user->recommendUserID =  $this->recommendUser['userId'];
+                    }
                 }
             }
         }
