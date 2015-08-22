@@ -56,6 +56,7 @@ $this->title = '充值设置';
                     <td><?= $scheme->startDate==null?"永久":$scheme->startDate ?></td>
                     <td><?= $scheme->endDate==null?"永久":$scheme->endDate ?></td>
                     <td>
+                        <?php if($scheme->level != Scheme::LEVEL_UNDO): //非基础方案?>
                         <label>
                             <?php if($scheme->state==Scheme::STATE_ABLE): ?>
                                 <input class="checkbox-slider toggle colored-palegreen practice-checkbox checked_<?=$scheme->schemeId?>" type="checkbox" data-id="<?=$scheme->schemeId?>" checked>
@@ -64,10 +65,11 @@ $this->title = '充值设置';
                             <?php endif; ?>
                             <span class="text"></span>
                         </label>
+                        <?php endif; ?>
                         <span class="state_<?=$scheme->schemeId?>"><?= $scheme->stateName ?></span>
                     </td>
                     <td>
-                        <?php if($scheme->level != Scheme::LEVEL_UNDO):?>
+                        <?php if($scheme->level != Scheme::LEVEL_UNDO): //非基础方案?>
                         <button class="btn btn-xs btn-default update_practice" data-id="<?=$scheme->schemeId?>">
                             <span class="fa fa-edit"></span>编辑
                         </button>
