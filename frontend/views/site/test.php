@@ -18,4 +18,6 @@ use yii\helpers\Html;
 
 //echo urldecode(Url::current([],true));
 
-echo \common\functions\CommonFunctions::createCommonRecommendCode();
+//echo \common\functions\CommonFunctions::createCommonRecommendCode();
+
+echo Url::base(true);

@@ -7,6 +7,7 @@ use yii\helpers\Url;
 $this->title = "本次练习结果";
 
 $session = Yii::$app->session;
+$user = $session->get('user');
 ?>
 
 <?php
@@ -28,9 +29,9 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
     });
     wx.ready(function(){
         wx.onMenuShareTimeline({
-            title: '成绩分享',
-            link: 'http://baidu.com',
-            imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+            title: '晒成绩啦！我计划参加‘<?=$session->get("majorJob")?>’考试，用‘云豆讲堂’进行在线练习，学习效率很高，也很方便，快来看看吧！',
+            link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
+            imgUrl: '<?=Url::base(true)?>/images/logo.png',
             success: function (res) {
                 alert('分享成功');
             },
@@ -68,7 +69,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 
 <div id="share" style="display:none; position: fixed; top: 0; right: 0; text-align: right; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.498039);">
     <img src="images/share-it.png" style="position: relative;right: 10%;top: 2%">
-    <p class="text-center" style="font-size: 26px;color: #fff;">分享好友或朋友圈</p>
+    <p class="text-center" style="font-size: 26px;color: #fff;">分享朋友圈或好友，推荐还可以赚云豆哦！</p>
 </div>
 <script>
     var shareBox = document.getElementById("share");
