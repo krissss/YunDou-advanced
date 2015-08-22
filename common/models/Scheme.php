@@ -83,12 +83,13 @@ class Scheme extends \yii\db\ActiveRecord
     }
 
     /**
- * 查询所有充值方案
- * @return array|null|\yii\db\ActiveRecord
- */
+     * 查询所有充值方案
+     * @return array|null|\yii\db\ActiveRecord
+     */
     public static function findAllPayScheme(){
         return Scheme::find()
             ->where(['usageModeId'=>Scheme::USAGE_PAY])
+            ->orderBy(['startDate'=>SORT_DESC])
             ->all();
     }
 
@@ -119,6 +120,7 @@ class Scheme extends \yii\db\ActiveRecord
     public static function findAllPracticeScheme(){
         return Scheme::find()
             ->where(['usageModeId'=>Scheme::USAGE_PRACTICE])
+            ->orderBy(['startDate'=>SORT_DESC])
             ->all();
     }
 
