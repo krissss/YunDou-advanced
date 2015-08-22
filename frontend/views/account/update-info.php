@@ -29,10 +29,10 @@ $user = Yii::$app->session->get('user');
     <?= $form->field($updateInfoForm, 'address') ?>
     <div class="form-group">
         <label class="col-xs-3 control-label">手机号</label>
-        <div class='col-xs-4 no-padding-left'>
+        <div class='col-xs-5 no-padding-left'>
             <input type="text" class="form-control" name="cellphone" value="<?=$user['cellphone']?>" disabled>
         </div>
-        <div class='col-xs-5 no-padding-left'>
+        <div class='col-xs-4 no-padding-left'>
             <a href="<?=Url::to(['account/update-cellphone'])?>" class='btn btn-primary'>修改手机号</a>
         </div>
     </div>
