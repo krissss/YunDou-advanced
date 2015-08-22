@@ -4,7 +4,7 @@ use yii\helpers\Url;
 
 $session = Yii::$app->session;
 $leftBitcoin = $session->getFlash('leftBitcoin');
-$payBitcoin = $session->getFlash('payBitcoin');
+$scheme = $session->get('practice-scheme');
 
 ?>
 <div class="load-container loading" style="display: none;">
@@ -75,7 +75,7 @@ $payBitcoin = $session->getFlash('payBitcoin');
     </div>
 </div>
 
-<?php if($leftBitcoin || $payBitcoin):?>
+<?php if($leftBitcoin && $scheme):?>
 <div class="modal fade" id="pay_modal" tabindex="-1" role="dialog" aria-labelledby="在线学习操作说明">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -84,7 +84,9 @@ $payBitcoin = $session->getFlash('payBitcoin');
                 <h4 class="modal-title" id="myModalLabel">在线学习操作说明</h4>
             </div>
             <div class="modal-body">
-                <p>您还剩余“云豆”<?=$leftBitcoin?>，本次学习将使用<?=$payBitcoin?>颗。</p>
+                <p>您还剩余“云豆”<?=$leftBitcoin?>颗</p>
+                <p>本次学习将花费<?=$scheme->payBitcoin?>颗</p>
+                <p>从您支付完成，可以使用<?=$scheme->day?>天</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

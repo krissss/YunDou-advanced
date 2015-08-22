@@ -21,20 +21,17 @@ class PracticeRecordFilter extends ActionFilter
         $session = Yii::$app->session;
         $user = $session->get('user');
         $leftBitcoin = $session->getFlash('leftBitcoin');
-        $payBitcoin = $session->getFlash('payBitcoin');
-        if($leftBitcoin || $payBitcoin){
+        if($leftBitcoin){
             return parent::beforeAction($action);
         }
         $practiceRecord = PracticeRecord::findByUser($user['userId']);
         if(!$practiceRecord) {  //如果没有练习权
             $leftBitcoin = Users::findBitcoin($user['userId']);
-            //获取支付方案
+            //获取在线练习支付方案
             /** @var $scheme \common\models\Scheme */
-            $scheme = Scheme::findOne(['usageModeId'=>Scheme::USAGE_PRACTICE]);
+            $scheme = Scheme::findPracticeScheme();
             $session->set('practice-scheme',$scheme);   //存入session，在支付的时候使用
-            $payBitcoin = $scheme->payBitcoin;
             $session->setFlash('leftBitcoin',$leftBitcoin); //剩余云豆
-            $session->setFlash('payBitcoin',$payBitcoin);   //本次需要支付的云豆
             $url = Url::to(['practice/index',true]);
             header("Location:$url");
             return false;

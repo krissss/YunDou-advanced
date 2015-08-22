@@ -118,13 +118,6 @@ class AccountController extends Controller
         ]);
     }
 
-    /** 接收微信支付异步通知回调地址，貌似不起作用 */
-    public function actionNotify(){
-        require_once "./../functions/PayNotifyCallBack.php";
-        $notify = new \PayNotifyCallBack();
-        $notify->Handle(false);
-    }
-
     /** 我要推荐 */
     public function actionRecommend(){
         return $this->render('recommend');
