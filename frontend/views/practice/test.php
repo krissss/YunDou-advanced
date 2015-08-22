@@ -5,6 +5,8 @@
 /** @var $currentNumber int */
 /** @var $startNumber int */
 
+$this->title = "在线练习";
+
 $session = Yii::$app->session;
 ?>
 <div class="load-container loading">

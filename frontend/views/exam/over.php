@@ -4,6 +4,9 @@
 /** @var $totalScore */
 
 use yii\helpers\Url;
+
+$this->title = "模拟考试结果";
+
 $session = Yii::$app->session;
 ?>
 

@@ -5,6 +5,8 @@ use yii\helpers\Url;
 use common\models\IncomeConsume;
 use common\functions\CommonFunctions;
 
+$this->title = "我的账户";
+
 $user = Yii::$app->session->get('user');
 $userIcon = isset($user['userIcon'])?$user['userIcon']:null;
 $userIcon = CommonFunctions::createHttpImagePath($userIcon);

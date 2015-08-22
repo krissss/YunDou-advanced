@@ -8,6 +8,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use common\models\Users;
 
+$this->title = "更新个人信息";
+
 $user = Yii::$app->session->get('user');
 ?>
 <?=\common\widgets\AlertWidget::widget();?>

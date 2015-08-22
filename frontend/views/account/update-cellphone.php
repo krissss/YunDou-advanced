@@ -3,6 +3,8 @@
 
 use yii\widgets\ActiveForm;
 
+$this->title = "更新手机号";
+
 ?>
 <?=\common\widgets\AlertWidget::widget();?>
 <div class="container-fluid">

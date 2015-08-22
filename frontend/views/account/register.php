@@ -6,6 +6,8 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
+$this->title = "实名认证";
+
 ?>
 <?=\common\widgets\AlertWidget::widget();?>
 <div class="container-fluid">

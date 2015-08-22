@@ -6,6 +6,9 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use common\models\Service;
+
+$this->title = "咨询与建议";
+
 ?>
 <?=\common\widgets\AlertWidget::widget();?>
 <div class="container-fluid">

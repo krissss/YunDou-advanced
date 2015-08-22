@@ -2,8 +2,8 @@
 /** 练习页面 */
 /** @var $testLibraries common\models\TestLibrary[] */
 
-//$this->registerJsFile('frontend/web/js/yundou-testtype.js',['depends'=>['frontend\assets\AppAsset']]);
-//$this->registerJsFile('YunDou-advanced/frontend/web/js/yundou-testtype.js',['depends'=>['frontend\assets\AppAsset']]);
+$this->title = "模拟考试";
+
 $session = Yii::$app->session;
 $questionNumber = 1;
 ?>

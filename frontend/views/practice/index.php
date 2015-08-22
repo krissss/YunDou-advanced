@@ -2,6 +2,8 @@
 
 use yii\helpers\Url;
 
+$this->title = "在线练习";
+
 $session = Yii::$app->session;
 $leftBitcoin = $session->getFlash('leftBitcoin');
 $scheme = $session->get('practice-scheme');

@@ -3,6 +3,9 @@
 /** @var $wrongNumber int */
 
 use yii\helpers\Url;
+
+$this->title = "本次练习结果";
+
 $session = Yii::$app->session;
 ?>
 

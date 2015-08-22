@@ -3,6 +3,9 @@
 /** @var $invoices \common\models\Invoice[] */
 
 use yii\widgets\ActiveForm;
+
+$this->title = "发票申请";
+
 ?>
 <?=\common\widgets\AlertWidget::widget();?>
 <div class="container-fluid">

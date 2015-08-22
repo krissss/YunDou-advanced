@@ -1,8 +1,7 @@
 <?php
-
-//\frontend\assets\WeChatJsAsset::register($this);
 use yii\helpers\Url;
-//$this->registerJsFile('frontend/web/js/yundou-wechat.js',['depends'=>['frontend\assets\AppAsset']]);
+
+$this->title = "我要推荐";
 
 $user = Yii::$app->session->get('user');
 ?>
