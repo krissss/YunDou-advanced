@@ -16,9 +16,11 @@ use yii\widgets\ActiveForm;
         ],
     ]) ?>
     <?= $form->field($updateCellphoneForm, 'cellphone')->textInput(['class'=>'form-control mobile','type'=>'number']) ?>
-    <?= $form->field($updateCellphoneForm, 'verifyCode')->widget(\yii\captcha\Captcha::className(), [
+    <?= $form->field($updateCellphoneForm, 'verifyCode',[
+        'template' => "{label}{input}<div class='col-xs-9 col-xs-offset-3'>{error}</div>",
+    ])->widget(\yii\captcha\Captcha::className(), [
         'name'=>'verifyCode',
-        'template' => '<div class="col-xs-4 no-padding-left">{input}</div><div class="col-xs-5 no-padding-left">{image}</div>',
+        'template' => '<div class="col-xs-4 no-padding-left">{input}</div><div class="col-xs-5 no-padding-left" style="height: 34px;">{image}</div>',
     ]);?>
     <?= $form->field($updateCellphoneForm, 'yzm', [
         'template' => "{label}<div class='col-xs-4 no-padding-left'>{input}</div><div class='col-xs-5 no-padding-left'>
