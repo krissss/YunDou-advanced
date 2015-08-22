@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\functions\CommonFunctions;
 use frontend\filters\OpenIdFilter;
+use frontend\filters\RegisterFilter;
 use Yii;
 use common\models\Service;
 use frontend\models\forms\ConsultForm;
@@ -15,7 +16,9 @@ class ServiceController extends Controller
         return [
             'access' => [
                 'class' => OpenIdFilter::className(),
-            ],
+            ],[
+                'class' => RegisterFilter::className()
+            ]
         ];
     }
 

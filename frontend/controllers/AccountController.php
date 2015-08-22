@@ -10,6 +10,7 @@ use common\models\PracticeRecord;
 use common\models\Scheme;
 use common\models\Users;
 use frontend\filters\OpenIdFilter;
+use frontend\filters\RegisterFilter;
 use frontend\functions\SMS;
 use frontend\models\forms\ApplyInvoiceForm;
 use frontend\models\forms\RechargeForm;
@@ -29,6 +30,9 @@ class AccountController extends Controller
         return [
             'access' => [
                 'class' => OpenIdFilter::className(),
+            ],[
+                'class' => RegisterFilter::className(),
+                'except' => ['register']
             ],
         ];
     }
