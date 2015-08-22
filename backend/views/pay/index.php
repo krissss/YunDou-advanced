@@ -60,7 +60,7 @@ $this->title =  '资金管理';
                     <td><?= $model->users['nickname'] ?></td>
                     <td><?= $model->users['roleName'] ?></td>
                     <td><?= $model->money ?></td>
-                    <td><?= $model->money ?></td>
+                    <td><?= $model->bitcoin ?></td>
                 </tr>
             <?php endforeach;?>
             </tbody>
