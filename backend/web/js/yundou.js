@@ -1,5 +1,6 @@
 $(document).ready(function(){
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
+    var body = $("body");
 
     /** 基础数据，区域或专业岗位 */
     $(".update_area_major").click(function(){
@@ -21,7 +22,7 @@ $(document).ready(function(){
         var $this = $(this);
         $this.text("修改中");
         agree_invoiceFlag = true;
-        $.post("?r=invoice/change-state",{invoiceId:id,state:'agree'},function(){
+        $.post("?r=invoice/change-state",{_csrf: csrfToken,invoiceId:id,state:'agree'},function(){
             $(".invoice_"+id).hide();
         });
     });
@@ -37,7 +38,7 @@ $(document).ready(function(){
         var $this = $(this);
         $this.text("修改中");
         refuse_invoiceFlag = true;
-        $.post("?r=invoice/change-state",{invoiceId:id,state:'refuse'},function(){
+        $.post("?r=invoice/change-state",{_csrf: csrfToken,invoiceId:id,state:'refuse'},function(){
             $(".invoice_"+id).hide();
         });
     });
@@ -54,7 +55,7 @@ $(document).ready(function(){
 
     /** 模拟考试模板相关 */
     /** 修改启用状态 */
-    $(".checkbox-state").change(function(){
+    $(".template-checkbox").change(function(){
         var state = "";
         var id = $(this).data("id");
         if($(this).attr("checked") == "checked"){   //关闭操作
@@ -140,7 +141,7 @@ $(document).ready(function(){
         var $this = $(this);
         $this.text("修改中");
         publishFlag = true;
-        $.post("?r=service/publish",{serviceId:id},function(data){
+        $.post("?r=service/publish",{_csrf: csrfToken,serviceId:id},function(data){
             if(data == 'publish'){
                 $(".state_"+id).text("已发布");
                 $this.text("取消发布");
@@ -153,5 +154,57 @@ $(document).ready(function(){
                 alert(data);
             }
         });
+    });
+
+    /** 充值方案相关 */
+    /** 添加方案 */
+    $(".add_recharge").click(function(){
+        $.post("?r=recharge/add-update",{_csrf: csrfToken},function(data){
+            body.append(data);
+            $(".add_recharge_modal").last().modal('show');
+        });
+    });
+    /** 编辑方案 */
+    $(".update_recharge").click(function(){
+        var id = $(this).data("id");
+        if($(".checked_"+id).attr("checked") == "checked"){
+            alert("充值方案启用中，不能编辑");
+            return false;
+        }
+        $.post("?r=recharge/add-update",{_csrf: csrfToken,schemeId:id},function(data){
+            body.append(data);
+            $(".add_recharge_modal").last().modal('show');
+        });
+    });
+    /** 修改启用状态 */
+    $(".recharge-checkbox").change(function(){
+        var state = "";
+        var id = $(this).data("id");
+        if($(this).attr("checked") == "checked"){   //关闭操作
+            $(this).removeAttr("checked");
+            state = "close";
+        }else{  //开启操作
+            $(this).attr("checked","checked");
+            state = "open";
+        }
+        $.post("?r=recharge/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
+            if(data == 'open'){
+                $(".state_"+id).text("已启用");
+            }else if(data == 'close'){
+                $(".state_"+id).text("未启用");
+            }else{
+                alert(data);
+            }
+        });
+    });
+    /** 删除 */
+    $(".recharge-delete").click(function(){
+        var id = $(this).data("id");
+        if($(".checked_"+id).attr("checked") == "checked"){
+            alert("充值方案启用中，不能删除");
+            return false;
+        }else{
+            return confirm("该方案删除后将不能恢复，确定删除？");
+        }
     });
 });

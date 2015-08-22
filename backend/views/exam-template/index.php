@@ -73,9 +73,9 @@ $session = Yii::$app->session;
                     <td>
                         <label>
                         <?php if($examTemplate->state==ExamTemplate::STATE_ABLE): ?>
-                            <input class="checkbox-slider toggle colored-palegreen checkbox-state checked_<?=$examTemplate->examTemplateId?>" type="checkbox" data-id="<?=$examTemplate->examTemplateId?>" checked>
+                            <input class="checkbox-slider toggle colored-palegreen template-checkbox checked_<?=$examTemplate->examTemplateId?>" type="checkbox" data-id="<?=$examTemplate->examTemplateId?>" checked>
                         <?php elseif($examTemplate->state==ExamTemplate::STATE_DISABLE): ?>
-                            <input class="checkbox-slider toggle colored-palegreen checkbox-state checked_<?=$examTemplate->examTemplateId?>" type="checkbox" data-id="<?=$examTemplate->examTemplateId?>">
+                            <input class="checkbox-slider toggle colored-palegreen template-checkbox checked_<?=$examTemplate->examTemplateId?>" type="checkbox" data-id="<?=$examTemplate->examTemplateId?>">
                         <?php endif; ?>
                             <span class="text"></span>
                         </label>

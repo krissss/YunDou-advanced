@@ -1,13 +1,16 @@
 <?php
-
+/** 云豆收支管理 */
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
+use backend\models\forms\AddRechargeForm;
+use common\functions\CommonFunctions;
 use common\models\Scheme;
 use Yii;
 use common\models\IncomeConsume;
 use common\models\Users;
 use common\models\UsageMode;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\data\Pagination;
 
@@ -123,50 +126,6 @@ class IncomeConsumeController extends Controller
             ->limit($pagination->limit)
             ->all();
         return $this->render('index', [
-            'models' => $model,
-            'pages' => $pagination
-        ]);
-    }
-
-    public function actionRecharge(){
-        $query = Scheme::find();
-        $pagination = new Pagination([
-            'defaultPageSize' => Yii::$app->params['pageSize'],
-            'totalCount' => $query->count(),
-        ]);
-        $model = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-        return $this->render('recharge', [
-            'models' => $model,
-            'pages' => $pagination
-        ]);
-    }
-    public function actionFind(){
-        $request = Yii::$app->request;
-        $query = Yii::$app->session->getFlash('query');
-        if ($request->isPost) {
-            $type = $request->post('type');
-            $content = $request->post('content');
-        } else {
-            $type = $request->get('type');
-            $content = trim($request->get('content'));
-        }
-        if ($type || !$query) {
-             {
-                    $query = Scheme::find()
-                        ->where(['like', $type, $content]);
-            }
-        }
-        Yii::$app->session->setFlash('query', $query);
-        $pagination = new Pagination([
-            'defaultPageSize' => Yii::$app->params['pageSize'],
-            'totalCount' => $query->count(),
-        ]);
-        $model = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-        return $this->render('recharge', [
             'models' => $model,
             'pages' => $pagination
         ]);
