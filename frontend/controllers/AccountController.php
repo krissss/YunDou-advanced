@@ -109,6 +109,7 @@ class AccountController extends Controller
         ]);
     }
 
+    /** 更新手机号 */
     public function actionUpdateCellphone(){
         $updateCellphoneForm = new UpdateCellphoneForm();
         CommonFunctions::createAlertMessage("您可以在此修改您的手机号！","info");
@@ -139,7 +140,7 @@ class AccountController extends Controller
         Yii::$app->session->set("scheme",$scheme);  //将充值方式存入，在后面记录用户充值记录的时候使用
         $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例
         if($request->get('type')=='over'){  //支付成功后
-            Pay::recordOne();   //记录充值记录+用户云豆数增加
+            Pay::recordOne();   //记录充值记录+用户云豆数增加+收入支出表变化
             CommonFunctions::createAlertMessage("充值成功","success");
         }else{
             CommonFunctions::createAlertMessage("当前充值比例：1:$proportion","info");

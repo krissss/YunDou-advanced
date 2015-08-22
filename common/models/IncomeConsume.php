@@ -19,8 +19,8 @@ use yii\base\Exception;
  */
 class IncomeConsume extends \yii\db\ActiveRecord
 {
-    const TYPE_INCOME = "0";
-    const TYPE_CONSUME = "1";
+    const TYPE_INCOME = "0";    //云豆收入
+    const TYPE_CONSUME = "1";   //云豆支出
 
     /**
      * @inheritdoc

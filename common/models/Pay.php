@@ -98,6 +98,7 @@ class Pay extends \yii\db\ActiveRecord
             throw new Exception("pay save error");
         }
         Users::addBitcoin($user['userId'],$addBitcoin);
+        IncomeConsume::saveRecord($user['userId'],$addBitcoin,Scheme::USAGE_PAY,IncomeConsume::TYPE_INCOME);
         $session->remove('scheme');
         $session->remove('money');
     }
