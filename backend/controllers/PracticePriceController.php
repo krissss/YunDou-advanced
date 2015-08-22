@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
+use backend\models\forms\AddPracticeForm;
 use yii\web\Controller;
 use common\functions\CommonFunctions;
 use common\models\Scheme;
@@ -21,7 +22,7 @@ class PracticePriceController extends Controller
 
     /** 充值设置 */
     public function actionIndex(){
-        $schemes = Scheme::findAllPayScheme();
+        $schemes = Scheme::findAllPracticeScheme();
         return $this->render('index', [
             'schemes' => $schemes,
         ]);
@@ -33,33 +34,33 @@ class PracticePriceController extends Controller
         if($request->isPost){
             $schemeId = $request->post("schemeId");
             if($schemeId){
-                $addRechargeForm = AddRechargeForm::initWithId($schemeId);
+                $addPracticeForm = AddPracticeForm::initWithId($schemeId);
             }else{
-                $addRechargeForm = new AddRechargeForm();
+                $addPracticeForm = new AddPracticeForm();
             }
-            return $this->renderAjax('recharge-form',[
-                'addRechargeForm' => $addRechargeForm
+            return $this->renderAjax('practice-form',[
+                'addPracticeForm' => $addPracticeForm
             ]);
         }
         CommonFunctions::createAlertMessage("非法获取","error");
-        return $this->redirect(['recharge/index']);
+        return $this->redirect(['practice-price/index']);
     }
 
     /** 生成充值方案 */
     public function actionGenerate(){
         $request = Yii::$app->request;
-        $addRechargeForm = new AddRechargeForm();
-        if($addRechargeForm->load(Yii::$app->request->post()) && $addRechargeForm->validate()) {
+        $addPracticeForm = new AddPracticeForm();
+        if($addPracticeForm->load(Yii::$app->request->post()) && $addPracticeForm->validate()) {
             if ($request->post("state") == "able") {
-                $addRechargeForm->recordOne(true);
+                $addPracticeForm->recordOne(true);
             } else {
-                $addRechargeForm->recordOne();
+                $addPracticeForm->recordOne();
             }
-            CommonFunctions::createAlertMessage("充值方案设置成功","success");
-            return $this->redirect(['recharge/index']);
+            CommonFunctions::createAlertMessage("在线练习方案设置成功","success");
+            return $this->redirect(['practice-price/index']);
         }
-        CommonFunctions::createAlertMessage("生成充值方案失败，参数不全或存在非法字段","error");
-        return $this->redirect(['recharge/index']);
+        CommonFunctions::createAlertMessage("生成在线练习方案失败，参数不全或存在非法字段","error");
+        return $this->redirect(['practice-price/index']);
     }
 
     /** 修改启用状态 */
@@ -118,7 +119,7 @@ class PracticePriceController extends Controller
                 break;
         }
         $schemes = $query
-            ->andWhere(['usageModeId'=>Scheme::USAGE_PAY])
+            ->andWhere(['usageModeId'=>Scheme::USAGE_PRACTICE])
             ->all();
         return $this->render('index',[
             'schemes' => $schemes,

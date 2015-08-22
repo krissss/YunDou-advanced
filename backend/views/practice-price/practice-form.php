@@ -1,9 +1,9 @@
 <?php
-/* @var $addRechargeForm \backend\models\forms\AddRechargeForm */
+/* @var $addPracticeForm \backend\models\forms\AddPracticeForm */
 
 use yii\widgets\ActiveForm;
 ?>
-<div class="modal fade add_recharge_modal" tabindex="-1" role="dialog" aria-labelledby="添加或修改方案">
+<div class="modal fade add_practice_modal" tabindex="-1" role="dialog" aria-labelledby="添加或修改方案">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,18 +11,17 @@ use yii\widgets\ActiveForm;
                 <h4 class="modal-title" id="myModalLabel">添加或修改方案</h4>
             </div>
             <?php $form = ActiveForm::begin([
-                'action'=>\yii\helpers\Url::to(['recharge/generate'])
+                'action'=>\yii\helpers\Url::to(['practice-price/generate'])
             ]); ?>
             <div class="modal-body">
-                <input type="hidden" name="serviceId" value="">
-                <?= $form->field($addRechargeForm, 'schemeId',[
+                <?= $form->field($addPracticeForm, 'schemeId',[
                     'template' => "{input}"
                 ])->hiddenInput()?>
-                <?= $form->field($addRechargeForm, 'name') ?>
-                <?= $form->field($addRechargeForm, 'payMoney')->input("number",['value'=>1]) ?>
-                <?= $form->field($addRechargeForm, 'getBitcoin')->input("number") ?>
-                <?= $form->field($addRechargeForm, 'startDate')->input("datetime-local") ?>
-                <?= $form->field($addRechargeForm, 'endDate')->input("datetime-local") ?>
+                <?= $form->field($addPracticeForm, 'name') ?>
+                <?= $form->field($addPracticeForm, 'payBitcoin')->input("number") ?>
+                <?= $form->field($addPracticeForm, 'day')->input("number") ?>
+                <?= $form->field($addPracticeForm, 'startDate')->input("datetime-local") ?>
+                <?= $form->field($addPracticeForm, 'endDate')->input("datetime-local") ?>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

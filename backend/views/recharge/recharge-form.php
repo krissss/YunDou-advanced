@@ -14,7 +14,6 @@ use yii\widgets\ActiveForm;
                 'action'=>\yii\helpers\Url::to(['recharge/generate'])
             ]); ?>
             <div class="modal-body">
-                <input type="hidden" name="serviceId" value="">
                 <?= $form->field($addRechargeForm, 'schemeId',[
                     'template' => "{input}"
                 ])->hiddenInput()?>

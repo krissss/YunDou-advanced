@@ -168,7 +168,7 @@ $(document).ready(function(){
     $(".update_recharge").click(function(){
         var id = $(this).data("id");
         if($(".checked_"+id).attr("checked") == "checked"){
-            alert("充值方案启用中，不能编辑");
+            alert("方案启用中，不能编辑");
             return false;
         }
         $.post("?r=recharge/add-update",{_csrf: csrfToken,schemeId:id},function(data){
@@ -201,7 +201,59 @@ $(document).ready(function(){
     $(".recharge-delete").click(function(){
         var id = $(this).data("id");
         if($(".checked_"+id).attr("checked") == "checked"){
-            alert("充值方案启用中，不能删除");
+            alert("方案启用中，不能删除");
+            return false;
+        }else{
+            return confirm("该方案删除后将不能恢复，确定删除？");
+        }
+    });
+
+    /** 在线练习方案相关 */
+    /** 添加方案 */
+    $(".add_practice").click(function(){
+        $.post("?r=practice-price/add-update",{_csrf: csrfToken},function(data){
+            body.append(data);
+            $(".add_practice_modal").last().modal('show');
+        });
+    });
+    /** 编辑方案 */
+    $(".update_practice").click(function(){
+        var id = $(this).data("id");
+        if($(".checked_"+id).attr("checked") == "checked"){
+            alert("方案启用中，不能编辑");
+            return false;
+        }
+        $.post("?r=practice-price/add-update",{_csrf: csrfToken,schemeId:id},function(data){
+            body.append(data);
+            $(".add_practice_modal").last().modal('show');
+        });
+    });
+    /** 修改启用状态 */
+    $(".practice-checkbox").change(function(){
+        var state = "";
+        var id = $(this).data("id");
+        if($(this).attr("checked") == "checked"){   //关闭操作
+            $(this).removeAttr("checked");
+            state = "close";
+        }else{  //开启操作
+            $(this).attr("checked","checked");
+            state = "open";
+        }
+        $.post("?r=practice-price/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
+            if(data == 'open'){
+                $(".state_"+id).text("已启用");
+            }else if(data == 'close'){
+                $(".state_"+id).text("未启用");
+            }else{
+                alert(data);
+            }
+        });
+    });
+    /** 删除 */
+    $(".practice-delete").click(function(){
+        var id = $(this).data("id");
+        if($(".checked_"+id).attr("checked") == "checked"){
+            alert("方案启用中，不能删除");
             return false;
         }else{
             return confirm("该方案删除后将不能恢复，确定删除？");

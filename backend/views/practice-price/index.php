@@ -38,7 +38,7 @@ $this->title = '充值设置';
             <tr>
                 <th class="text-align-center">序号</th>
                 <th class="text-align-center">方案名称</th>
-                <th class="text-align-center">支付云豆</th>
+                <th class="text-align-center">花费云豆</th>
                 <th class="text-align-center">使用天数</th>
                 <th class="text-align-center">生效时间</th>
                 <th class="text-align-center">结束时间</th>
@@ -71,7 +71,7 @@ $this->title = '充值设置';
                         <button class="btn btn-xs btn-default update_practice" data-id="<?=$scheme->schemeId?>">
                             <span class="fa fa-edit"></span>编辑
                         </button>
-                        <a class="btn btn-xs btn-default template-delete" data-id="<?=$scheme->schemeId?>"
+                        <a class="btn btn-xs btn-default practice-delete" data-id="<?=$scheme->schemeId?>"
                            href="<?=Url::to(['practice-price/delete','id'=>$scheme->schemeId])?>">
                             <i class="fa fa-trash-o"></i>删除
                         </a>

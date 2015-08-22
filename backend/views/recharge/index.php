@@ -71,7 +71,7 @@ $this->title = '充值设置';
                         <button class="btn btn-xs btn-default update_recharge" data-id="<?=$scheme->schemeId?>">
                             <span class="fa fa-edit"></span>编辑
                         </button>
-                        <a class="btn btn-xs btn-default template-delete" data-id="<?=$scheme->schemeId?>"
+                        <a class="btn btn-xs btn-default recharge-delete" data-id="<?=$scheme->schemeId?>"
                            href="<?=Url::to(['recharge/delete','id'=>$scheme->schemeId])?>">
                             <i class="fa fa-trash-o"></i>删除
                         </a>
