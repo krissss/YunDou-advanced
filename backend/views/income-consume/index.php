@@ -52,6 +52,7 @@ $this->title = Yii::t('app', '云豆管理');
                 <th class="text-align-center">用户类型</th>
                 <th class="text-align-center">收入或支出云豆</th>
                 <th class="text-align-center">收入或支出方式</th>
+                <th class="text-align-center">来源用户</th>
             </tr>
             </thead>
             <tbody>
@@ -63,6 +64,7 @@ $this->title = Yii::t('app', '云豆管理');
                     <td><?= $model->users['roleName'] ?></td>
                     <td><?= $model->bitcoin ?></td>
                     <td><?= $model->usageMode['usageModeName'] ?></td>
+                    <td><?= $model->fromUser['nickname'] ?></td>
                 </tr>
             <?php endforeach;?>
             </tbody>
