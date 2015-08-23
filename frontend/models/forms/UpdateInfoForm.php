@@ -2,6 +2,9 @@
 
 namespace frontend\models\forms;
 
+use common\models\Collection;
+use common\models\CurrentTestLibrary;
+use common\models\ErrorQuestion;
 use Yii;
 use common\models\Users;
 use common\functions\CommonFunctions;
@@ -54,12 +57,19 @@ class UpdateInfoForm extends Model
 
     public function update(){
         $user = Yii::$app->session->get('user');
+        //修改省份或专业岗位，需要清除用户的在线练习相关信息
+        if($this->provinceId!=$user['provinceId'] || $this->majorJobId!=$user['majorJobId']){
+            CurrentTestLibrary::deleteAll(['userId'=>$user['userId']]); //删除当前记录
+            ErrorQuestion::deleteAll(['userId'=>$user['userId']]);  //删除错题记录
+            Collection::deleteAll(['userId'=>$user['userId']]); //删除收藏
+        }
         /** @var $user \common\models\Users */
         $user = Users::findOne($user['userId']);
         $user->nickname = $this->nickname;
         $user->realname = $this->realname;
         $user->provinceId = $this->provinceId;
         $user->majorJobId = $this->majorJobId;
+
         $user->company = $this->company;
         $user->address = $this->address;
         if(!$user->save()){

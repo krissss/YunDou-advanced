@@ -78,8 +78,9 @@ class AccountController extends Controller
         $provinces = Province::findAllForObject();
         $user = Yii::$app->session->get('user');
         //已经进行过实名认证的用户
-        if($user['majorJobId'] != 0&&$user['registerDate']&&$user['registerDate']>0){
-            CommonFunctions::createAlertMessage("您已经进行过实名认证，可以选择修改某些信息！","info");
+        if($user['majorJobId']!=0 && $user['registerDate']!=null && $user['registerDate']>0){
+            CommonFunctions::createAlertMessage("您已经进行过实名认证，可以选择修改某些信息！<br>
+            注意：修改省份或专业岗位，将会重置您在线练习进度信息、重点题、错题，请谨慎修改！","info");
             $updateInfoForm = new UpdateInfoForm();
             if($updateInfoForm->load(Yii::$app->request->post()) && $updateInfoForm->validate()){
                 $updateInfoForm->update();

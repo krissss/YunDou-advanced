@@ -109,4 +109,8 @@ class CurrentTestLibrary extends \yii\db\ActiveRecord
             }
         }
     }
+
+    public static function deleteAllByUser($userId){
+        CurrentTestLibrary::deleteAll(['userId'=>$userId]);
+    }
 }
