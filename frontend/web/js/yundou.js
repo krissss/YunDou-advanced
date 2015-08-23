@@ -198,33 +198,30 @@ $(document).ready(function(){
                     });
                 }
             }
-            var id = $(this).data("id");
-            if(id >= currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
-                var lastResult = result[result.length-1];   //获取结果数组中的最后一个
-                var answerType = 2; //无意义
-                if(lastResult && lastResult['testLibraryId']==id){    //如果相等，即点击下一题时是当前题的答案
-                    answerType = lastResult['answerType'];
-                }
-                $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
-            }
+            next();
         }
     });
 
     //最后一题点击后
     body.on("click",".over_test_library",function(){
         if(examFlag != 'examFlag') {    //非模拟考试情况下执行
-            var id = $(this).data("id");
-            if(id >= currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
-                var lastResult = result[result.length-1];   //获取结果数组中的最后一个
-                var answerType = 2; //无意义
-                if(lastResult && lastResult['testLibraryId']==id){    //如果相等，即点击下一题时是当前题的答案
-                    answerType = lastResult['answerType'];
-                }
-                $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
-            }
+            next();
         }
         over();
     });
+
+    /** 点击下一题和点击最后一题都要执行的方法 */
+    function next(){
+        var id = $(this).data("id");
+        if(id >= currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
+            var lastResult = result[result.length-1];   //获取结果数组中的最后一个
+            var answerType = 2; //无意义
+            if(lastResult && lastResult['testLibraryId']==id){    //如果相等，即点击下一题时是当前题的答案
+                answerType = lastResult['answerType'];
+            }
+            $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
+        }
+    }
 
     var result = [];    //存放结果，是一个json数组
     body.on("click","input[type=radio]",function(){

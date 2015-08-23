@@ -254,4 +254,22 @@ class TestLibrary extends \yii\db\ActiveRecord
                 ->all();
         }
     }
+
+    /**
+     * 取出特定的题目量
+     * @param $currentNumber
+     * @param $testLibraries
+     * @return int
+     */
+    public static function takeOutSpecialNumber($currentNumber,&$testLibraries){
+        $defaultOnceNumber = Yii::$app->params['defaultOnceNumber'];
+        if($currentNumber<=$defaultOnceNumber){
+            $testLibraries = array_slice($testLibraries,0,$defaultOnceNumber+$currentNumber+1);
+            $startNumber = 0;
+        }else{
+            $testLibraries = array_slice($testLibraries,$currentNumber-$defaultOnceNumber,2*$defaultOnceNumber+1);
+            $startNumber = $currentNumber-$defaultOnceNumber;
+        }
+        return $startNumber;
+    }
 }
