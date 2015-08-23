@@ -16,6 +16,7 @@ use yii\base\Exception;
  * @property integer $time
  * @property integer $payMoney
  * @property integer $getBitcoin
+ * @property string $rebate
  * @property string $startDate
  * @property string $endDate
  * @property string $state
@@ -32,6 +33,7 @@ class Scheme extends \yii\db\ActiveRecord
     const USAGE_PRACTICE = 2;
     const USAGE_PAY = 1;
     const USAGE_COURSE = 3;
+    const USAGE_REBATE = 4;
 
     const LEVEL_UNDO = 0;   //不能动
     const LEVEL_ONE = 1;
@@ -44,7 +46,8 @@ class Scheme extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['payBitcoin', 'day', 'time', 'payMoney', 'getBitcoin','usageModeId','level'], 'integer'],
+            [['payBitcoin', 'day', 'time', 'payMoney', 'getBitcoin', 'usageModeId', 'level'], 'integer'],
+            [['rebate'], 'number'],
             [['startDate', 'endDate'], 'safe'],
             [['name'], 'string', 'max' => 50],
             [['state'], 'string', 'max' => 1],
@@ -66,6 +69,7 @@ class Scheme extends \yii\db\ActiveRecord
             'endDate' => 'End Date',
             'state' => 'State',
             'usageModeId' => 'Usage Mode ID',
+            'rebate' => 'Rebate',
             'level' => 'Level',
             'remark' => 'Remark',
         ];
@@ -94,6 +98,28 @@ class Scheme extends \yii\db\ActiveRecord
     }
 
     /**
+     * 查询所有在线练习支付方案
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function findAllPracticeScheme(){
+        return Scheme::find()
+            ->where(['usageModeId'=>Scheme::USAGE_PRACTICE])
+            ->orderBy(['startDate'=>SORT_DESC])
+            ->all();
+    }
+
+    /**
+     * 查询所有充值返点方案
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function findAllRebateScheme(){
+        return Scheme::find()
+            ->where(['usageModeId'=>Scheme::USAGE_REBATE])
+            ->orderBy(['startDate'=>SORT_DESC])
+            ->all();
+    }
+
+    /**
      * 查询一条应该使用的充值方案
      * @return array|null|\yii\db\ActiveRecord
      */
@@ -114,17 +140,6 @@ class Scheme extends \yii\db\ActiveRecord
     }
 
     /**
-     * 查询所有在线练习支付方案
-     * @return array|null|\yii\db\ActiveRecord
-     */
-    public static function findAllPracticeScheme(){
-        return Scheme::find()
-            ->where(['usageModeId'=>Scheme::USAGE_PRACTICE])
-            ->orderBy(['startDate'=>SORT_DESC])
-            ->all();
-    }
-
-    /**
      * 查询一条应该使用的在线练习支付方案
      * @return array|null|\yii\db\ActiveRecord
      */
@@ -139,6 +154,26 @@ class Scheme extends \yii\db\ActiveRecord
         if(!$scheme){
             $scheme = Scheme::find()
                 ->where(['usageModeId'=>Scheme::USAGE_PRACTICE,'state'=>Scheme::STATE_ABLE,'level'=>Scheme::LEVEL_UNDO])
+                ->one();
+        }
+        return $scheme;
+    }
+
+    /**
+     * 查询一条应该使用的充值返点方案
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function findRebateScheme(){
+        $currentDate = DateFunctions::getCurrentDate();
+        $scheme = Scheme::find()
+            ->where(['usageModeId'=>Scheme::USAGE_REBATE,'state'=>Scheme::STATE_ABLE])
+            ->andWhere(['>','level',Scheme::LEVEL_UNDO])
+            ->andWhere(['<=','startDate',$currentDate])
+            ->andWhere(['>=','endDate',$currentDate])
+            ->one();
+        if(!$scheme){
+            $scheme = Scheme::find()
+                ->where(['usageModeId'=>Scheme::USAGE_REBATE,'state'=>Scheme::STATE_ABLE,'level'=>Scheme::LEVEL_UNDO])
                 ->one();
         }
         return $scheme;

@@ -199,12 +199,26 @@ class Users extends \yii\db\ActiveRecord
         return false;
     }
 
-    public static function findRecommendUserName($userId){
-        $user = Users::findOne($userId);
+    /**
+     * 查询推荐人的昵称
+     * @param $userId
+     * @return string
+     */
+    public static function findRecommendUserName($recommendUserId){
+        $user = Users::findOne($recommendUserId);
         if($user){
             return $user['nickname'];
         }else{
             return "无推荐人";
         }
+    }
+
+    /**
+     * 查询推荐人
+     * @param $recommendUserId
+     * @return null|static
+     */
+    public static function findRecommendUser($recommendUserId){
+        return $user = Users::findOne($recommendUserId);
     }
 }

@@ -267,4 +267,60 @@ $(document).ready(function(){
             return confirm("该方案删除后将不能恢复，确定删除？");
         }
     });
+
+    /** 充值返点方案相关 */
+    /** 添加方案 */
+    $(".add_rebate").click(function(){
+        $.post("?r=rebate/add-update",{_csrf: csrfToken},function(data){
+            body.append(data);
+            $(".add_rebate_modal").last().modal('show');
+        });
+    });
+    /** 编辑方案 */
+    $(".update_rebate").click(function(){
+        var id = $(this).data("id");
+        if($(".checked_"+id).attr("checked") == "checked"){
+            alert("方案启用中，不能编辑");
+            return false;
+        }
+        $.post("?r=rebate/add-update",{_csrf: csrfToken,schemeId:id},function(data){
+            body.append(data);
+            $(".add_rebate_modal").last().modal('show');
+        });
+    });
+    /** 修改启用状态 */
+    $(".rebate-checkbox").change(function(){
+        var state = "";
+        var id = $(this).data("id");
+        var $this = $(this);
+        if($this.attr("checked") == "checked"){   //关闭操作
+            $this.removeAttr("checked");
+            state = "close";
+        }else{  //开启操作
+            $this.attr("checked","checked");
+            state = "open";
+        }
+        $.post("?r=rebate/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
+            if(data == 'open'){
+                $(".state_"+id).text("已启用");
+                $this.attr("checked","checked");
+            }else if(data == 'close'){
+                $(".state_"+id).text("未启用");
+                $this.removeAttr("checked");
+            }else{
+                alert(data);
+                $this.removeAttr("checked");
+            }
+        });
+    });
+    /** 删除 */
+    $(".rebate-delete").click(function(){
+        var id = $(this).data("id");
+        if($(".checked_"+id).attr("checked") == "checked"){
+            alert("方案启用中，不能删除");
+            return false;
+        }else{
+            return confirm("该方案删除后将不能恢复，确定删除？");
+        }
+    });
 });

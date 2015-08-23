@@ -13,6 +13,7 @@ use yii\base\Exception;
  * @property integer $userId
  * @property integer $bitcoin
  * @property integer $usageModeId
+ * @property integer $fromUserId
  * @property string $createDate
  * @property string $type
  * @property string $remark
@@ -36,7 +37,7 @@ class IncomeConsume extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userId', 'bitcoin', 'usageModeId'], 'integer'],
+            [['userId', 'bitcoin', 'usageModeId','fromUserId'], 'integer'],
             [['createDate'], 'safe'],
             [['type'], 'string', 'max' => 1],
             [['remark'], 'string', 'max' => 100]
@@ -53,6 +54,7 @@ class IncomeConsume extends \yii\db\ActiveRecord
             'userId' => 'User ID',
             'bitcoin' => 'Bitcoin',
             'usageModeId' => 'Usage Mode ID',
+            'fromUserId' => 'From User ID',
             'createDate' => 'Create Date',
             'type' => 'Type',
             'remark' => 'Remark',
@@ -67,21 +69,27 @@ class IncomeConsume extends \yii\db\ActiveRecord
         return $this->hasOne(UsageMode::className(),['usageModeId'=>'usageModeId']);
     }
 
+    public function getFromUser(){
+        return $this->hasOne(Users::className(),['userId'=>'fromUserId']);
+    }
+
     /**
      * 保存一条记录，注意：此处会对应增加或减少用户的云豆数！！
      * @param $userId
      * @param $bitcoin
      * @param $usageModeId
      * @param $type
+     * @param $fromUserId
      * @throws Exception
      * @throws \Exception
      */
-    public static function saveRecord($userId,$bitcoin,$usageModeId,$type){
+    public static function saveRecord($userId,$bitcoin,$usageModeId,$type,$fromUserId=null){
         $record = new IncomeConsume();
         $record->userId = $userId;
         $record->bitcoin = $bitcoin;
         $record->usageModeId = $usageModeId;
         $record->type = $type;
+        $record->fromUserId = $fromUserId;
         $record->createDate = DateFunctions::getCurrentDate();
         if(!$record->save()){
             throw new Exception("IncomeConsume save error");

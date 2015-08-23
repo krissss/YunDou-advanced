@@ -99,6 +99,14 @@ class Pay extends \yii\db\ActiveRecord
         }
         //云豆收入支出记录+用户余额改变
         IncomeConsume::saveRecord($user['userId'],$addBitcoin,Scheme::USAGE_PAY,IncomeConsume::TYPE_INCOME);
+        $recommendUser = Users::findRecommendUser($user['userId']);
+        if($recommendUser){ //存在推荐用户
+            $rebateScheme = Scheme::findRebateScheme();
+            if($money>=$rebateScheme['payMoney']){  //达到当前返点的起始要求
+                $addBitcoin = $addBitcoin * $rebateScheme['rebate'];    //返点云豆
+                IncomeConsume::saveRecord($recommendUser['userId'],$addBitcoin,Scheme::USAGE_REBATE,IncomeConsume::TYPE_INCOME,$user['userId']);
+            }
+        }
         $session->remove('scheme');
         $session->remove('money');
     }

@@ -207,20 +207,21 @@ AppAsset::register($this);
                             <span class="menu-text"> 课件管理 </span>
                         </a>
                     </li>
+                    <li <?//= $page_id == 'simulate-exam' ? 'class="active"' : ''; ?>>
+                        <a href="<?= Url::to(['income-consume/index']) ?>">
+                            <i class="menu-icon fa fa-leaf"></i>
+                            <span class="menu-text"> 云豆收支 </span>
+                        </a>
+                    </li>
                     <li>
                         <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-leaf"></i>
+                            <i class="menu-icon fa fa-file-text-o"></i>
                                 <span class="menu-text">
-                                    云豆管理
+                                    方案管理
                                 </span>
                             <i class="menu-expand"></i>
                         </a>
                         <ul class="submenu">
-                            <li>
-                                <a href="<?= Url::to(['income-consume/index']) ?>">
-                                    <span class="menu-text">云豆列表</span>
-                                </a>
-                            </li>
                             <li>
                                 <a href="<?= Url::to(['recharge/index']) ?>">
                                     <span class="menu-text">充值设置</span>
@@ -228,7 +229,12 @@ AppAsset::register($this);
                             </li>
                             <li>
                                 <a href="<?= Url::to(['practice-price/index']) ?>">
-                                    <span class="menu-text">价格管理</span>
+                                    <span class="menu-text">在线练习设置</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['rebate/index']) ?>">
+                                    <span class="menu-text">充值返点设置</span>
                                 </a>
                             </li>
                         </ul>
