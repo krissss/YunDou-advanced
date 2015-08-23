@@ -103,7 +103,7 @@ class PracticeController extends Controller
         //取出特定的题目量
         $defaultOnceNumber = Yii::$app->params['defaultOnceNumber'];
         if($currentNumber<=$defaultOnceNumber){
-            $testLibraries = array_slice($testLibraries,0,$defaultOnceNumber);
+            $testLibraries = array_slice($testLibraries,0,$defaultOnceNumber+$currentNumber+1);
             $startNumber = 0;
         }else{
             $testLibraries = array_slice($testLibraries,$currentNumber-$defaultOnceNumber,2*$defaultOnceNumber+1);
