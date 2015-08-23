@@ -199,9 +199,8 @@ $(document).ready(function(){
                 }
             }
             var id = $(this).data("id");
-            if(id > currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
-                var csrfToken = $('meta[name="csrf-token"]').attr("content");
-                var answerType = $("input[name=answer_type_" + id + "]").val();
+            if(id >= currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
+                var answerType = result[result.length-1]['answerType'];
                 $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
             }
         }
@@ -211,9 +210,8 @@ $(document).ready(function(){
     $(".over_test_library").click(function(){
         if(examFlag != 'examFlag') {    //非模拟考试情况下执行
             var id = $(this).data("id");
-            if(id > currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
-
-                var answerType = $("input[name=answer_type_" + id + "]").val();
+            if(id >= currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
+                var answerType = result[result.length-1]['answerType'];
                 $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
             }
         }

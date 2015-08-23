@@ -88,10 +88,14 @@ class PracticeController extends Controller
         }
         //$testLibraries = TestLibrary::findByUserAndTestType($user,$testTypeId,50,$currentNumber);
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
+        $countNumber = count($testLibraries);
+        if($countNumber == 0){  //避免没有题目生成出题页面出错
+            echo "<h1>题库建设中</h1>";exit;
+        }
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
         //将一些必要参数存入session，方便后续页面调用
         $session->set('testLibraries',$testLibraries); //所有题目
-        $session->set('totalNumber',count($testLibraries)); //总题数
+        $session->set('totalNumber',$countNumber); //总题数
         $session->set('testTypeId',$testTypeId);    //测试类型id
         $session->set('testTitle',$testTitle);    //测试标题
         $session->set('majorJob',$majorJob);    //测试岗位
@@ -147,14 +151,14 @@ class PracticeController extends Controller
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
         //测试图片
         //$testLibraries = TestLibrary::find()->where('pictureBig is not null')->orWhere('pictureSmall is not null')->all();
-        if(count($testLibraries)==0){
-            echo "<h1>题库建设中</h1>";
-            exit;
+        $countNumber = count($testLibraries);
+        if($countNumber == 0){  //避免没有题目生成出题页面出错
+            echo "<h1>题库建设中</h1>";exit;
         }
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
         //将一些必要参数存入session，方便后续页面调用
         $session->set('testLibraries',$testLibraries); //所有题目
-        $session->set('totalNumber',count($testLibraries)); //总题数
+        $session->set('totalNumber',$countNumber); //总题数
         $session->set('testTypeId',$testTypeId);    //测试类型id
         $session->set('testTitle',$testTitle);    //测试标题
         $session->set('majorJob',$majorJob);    //测试岗位
@@ -191,7 +195,7 @@ class PracticeController extends Controller
             if($testTypeId==-1||$testTypeId==1||$testTypeId==2||$testTypeId==3||$testTypeId==4){    //只有这五种练习方式记录当前练习到哪一题
                 CurrentTestLibrary::saveOrUpdate($user['userId'],$testTypeId,$testLibraryId);
             }
-            if($type == "wrong"){
+            if($type == 0){
                 ErrorQuestion::saveOrUpdate($user['userId'],$testLibraryId);
             }
         }else{
@@ -207,9 +211,13 @@ class PracticeController extends Controller
         $session = Yii::$app->session;
         $user = $session->get('user');
         $testLibraries = ErrorQuestion::findAllByUserWithTestLibrary($user['userId']);
+        $countNumber = count($testLibraries);
+        if($countNumber == 0){  //避免没有题目生成出题页面出错
+            echo "<h1>还没有题目</h1>";exit;
+        }
         //将一些必要参数存入session，方便后续页面调用
         $session->set('testLibraries',$testLibraries); //所有题目
-        $session->set('totalNumber',count($testLibraries)); //总题数
+        $session->set('totalNumber',$countNumber); //总题数
         $session->set('testTitle',"错题练习");    //测试标题
         $session->set('majorJob',$user['nickname']);    //测试岗位使用用户昵称
         $session->set('testType',6);    //测试类型，6表示错题练习
@@ -233,9 +241,13 @@ class PracticeController extends Controller
         $session = Yii::$app->session;
         $user = $session->get('user');
         $testLibraries = Collection::findAllByUserWithTestLibrary($user['userId']);
+        $countNumber = count($testLibraries);
+        if($countNumber == 0){  //避免没有题目生成出题页面出错
+            echo "<h1>还没有题目</h1>";exit;
+        }
         //将一些必要参数存入session，方便后续页面调用
         $session->set('testLibraries',$testLibraries); //所有题目
-        $session->set('totalNumber',count($testLibraries)); //总题数
+        $session->set('totalNumber',$countNumber); //总题数
         $session->set('testTitle',"错题练习");    //测试标题
         $session->set('majorJob',$user['nickname']);    //测试岗位使用用户昵称
         $session->set('testType',7);    //测试类型，7表示重点题练习
