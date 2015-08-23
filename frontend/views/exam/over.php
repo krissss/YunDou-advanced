@@ -18,24 +18,33 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
     wx.config({
-        debug: true,
+        debug: false,
         appId: '<?=WeiXinFunctions::getAppId()?>',
         timestamp: <?=$timestamp?>,
         nonceStr: 'yundou-js',
         signature: '<?=WeiXinFunctions::generateJsSignature($currentUrl,$timestamp)?>',
         jsApiList: [
             'onMenuShareTimeline',    //分享到朋友圈
+            'onMenuShareAppMessage',    //发送给朋友
+            'onMenuShareQQ',    //分享到QQ
+            'onMenuShareWeibo',    //分享到Weibo
+            'onMenuShareQZone'    //分享到 QQ 空间
         ]
     });
     wx.ready(function(){
-        wx.onMenuShareTimeline({
+        var json = {
             title: '晒成绩啦！我计划参加‘<?=$session->get("majorJob")?>’考试，用‘云豆讲堂’进行模拟考试，取得了<?=$finalScore?>分，你也来试试吧！',
             link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
             imgUrl: '<?=Url::base(true)?>/images/logo.png',
-            success: function (res) {
+            success: function () {
                 alert('分享成功');
             }
-        });
+        };
+        wx.onMenuShareTimeline(json);
+        wx.onMenuShareAppMessage(json);
+        wx.onMenuShareQQ(json);
+        wx.onMenuShareWeibo(json);
+        wx.onMenuShareQZone(json);
     });
 </script>
 

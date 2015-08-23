@@ -14,27 +14,33 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
     wx.config({
-        debug: true,
+        debug: false,
         appId: '<?=WeiXinFunctions::getAppId()?>',
         timestamp: <?=$timestamp?>,
         nonceStr: 'yundou-js',
         signature: '<?=WeiXinFunctions::generateJsSignature($currentUrl,$timestamp)?>',
         jsApiList: [
             'onMenuShareTimeline',    //分享到朋友圈
+            'onMenuShareAppMessage',    //发送给朋友
+            'onMenuShareQQ',    //分享到QQ
+            'onMenuShareWeibo',    //分享到Weibo
+            'onMenuShareQZone'    //分享到 QQ 空间
         ]
     });
     wx.ready(function(){
-        wx.onMenuShareTimeline({
+        var json = {
             title: '我通过云豆讲堂进行在线学习和模拟考试，系统很操作很方便、题库也很不错，大家一起来学习吧！',
             link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
             imgUrl: '<?=Url::base(true)?>/images/logo.png',
-            success: function (res) {
+            success: function () {
                 alert('分享成功');
-            },
-            cancel: function (res) {
-                alert('已取消分享');
             }
-        });
+        };
+        wx.onMenuShareTimeline(json);
+        wx.onMenuShareAppMessage(json);
+        wx.onMenuShareQQ(json);
+        wx.onMenuShareWeibo(json);
+        wx.onMenuShareQZone(json);
     });
 </script>
 

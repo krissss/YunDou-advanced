@@ -18,7 +18,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
     wx.config({
-        debug: true,
+        debug: false,
         appId: '<?=WeiXinFunctions::getAppId()?>',
         timestamp: <?=$timestamp?>,
         nonceStr: 'yundou-js',
@@ -36,7 +36,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             title: '晒成绩啦！我计划参加‘<?=$session->get("majorJob")?>’考试，用‘云豆讲堂’进行在线练习，学习效率很高，也很方便，快来看看吧！',
             link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
             imgUrl: '<?=Url::base(true)?>/images/logo.png',
-            success: function (res) {
+            success: function () {
                 alert('分享成功');
             }
         };
