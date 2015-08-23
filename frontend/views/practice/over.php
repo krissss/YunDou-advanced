@@ -25,20 +25,28 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
         signature: '<?=WeiXinFunctions::generateJsSignature($currentUrl,$timestamp)?>',
         jsApiList: [
             'onMenuShareTimeline',    //分享到朋友圈
+            'onMenuShareAppMessage',    //发送给朋友
+            'onMenuShareQQ',    //分享到QQ
+            'onMenuShareWeibo',    //分享到Weibo
+            'onMenuShareQZone'    //分享到 QQ 空间
         ]
     });
     wx.ready(function(){
-        wx.onMenuShareTimeline({
-            title: '晒成绩啦！我计划参加‘<?=$session->get("majorJob")?>’考试，用‘云豆讲堂’进行在线练习，学习效率很高，也很方便，快来看看吧！',
-            link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
-            imgUrl: '<?=Url::base(true)?>/images/logo.png',
-            success: function (res) {
-                alert('分享成功');
-            },
-            cancel: function (res) {
-                alert('已取消分享');
+        var data = [
+            {
+                title: '晒成绩啦！我计划参加‘<?=$session->get("majorJob")?>’考试，用‘云豆讲堂’进行在线练习，学习效率很高，也很方便，快来看看吧！',
+                link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
+                imgUrl: '<?=Url::base(true)?>/images/logo.png',
+                success: function (res) {
+                    alert('分享成功');
+                }
             }
-        });
+        ];
+        wx.onMenuShareTimeline(data);
+        wx.onMenuShareAppMessage(data);
+        wx.onMenuShareQQ(data);
+        wx.onMenuShareWeibo(data);
+        wx.onMenuShareQZone(data);
     });
 </script>
 

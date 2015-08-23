@@ -34,9 +34,6 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             imgUrl: '<?=Url::base(true)?>/images/logo.png',
             success: function (res) {
                 alert('分享成功');
-            },
-            cancel: function (res) {
-                alert('已取消分享');
             }
         });
     });
