@@ -5,7 +5,8 @@ use yii\helpers\Url;
 $this->title = "在线练习";
 
 $session = Yii::$app->session;
-$leftBitcoin = $session->getFlash('leftBitcoin');
+$leftBitcoin = $session->getFlash('leftBitcoin');   //云豆剩余，不能作为标识，因为有可能是0
+$practiceRecordFlag = $session->getFlash('practiceRecordFlag'); //用户没有练习权限的标志
 $scheme = $session->get('practice-scheme');
 
 ?>
@@ -77,7 +78,7 @@ $scheme = $session->get('practice-scheme');
     </div>
 </div>
 
-<?php if($leftBitcoin && $scheme):?>
+<?php if($practiceRecordFlag && $scheme):?>
 <div class="modal fade" id="pay_modal" tabindex="-1" role="dialog" aria-labelledby="在线学习操作说明">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
