@@ -121,7 +121,7 @@ $(document).ready(function(){
     }
 
 
-    /** practice/test */
+    /** 做题页面相关 */
     $(".loading").hide();
 
     var questionNumber; //题号，获取当前题号，用于显示上下一题
@@ -200,18 +200,26 @@ $(document).ready(function(){
             }
             var id = $(this).data("id");
             if(id >= currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
-                var answerType = result[result.length-1]['answerType'];
+                var lastResult = result[result.length-1];   //获取结果数组中的最后一个
+                var answerType = 2; //无意义
+                if(lastResult && lastResult['testLibraryId']==id){    //如果相等，即点击下一题时是当前题的答案
+                    answerType = lastResult['answerType'];
+                }
                 $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
             }
         }
     });
 
     //最后一题点击后
-    $(".over_test_library").click(function(){
+    body.on("click",".over_test_library",function(){
         if(examFlag != 'examFlag') {    //非模拟考试情况下执行
             var id = $(this).data("id");
             if(id >= currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
-                var answerType = result[result.length-1]['answerType'];
+                var lastResult = result[result.length-1];   //获取结果数组中的最后一个
+                var answerType = 2; //无意义
+                if(lastResult && lastResult['testLibraryId']==id){    //如果相等，即点击下一题时是当前题的答案
+                    answerType = lastResult['answerType'];
+                }
                 $.post("?r=practice/next", {_csrf: csrfToken, type: answerType, testLibraryId: id});
             }
         }
@@ -219,7 +227,7 @@ $(document).ready(function(){
     });
 
     var result = [];    //存放结果，是一个json数组
-    $("input[type=radio]").click(function(){
+    body.on("click","input[type=radio]",function(){
         var id = $(this).data("id");
         var testType = $(this).data("testtype");
         var preType = $(this).data("pretype");
@@ -251,7 +259,7 @@ $(document).ready(function(){
         result.push({testLibraryId:id,answerType:answerType,testType:testType,preType:preType});
     });
 
-    $("input[type=checkbox]").click(function(){
+    body.on("click","input[type=checkbox]",function(){
         var id = $(this).data("id");
         var testType = $(this).data("testtype");
         var preType = $(this).data("pretype");
@@ -282,21 +290,19 @@ $(document).ready(function(){
             }
             $(".user_answer_"+id).text(value);
         }
-
         result.push({testLibraryId:id,answerType:answerType,testType:testType,preType:preType});
-
     });
 
-    $(".btn_over").click(function(){
+    body.on("click",".btn_over",function(){
         over();
     });
 
-    $(".show_answer").click(function(){
+    body.on("click",".show_answer",function(){
         var id = $(this).data('id');
         $(".answer_show_" + id).show(200);
     });
 
-    $(".add_collection").click(function(){
+    body.on("click",".add_collection",function(){
         var id = $(this).data('id');
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
         var $this = $(this);
