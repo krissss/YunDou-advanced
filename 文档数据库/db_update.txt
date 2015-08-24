@@ -98,3 +98,13 @@ testlibrary
      question varchar(400) => varchar(1000)
      options varchar(800) => varchar(1000)
      analysis  varchar(200) => varchar(400)
+
++ examscore
+    + examScoreId int(11)
+    + userId int(11)
+    + score numeric(6,2)
+    + totalScore numeric(6,2)
+    + majorJobId int(11)
+    + provinceId int(11)
+    + createDate datetime
+    + remark varchar(100)
