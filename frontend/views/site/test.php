@@ -21,4 +21,7 @@ use yii\helpers\Html;
 //echo \common\functions\CommonFunctions::createCommonRecommendCode();
 
 //echo Url::base(true);
-\common\models\Users::addBitcoin(5,10000);
+//\common\models\Users::addBitcoin(5,10000);
+
+echo \common\models\ExamScore::findTotalRank();
+echo \common\models\ExamScore::findRank(15,150);

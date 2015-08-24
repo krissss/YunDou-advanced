@@ -31,8 +31,8 @@ $bigPictureIndex = 0;  //图片数组下标
             <h3 class="panel-title">
                 <span><?=\common\models\PreType::findNameById($preTypeId)?>|<?=\common\models\TestType::findNameById($testTypeId)?></span>
                 <span class="pull-right">剩余<span class="time">150</span>分钟</span>
-                <div class="clearfix"></div>
             </h3>
+            <div class="clearfix"></div>
         </div>
     <?php endif;?>
     <?php if(!$examFlag):   //非考试显示结束本次练习和重点?>
@@ -71,8 +71,8 @@ $bigPictureIndex = 0;  //图片数组下标
                     ?>
                     <div class="form-group">
                         <input id="input_<?= $id ?>_<?= $value ?>" name="input_question_<?= $id ?>" type="checkbox" value="<?= $value ?>"
-                               data-id="<?= $id ?>" data-testtype="<?=$testTypeId?>" data-pretype="<?=$preTypeId?>">
-                        <label for="input_<?=$id?>_<?= $value ?>"><?= $option ?></label>
+                               data-id="<?= $id ?>" data-testtype="<?= $testTypeId ?>" data-pretype="<?= $preTypeId ?>">
+                        <label for="input_<?= $id ?>_<?= $value ?>"><?= $option ?></label>
                     </div>
                 <?php endforeach; ?>
             </form>
@@ -113,6 +113,8 @@ $bigPictureIndex = 0;  //图片数组下标
                 </p>
             </div>
         </div>
-        <?php endif; ?>
+        <?php else: //考试需要隐藏的正确答案?>
+            <span class="my_hide true_answer_<?= $testLibraryId ?>"><?= $answers ?></span>
+        <?php endif;?>
     </div>
 </div>

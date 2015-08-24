@@ -15,5 +15,6 @@ $questionNumber = 1;
 <?php foreach($testLibraries as $i=>$testLibrary):?>
     <div class="test_library test_library_<?=$i?> my_hide">
         <?= \frontend\widgets\TestTypeWidget::widget(['testLibrary'=>$testLibrary,'questionNumber'=>$i+1,'examFlag'=>true])?>
+        <div>答案:<?=$testLibrary['answer']?></div>
     </div>
 <?php endforeach;?>

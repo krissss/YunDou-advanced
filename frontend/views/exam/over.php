@@ -2,6 +2,8 @@
 /** @var $time */
 /** @var $finalScore */
 /** @var $totalScore */
+/** @var $rank */
+/** @var $totalRank */
 
 use yii\helpers\Url;
 use frontend\functions\WeiXinFunctions;
@@ -46,6 +48,14 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
     });
 </script>
 
+<?php
+$totalRank = 168168+intval($totalRank);
+if($finalScore != 0){   //成绩不为0，计算排名
+    $finalRank = 108158-intval($rank);
+}else{  //成绩为0，直接最后
+    $finalRank = $totalRank;
+}
+?>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
@@ -58,7 +68,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
         <p></p>
         <p>本次模拟考试您的分数为：<?=$finalScore?>分</p>
         <p>本次模拟考试总分为：<?=$totalScore?>分</p>
-        <p>您本次模拟考试分数在168168名模拟人员中排名在第108158位</p>
+        <p>您本次模拟考试分数在<?=$totalRank?>模拟人员中排名在第<?=$finalRank?>位</p>
     </div>
     <div class="panel-footer">
         <a href="<?=Url::to(['exam/index'])?>" class="btn btn-primary">再模拟一次</a>

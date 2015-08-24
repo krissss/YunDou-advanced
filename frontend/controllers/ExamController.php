@@ -2,17 +2,16 @@
 
 namespace frontend\controllers;
 
+use common\models\ExamScore;
 use common\models\ExamTemplate;
 use common\models\ExamTemplateDetail;
 use common\models\MajorJob;
 use common\models\TestLibrary;
-use common\models\Users;
 use frontend\filters\OpenIdFilter;
 use frontend\filters\RegisterFilter;
 use Yii;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 use yii\web\Controller;
 
 class ExamController extends Controller
@@ -166,10 +165,15 @@ class ExamController extends Controller
                     }
                 }
             }
+            $totalRank = ExamScore::findTotalRank();
+            ExamScore::recordOne($finalScore,$totalScore);
+            $rank = ExamScore::findRank($finalScore,$totalScore);
             return $this->render('over',[
                 'time' => $time,
                 'totalScore' => $totalScore,
-                'finalScore' => $finalScore
+                'finalScore' => $finalScore,
+                'rank' => $rank,    //比自己成绩低的人数
+                'totalRank' => $totalRank   //所有参与排名的人数
             ]);
         }else{
             throw new Exception("非法提交");
