@@ -205,9 +205,9 @@ $(document).ready(function(){
     //最后一题点击后
     body.on("click",".over_test_library",function(){
         if(examFlag != 'examFlag') {    //非模拟考试情况下执行
-            next();
+            next($(this));
         }
-        over($(this));
+        over();
     });
 
     /** 点击下一题和点击最后一题都要执行的方法 */
