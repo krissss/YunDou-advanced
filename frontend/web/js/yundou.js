@@ -198,7 +198,7 @@ $(document).ready(function(){
                     });
                 }
             }
-            next();
+            next($(this));
         }
     });
 
@@ -207,12 +207,12 @@ $(document).ready(function(){
         if(examFlag != 'examFlag') {    //非模拟考试情况下执行
             next();
         }
-        over();
+        over($(this));
     });
 
     /** 点击下一题和点击最后一题都要执行的方法 */
-    function next(){
-        var id = $(this).data("id");
+    function next($this){
+        var id = $this.data("id");
         if(id >= currentTestLibraryId){  //当前点击的题目的id号大于当前题目id号才提交记录
             var lastResult = result[result.length-1];   //获取结果数组中的最后一个
             var answerType = 2; //无意义
