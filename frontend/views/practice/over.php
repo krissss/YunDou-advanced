@@ -3,15 +3,12 @@
 /** @var $wrongNumber int */
 
 use yii\helpers\Url;
+use frontend\functions\WeiXinFunctions;
 
 $this->title = "本次练习结果";
 
 $session = Yii::$app->session;
 $user = $session->get('user');
-?>
-
-<?php
-use frontend\functions\WeiXinFunctions;
 $timestamp = time();
 $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 ?>

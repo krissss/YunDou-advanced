@@ -4,14 +4,12 @@
 /** @var $totalScore */
 
 use yii\helpers\Url;
+use frontend\functions\WeiXinFunctions;
 
 $this->title = "模拟考试结果";
 
 $session = Yii::$app->session;
-?>
-
-<?php
-use frontend\functions\WeiXinFunctions;
+$user = $session->get('user');
 $timestamp = time();
 $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 ?>
