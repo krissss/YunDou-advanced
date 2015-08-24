@@ -1,0 +1,11 @@
+8月24日修改某些字段，为导入题库做备份
+
+service
+    reply varchar(200) => varchar(1000)
+
+scheme
+    + level int(11) 默认1 优先级
+    + rebate numeric(6,2) 充值返点
+
+incomeconsume
+    + fromUserId int(11) 来自于哪个用户

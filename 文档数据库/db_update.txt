@@ -1,0 +1,100 @@
+2015-7-20
+
+testlibrary
+	+ orderNo int(11)	试题原排序编号
+    provenceId => provinceId
+
+testChapter
+	preType => preTypeId int(11)
+	+ majorJobId int(11)	专业岗位
+
+examtemplate
+	marjorJobId => majorJobId
+	provenceId => provinceId
+	+ state char(1) 状态 F不可用，T可用
+
+examtemplatedetail
+	preType => preTypeId int(11)
+
+users
+	userIcon varchar(50) => varchar(255)
+	province => provinceId
+	city => cityId
+	+ sex char(2)	性别
+	+ recommendCode char(15)	推荐码
+
+service
+	+ createDate datetime   创建日期
+	+ replyDate datetime    回复日期
+
+2015-8-11
+invoice
+    + state char(1)
+    createUserId => replyUserId
+    + replyContent varchar(50)
+    + orderNumber varchar(30)
+    + replyDate datetime
+
++ practicerecord 在线练习记录表
+    + practiceRecordId int(11)
+    + userId int(11)
+    + bitcoin int(11)
+    + startDate datetime
+    + endDate datetime
+    + remark varchar(100)
+
++scheme 方案表
+    + schemeId int(11)
+    + name varchar(50)
+    + payBitcoin int(11)
+    + day int(11)
+    + time int(11)
+    + payMoney int(11)
+    + getBitcoin int(11)
+    + startDate datetime
+    + endDate datetime
+    + state char(1)
+    + type char(1)
+    + remark varchar(100)
+
+service
+    + state char(1) 状态
+
+examTemplate
+    + pa1 varchar(8)
+    + pa2 varchar(8)
+    + pa3 varchar(8)
+    + pa4 varchar(8)
+    + pb1 varchar(8)
+    + pb2 varchar(8)
+    + pb3 varchar(8)
+    + pb4 varchar(8)
+
+scheme
+    type => usageModeId int(11)
+
+testlibrary
+    answer varchar(10) => varchar(50)
+    options varchar(400) => varchar(800)
+    state 默认 OP
+    picture => pictureSmall
+    + pictureBig varchar(200)
+
+2015-8-18
+
+service
+    reply varchar(200) => varchar(1000)
+
+scheme
+    + level int(11) 默认1 优先级
+    + rebate numeric(6,2) 充值返点
+
+incomeconsume
+    + fromUserId int(11) 来自于哪个用户
+
+2015-8-24
+testlibrary
+     problem varchar(400) => varchar(1000)
+     question varchar(400) => varchar(1000)
+     options varchar(800) => varchar(1000)
+     analysis  varchar(200) => varchar(400)
