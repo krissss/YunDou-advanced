@@ -19,26 +19,26 @@ $this->title = "云豆充值";
         'options' => ['class' => 'form-horizontal'],
         'fieldConfig' => [
             'options' => ['class' => 'form-group no-margin-bottom'],
-            'template' => "{label}<div class='col-xs-9 no-padding-left'>{input}</div><div class='col-xs-9 col-xs-offset-3'>{error}</div>",
-            'labelOptions' => ['class'=>'col-xs-3 control-label'],
+            'template' => "{label}<div class='col-xs-8 no-padding-left'>{input}</div><div class='col-xs-8 col-xs-offset-4'>{error}</div>",
+            'labelOptions' => ['class'=>'col-xs-4 control-label'],
         ],
     ]) ?>
     <div class="form-group">
-        <label class="col-xs-3 control-label">您的账户余额</label>
-        <div class="col-xs-9 no-padding-left">
+        <label class="col-xs-4 control-label">您的账户余额</label>
+        <div class="col-xs-8 no-padding-left">
             <p class="form-control-static"><?=$leftBitcoin;?>云豆</p>
         </div>
     </div>
     <?= $form->field($rechargeForm, 'money')->textInput(['type'=>'number','name'=>'money']) ?>
     <div class="form-group">
-        <label class="col-xs-3 control-label">您能够获得</label>
-        <div class="col-xs-9 no-padding-left">
+        <label class="col-xs-4 control-label">您能够获得</label>
+        <div class="col-xs-8 no-padding-left">
             <input type="hidden" name="proportion" value="<?=$proportion;?>">
             <p class="form-control-static"><span class="get_bitcoin">0</span>云豆</p>
         </div>
     </div>
     <div class="form-group">
-        <div class="col-xs-offset-3 col-xs-9 no-padding-left">
+        <div class="col-xs-offset-4 col-xs-8 no-padding-left">
             <button type="button" class="btn btn-primary wxPay">微信支付</button>
             <!--<button type="button" class="btn btn-primary">支付宝支付</button>-->
         </div>

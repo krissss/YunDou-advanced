@@ -360,12 +360,13 @@ $(document).ready(function(){
 
     /** 微信支付 */
     $(".wxPay").click(function(){
-        $(".loading").show();
         var money = $("#rechargeform-money").val();
-        if(isNaN(money)){
-            alert("充值金额必须为数字");
+        alert(money);
+        if(parseInt(money)!=money){
+            alert("充值金额必须为整数");
             return false;
         }
+        $(".loading").show();
         $.ajax({
             url:"?r=account/recharge",
             timeout: 6000,
