@@ -30,7 +30,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
     });
     wx.ready(function(){
         var json = {
-            title: '晒成绩啦！我计划参加‘<?=$session->get("majorJob")?>’考试，用‘云豆讲堂’进行在线练习，学习效率很高，也很方便，快来看看吧！',
+            title: '晒成绩啦！我参加‘<?=$session->get("majorJob")?>’考试，用‘云豆讲堂’进行在线练习，很不错，来试试吧！',
             link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
             imgUrl: '<?=Url::base(true)?>/images/logo.png',
             success: function () {

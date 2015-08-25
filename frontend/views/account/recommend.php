@@ -1,13 +1,10 @@
 <?php
 use yii\helpers\Url;
+use frontend\functions\WeiXinFunctions;
 
 $this->title = "我要推荐";
 
 $user = Yii::$app->session->get('user');
-?>
-
-<?php
-use frontend\functions\WeiXinFunctions;
 $timestamp = time();
 $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 ?>
@@ -29,7 +26,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
     });
     wx.ready(function(){
         var json = {
-            title: '我通过云豆讲堂进行在线学习和模拟考试，系统很操作很方便、题库也很不错，大家一起来学习吧！',
+            title: '我通过云豆讲堂进行在线学习和模拟考试，系统很操作很方便、题库很权威，大家一起来学习吧！',
             link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
             imgUrl: '<?=Url::base(true)?>/images/logo.png',
             success: function () {
