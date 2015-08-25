@@ -6,8 +6,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = Yii::t('app', '发票开具');
-$this->registerJsFile('YunDou/backend/web/js/invoice.js',['depends'=>['backend\assets\AppAsset']]);
+$this->title = '发票开具';
 ?>
 
 <div class="widget flat">

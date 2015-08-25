@@ -8,8 +8,6 @@ use yii\helpers\Url;
 use common\models\Service;
 
 $this->title = '咨询管理';
-$this->registerJsFile('YunDou-advanced/backend/web/js/service.js',['depends'=>['backend\assets\AppAsset']]);
-//$this->registerJsFile('backend/web/js/service.js',['depends'=>['backend\assets\AppAsset']]);
 ?>
 <div class="widget flat">
     <div class="widget-body">

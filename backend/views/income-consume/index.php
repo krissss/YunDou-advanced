@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\IncomeConsume;
 
-$this->title = Yii::t('app', '云豆管理');
+$this->title = '云豆管理';
 ?>
 
 <div class="widget flat">

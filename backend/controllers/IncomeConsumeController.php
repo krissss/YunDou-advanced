@@ -24,6 +24,7 @@ class IncomeConsumeController extends Controller
         ];
     }
 
+    /** 云豆收支记录 */
     public function actionIndex(){
         $query = IncomeConsume::find();
         $pagination = new Pagination([
@@ -40,6 +41,7 @@ class IncomeConsumeController extends Controller
         ]);
     }
 
+    /** 云豆收支记录查询 */
     public function actionSearch(){
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
@@ -125,6 +127,7 @@ class IncomeConsumeController extends Controller
         ]);
         $model = $query->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy(['createDate'=>SORT_DESC])
             ->all();
         return $this->render('index', [
             'models' => $model,

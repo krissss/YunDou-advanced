@@ -20,6 +20,7 @@ class PayController extends Controller
         ];
     }
 
+    /** 充值表首页 */
     public function actionIndex(){
         $query = Pay::find();
         $pagination = new Pagination([
@@ -28,6 +29,7 @@ class PayController extends Controller
         ]);
         $model = $query->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy(['createDate'=>SORT_DESC])
             ->all();
         return $this->render('index', [
             'models' => $model,
@@ -35,6 +37,7 @@ class PayController extends Controller
         ]);
     }
 
+    /** 充值查询 */
     public function actionSearch(){
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
@@ -108,6 +111,7 @@ class PayController extends Controller
         ]);
         $model = $query->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy(['createDate'=>SORT_DESC])
             ->all();
         return $this->render('index', [
             'models' => $model,
@@ -115,6 +119,7 @@ class PayController extends Controller
         ]);
     }
 
+    /** 提现，未用！！ */
     public function actionGetMoney(){
         $query = Pay::find();
         $pagination = new Pagination([

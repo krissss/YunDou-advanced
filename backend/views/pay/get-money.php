@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = Yii::t('app', '云豆提现');
+$this->title = '云豆提现';
 ?>
 
 <div class="widget flat">

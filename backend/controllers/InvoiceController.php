@@ -1,5 +1,5 @@
 <?php
-
+/** 发票管理 */
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
@@ -24,13 +24,14 @@ class InvoiceController extends Controller
     }
 
     public function actionIndex(){
-        $query = Invoice::find()->orderBy(['createDate'=>SORT_DESC]);
+        $query = Invoice::find();
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),
         ]);
         $model = $query->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy(['createDate'=>SORT_DESC])
             ->all();
         return $this->render('index', [
             'models' => $model,
@@ -38,6 +39,7 @@ class InvoiceController extends Controller
         ]);
     }
 
+    /** 发票申请 */
     public function actionApply(){
         $query = Invoice::find()->where(['state'=>Invoice::STATE_ING])->orderBy(['createDate'=>SORT_DESC]);;
         $pagination = new Pagination([
@@ -53,6 +55,7 @@ class InvoiceController extends Controller
         ]);
     }
 
+    /** 发票开具 */
     public function actionOpener(){
         $request = Yii::$app->request;
         if($request->isPost) {
@@ -76,6 +79,7 @@ class InvoiceController extends Controller
         ]);
     }
 
+    /** 发票查询 */
     public function actionSearch(){
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
@@ -144,6 +148,30 @@ class InvoiceController extends Controller
         ]);
     }
 
+    /** 改变发票状态 */
+    public function actionChangeState(){
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $invoiceId = $request->post('invoiceId');
+            $state = $request->post('state');
+            $replyContent = $request->post('replyContent');
+            if($state == 'agree'){
+                $invoiceState = Invoice::STATE_PASS;
+                CommonFunctions::createAlertMessage("已同意开票",'success');
+            }elseif($state == 'refuse'){
+                $invoiceState = Invoice::STATE_REFUSE;
+                CommonFunctions::createAlertMessage("已拒绝开票",'success');
+            }else{
+                throw new Exception("state undefined");
+            }
+            Invoice::changeState($invoiceId,$invoiceState,$replyContent);
+        }else{
+            CommonFunctions::createAlertMessage("非正常请求，错误！",'error');
+        }
+        return $this->redirect(['invoice/apply']);
+    }
+
+    /** 发票列表以外的查询，有bug！*/
     public function actionFind(){
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
@@ -178,28 +206,6 @@ class InvoiceController extends Controller
             'models' => $model,
             'pages' => $pagination
         ]);
-    }
-
-    public function actionChangeState(){
-        $request = Yii::$app->request;
-        if($request->isPost){
-            $invoiceId = $request->post('invoiceId');
-            $state = $request->post('state');
-            $replyContent = $request->post('replyContent');
-            if($state == 'agree'){
-                $invoiceState = Invoice::STATE_PASS;
-                CommonFunctions::createAlertMessage("已同意开票",'success');
-            }elseif($state == 'refuse'){
-                $invoiceState = Invoice::STATE_REFUSE;
-                CommonFunctions::createAlertMessage("已拒绝开票",'success');
-            }else{
-                throw new Exception("state undefined");
-            }
-            Invoice::changeState($invoiceId,$invoiceState,$replyContent);
-        }else{
-            CommonFunctions::createAlertMessage("非正常请求，错误！",'error');
-        }
-        return $this->redirect(['invoice/apply']);
     }
 
 }
