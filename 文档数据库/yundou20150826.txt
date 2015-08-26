@@ -1,0 +1,26 @@
+8月26日修改某些字段，添加报名表，为导入题库做备份
+
+testlibrary
+     problem varchar(400) => varchar(1000)
+     question varchar(400) => varchar(1000)
+     options varchar(800) => varchar(1000)
+     analysis  varchar(200) => varchar(400)
+
++ examscore
+    + examScoreId int(11)
+    + userId int(11)
+    + score numeric(6,2)
+    + totalScore numeric(6,2)
+    + majorJobId int(11)
+    + provinceId int(11)
+    + createDate datetime
+    + remark varchar(100)
+
++ info
+    报名需要的相关字段
+
+pay => money
+    + type int(1)
+
+scheme
+    + rebateSelf numeric(6,2)

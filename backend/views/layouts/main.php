@@ -85,7 +85,7 @@ AppAsset::register($this);
                                     </div>
                                     <section>
                                         <h2>
-                                            <span class="profile"><?= $userSession['username'] ?></span>
+                                            <span class="profile"><?= $userSession['nickname'] ?></span>
                                         </h2>
                                     </section>
                                 </a>
