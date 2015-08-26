@@ -1,5 +1,5 @@
 <?php
-/** @var $payRecords \common\models\Pay[] */
+/** @var $payRecords \common\models\Money[] */
 
 use yii\helpers\Url;
 use common\functions\CommonFunctions;

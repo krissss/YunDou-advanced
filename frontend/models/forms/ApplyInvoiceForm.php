@@ -5,7 +5,7 @@ namespace frontend\models\forms;
 use common\functions\CommonFunctions;
 use common\functions\DateFunctions;
 use common\models\Invoice;
-use common\models\Pay;
+use common\models\Money;
 use Yii;
 use yii\base\Exception;
 use yii\base\Model;
@@ -40,7 +40,7 @@ class ApplyInvoiceForm extends Model
 
     public function init(){
         $user= Yii::$app->session->get('user');
-        $maxMoney = Pay::findRemainMoneyByUser($user['userId']);
+        $maxMoney = Money::findRemainMoneyByUser($user['userId']);
         if($maxMoney){
             $this->maxMoney = intval($maxMoney);
         }else{

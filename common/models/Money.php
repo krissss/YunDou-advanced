@@ -5,6 +5,7 @@ namespace common\models;
 use common\functions\DateFunctions;
 use Yii;
 use yii\base\Exception;
+use yii\db\Query;
 
 /**
  * This is the model class for table "money".
@@ -73,6 +74,28 @@ class Money extends \yii\db\ActiveRecord
             ->where(['userId'=>$userId,'type'=>Money::TYPE_PAY])
             ->orderBy(['createDate'=>SORT_DESC])
             ->all();
+    }
+
+    /**
+     * 获取用户剩余的可以申请发票的钱
+     * @param $userId
+     * @return mixed
+     */
+    public static function findRemainMoneyByUser($userId){
+        $table_a = Invoice::tableName();
+        $table_b = Money::tableName();
+        $consume =(new Query())
+            ->select('sum(money)')
+            ->from($table_a)
+            ->where(['userId' => $userId])
+            ->andWhere(['state' => 'D'])
+            ->one();
+        $income = (new Query())
+            ->select('sum(money)')
+            ->from($table_b)
+            ->where(['userId' => $userId])
+            ->one();
+        return $income['sum(money)']-$consume['sum(money)'];
     }
 
     /**
