@@ -34,7 +34,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
             imgUrl: '<?=Url::base(true)?>/images/logo.png',
             success: function () {
-                alert('分享成功');
+                alert('分享成功，让朋友们都参加！');
             }
         };
         wx.onMenuShareTimeline(json);
@@ -66,7 +66,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
     </div>
     <div class="panel-footer">
         <a href="<?=Url::to(['practice/index'])?>" class="btn btn-primary">继续练习</a>
-        <button class="btn btn-primary pull-right" onclick="share()">晒晒我的成绩</button>
+        <button class="btn btn-primary pull-right" onclick="share()">晒成绩赚云豆吧</button>
     </div>
 </div>
 

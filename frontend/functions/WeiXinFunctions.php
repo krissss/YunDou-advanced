@@ -105,12 +105,12 @@ class WeiXinFunctions
                   "sub_button"=>[
                       [
                           "type"=>"view",
-                          "name"=>"模拟考试",
-                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=exam/index",
-                      ],[
-                          "type"=>"view",
                           "name"=>"实名认证",
                           "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/register",
+                      ],[
+                          "type"=>"view",
+                          "name"=>"免费模拟",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=exam/index",
                       ],[
                           "type"=>"view",
                           "name"=>"在线学习",
@@ -118,7 +118,7 @@ class WeiXinFunctions
                       ],[
                           "type"=>"view",
                           "name"=>"云端讲堂",
-                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=building",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=course/index",
                       ]
                   ]
               ],[
@@ -130,8 +130,8 @@ class WeiXinFunctions
                           "url"=>"http://".$this->site_url."/frontend/web/index.php?r=service/consult",
                       ],[
                           "type"=>"view",
-                          "name"=>"我要报名",
-                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=service/enroll",
+                          "name"=>"帮我报名",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=sign-up/index",
                       ],[
                           "type"=>"view",
                           "name"=>"我要推荐",
@@ -144,7 +144,7 @@ class WeiXinFunctions
                       [
                           "type"=>"view",
                           "name"=>"关于云宝",
-                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=building",
+                          "url"=>"http://www.yunbaonet.cn",
                       ],[
                           "type"=>"view",
                           "name"=>"我的账户",
@@ -155,12 +155,8 @@ class WeiXinFunctions
                           "url"=>"http://".$this->site_url."/frontend/web/index.php?r=account/recharge&showwxpaytitle=1",
                       ],[
                           "type"=>"view",
-                          "name"=>"大客户管理",
-                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=building",
-                      ],[
-                          "type"=>"view",
                           "name"=>"云宝商城",
-                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=building",
+                          "url"=>"http://".$this->site_url."/frontend/web/index.php?r=shop/index",
                       ]
                   ]
               ]

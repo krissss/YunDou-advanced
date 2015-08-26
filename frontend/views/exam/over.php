@@ -37,7 +37,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
             imgUrl: '<?=Url::base(true)?>/images/logo.png',
             success: function () {
-                alert('分享成功');
+                alert('分享成功，让朋友们都参加！');
             }
         };
         wx.onMenuShareTimeline(json);
@@ -72,7 +72,7 @@ if($finalScore != 0){   //成绩不为0，计算排名
     </div>
     <div class="panel-footer">
         <a href="<?=Url::to(['exam/index'])?>" class="btn btn-primary">再模拟一次</a>
-        <button class="btn btn-primary pull-right" onclick="share()">晒晒我的成绩</button>
+        <button class="btn btn-primary pull-right" onclick="share()">晒成绩赚云豆吧</button>
     </div>
 </div>
 

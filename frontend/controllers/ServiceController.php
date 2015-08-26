@@ -30,7 +30,7 @@ class ServiceController extends Controller
             $consultForm->record();
             CommonFunctions::createAlertMessage("已经记录您的咨询或建议，我们将尽快给您答复","success");
         }else{
-            CommonFunctions::createAlertMessage("请填写咨询或建议内容，我们将在一段时间内给您回复","info");
+            CommonFunctions::createAlertMessage("请填写相关咨询的内容或者对我们的建议，我们会在第一时间回复您！","info");
         }
         $ownerServices = Service::findAllByUser($user['userId']);
         $publishServices = Service::findPublished();
@@ -52,10 +52,5 @@ class ServiceController extends Controller
             'ownerServices' => $ownerServices,
             'publishServices' => $publishServices
         ]);
-    }
-
-    /** 我要报名 */
-    public function actionEnroll(){
-        echo "<h1>我要报名，建设中。。。</h1>";
     }
 }

@@ -1,12 +1,12 @@
 <?php
-
+/** 云宝商城 */
 namespace frontend\controllers;
 
 use yii\web\Controller;
 
-class BuildingController extends Controller
+class shopController extends Controller
 {
     public function actionIndex(){
-        echo "<h1>建设中。。。</h1>";
+        return $this->render('index');
     }
 }

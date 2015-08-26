@@ -144,7 +144,7 @@ class AccountController extends Controller
             Pay::recordOne();   //记录充值记录+收入支出表变化+用户云豆数增加
             CommonFunctions::createAlertMessage("充值成功","success");
         }else{
-            CommonFunctions::createAlertMessage("当前充值比例：1:$proportion","info");
+            CommonFunctions::createAlertMessage("当前云豆充值比例（人民币元：云豆颗），1:$proportion","info");
         }
         $leftBitcoin = Users::findBitcoin($user['userId']); //剩余的云豆
         return $this->render('recharge',[

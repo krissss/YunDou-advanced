@@ -11,6 +11,7 @@ $this->title = "咨询与建议";
 ?>
 <?=\common\widgets\AlertWidget::widget();?>
 <div class="container-fluid">
+    <div class="head-margin-20"></div>
     <div class="panel panel-default">
         <div class="panel-body ">
             <p>咨询者：<?=$service->createUser['nickname']?></p>
