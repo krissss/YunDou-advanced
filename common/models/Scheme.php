@@ -17,6 +17,7 @@ use yii\base\Exception;
  * @property integer $payMoney
  * @property integer $getBitcoin
  * @property string $rebate
+ * @property string $rebateSelf
  * @property string $startDate
  * @property string $endDate
  * @property string $state
@@ -30,10 +31,15 @@ class Scheme extends \yii\db\ActiveRecord
     const STATE_DISABLE = 'F';
 
     //务必保持和usageMode表一致
-    const USAGE_PRACTICE = 2;
-    const USAGE_PAY = 1;
-    const USAGE_COURSE = 3;
-    const USAGE_REBATE = 4;
+    const USAGE_PRACTICE = 2;   //在线练习支出
+    const USAGE_PAY = 1;    //充值收入
+    const USAGE_COURSE = 3; //在线课堂支出
+    const USAGE_REBATE_A = 4; //A级用户充值返点收入
+    const USAGE_SHARE = 5; //考试通过分享收入
+    const USAGE_SHOP = 6; //商城购物支出
+    const USAGE_WITHDRAW = 7; //提现支出
+    const USAGE_REBATE_AA = 8; //AA级用户充值返点收入
+    const USAGE_REBATE_AAA = 9; //AAA级用户充值返点收入
 
     const LEVEL_UNDO = 0;   //不能动
     const LEVEL_ONE = 1;
@@ -47,7 +53,7 @@ class Scheme extends \yii\db\ActiveRecord
     {
         return [
             [['payBitcoin', 'day', 'time', 'payMoney', 'getBitcoin', 'usageModeId', 'level'], 'integer'],
-            [['rebate'], 'number'],
+            [['rebate','rebateSelf'], 'number'],
             [['startDate', 'endDate'], 'safe'],
             [['name'], 'string', 'max' => 50],
             [['state'], 'string', 'max' => 1],
@@ -70,6 +76,7 @@ class Scheme extends \yii\db\ActiveRecord
             'state' => 'State',
             'usageModeId' => 'Usage Mode ID',
             'rebate' => 'Rebate',
+            'rebateSelf' => 'Rebate Self',
             'level' => 'Level',
             'remark' => 'Remark',
         ];
@@ -109,12 +116,34 @@ class Scheme extends \yii\db\ActiveRecord
     }
 
     /**
-     * 查询所有充值返点方案
+     * 查询所有A级充值返点方案
      * @return array|null|\yii\db\ActiveRecord
      */
-    public static function findAllRebateScheme(){
+    public static function findAllRebateAScheme(){
         return Scheme::find()
-            ->where(['usageModeId'=>Scheme::USAGE_REBATE])
+            ->where(['usageModeId'=>Scheme::USAGE_REBATE_A])
+            ->orderBy(['startDate'=>SORT_DESC])
+            ->all();
+    }
+
+    /**
+     * 查询所有AA级充值返点方案
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function findAllRebateAAScheme(){
+        return Scheme::find()
+            ->where(['usageModeId'=>Scheme::USAGE_REBATE_AA])
+            ->orderBy(['startDate'=>SORT_DESC])
+            ->all();
+    }
+
+    /**
+     * 查询所有AAA级充值返点方案
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function findAllRebateAAAScheme(){
+        return Scheme::find()
+            ->where(['usageModeId'=>Scheme::USAGE_REBATE_AAA])
             ->orderBy(['startDate'=>SORT_DESC])
             ->all();
     }
@@ -163,17 +192,31 @@ class Scheme extends \yii\db\ActiveRecord
      * 查询一条应该使用的充值返点方案
      * @return array|null|\yii\db\ActiveRecord
      */
-    public static function findRebateScheme(){
+    public static function findRebateScheme($role){
+        switch($role){
+            case Users::ROLE_A:
+                $usageModeId = Scheme::USAGE_REBATE_A;
+                break;
+            case Users::ROLE_AA:
+                $usageModeId = Scheme::USAGE_REBATE_AA;
+                break;
+            case Users::ROLE_AAA:
+                $usageModeId = Scheme::USAGE_REBATE_AAA;
+                break;
+            default:
+                throw new Exception("改等级用户无法返现");
+                break;
+        }
         $currentDate = DateFunctions::getCurrentDate();
         $scheme = Scheme::find()
-            ->where(['usageModeId'=>Scheme::USAGE_REBATE,'state'=>Scheme::STATE_ABLE])
+            ->where(['usageModeId'=>$usageModeId,'state'=>Scheme::STATE_ABLE])
             ->andWhere(['>','level',Scheme::LEVEL_UNDO])
             ->andWhere(['<=','startDate',$currentDate])
             ->andWhere(['>=','endDate',$currentDate])
             ->one();
         if(!$scheme){
             $scheme = Scheme::find()
-                ->where(['usageModeId'=>Scheme::USAGE_REBATE,'state'=>Scheme::STATE_ABLE,'level'=>Scheme::LEVEL_UNDO])
+                ->where(['usageModeId'=>$usageModeId,'state'=>Scheme::STATE_ABLE,'level'=>Scheme::LEVEL_UNDO])
                 ->one();
         }
         return $scheme;

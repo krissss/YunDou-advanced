@@ -70,7 +70,7 @@ class Invoice extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getUsers(){
+    public function getUser(){
         return $this->hasOne(Users::className(), ['userId' => 'userId']);
     }
 
@@ -79,7 +79,7 @@ class Invoice extends \yii\db\ActiveRecord
     }
 
     public function getPay(){
-        return $this->hasOne(Pay::className(), ['userId' => 'userId']);
+        return $this->hasOne(Money::className(), ['userId' => 'userId']);
     }
 
     public function getStateName(){
@@ -95,7 +95,7 @@ class Invoice extends \yii\db\ActiveRecord
 
     public function getRemain(){
         $table_a = Invoice::tableName();
-        $table_b = Pay::tableName();
+        $table_b = Money::tableName();
         $consume =(new Query())
             ->select('sum(money)')
             ->from($table_a)
@@ -110,6 +110,13 @@ class Invoice extends \yii\db\ActiveRecord
         return $income['sum(money)']-$consume['sum(money)'];
     }
 
+    /**
+     * 填写快递单号
+     * @param $invoiceId
+     * @param $orderNumber
+     * @throws Exception
+     * @throws \Exception
+     */
     public static function updateOrderNumber($invoiceId,$orderNumber){
         $invoice = Invoice::findOne($invoiceId);
         $invoice->orderNumber = $orderNumber;

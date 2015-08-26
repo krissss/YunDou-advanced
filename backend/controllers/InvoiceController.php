@@ -3,7 +3,6 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
-use common\models\Pay;
 use Yii;
 use common\models\Invoice;
 use common\models\Users;
@@ -11,7 +10,6 @@ use yii\base\Exception;
 use yii\web\Controller;
 use yii\data\Pagination;
 use common\functions\CommonFunctions;
-use yii\web\NotFoundHttpException;
 
 class InvoiceController extends Controller
 {
@@ -23,7 +21,11 @@ class InvoiceController extends Controller
         ];
     }
 
+    /** 发票列表 */
     public function actionIndex(){
+        $session = Yii::$app->session;
+        $session->remove('query');
+        $session->remove('view');
         $query = Invoice::find();
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
@@ -41,6 +43,9 @@ class InvoiceController extends Controller
 
     /** 发票申请 */
     public function actionApply(){
+        $session = Yii::$app->session;
+        $session->remove('query');
+        $session->remove('view');
         $query = Invoice::find()->where(['state'=>Invoice::STATE_ING])->orderBy(['createDate'=>SORT_DESC]);;
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
@@ -64,6 +69,9 @@ class InvoiceController extends Controller
             Invoice::updateOrderNumber($invoiceId,$orderNumber);
             CommonFunctions::createAlertMessage("填写快递单号成功","success");
         }
+        $session = Yii::$app->session;
+        $session->remove('query');
+        $session->remove('view');
         $query = Invoice::find()->where(['state'=>Invoice::STATE_PASS])->orderBy(['createDate'=>SORT_DESC]);;
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
@@ -82,7 +90,9 @@ class InvoiceController extends Controller
     /** 发票查询 */
     public function actionSearch(){
         $request = Yii::$app->request;
-        $query = Yii::$app->session->getFlash('query');
+        $session = Yii::$app->session;
+        $query = $session->getFlash('query');
+
         if ($request->isPost) {
             $type = $request->post('type');
             $content = $request->post('content');
@@ -97,19 +107,19 @@ class InvoiceController extends Controller
                     $table_b = Users::tableName();
                     $query = Invoice::find()
                         ->leftJoin($table_b, "$table_a.UserId=$table_b.UserId")
-                        ->where(['like', "$table_b.username", $content]);
+                        ->where(['like', "$table_b.nickname", $content]);
                     break;
                 case 'money-more':
                     $query = Invoice::find()
-                        ->Where(['>', 'money', $content]);
+                        ->Where(['>=', 'money', $content]);
                     break;
                 case 'money-equal':
                     $query = Invoice::find()
-                        ->where(['=', 'money', $content]);
+                        ->where(['==', 'money', $content]);
                     break;
                 case 'money-less':
                     $query = Invoice::find()
-                        ->Where(['<', 'money', $content]);
+                        ->Where(['<=', 'money', $content]);
                     break;
                 case 'role':
                     $role = '';
@@ -134,16 +144,32 @@ class InvoiceController extends Controller
                     break;
             }
         }
-        Yii::$app->session->setFlash('query', $query);
+
+        $view = $session->getFlash('view');
+        if(!$view){ //非下一页
+            $view = $request->get('view');  //取哪个页面的搜索
+            if(!$view){ //不存在即为index的搜索
+                $view = 'index';
+            }
+        }
+        if($view == 'apply'){   //发票申请的搜索
+            $query->andWhere(['state'=>Invoice::STATE_ING]);
+        }elseif($view == 'opener'){ //发票开具的搜索
+            $query->andWhere(['state'=>Invoice::STATE_PASS]);
+        }
+        $session->setFlash('view',$view);
+        $session->setFlash('query', $query);
+
         $pagination = new Pagination([
-            'defaultPageSize' => Yii::$app->params['pageSize'],
+            'defaultPageSize' =>Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),
         ]);
-        $model = $query->offset($pagination->offset)
+        $models = $query->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy(['createDate'=>SORT_DESC])
             ->all();
-        return $this->render('index', [
-            'models' => $model,
+        return $this->render($view, [
+            'models' => $models,
             'pages' => $pagination
         ]);
     }
@@ -169,43 +195,6 @@ class InvoiceController extends Controller
             CommonFunctions::createAlertMessage("非正常请求，错误！",'error');
         }
         return $this->redirect(['invoice/apply']);
-    }
-
-    /** 发票列表以外的查询，有bug！*/
-    public function actionFind(){
-        $request = Yii::$app->request;
-        $query = Yii::$app->session->getFlash('query');
-        if($request->isPost){
-            $type = $request->post('type');
-            $content = $request->post('content');
-        }else{
-            $type = $request->get('type');
-            $content = trim($request->get('content'));
-        }
-        if($type || !$query){
-            switch ($type) {
-                case 'money-more':
-                    $query = Invoice::find()
-                        ->Where(['>','money',$content]);
-                    break;
-                default:
-                    $query = Invoice::find()
-                        ->where(['like', $type, $content]);
-                    break;
-            }
-        }
-        Yii::$app->session->setFlash('query',$query);
-        $pagination = new Pagination([
-            'defaultPageSize' => Yii::$app->params['pageSize'],
-            'totalCount' => $query->count(),
-        ]);
-        $model = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-        return $this->render('opener',[
-            'models' => $model,
-            'pages' => $pagination
-        ]);
     }
 
 }

@@ -4,9 +4,7 @@ namespace backend\controllers;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\LoginForm;
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 
 /**
  * Site controller
@@ -37,7 +35,7 @@ class SiteController extends Controller
     }
 
     public function actionIndex(){
-        return $this->redirect(['users/index']);
+        return $this->redirect(['user-a/index']);
     }
 
     public function actionLogin()

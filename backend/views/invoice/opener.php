@@ -13,22 +13,23 @@ $this->title = '发票开具';
     <div class="widget-body">
         <?= \common\widgets\AlertWidget::widget();?>
         <div class="well bordered-left bordered-blue">
-            <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询</a>
-
+            <div class="view">
+                <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询</a>
                 <label>快速查找:</label>
                 <a class="btn btn-default" href="<?=Url::to(['invoice/opener'])?>">所有</a>
-                <a class="btn btn-default" href="<?=Url::to(['invoice/find','type'=>'money-more','content'=>'100'])?>">开票金额大于100</a>
-                <a class="btn btn-default" href="<?=Url::to(['invoice/find','type'=>'money-more','content'=>'500'])?>">开票金额大于500</a>
-                <a class="btn btn-default" href="<?=Url::to(['invoice/find','type'=>'money-more','content'=>'1000'])?>">开票金额大于1000</a>
+                <a class="btn btn-default" href="<?=Url::to(['invoice/search','view'=>'opener','type'=>'money-more','content'=>'100'])?>">开票金额大于100</a>
+                <a class="btn btn-default" href="<?=Url::to(['invoice/search','view'=>'opener','type'=>'money-more','content'=>'500'])?>">开票金额大于500</a>
+                <a class="btn btn-default" href="<?=Url::to(['invoice/search','view'=>'opener','type'=>'money-more','content'=>'1000'])?>">开票金额大于1000</a>
+            </div>
             <div id="search" class="collapse">
                 <hr>
-                <?= Html::beginForm(['invoice/search'], 'post', ['class' => 'form-inline']) ?>
+                <?= Html::beginForm(['invoice/search','view'=>'opener'], 'post', ['class' => 'form-inline']) ?>
                 <div class="form-group">
                     <label>搜索：</label>
                     <select class="form-control" name="type">
                         <option value="userId">用户号</option>
                         <option value="role">用户类型</option>
-                        <option value="username">用户名称</option>
+                        <option value="nickname">用户名称</option>
                         <option value="money">开票金额大于</option>
                         <option value="money">开票金额等于</option>
                         <option value="money">开票金额小于</option>
@@ -58,7 +59,7 @@ $this->title = '发票开具';
                 <tr>
                     <td><?= $model->invoiceId ?></td>
                     <td><?= $model->userId ?></td>
-                    <td class="invoice_nickname_<?= $model->invoiceId ?>"><?= $model->users['nickname']?></td>
+                    <td class="invoice_nickname_<?= $model->invoiceId ?>"><?= $model->user['nickname']?></td>
                     <td class="invoice_money_<?= $model->invoiceId ?>"><?= $model->money ?></td>
                     <td class="invoice_createDate_<?= $model->invoiceId ?>"><?= $model->createDate ?></td>
                     <td><?= $model->description ?></td>

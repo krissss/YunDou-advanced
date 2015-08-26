@@ -5,7 +5,7 @@ namespace frontend\controllers;
 use common\functions\CommonFunctions;
 use common\models\IncomeConsume;
 use common\models\Invoice;
-use common\models\Pay;
+use common\models\Money;
 use common\models\PracticeRecord;
 use common\models\Scheme;
 use common\models\Users;
@@ -49,7 +49,7 @@ class AccountController extends Controller
     /** 充值记录 */
     public function actionPayRecord(){
         $user = Yii::$app->session->get('user');
-        $payRecords = Pay::findByUser($user['userId']);
+        $payRecords = Money::findPayByUser($user['userId']);
         return $this->render('pay-record',[
             'payRecords' => $payRecords
         ]);
@@ -141,7 +141,14 @@ class AccountController extends Controller
         Yii::$app->session->set("scheme",$scheme);  //将充值方式存入，在后面记录用户充值记录的时候使用
         $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例
         if($request->get('type')=='over'){  //支付成功后
-            Pay::recordOne();   //记录充值记录+收入支出表变化+用户云豆数增加
+            $session = Yii::$app->session;
+            $user = $session->get('user');
+            $scheme = $session->get('scheme');
+            $money = $session->get('money');
+            $addBitcoin = intval($money)*intval($scheme['getBitcoin'])/intval($scheme['payMoney']); //计算应得的云豆数
+            Money::recordOne($user,$money,$addBitcoin,Money::TYPE_PAY);   //记录充值记录+收入支出表变化+用户云豆数增加
+            $session->remove('scheme');
+            $session->remove('money');
             CommonFunctions::createAlertMessage("充值成功","success");
         }else{
             CommonFunctions::createAlertMessage("当前云豆充值比例（人民币元：云豆颗），1:$proportion","info");

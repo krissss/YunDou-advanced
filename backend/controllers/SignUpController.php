@@ -1,16 +1,16 @@
 <?php
-/** 咨询建议 */
+/** 报名管理 */
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
 use common\functions\CommonFunctions;
+use common\models\Info;
 use common\models\Users;
 use Yii;
-use common\models\Service;
 use yii\web\Controller;
 use yii\data\Pagination;
 
-class ServiceController extends Controller
+class SignUpController extends Controller
 {
     public function behaviors()
     {
@@ -22,22 +22,22 @@ class ServiceController extends Controller
     }
 
     public function actionIndex(){
-        $query = Service::find()->orderBy(['createDate'=>SORT_DESC]);
+        echo "待做";exit;
+        $query = Info::find()->orderBy(['createDate'=>SORT_DESC]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),
         ]);
-        $model = $query->offset($pagination->offset)
+        $models = $query->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();
         return $this->render('index', [
-            'models' => $model,
+            'models' => $models,
             'pages' => $pagination
         ]);
     }
 
-    public function actionSearch()
-    {
+    public function actionSearch(){
         $request = Yii::$app->request;
         $type = $request->get("type");
         $query = Yii::$app->session->getFlash('query');
@@ -50,36 +50,36 @@ class ServiceController extends Controller
         if($type || !$query) {
             switch ($type) {
                 case 'userId':
-                    $query = Service::find()
+                    $query = Info::find()
                         ->where(['userId'=>$content]);
                     break;
                 case 'date':
-                    $query = Service::find()
+                    $query = Info::find()
                         ->where(['between','createDate',date('Y-m-d H:i:s',strtotime($content)),date('Y-m-d H:i:s')]);
                     break;
                 case 'state':
-                    if($content=='noReply'){
-                        $query = Service::find()->where(['state'=>Service::STATE_UNREPLY]);
-                    }elseif($content=='replied'){
-                        $query = Service::find()->where(['state'=>Service::STATE_REPLIED]);
-                    }elseif($content=='published'){
-                        $query = Service::find()->where(['state'=>Service::STATE_PUBLISH]);
+                    if($content=='record'){
+                        $query = Info::find()->where(['state'=>Info::STATE_RECORD]);
+                    }elseif($content=='pass'){
+                        $query = Info::find()->where(['state'=>Info::STATE_PASS]);
+                    }elseif($content=='refuse'){
+                        $query = Info::find()->where(['state'=>Info::STATE_REFUSE]);
                     }else{
-                        $query = Service::find();
+                        $query = Info::find();
                     }
                     break;
                 case 'nickname':
-                    $table_a = Service::tableName();
+                    $table_a = Info::tableName();
                     $table_b = Users::tableName();
-                    $query = Service::find()
+                    $query = Info::find()
                         ->leftJoin($table_b, "$table_a.userId=$table_b.userId")
                         ->where(['like', "$table_b.nickname", $content]);
                     break;
-                case 'content':
-                    $query = Service::find()->where(['like', $type, $content]);
+                case 'IDCard':
+                    $query = Info::find()->where(['like', $type, $content]);
                     break;
                 default:
-                    $query = Service::find();
+                    $query = Info::find();
                     break;
             }
         }
@@ -105,9 +105,9 @@ class ServiceController extends Controller
             $reply = $request->post('reply');
             $publish = $request->post('publish');
             if($publish == 'publish'){
-                Service::replyService($serviceId,$reply,true);
+                Info::replyService($serviceId,$reply,true);
             }else{
-                Service::replyService($serviceId,$reply);
+                Info::replyService($serviceId,$reply);
             }
         }else{
             CommonFunctions::createAlertMessage("非正常请求，错误！",'error');
@@ -119,7 +119,7 @@ class ServiceController extends Controller
         $request = Yii::$app->request;
         if ($request->isPost) {
             $serviceId = $request->post('serviceId');
-            return Service::changePublish($serviceId);
+            return Info::changePublish($serviceId);
         } else {
             CommonFunctions::createAlertMessage("非正常请求，错误！", 'error');
         }

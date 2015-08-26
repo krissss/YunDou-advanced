@@ -178,13 +178,28 @@ AppAsset::register($this);
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="<?= Url::to(['users/index']) ?>">
-                                    <span class="menu-text">微信用户管理</span>
+                                <a href="<?= Url::to(['user-aaaa/index']) ?>">
+                                    <span class="menu-text">大客户列表</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= Url::to(['users/other']) ?>">
-                                    <span class="menu-text">其他用户管理</span>
+                                <a href="<?= Url::to(['user-aaa/index']) ?>">
+                                    <span class="menu-text">AAA伙伴列表</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['user-aa/index']) ?>">
+                                    <span class="menu-text">AA伙伴列表</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['user-a/index']) ?>">
+                                    <span class="menu-text">A级用户列表</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['users/12']) ?>">
+                                    <span class="menu-text">系统用户管理</span>
                                 </a>
                             </li>
                         </ul>
@@ -207,34 +222,85 @@ AppAsset::register($this);
                             <span class="menu-text"> 课件管理 </span>
                         </a>
                     </li>
-                    <li <?//= $page_id == 'simulate-exam' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['income-consume/index']) ?>">
-                            <i class="menu-icon fa fa-leaf"></i>
-                            <span class="menu-text"> 云豆收支 </span>
-                        </a>
-                    </li>
                     <li>
                         <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-file-text-o"></i>
+                            <i class="menu-icon fa fa-leaf"></i>
                                 <span class="menu-text">
-                                    方案管理
+                                    云豆管理
                                 </span>
                             <i class="menu-expand"></i>
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="<?= Url::to(['recharge/index']) ?>">
-                                    <span class="menu-text">充值设置</span>
+                                <a href="<?= Url::to(['practice-price/index']) ?>">
+                                    <span class="menu-text">价格管理</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= Url::to(['practice-price/index']) ?>">
-                                    <span class="menu-text">在线练习设置</span>
+                                <a href="<?= Url::to(['income-consume/index']) ?>">
+                                    <span class="menu-text">云豆收支</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['recharge/index']) ?>">
+                                    <span class="menu-text">充值管理</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-file-text-o"></i>
+                                <span class="menu-text">
+                                    合作管理
+                                </span>
+                            <i class="menu-expand"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="<?= Url::to(['recharge/123']) ?>">
+                                    <span class="menu-text">伙伴注册</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="<?= Url::to(['rebate/index']) ?>">
-                                    <span class="menu-text">充值返点设置</span>
+                                    <span class="menu-text">返点设置</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['practice-price/123']) ?>">
+                                    <span class="menu-text">提现管理</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-user"></i>
+                                <span class="menu-text">
+                                    大客户管理
+                                </span>
+                            <i class="menu-expand"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="<?= Url::to(['recharge/123']) ?>">
+                                    <span class="menu-text">大客户注册</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['rebate/123']) ?>">
+                                    <span class="menu-text">大客户充值</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['practice-price/123']) ?>">
+                                    <span class="menu-text">大客户员工关联</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Url::to(['practice-price/123']) ?>">
+                                    <span class="menu-text">大客户云豆管理</span>
                                 </a>
                             </li>
                         </ul>
@@ -249,12 +315,12 @@ AppAsset::register($this);
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="<?= Url::to(['pay/index']) ?>">
-                                    <span class="menu-text">现金收支表</span>
+                                <a href="<?= Url::to(['money/index']) ?>">
+                                    <span class="menu-text">现金收支</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= Url::to(['pay/get-money']) ?>">
+                                <a href="<?= Url::to(['pay/123']) ?>">
                                     <span class="menu-text">云豆提现记录</span>
                                 </a>
                             </li>
@@ -276,7 +342,7 @@ AppAsset::register($this);
                             </li>
                             <li>
                                 <a href="<?= Url::to(['invoice/apply']) ?>">
-                                    <span class="menu-text">发票申请</span>
+                                    <span class="menu-text">发票审批</span>
                                 </a>
                             </li>
                             <li>
@@ -290,6 +356,12 @@ AppAsset::register($this);
                         <a href="<?= Url::to(['service/index']) ?>">
                             <i class="menu-icon fa fa-comment-o"></i>
                             <span class="menu-text"> 咨询管理 </span>
+                        </a>
+                    </li>
+                    <li <?//= $page_id == 'account-index' ? 'class="active"' : ''; ?>>
+                        <a href="<?= Url::to(['sign-up/index']) ?>">
+                            <i class="menu-icon fa fa-sign-in"></i>
+                            <span class="menu-text"> 报名管理 </span>
                         </a>
                     </li>
                 </ul>

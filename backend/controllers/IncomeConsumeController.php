@@ -3,14 +3,10 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
-use backend\models\forms\AddRechargeForm;
-use common\functions\CommonFunctions;
-use common\models\Scheme;
 use Yii;
 use common\models\IncomeConsume;
 use common\models\Users;
 use common\models\UsageMode;
-use yii\base\Exception;
 use yii\web\Controller;
 use yii\data\Pagination;
 
@@ -71,32 +67,32 @@ class IncomeConsumeController extends Controller
                 case 'income-more':
                     $query = IncomeConsume::find()
                         ->where(['type' => IncomeConsume::TYPE_INCOME])
-                        ->andWhere(['>', 'bitcoin', $content]);
+                        ->andWhere(['>=', 'bitcoin', $content]);
                     break;
                 case 'income-equal':
                     $query = IncomeConsume::find()
                         ->where(['type' => IncomeConsume::TYPE_INCOME])
-                        ->andwhere(['=', 'bitcoin', $content]);
+                        ->andwhere(['==', 'bitcoin', $content]);
                     break;
                 case 'income-less':
                     $query = IncomeConsume::find()
                         ->where(['type' => IncomeConsume::TYPE_INCOME])
-                        ->andWhere(['<', 'bitcoin', $content]);
+                        ->andWhere(['<=', 'bitcoin', $content]);
                     break;
                 case 'pay-more':
                     $query = IncomeConsume::find()
                         ->where(['type' => IncomeConsume::TYPE_CONSUME])
-                        ->andWhere(['>', 'bitcoin', $content]);
+                        ->andWhere(['>=', 'bitcoin', $content]);
                     break;
                 case 'pay-equal':
                     $query = IncomeConsume::find()
                         ->where(['type' => IncomeConsume::TYPE_CONSUME])
-                        ->andwhere(['=', 'bitcoin', $content]);
+                        ->andwhere(['==', 'bitcoin', $content]);
                     break;
                 case 'pay-less':
                     $query = IncomeConsume::find()
                         ->where(['type' => IncomeConsume::TYPE_CONSUME])
-                        ->andWhere(['<', 'bitcoin', $content]);
+                        ->andWhere(['<=', 'bitcoin', $content]);
                     break;
                 case 'role':
                     $role = '';

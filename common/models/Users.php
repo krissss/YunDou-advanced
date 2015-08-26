@@ -4,7 +4,6 @@ namespace common\models;
 
 use frontend\functions\WeiXinFunctions;
 use Yii;
-use yii\base\Exception;
 
 /**
  * This is the model class for table "users".
@@ -201,7 +200,7 @@ class Users extends \yii\db\ActiveRecord
 
     /**
      * 查询推荐人的昵称
-     * @param $userId
+     * @param $recommendUserId
      * @return string
      */
     public static function findRecommendUserName($recommendUserId){

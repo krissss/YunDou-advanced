@@ -19,9 +19,9 @@ $this->title = '云豆管理';
             <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'usageModeName','content'=>'充值'])?>">充值用户</a>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'type','content'=>'0'])?>">收入云豆用户</a>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'type','content'=>'1'])?>">支出云豆用户</a>
-            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'income-more','content'=>'999'])?>">充值大于1000用户</a>
-            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'income-more','content'=>'4999'])?>">收入大于5000用户</a>
-            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'pay-more','content'=>'2999'])?>">支出大于3000用户</a>
+            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'income-more','content'=>'1000'])?>">充值大于1000用户</a>
+            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'income-more','content'=>'5000'])?>">收入大于5000用户</a>
+            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'pay-more','content'=>'3000'])?>">支出大于3000用户</a>
             <div id="search" class="collapse">
                 <?= Html::beginForm(['income-consume/search'], 'post', ['class' => 'form-inline']) ?>
                 <div class="form-group">
@@ -30,7 +30,7 @@ $this->title = '云豆管理';
                     <select class="form-control" name="type">
                         <option value="userId">用户号</option>
                         <option value="role">用户类型</option>
-                        <option value="nickname">用户名称</option>
+                        <option value="nickname">用户昵称</option>
                         <option value="income-more">收入云豆数大于</option>
                         <option value="income-equal">收入云豆数等于</option>
                         <option value="income-less">收入云豆数小于</option>
@@ -53,6 +53,7 @@ $this->title = '云豆管理';
                 <th class="text-align-center">收入或支出云豆</th>
                 <th class="text-align-center">收入或支出方式</th>
                 <th class="text-align-center">来源用户</th>
+                <th class="text-align-center">时间</th>
             </tr>
             </thead>
             <tbody>
@@ -62,9 +63,13 @@ $this->title = '云豆管理';
                     <td><?= $model->userId ?></td>
                     <td><?= $model->users['nickname'] ?></td>
                     <td><?= $model->users['roleName'] ?></td>
-                    <td><?= $model->bitcoin ?></td>
+                    <td>
+                        <?php $icon = $model->type==IncomeConsume::TYPE_INCOME?'+':'-'?>
+                        <?= $icon.$model->bitcoin ?>
+                    </td>
                     <td><?= $model->usageMode['usageModeName'] ?></td>
                     <td><?= $model->fromUser['nickname'] ?></td>
+                    <td><?= $model->createDate ?></td>
                 </tr>
             <?php endforeach;?>
             </tbody>

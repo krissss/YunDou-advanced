@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $users common\models\TestLibrary[] */
+/* @var $models common\models\TestLibrary[] */
 /* @var $pages */
 
 use yii\helpers\Html;
@@ -12,7 +12,6 @@ $this->title = '题库管理';
 <div class="widget flat">
     <div class="widget-body">
         <div class="well bordered-left bordered-blue">
-            <a class="btn btn-default" href="<?=Url::to(['test-library/create'])?>"><i class="fa fa-plus"></i>添加题目</a>
             <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询题目</a>
             <label>快速查找:</label>
             <a class="btn btn-default" href="<?=Url::to(['test-library/index'])?>">所有</a>
@@ -28,12 +27,12 @@ $this->title = '题库管理';
                 <div class="form-group">
                     <label>搜索：</label>
                     <select class="form-control" name="type">
+                        <option value="testLibraryId">题号</option>
                         <option value="preTypeId">课程类别</option>
-                        <option value="province">所属省别</option>
+                        <option value="province">省别</option>
                         <option value="majorJob">专业岗位</option>
-                        <option value="testChapterId">章节</option>
+                        <option value="testChapter">章节</option>
                         <option value="question">问题</option>
-
                     </select>
                     <input type="text" name="content" class="form-control" placeholder="请输入查找内容">
                     <button type="submit" class="btn  btn-small btn btn-primary">查找</button>
@@ -64,13 +63,9 @@ $this->title = '题库管理';
                     <td><?= $model->testChapter['name'] ?></td>
                     <td class="text-align-left"><?= $model->question ?></td>
                     <td>
-                        <a href="<?= Url::to(['test-library/update', 'id' => $model->testLibraryId]) ?>"><span class="glyphicon glyphicon-pencil">  </span></a>
-                        <?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'testLibraryId' => $model->testLibraryId], [
-                            'data' => [
-                                'confirm' => '你确定要删除这条信息记录吗？',
-                                'method' => 'post',
-                            ],
-                        ]) ?>
+                        <button class="btn btn-xs btn-default update_testLibrary" data-id="<?=$model->testLibraryId?>">
+                            <span class="fa fa-edit"></span>编辑
+                        </button>
                     </td>
                 </tr>
             <?php endforeach;?>

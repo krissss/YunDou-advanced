@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
+use common\models\TestChapter;
 use Yii;
 use common\models\TestLibrary;
 use common\models\Province;
@@ -29,6 +30,7 @@ class TestLibraryController extends Controller
         ]);
         $model = $query->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy(['testLibraryId'=>SORT_DESC])
             ->all();
         return $this->render('index',[
             'models' => $model,
@@ -55,10 +57,6 @@ class TestLibraryController extends Controller
                         ->leftJoin($table_b, "$table_a.testTypeId=$table_b.testTypeId")
                         ->where(['like', "$table_b.name", $content]);
                     break;
-                case 'name':
-                    $query = TestLibrary::find()
-                        ->where(['like', $type, $content]);
-                    break;
                 case 'province':
                     $table_a = TestLibrary::tableName();
                     $table_b = Province::tableName();
@@ -70,8 +68,19 @@ class TestLibraryController extends Controller
                     $table_a = TestLibrary::tableName();
                     $table_b = MajorJob::tableName();
                     $query = TestLibrary::find()
-                        ->leftJoin($table_b, "$table_a.majorJobId='.$table_b.majorJobId")
+                        ->leftJoin($table_b, "$table_a.majorJobId=$table_b.majorJobId")
                         ->where(['like', $table_b . ".name", $content]);
+                    break;
+                case 'testChapter':
+                    $table_a = TestLibrary::tableName();
+                    $table_b = TestChapter::tableName();
+                    $query = TestLibrary::find()
+                        ->leftJoin($table_b, "$table_a.testChapterId=$table_b.testChapterId")
+                        ->where(['like', $table_b . ".name", $content]);
+                    break;
+                case 'question':
+                    $query = TestLibrary::find()
+                        ->where(['like', $type, $content]);
                     break;
                 default:
                     $query = TestLibrary::find();
@@ -92,16 +101,7 @@ class TestLibraryController extends Controller
         ]);
     }
 
-    public function actionCreate(){
-        return "暂未开发";
-    }
-
     public function actionUpdate($id){
         return "暂未开发";
-    }
-
-    public function actionDelete($id){
-        TestLibrary::findOne($id)->delete();
-        return $this->redirect(['index']);
     }
 }

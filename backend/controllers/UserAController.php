@@ -3,19 +3,14 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
-use common\functions\CommonFunctions;
 use Yii;
 use common\models\Users;
 use common\models\Province;
 use common\models\MajorJob;
-use backend\models\forms\UploadForm;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\data\Pagination;
-//use server\Spreadsheet_Excel_Reader;
-use yii\web\UploadedFile;
 
-class UsersController extends Controller
+class UserAController extends Controller
 {
     public function behaviors()
     {
@@ -33,9 +28,10 @@ class UsersController extends Controller
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()
         ]);
-        $users = $query->where('weixin is not null')
+        $users = $query->where(['role'=>Users::ROLE_A])
             ->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy(['registerDate'=>SORT_DESC])
             ->all();
         return $this->render('index',[
             'users' => $users,
@@ -43,22 +39,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function actionOther(){
-        $query = Users::find();
-        $pagination = new Pagination([
-            'defaultPageSize' => Yii::$app->params['pageSize'],
-            'totalCount' => $query->count(),
-        ]);
-        $users = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-        return $this->render('other',[
-            'users' => $users,
-            'pages' => $pagination
-        ]);
-    }
-
-    public function actionSearchWx(){
+    public function actionSearch(){
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
         if($request->isPost){
@@ -84,21 +65,8 @@ class UsersController extends Controller
                         ->leftJoin($table_b, "$table_a.majorJobId='.$table_b.majorJobId")
                         ->where(['like', $table_b . ".name", $content]);
                     break;
-                case 'role':
-                    if ($content == 'A' || $content == 'A级') {
-                        $role = Users::ROLE_A;
-                    } elseif ($content == 'AA' || $content == 'AA级') {
-                        $role = Users::ROLE_AA;
-                    } elseif ($content == 'AAA' || $content == 'AAA级') {
-                        $role = Users::ROLE_AAA;
-                    } elseif ($content == '管理员') {
-                        $role = Users::ROLE_ADMIN;
-                    } else {
-                        CommonFunctions::createAlertMessage("该等级用户不存在", 'warning');
-                        return $this->redirect(['users/index']);
-                    }
-                    $query = Users::find()
-                        ->where(['role'=>$role]);
+                case 'nickname':case 'cellphone':
+                    $query = Users::find()->where(['like', $type, $content]);
                     break;
                 default:
                     $query = Users::find();

@@ -3,13 +3,13 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
+use common\models\Money;
 use Yii;
-use common\models\Pay;
 use common\models\Users;
 use yii\web\Controller;
 use yii\data\Pagination;
 
-class PayController extends Controller
+class MoneyController extends Controller
 {
 
     public function behaviors(){
@@ -20,9 +20,10 @@ class PayController extends Controller
         ];
     }
 
-    /** 充值表首页 */
+    /** 资金收支首页 */
     public function actionIndex(){
-        $query = Pay::find();
+        $query = Money::find();
+        //print_r($query) ;exit;
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),
@@ -50,35 +51,39 @@ class PayController extends Controller
         }
         if ($type || !$query) {
             switch ($type) {
-                case 'username';
-                    $table_a = Pay::tableName();
+                case 'userId':
+                    $query = Money::find()
+                        ->Where(['userId'=>$content]);
+                    break;
+                case 'nickname';
+                    $table_a = Money::tableName();
                     $table_b = Users::tableName();
-                    $query = Pay::find()
+                    $query = Money::find()
                         ->leftJoin($table_b, "$table_a.UserId=$table_b.UserId")
-                        ->where(['like', "$table_b.username", $content]);
+                        ->where(['like', "$table_b.nickname", $content]);
                     break;
                 case 'money-more':
-                    $query = Pay::find()
+                    $query = Money::find()
                         ->Where(['>', 'money', $content]);
                     break;
                 case 'money-equal':
-                    $query = Pay::find()
+                    $query = Money::find()
                         ->where(['=', 'money', $content]);
                     break;
                 case 'money-less':
-                    $query = Pay::find()
+                    $query = Money::find()
                         ->Where(['<', 'money', $content]);
                     break;
                 case 'bitcoin-more':
-                    $query = Pay::find()
+                    $query = Money::find()
                         ->Where(['>', 'bitcoin', $content]);
                     break;
                 case 'bitcoin-equal':
-                    $query = Pay::find()
+                    $query = Money::find()
                         ->where(['=', 'bitcoin', $content]);
                     break;
                 case 'bitcoin-less':
-                    $query = Pay::find()
+                    $query = Money::find()
                         ->Where(['<', 'bitcoin', $content]);
                     break;
                 case 'role':
@@ -92,15 +97,14 @@ class PayController extends Controller
                     } elseif ($content == '管理员') {
                         $role = Users::ROLE_ADMIN;
                     }
-                    $table_a = Pay::tableName();
+                    $table_a = Money::tableName();
                     $table_b = Users::tableName();
-                    $query = Pay::find()
+                    $query = Money::find()
                         ->leftJoin($table_b, "$table_a.UserId=$table_b.UserId")
                         ->where(["$table_b.role" => $role]);
                     break;
                 default:
-                    $query = Pay::find()
-                        ->where(['like', $type, $content]);
+                    $query = Money::find();
                     break;
             }
         }
@@ -118,21 +122,4 @@ class PayController extends Controller
             'pages' => $pagination
         ]);
     }
-
-    /** 提现，未用！！ */
-    public function actionGetMoney(){
-        $query = Pay::find();
-        $pagination = new Pagination([
-            'defaultPageSize' => Yii::$app->params['pageSize'],
-            'totalCount' => $query->count(),
-        ]);
-        $model = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-        return $this->render('get-money', [
-            'models' => $model,
-            'pages' => $pagination
-        ]);
-    }
-
 }
