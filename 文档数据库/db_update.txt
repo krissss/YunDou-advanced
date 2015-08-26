@@ -111,3 +111,9 @@ testlibrary
 
 + info
     报名需要的相关字段
+
+pay => money
+    + type int(1)
+
+scheme
+    + rebateSelf numeric(6,2)

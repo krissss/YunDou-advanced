@@ -23,7 +23,7 @@ class RebateController extends Controller
 
     /** 充值设置 */
     public function actionIndex(){
-        $schemes = Scheme::findAllRebateScheme();
+        $schemes = Scheme::findAllRebateAScheme();
         return $this->render('index', [
             'schemes' => $schemes,
         ]);
