@@ -116,34 +116,14 @@ class Scheme extends \yii\db\ActiveRecord
     }
 
     /**
-     * 查询所有A级充值返点方案
+     * 查询所有充值返点方案
      * @return array|null|\yii\db\ActiveRecord
      */
-    public static function findAllRebateAScheme(){
+    public static function findAllRebateScheme(){
         return Scheme::find()
             ->where(['usageModeId'=>Scheme::USAGE_REBATE_A])
-            ->orderBy(['startDate'=>SORT_DESC])
-            ->all();
-    }
-
-    /**
-     * 查询所有AA级充值返点方案
-     * @return array|null|\yii\db\ActiveRecord
-     */
-    public static function findAllRebateAAScheme(){
-        return Scheme::find()
-            ->where(['usageModeId'=>Scheme::USAGE_REBATE_AA])
-            ->orderBy(['startDate'=>SORT_DESC])
-            ->all();
-    }
-
-    /**
-     * 查询所有AAA级充值返点方案
-     * @return array|null|\yii\db\ActiveRecord
-     */
-    public static function findAllRebateAAAScheme(){
-        return Scheme::find()
-            ->where(['usageModeId'=>Scheme::USAGE_REBATE_AAA])
+            ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AA])
+            ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AAA])
             ->orderBy(['startDate'=>SORT_DESC])
             ->all();
     }

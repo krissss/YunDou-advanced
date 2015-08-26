@@ -21,9 +21,9 @@ class RebateController extends Controller
         ];
     }
 
-    /** 充值设置 */
+    /** 充值返点设置 */
     public function actionIndex(){
-        $schemes = Scheme::findAllRebateAScheme();
+        $schemes = Scheme::findAllRebateScheme();
         return $this->render('index', [
             'schemes' => $schemes,
         ]);
@@ -125,7 +125,7 @@ class RebateController extends Controller
                 break;
         }
         $schemes = $query
-            ->andWhere(['usageModeId'=>Scheme::USAGE_REBATE])
+            ->andWhere(['usageModeId'=>Scheme::USAGE_REBATE_A])
             ->all();
         return $this->render('index',[
             'schemes' => $schemes,

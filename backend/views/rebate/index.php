@@ -39,7 +39,8 @@ $this->title = '充值返点设置';
                 <th class="text-align-center">序号</th>
                 <th class="text-align-center">方案名称</th>
                 <th class="text-align-center">起始消费</th>
-                <th class="text-align-center">消费返点</th>
+                <th class="text-align-center">推荐人返点</th>
+                <th class="text-align-center">充值人返点</th>
                 <th class="text-align-center">生效时间</th>
                 <th class="text-align-center">结束时间</th>
                 <th class="text-align-center">方案执行状态</th>
@@ -53,6 +54,7 @@ $this->title = '充值返点设置';
                     <td><?= $scheme->name ?></td>
                     <td><?= $scheme->payMoney ?></td>
                     <td><?= ($scheme->rebate)*100 ?>%</td>
+                    <td><?= ($scheme->rebateSelf)*100 ?>%</td>
                     <td><?= $scheme->startDate==null?"永久":$scheme->startDate ?></td>
                     <td><?= $scheme->endDate==null?"永久":$scheme->endDate ?></td>
                     <td>
