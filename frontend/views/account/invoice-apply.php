@@ -39,6 +39,7 @@ $this->title = "发票申请";
             <th class="text-center">申请时间</th>
             <th class="text-center">金额</th>
             <th class="text-center">状态</th>
+            <th class="text-center">订单号</th>
         </tr>
         </thead>
         <tbody>
@@ -48,6 +49,7 @@ $this->title = "发票申请";
                 <td><?=DateFunctions::getDate($invoice['createDate'])?></td>
                 <td><?=$invoice['money']?></td>
                 <td><?=$invoice->stateName?></td>
+                <td><?=$invoice->orderNumber?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
