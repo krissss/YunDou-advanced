@@ -170,7 +170,9 @@ class Scheme extends \yii\db\ActiveRecord
 
     /**
      * 查询一条应该使用的充值返点方案
+     * @param $role //用户等级
      * @return array|null|\yii\db\ActiveRecord
+     * @throws Exception
      */
     public static function findRebateScheme($role){
         switch($role){
