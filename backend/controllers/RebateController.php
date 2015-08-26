@@ -3,7 +3,6 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
-use backend\models\forms\AddPracticeForm;
 use backend\models\forms\AddRebateForm;
 use yii\web\Controller;
 use common\functions\CommonFunctions;
