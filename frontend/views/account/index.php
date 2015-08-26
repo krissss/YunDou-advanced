@@ -38,12 +38,12 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
                 <th scope="row"><?=$i+1?></th>
                 <?php
                 if($incomeConsume['type']==IncomeConsume::TYPE_INCOME){
-                    $class = "glyphicon glyphicon-plus";
+                    $icon = '+';
                 }elseif($incomeConsume['type']==IncomeConsume::TYPE_CONSUME){
-                    $class = "glyphicon glyphicon-minus";
+                    $icon = '-';
                 }
                 ?>
-                <td><span class="small <?=$class?>"></span><?=$incomeConsume['bitcoin']?></td>
+                <td><?=$icon.$incomeConsume['bitcoin']?></td>
                 <td><?=$incomeConsume->usageMode['usageModeName']?></td>
                 <td><?=$incomeConsume['createDate']?></td>
             </tr>
