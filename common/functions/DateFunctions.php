@@ -14,6 +14,15 @@ class DateFunctions {
     }
 
     /**
+     * 读取时间的日期
+     * @param $date
+     * @return bool|string
+     */
+    public static function getDate($date){
+        return date('Y-m-d',strtotime($date));
+    }
+
+    /**
      * 格式化只有日期的时间到一天开始
      * @param $date
      * @return string

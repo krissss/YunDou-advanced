@@ -3,6 +3,7 @@
 /** @var $invoices \common\models\Invoice[] */
 
 use yii\widgets\ActiveForm;
+use common\functions\DateFunctions;
 
 $this->title = "发票申请";
 
@@ -44,7 +45,7 @@ $this->title = "发票申请";
         <?php foreach($invoices as $i=>$invoice): ?>
             <tr>
                 <th scope="row"><?=$i+1?></th>
-                <td><?=$invoice['createDate']?></td>
+                <td><?=DateFunctions::getDate($invoice['createDate'])?></td>
                 <td><?=$invoice['money']?></td>
                 <td><?=$invoice->stateName?></td>
             </tr>

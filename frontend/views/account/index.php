@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use common\models\IncomeConsume;
 use common\functions\CommonFunctions;
 use common\models\Users;
+use common\functions\DateFunctions;
 
 $this->title = "我的账户";
 
@@ -41,11 +42,13 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
                     $icon = '+';
                 }elseif($incomeConsume['type']==IncomeConsume::TYPE_CONSUME){
                     $icon = '-';
+                }else{
+                    $icon = '';
                 }
                 ?>
                 <td><?=$icon.$incomeConsume['bitcoin']?></td>
                 <td><?=$incomeConsume->usageMode['usageModeName']?></td>
-                <td><?=$incomeConsume['createDate']?></td>
+                <td><?=DateFunctions::getDate($incomeConsume['createDate'])?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
