@@ -1,0 +1,1 @@
+<?=\common\widgets\AlertWidget::widget();?>
