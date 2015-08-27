@@ -11,6 +11,7 @@ use common\models\Province;
 use common\models\TestType;
 use common\models\MajorJob;
 use yii\base\Exception;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\data\Pagination;
 
@@ -41,6 +42,7 @@ class TestLibraryController extends Controller
     }
 
     public function actionSearch(){
+        Url::remember('rememberForUpdate'); //记录当前页，为更新数据后还是跳转到当前页做记录
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
         if($request->isPost){
@@ -127,7 +129,12 @@ class TestLibraryController extends Controller
             $updateTestLibraryForm = new UpdateTestLibraryForm();
             if($updateTestLibraryForm->load($request->post()) && $updateTestLibraryForm->validate()){
                 $updateTestLibraryForm->update();
-                return $this->redirect(['test-library/index']);
+                $url = Url::previous('rememberForUpdate');
+                if($url){
+                    return $this->redirect($url);   //更新后跳转到当前页
+                }else{
+                    return $this->redirect(['test-library/index']);
+                }
             }
             throw new Exception("验证出错");
         }else{

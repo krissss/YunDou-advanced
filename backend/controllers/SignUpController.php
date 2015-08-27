@@ -22,7 +22,7 @@ class SignUpController extends Controller
     }
 
     public function actionIndex(){
-        echo "待做";exit;
+        //echo "待做";exit;
         $query = Info::find()->orderBy(['createDate'=>SORT_DESC]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
