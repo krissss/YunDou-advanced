@@ -21,7 +21,7 @@ class SignUpController extends Controller
 
     public function actionIndex(){
         $user = Yii::$app->session->get('user');
-        if(Info::findByUserId($user['userId'])){
+        if(Info::checkUserRecordOrPass($user['userId'])){    //判断用户是否已经填报过
             return $this->redirect(['sign-up/over']);
         }
         $signUpForm = new SignUpForm();

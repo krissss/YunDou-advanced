@@ -118,6 +118,18 @@ class Info extends \yii\db\ActiveRecord
     }
 
     /**
+     * 检查用户是否有记录未处理或者已经有通过报名的记录
+     * @param $userId
+     * @return null|\common\models\Info
+     */
+    public static function checkUserRecordOrPass($userId){
+        return Info::find()
+            ->where(['userId'=>$userId])
+            ->andWhere('state =\''.Info::STATE_RECORD.'\' or state = \''.Info::STATE_PASS.'\'')
+            ->one();
+    }
+
+    /**
      * 根据身份证查找
      * @param $IDCard
      * @return null|\common\models\Info
