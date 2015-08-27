@@ -42,7 +42,7 @@ class TestLibraryController extends Controller
     }
 
     public function actionSearch(){
-        Url::remember('rememberForUpdate'); //记录当前页，为更新数据后还是跳转到当前页做记录
+        Url::remember(); //记录当前页，为更新数据后还是跳转到当前页做记录
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
         if($request->isPost){
@@ -129,7 +129,7 @@ class TestLibraryController extends Controller
             $updateTestLibraryForm = new UpdateTestLibraryForm();
             if($updateTestLibraryForm->load($request->post()) && $updateTestLibraryForm->validate()){
                 $updateTestLibraryForm->update();
-                $url = Url::previous('rememberForUpdate');
+                $url = Url::previous();
                 if($url){
                     return $this->redirect($url);   //更新后跳转到当前页
                 }else{
