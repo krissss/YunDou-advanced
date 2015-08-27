@@ -27,12 +27,14 @@ $this->title = '题库管理';
                 <div class="form-group">
                     <label>搜索：</label>
                     <select class="form-control" name="type">
-                        <option value="testLibraryId">题号</option>
+                        <option value="testLibraryId">标准题号</option>
                         <option value="preTypeId">课程类别</option>
-                        <option value="province">省别</option>
+                        <option value="province">省份</option>
                         <option value="majorJob">专业岗位</option>
                         <option value="testChapter">章节</option>
+                        <option value="problem">题干</option>
                         <option value="question">问题</option>
+                        <option value="options">选项</option>
                     </select>
                     <input type="text" name="content" class="form-control" placeholder="请输入查找内容">
                     <button type="submit" class="btn  btn-small btn btn-primary">查找</button>
@@ -42,9 +44,9 @@ $this->title = '题库管理';
         </div>
         <table class="table table-hover table-bordered text-align-center">
             <thead class="bordered-blue">
-            <tr>  <th class="text-align-center">题目编号</th>
+            <tr>  <th class="text-align-center">标准题号</th>
                 <th class="text-align-center">题型</th>
-                <th class="text-align-center">所属省别</th>
+                <th class="text-align-center">省份</th>
                 <th class="text-align-center">专业岗位</th>
                 <th class="text-align-center">课程类别</th>
                 <th class="text-align-center">章节</th>

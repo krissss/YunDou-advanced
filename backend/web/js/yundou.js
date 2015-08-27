@@ -323,4 +323,13 @@ $(document).ready(function(){
             return confirm("该方案删除后将不能恢复，确定删除？");
         }
     });
+
+    /** 题库相关 */
+    $(".update_testLibrary").click(function(){
+        var id = $(this).data("id");
+        $.post("?r=test-library/update",{_csrf: csrfToken,testLibraryId:id},function(data){
+            body.append(data);
+            $(".update_testLibrary_modal").last().modal('show');
+        });
+    });
 });

@@ -22,8 +22,8 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($signUpForm, 'IDCard') ?>
         <?= $form->field($signUpForm, 'realName') ?>
-        <?= $form->field($signUpForm, 'password') ?>
-        <?= $form->field($signUpForm, 'password_repeat') ?>
+        <?= $form->field($signUpForm, 'password')->passwordInput() ?>
+        <?= $form->field($signUpForm, 'password_repeat')->passwordInput() ?>
         <?= $form->field($signUpForm, 'cellphone') ?>
         <?= $form->field($signUpForm, 'education')->dropDownList([
             '初中'=>'初中',

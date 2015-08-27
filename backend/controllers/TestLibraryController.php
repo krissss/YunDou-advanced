@@ -3,12 +3,14 @@
 namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
+use backend\models\forms\UpdateTestLibraryForm;
 use common\models\TestChapter;
 use Yii;
 use common\models\TestLibrary;
 use common\models\Province;
 use common\models\TestType;
 use common\models\MajorJob;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\data\Pagination;
 
@@ -50,6 +52,10 @@ class TestLibraryController extends Controller
         }
         if($type || !$query){
             switch ($type) {
+                case 'testLibraryId':
+                    $query = TestLibrary::find()
+                        ->where(['testLibraryId'=>$content]);
+                    break;
                 case 'testType':
                     $table_a = TestLibrary::tableName();
                     $table_b = TestType::tableName();
@@ -78,7 +84,7 @@ class TestLibraryController extends Controller
                         ->leftJoin($table_b, "$table_a.testChapterId=$table_b.testChapterId")
                         ->where(['like', $table_b . ".name", $content]);
                     break;
-                case 'question':
+                case 'question': case 'problem': case 'options':
                     $query = TestLibrary::find()
                         ->where(['like', $type, $content]);
                     break;
@@ -101,7 +107,31 @@ class TestLibraryController extends Controller
         ]);
     }
 
-    public function actionUpdate($id){
-        return "暂未开发";
+    public function actionUpdate(){
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $testLibraryId = $request->post('testLibraryId');
+            $updateTestLibraryForm = new UpdateTestLibraryForm();
+            $updateTestLibraryForm->initWithId($testLibraryId);
+            return $this->renderAjax('update',[
+                'updateTestLibraryForm' => $updateTestLibraryForm
+            ]);
+        }else{
+            throw new Exception("非正常请求");
+        }
+    }
+
+    public function actionGenerate(){
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $updateTestLibraryForm = new UpdateTestLibraryForm();
+            if($updateTestLibraryForm->load($request->post()) && $updateTestLibraryForm->validate()){
+                $updateTestLibraryForm->update();
+                return $this->redirect(['test-library/index']);
+            }
+            throw new Exception("验证出错");
+        }else{
+            throw new Exception("非正常请求");
+        }
     }
 }

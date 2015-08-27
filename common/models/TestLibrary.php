@@ -46,9 +46,10 @@ class TestLibrary extends \yii\db\ActiveRecord
         return [
             [['provinceId', 'testTypeId', 'majorJobId', 'preTypeId', 'testChapterId', 'createUserId'], 'integer'],
             [['createDate'], 'safe'],
-            [['problem', 'question', 'options'], 'string', 'max' => 400],
-            [['answer'], 'string', 'max' => 10],
-            [['analysis', 'pictureSmall','pictureBig'], 'string', 'max' => 200],
+            [['problem', 'question', 'options'], 'string', 'max' => 1000],
+            [['answer'], 'string', 'max' => 50],
+            [['analysis'], 'string', 'max' => 400],
+            [[ 'pictureSmall','pictureBig'], 'string', 'max' => 200],
             [['score'], 'string', 'max' => 20],
             [['status'], 'string', 'max' => 2],
             [['remark'], 'string', 'max' => 100]
