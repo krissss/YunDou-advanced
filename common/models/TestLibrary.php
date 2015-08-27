@@ -132,27 +132,28 @@ class TestLibrary extends \yii\db\ActiveRecord
      */
     public static function findAllByUserAndTestType($user,$testTypeId){
         if($testTypeId == -1){
-            $dependency = new DbDependency([
+            //TODO 缓存设置，后期要用上
+            /*$dependency = new DbDependency([
                 'sql'=> 'select count(*) from testlibrary where provinceId='.$user['provinceId'].' and majorJobId='.$user['majorJobId']
             ]);
-            $result = Collection::getDb()->cache(function () use ($user) {
+            $result = Collection::getDb()->cache(function () use ($user) {*/
                 return TestLibrary::find()
                     ->where(['provinceId' => $user['provinceId'], 'majorJobId' => $user['majorJobId']])
                     ->asArray()
                     ->all();
-            },null,$dependency);
+            /*},null,$dependency);*/
         }else{
-            $dependency = new DbDependency([
+            /*$dependency = new DbDependency([
                 'sql'=> 'select count(*) from testlibrary where provinceId='.$user['provinceId'].' and majorJobId='.$user['majorJobId'].' and testTypeId='.$testTypeId
             ]);
-            $result = Collection::getDb()->cache(function () use ($user,$testTypeId) {
+            $result = Collection::getDb()->cache(function () use ($user,$testTypeId) {*/
                 return TestLibrary::find()
                     ->where(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId'],'testTypeId'=>$testTypeId])
                     ->asArray()
                     ->all();
-            },null,$dependency);
+            /*},null,$dependency);*/
         }
-        return $result;
+        /*return $result;*/
 
     }
 
