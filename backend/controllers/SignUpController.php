@@ -7,6 +7,7 @@ use common\functions\CommonFunctions;
 use common\models\Info;
 use common\models\Users;
 use Yii;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\data\Pagination;
 
@@ -22,7 +23,6 @@ class SignUpController extends Controller
     }
 
     public function actionIndex(){
-        //echo "待做";exit;
         $query = Info::find()->orderBy(['createDate'=>SORT_DESC]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
@@ -68,14 +68,7 @@ class SignUpController extends Controller
                         $query = Info::find();
                     }
                     break;
-                case 'nickname':
-                    $table_a = Info::tableName();
-                    $table_b = Users::tableName();
-                    $query = Info::find()
-                        ->leftJoin($table_b, "$table_a.userId=$table_b.userId")
-                        ->where(['like', "$table_b.nickname", $content]);
-                    break;
-                case 'IDCard':
+                case 'IDCard': case 'cellphone': case 'realName':
                     $query = Info::find()->where(['like', $type, $content]);
                     break;
                 default:
@@ -98,31 +91,51 @@ class SignUpController extends Controller
         ]);
     }
 
-    public function actionReply(){
+    /** 查看 */
+    public function actionView(){
         $request = Yii::$app->request;
         if($request->isPost){
-            $serviceId = $request->post('serviceId');
-            $reply = $request->post('reply');
-            $publish = $request->post('publish');
-            if($publish == 'publish'){
-                Info::replyService($serviceId,$reply,true);
-            }else{
-                Info::replyService($serviceId,$reply);
-            }
+            $infoId = $request->post('infoId');
+            return $this->renderAjax('info',[
+                'info' => Info::findOne($infoId)
+            ]);
         }else{
-            CommonFunctions::createAlertMessage("非正常请求，错误！",'error');
+            throw new Exception("非正常请求");
         }
-        return $this->redirect(['service/index']);
     }
 
-    public function actionPublish(){
+    /** 下载图片 */
+    public function actionDownload(){
         $request = Yii::$app->request;
-        if ($request->isPost) {
-            $serviceId = $request->post('serviceId');
-            return Info::changePublish($serviceId);
-        } else {
-            CommonFunctions::createAlertMessage("非正常请求，错误！", 'error');
+        $file = $request->get('file');
+        if(!is_dir('../../frontend/web/'.$file) && file_exists('../../frontend/web/'.$file)){
+            return Yii::$app->response->sendFile('../../frontend/web/'.$file);
+        }else{
+            return "<h1>文件不存在</h1>";
         }
-        return $this->redirect(['service/index']);
+    }
+
+    /** 修改状态 */
+    public function actionChangeState(){
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $infoId = $request->post('infoId');
+            $state = $request->post('state');
+            if($state == 'ok'){
+                if($result = Info::changeState($infoId,Info::STATE_PASS)){
+                    return $result;
+                }
+            }elseif($state == 'error'){
+                $replyContent = $request->post('replyContent');
+                if($result = Info::changeState($infoId,Info::STATE_REFUSE,$replyContent)){
+                    return $result;
+                }
+            }else{
+                return "状态未定义";
+            }
+            return 'ok';
+        }else{
+            throw new Exception("非正常请求");
+        }
     }
 }

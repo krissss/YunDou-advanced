@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\functions\DateFunctions;
 use Yii;
 
 /**
@@ -95,6 +96,18 @@ class Info extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getStateName(){
+        if($this->state == Info::STATE_RECORD){
+            return "待填报";
+        }elseif($this->state == Info::STATE_PASS){
+            return "已填报";
+        }elseif($this->state == Info::STATE_REFUSE){
+            return "填报失败";
+        }else{
+            return "未知";
+        }
+    }
+
     /**
      * 根据用户查找
      * @param $userId
@@ -111,5 +124,26 @@ class Info extends \yii\db\ActiveRecord
      */
     public static function findByIDCard($IDCard){
         return Info::findOne(['IDCard'=>$IDCard]);
+    }
+
+    /**
+     * 修改状态，有错误会返回错误
+     * @param $infoId
+     * @param $state
+     * @return bool|string
+     */
+    public static function changeState($infoId,$state,$replyContent=null){
+        $info = Info::findOne($infoId);
+        if($info){
+            $info->state = $state;
+            $user = Yii::$app->session->get('user');
+            $info->replyUserId = $user['userId'];
+            $info->replyDate = DateFunctions::getCurrentDate();
+            $info->replyContent = $replyContent;
+            $info->save();
+            return false;
+        }else{
+            return "不存在该信息";
+        }
     }
 }

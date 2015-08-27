@@ -2,6 +2,7 @@
 /** 报名的表单 */
 namespace frontend\models\forms;
 
+use common\functions\DateFunctions;
 use common\models\Info;
 use common\models\MajorJob;
 use Yii;
@@ -92,7 +93,7 @@ class SignUpForm extends Model
 
     protected function saveImage($signUpForm,$imageName){
         $this->$imageName = UploadedFile::getInstance($signUpForm, $imageName);
-        $imgPath = 'uploads/' . $this->IDCard .'_'.$imageName. '_'.rand(10,99). ' . '.$this->$imageName->extension;
+        $imgPath = 'uploads/' . $this->IDCard .'_'.$imageName. '_'.rand(10,99). '.'.$this->$imageName->extension;
         $this->$imageName->saveAs($imgPath);
         return $imgPath;
     }
@@ -134,6 +135,7 @@ class SignUpForm extends Model
         $info->headImg = $this->headImg;
         $info->IDCardImg1 = $this->IDCardImg1;
         $info->IDCardImg2 = $this->IDCardImg2;
+        $info->createDate = DateFunctions::getCurrentDate();
         if(!$info->save()){
             throw new Exception("Sign Up Info save error");
         }

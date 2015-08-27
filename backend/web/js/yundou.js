@@ -325,11 +325,55 @@ $(document).ready(function(){
     });
 
     /** 题库相关 */
+    /** 修改题目 */
     $(".update_testLibrary").click(function(){
         var id = $(this).data("id");
         $.post("?r=test-library/update",{_csrf: csrfToken,testLibraryId:id},function(data){
             body.append(data);
             $(".update_testLibrary_modal").last().modal('show');
+        });
+    });
+
+    /** 报名相关 */
+    /** 查看报名信息 */
+    $(".view_info").click(function(){
+        var id = $(this).data("id");
+        $.post("?r=sign-up/view",{_csrf: csrfToken,infoId:id},function(data){
+            body.append(data);
+            $(".info_modal").last().modal('show');
+        });
+    });
+    /** 填报完成 */
+    body.on("click",".sign-up-ok",function(){
+        var id = $(this).data("id");
+        $.post("?r=sign-up/change-state",{_csrf: csrfToken,infoId:id,state:'ok'},function(data){
+            if(data == 'ok'){
+                $(".state_"+id).text("已填报");
+                $(".btn_"+id).addClass("hidden");
+                $(".info_modal").last().modal('hide');
+            }else{
+                alert(data);
+            }
+        });
+    });
+    /** 填报信息有问题 */
+    body.on("click",".sign-up-error",function(){
+        var id = $(this).data("id");
+        var replayContentObj = $(".reply_content_"+id);
+        var replayContent = replayContentObj.val();
+        if(!replayContent){
+            alert("填报有问题需填写问题说明");
+            replayContentObj.focus();
+            return false;
+        }
+        $.post("?r=sign-up/change-state",{_csrf: csrfToken,infoId:id,state:'error',replyContent:replayContent},function(data){
+            if(data == 'ok'){
+                $(".state_"+id).text("填报失败");
+                $(".btn_"+id).addClass("hidden");
+                $(".info_modal").last().modal('hide');
+            }else{
+                alert(data);
+            }
         });
     });
 });
