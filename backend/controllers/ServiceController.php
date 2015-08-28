@@ -62,7 +62,7 @@ class ServiceController extends Controller
                         $query = Service::find()->where(['state'=>Service::STATE_UNREPLY]);
                     }elseif($content=='replied'){
                         $query = Service::find()->where(['state'=>Service::STATE_REPLIED]);
-                    }elseif($content=='published'){
+                    }elseif($content=='publish'){
                         $query = Service::find()->where(['state'=>Service::STATE_PUBLISH]);
                     }else{
                         $query = Service::find();
