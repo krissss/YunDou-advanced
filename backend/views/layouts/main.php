@@ -198,7 +198,7 @@ AppAsset::register($this);
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= Url::to(['users/12']) ?>">
+                                <a href="<?= Url::to(['user-admin/index']) ?>">
                                     <span class="menu-text">系统用户管理</span>
                                 </a>
                             </li>
