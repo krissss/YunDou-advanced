@@ -2,6 +2,7 @@
 /* @var $addRebateForm \backend\models\forms\AddRebateForm */
 
 use yii\widgets\ActiveForm;
+use common\models\Scheme;
 ?>
 <div class="modal fade add_rebate_modal" tabindex="-1" role="dialog" aria-labelledby="添加或修改方案">
     <div class="modal-dialog" role="document">
@@ -18,8 +19,14 @@ use yii\widgets\ActiveForm;
                     'template' => "{input}"
                 ])->hiddenInput()?>
                 <?= $form->field($addRebateForm, 'name') ?>
+                <?= $form->field($addRebateForm, 'usageModeId')->dropDownList([
+                    Scheme::USAGE_REBATE_A => 'A级',
+                    Scheme::USAGE_REBATE_AA => 'AA级',
+                    Scheme::USAGE_REBATE_AAA => 'AAA级',
+                ]) ?>
                 <?= $form->field($addRebateForm, 'payMoney')->input("number") ?>
                 <?= $form->field($addRebateForm, 'rebate')->input("number",['step'=>'0.01','min'=>'0']) ?>
+                <?= $form->field($addRebateForm, 'rebateSelf')->input("number",['step'=>'0.01','min'=>'0']) ?>
                 <?= $form->field($addRebateForm, 'startDate')->input("datetime-local") ?>
                 <?= $form->field($addRebateForm, 'endDate')->input("datetime-local") ?>
             </div>

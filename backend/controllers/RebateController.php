@@ -116,15 +116,22 @@ class RebateController extends Controller
         }
         switch ($type) {
             case 'name':case 'state':
-            $query = Scheme::find()
-                ->where(['like', $type, $content]);
-            break;
+                $query = Scheme::find()
+                    ->where(['like', $type, $content])
+                    ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_A])
+                    ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AA])
+                    ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AAA]);
+                break;
+            case 'usageMode':
+                $query = Scheme::find()
+                    ->where(['usageModeId'=>$content]);
+                break;
             default:
                 $query = Scheme::find();
                 break;
         }
         $schemes = $query
-            ->andWhere(['usageModeId'=>Scheme::USAGE_REBATE_A])
+            ->orderBy(['startDate'=>SORT_DESC])
             ->all();
         return $this->render('index',[
             'schemes' => $schemes,

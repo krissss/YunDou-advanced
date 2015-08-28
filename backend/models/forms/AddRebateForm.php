@@ -13,14 +13,16 @@ class AddRebateForm extends Model
     public $name;
     public $payMoney;
     public $rebate;
+    public $rebateSelf;
     public $startDate;
     public $endDate;
+    public $usageModeId;
 
     public function rules()
     {
         return [
-            [['name','payMoney', 'rebate','startDate','endDate'], 'required'],
-            [['schemeId','payMoney'], 'integer'],
+            [['name','usageModeId','payMoney', 'rebate','rebateSelf','startDate','endDate'], 'required'],
+            [['schemeId','payMoney','usageModeId'], 'integer'],
             [['rebate'], 'number'],
             [['startDate', 'endDate'], 'safe'],
             [['endDate'], 'compare','compareAttribute' => 'startDate','operator' => '>'],
@@ -33,9 +35,11 @@ class AddRebateForm extends Model
         return [
             'name' => '方案名称',
             'payMoney' => '起始消费',
-            'rebate' => '充值返点',
+            'rebate' => '推荐人返点',
+            'rebateSelf' => '充值人返点',
             'startDate' => '生效时间',
             'endDate' => '结束时间',
+            'usageModeId' => '方案等级',
         ];
     }
 
@@ -43,17 +47,17 @@ class AddRebateForm extends Model
         if(!$this->schemeId){
             $scheme = new Scheme();
             $scheme->level = Scheme::LEVEL_ONE;
-            $scheme->usageModeId = Scheme::USAGE_REBATE;
         }else{
             $scheme = Scheme::findOne($this->schemeId);
         }
+        $scheme->usageModeId = $this->usageModeId;
         $scheme->name = $this->name;
         $scheme->payMoney = $this->payMoney;
         $scheme->rebate = $this->rebate;
         $scheme->startDate = $this->startDate;
         $scheme->endDate = $this->endDate;
         if($state){
-            $checkResult = Scheme::checkScheme(Scheme::USAGE_REBATE,$this->startDate,$this->endDate);  //检查方案冲突
+            $checkResult = Scheme::checkScheme($scheme->usageModeId,$this->startDate,$this->endDate);  //检查方案冲突
             if($checkResult){
                 CommonFunctions::createAlertMessage("方案设置失败，启用的方案中存在与想要设置的方案时间存在冲突，冲突方案名称是：".$checkResult,"error");
                 return true;

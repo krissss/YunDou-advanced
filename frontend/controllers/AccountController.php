@@ -123,7 +123,7 @@ class AccountController extends Controller
         ]);
     }
 
-    /** 我要充值 */
+    /** 我要充值，包含操作：充值页面、调用微信支付页面、充值完成 */
     public function actionRecharge(){
         $rechargeForm = new RechargeForm();
         $request = Yii::$app->request;
@@ -134,20 +134,20 @@ class AccountController extends Controller
                 return $this->renderAjax('recharge-order',[
                     'order' => $order
                 ]);
+            }else{
+                return "充值表单有错误";
             }
         }
-        $user = Yii::$app->session->get('user');
+        $session = Yii::$app->session;
+        $user = $session->get('user');
         $scheme = Scheme::findPayScheme();  //获取充值方案
-        Yii::$app->session->set("scheme",$scheme);  //将充值方式存入，在后面记录用户充值记录的时候使用
-        $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例
+        //Yii::$app->session->set("scheme",$scheme);  //将充值方式存入，在后面记录用户充值记录的时候使用
+        $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例,1：X的X
         if($request->get('type')=='over'){  //支付成功后
-            $session = Yii::$app->session;
-            $user = $session->get('user');
-            $scheme = $session->get('scheme');
             $money = $session->get('money');
-            $addBitcoin = intval($money)*intval($scheme['getBitcoin'])/intval($scheme['payMoney']); //计算应得的云豆数
+            $addBitcoin = intval($money)*$proportion; //计算应得的云豆数
             Money::recordOne($user,$money,$addBitcoin,Money::TYPE_PAY);   //记录充值记录+收入支出表变化+用户云豆数增加
-            $session->remove('scheme');
+            //$session->remove('scheme');
             $session->remove('money');
             CommonFunctions::createAlertMessage("充值成功","success");
         }else{

@@ -19,6 +19,9 @@ $this->title = '充值返点设置';
                 <a class="btn btn-default" href="<?=Url::to(['rebate/index'])?>">所有</a>
                 <a class="btn btn-default" href="<?=Url::to(['rebate/search','type'=>'state','content'=>Scheme::STATE_ABLE])?>">已启用</a>
                 <a class="btn btn-default" href="<?=Url::to(['rebate/search','type'=>'state','content'=>Scheme::STATE_DISABLE])?>">未启用</a>
+                <a class="btn btn-default" href="<?=Url::to(['rebate/search','type'=>'usageMode','content'=>Scheme::USAGE_REBATE_A])?>">A级</a>
+                <a class="btn btn-default" href="<?=Url::to(['rebate/search','type'=>'usageMode','content'=>Scheme::USAGE_REBATE_AA])?>">AA级</a>
+                <a class="btn btn-default" href="<?=Url::to(['rebate/search','type'=>'usageMode','content'=>Scheme::USAGE_REBATE_AAA])?>">AAA级</a>
             <div id="search" class="collapse">
                 <hr>
                 <?= Html::beginForm(['rebate/search'], 'post', ['class' => 'form-inline']) ?>

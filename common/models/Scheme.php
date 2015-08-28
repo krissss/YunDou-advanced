@@ -16,8 +16,8 @@ use yii\base\Exception;
  * @property integer $time
  * @property integer $payMoney
  * @property integer $getBitcoin
- * @property string $rebate
- * @property string $rebateSelf
+ * @property string $rebate //推荐人返点
+ * @property string $rebateSelf //充值人返点
  * @property string $startDate
  * @property string $endDate
  * @property string $state
@@ -170,7 +170,7 @@ class Scheme extends \yii\db\ActiveRecord
 
     /**
      * 查询一条应该使用的充值返点方案
-     * @param $role //用户等级
+     * @param $role //推荐人的用户等级
      * @return array|null|\yii\db\ActiveRecord
      * @throws Exception
      */
