@@ -376,4 +376,66 @@ $(document).ready(function(){
             }
         });
     });
+
+    /** 2A伙伴相关 */
+    /** 添加 */
+    $(".add_user_aa").click(function(){
+        $.post("?r=user-aa/add-update",{_csrf: csrfToken},function(data){
+            body.append(data);
+            $(".add_user_aa_modal").last().modal('show');
+        });
+    });
+    /** 编辑方案 */
+    $(".update_user_aa").click(function(){
+        var id = $(this).data("id");
+        $.post("?r=user-aa/add-update",{_csrf: csrfToken,userId:id},function(data){
+            body.append(data);
+            $(".add_user_aa_modal").last().modal('show');
+        });
+    });
+    /** 修改状态 */
+    var stateAAFlag = false;
+    $(".state_aa").click(function(){
+        if(stateAAFlag){
+            alert("状态修改中，请勿重复点击");
+            return false;
+        }
+        stateAAFlag = true;
+        var state = $(this).data("state");
+        var id = $(this).data("id");
+        $.post("?r=user-aa/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
+            window.location.href = "?r=user-aa/previous";
+        });
+    });
+
+    /** 3A伙伴相关 */
+    /** 添加 */
+    $(".add_user_aaa").click(function(){
+        $.post("?r=user-aaa/add-update",{_csrf: csrfToken},function(data){
+            body.append(data);
+            $(".add_user_aaa_modal").last().modal('show');
+        });
+    });
+    /** 编辑方案 */
+    $(".update_user_aaa").click(function(){
+        var id = $(this).data("id");
+        $.post("?r=user-aaa/add-update",{_csrf: csrfToken,userId:id},function(data){
+            body.append(data);
+            $(".add_user_aaa_modal").last().modal('show');
+        });
+    });
+    /** 修改状态 */
+    var stateAAAFlag = false;
+    $(".state_aaa").click(function(){
+        if(stateAAAFlag){
+            alert("状态修改中，请勿重复点击");
+            return false;
+        }
+        stateAAAFlag = true;
+        var state = $(this).data("state");
+        var id = $(this).data("id");
+        $.post("?r=user-aaa/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
+            window.location.href = "?r=user-aaa/previous";
+        });
+    });
 });

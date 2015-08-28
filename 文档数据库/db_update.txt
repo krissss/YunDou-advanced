@@ -121,3 +121,4 @@ scheme
 2015-8-28
 users
     + state char(1)
+    + qq varchar(12)

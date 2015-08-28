@@ -125,7 +125,7 @@ AppAsset::register($this);
         <!-- Page Container -->
         <div class="page-container">
             <!-- Page Sidebar -->
-            <div class="page-sidebar" id="sidebar">
+            <div class="page-sidebar menu-compact" id="sidebar">
                 <div class="sidebar-header-wrapper">
                     <i class="searchicon"></i>
                     <div class="searchhelper"></div>
@@ -258,17 +258,12 @@ AppAsset::register($this);
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="<?= Url::to(['recharge/123']) ?>">
-                                    <span class="menu-text">伙伴注册</span>
-                                </a>
-                            </li>
-                            <li>
                                 <a href="<?= Url::to(['rebate/index']) ?>">
                                     <span class="menu-text">返点设置</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= Url::to(['practice-price/123']) ?>">
+                                <a href="<?= Url::to(['withdraw/index']) ?>">
                                     <span class="menu-text">提现管理</span>
                                 </a>
                             </li>

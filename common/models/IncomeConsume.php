@@ -5,6 +5,7 @@ namespace common\models;
 use common\functions\DateFunctions;
 use Yii;
 use yii\base\Exception;
+use yii\db\Query;
 
 /**
  * This is the model class for table "incomeconsume".
@@ -119,5 +120,24 @@ class IncomeConsume extends \yii\db\ActiveRecord
             ->where(['userId'=>$userId])
             ->orderBy(['createDate'=>SORT_DESC])
             ->all();
+    }
+
+    /**
+     * 查询用户一共获得的云豆
+     * @param $userId
+     * @return mixed
+     */
+    public static function findTotalIncome($userId){
+        $table = IncomeConsume::tableName();
+        $money = (new Query())
+            ->select('sum(bitcoin)')
+            ->from($table)
+            ->where(['userId' => $userId])
+            ->one();
+        if($money['sum(bitcoin)']){
+            return $money['sum(bitcoin)'];
+        }else{
+            return 0;
+        }
     }
 }

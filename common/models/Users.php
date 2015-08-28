@@ -15,6 +15,7 @@ use Yii;
  * @property string $email
  * @property string $cellphone
  * @property string $weixin
+ * @property string $qq
  * @property string $sex
  * @property integer $majorJobId
  * @property string $nickname
@@ -65,6 +66,7 @@ class Users extends \yii\db\ActiveRecord
             [['sex'], 'string', 'max' => 2],
             [['state'], 'string', 'max' => 1],
             [['cellphone'], 'string', 'max' => 11],
+            [['qq'], 'string', 'max' => 12],
             [['recommendCode'], 'string', 'max' => 15],
             [['introduce', 'remark'], 'string', 'max' => 100]
         ];
@@ -83,6 +85,7 @@ class Users extends \yii\db\ActiveRecord
             'email' => '邮件',
             'cellphone' => '手机',
             'weixin' => '微信id',
+            'qq' => 'qq',
             'sex' => '性别',
             'majorJobId' => '专业岗位',
             'nickname' => '昵称',
@@ -119,6 +122,18 @@ class Users extends \yii\db\ActiveRecord
             default: $msg = "未定义";
         }
         return $msg;
+    }
+
+    public function getStateName(){
+        if($this->state == Users::STATE_NORMAL){
+            return "正常";
+        }elseif($this->state == Users::STATE_FROZEN){
+            return "冻结";
+        }elseif($this->state == Users::STATE_STOP){
+            return "终止";
+        }else{
+            return "未知";
+        }
     }
 
     public function getRecommendUser(){
@@ -228,5 +243,27 @@ class Users extends \yii\db\ActiveRecord
      */
     public static function findRecommendUser($recommendUserId){
         return $user = Users::findOne(['userId'=>$recommendUserId,'state'=>Users::STATE_NORMAL]);
+    }
+
+    /**
+     * 更新用户状态
+     * @param $userId
+     * @param $newState
+     */
+    public static function updateState($userId,$newState){
+        $user = Users::findOne($userId);
+        $user->state = $newState;
+        $user->save();
+    }
+
+    /**
+     * 查询被推荐的人
+     * @param $userId
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function findBeRecommend($userId){
+        return Users::find()
+            ->where(['recommendUserID'=>$userId])
+            ->all();
     }
 }

@@ -93,21 +93,24 @@ class Invoice extends \yii\db\ActiveRecord
         return $content;
     }
 
-    public function getRemain(){
-        $table_a = Invoice::tableName();
-        $table_b = Money::tableName();
-        $consume =(new Query())
+    /**
+     * 查询用户一共开票完成的数目
+     * @param $userId
+     * @return mixed
+     */
+    public static function findTotalInvoice($userId){
+        $table = Invoice::tableName();
+        $money = (new Query())
             ->select('sum(money)')
-            ->from($table_a)
-            ->where(['userId' => $this->userId])
+            ->from($table)
+            ->where(['userId' => $userId])
             ->andWhere(['state' => 'D'])
             ->one();
-        $income = (new Query())
-            ->select('sum(money)')
-            ->from($table_b)
-            ->where(['userId' => $this->userId])
-            ->one();
-        return $income['sum(money)']-$consume['sum(money)'];
+        if($money['sum(money)']){
+            return $money['sum(money)'];
+        }else{
+            return 0;
+        }
     }
 
     /**

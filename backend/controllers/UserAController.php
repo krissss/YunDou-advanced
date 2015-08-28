@@ -21,8 +21,7 @@ class UserAController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
+    public function actionIndex(){
         $query = Users::find();
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],

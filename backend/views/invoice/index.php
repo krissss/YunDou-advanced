@@ -5,6 +5,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\Money;
 
 $this->title =  '发票管理';
 ?>
@@ -62,7 +63,7 @@ $this->title =  '发票管理';
                     <td><?= $model->userId ?></td>
                     <td><?= $model->user['nickname']?></td>
                     <td><?= $model->money ?></td>
-                    <td><?= $model->remain ?></td>
+                    <td><?= Money::findRemainMoneyByUser($model->userId) ?></td>
                     <td><?= $model->createDate ?></td>
                     <td><?= $model->stateName  ?></td>
                     <td><?= $model->address ?></td>

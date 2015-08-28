@@ -77,25 +77,64 @@ class Money extends \yii\db\ActiveRecord
     }
 
     /**
+     * 查询用户的提现记录
+     * @param $userId
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function findWithdrawByUser($userId){
+        return Money::find()
+            ->where(['userId'=>$userId,'type'=>Money::TYPE_WITHDRAW])
+            ->orderBy(['createDate'=>SORT_DESC])
+            ->all();
+    }
+
+    /**
+     * 查询用户一共充值的钱
+     * @param $userId
+     * @return mixed
+     */
+    public static function findTotalPay($userId){
+        $table = Money::tableName();
+        $money = (new Query())
+            ->select('sum(money)')
+            ->from($table)
+            ->where(['userId' => $userId,'type'=>Money::TYPE_PAY])
+            ->one();
+        if($money['sum(money)']){
+            return $money['sum(money)'];
+        }else{
+            return 0;
+        }
+    }
+
+    /**
+     * 查询用户一共提现的钱
+     * @param $userId
+     * @return mixed
+     */
+    public static function findTotalWithdraw($userId){
+        $table = Money::tableName();
+        $money = (new Query())
+            ->select('sum(money)')
+            ->from($table)
+            ->where(['userId' => $userId,'type'=>Money::TYPE_WITHDRAW])
+            ->one();
+        if($money['sum(money)']){
+            return $money['sum(money)'];
+        }else{
+            return 0;
+        }
+    }
+
+    /**
      * 获取用户剩余的可以申请发票的钱
      * @param $userId
      * @return mixed
      */
     public static function findRemainMoneyByUser($userId){
-        $table_a = Invoice::tableName();
-        $table_b = Money::tableName();
-        $consume =(new Query())
-            ->select('sum(money)')
-            ->from($table_a)
-            ->where(['userId' => $userId])
-            ->andWhere(['state' => 'D'])
-            ->one();
-        $income = (new Query())
-            ->select('sum(money)')
-            ->from($table_b)
-            ->where(['userId' => $userId])
-            ->one();
-        return $income['sum(money)']-$consume['sum(money)'];
+        $consume = Invoice::findTotalInvoice($userId);
+        $income = Money::findTotalPay($userId);
+        return $income-$consume;
     }
 
     /**
