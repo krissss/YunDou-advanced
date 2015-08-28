@@ -11,7 +11,13 @@ use yii\widgets\ActiveForm;
                 <h4 class="modal-title" id="myModalLabel">添加或修改方案</h4>
             </div>
             <?php $form = ActiveForm::begin([
-                'action'=>\yii\helpers\Url::to(['practice-price/generate'])
+                'action'=>\yii\helpers\Url::to(['practice-price/generate']),
+                'options' => ['class' => 'form-horizontal'],
+                'fieldConfig' => [
+                    'options' => ['class' => 'form-group no-margin-bottom'],
+                    'template' => "{label}<div class='col-xs-10 no-padding-left'>{input}</div><div class='col-xs-10 col-xs-offset-2'>{error}</div>",
+                    'labelOptions' => ['class'=>'col-xs-2 control-label'],
+                ],
             ]); ?>
             <div class="modal-body">
                 <?= $form->field($addPracticeForm, 'schemeId',[
@@ -23,6 +29,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($addPracticeForm, 'startDate')->input("datetime-local") ?>
                 <?= $form->field($addPracticeForm, 'endDate')->input("datetime-local") ?>
             </div>
+            <div class="clearfix"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="submit" class="btn btn-primary">保存</button>
