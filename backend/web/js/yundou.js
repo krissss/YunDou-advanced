@@ -438,4 +438,35 @@ $(document).ready(function(){
             window.location.href = "?r=user-aaa/previous";
         });
     });
+
+    /** 大客户相关 */
+    /** 添加 */
+    $(".add_user_big").click(function(){
+        $.post("?r=user-big/add-update",{_csrf: csrfToken},function(data){
+            body.append(data);
+            $(".add_user_big_modal").last().modal('show');
+        });
+    });
+    /** 编辑方案 */
+    $(".update_user_big").click(function(){
+        var id = $(this).data("id");
+        $.post("?r=user-big/add-update",{_csrf: csrfToken,userId:id},function(data){
+            body.append(data);
+            $(".add_user_big_modal").last().modal('show');
+        });
+    });
+    /** 修改状态 */
+    var stateBigFlag = false;
+    $(".state_big").click(function(){
+        if(stateBigFlag){
+            alert("状态修改中，请勿重复点击");
+            return false;
+        }
+        stateBigFlag = true;
+        var state = $(this).data("state");
+        var id = $(this).data("id");
+        $.post("?r=user-big/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
+            window.location.href = "?r=user-big/previous";
+        });
+    });
 });

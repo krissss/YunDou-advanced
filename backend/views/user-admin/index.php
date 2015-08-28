@@ -38,6 +38,7 @@ $this->title = '系统用户管理';
                 <th class="text-align-center">序号</th>
                 <th class="text-align-center">登录名</th>
                 <th class="text-align-center">用户名称</th>
+                <th class="text-align-center">用户类型</th>
             </tr>
             </thead>
             <tbody>
@@ -46,6 +47,7 @@ $this->title = '系统用户管理';
                     <td><?= $user->userId ?></td>
                     <td><?= $user->username ?></td>
                     <td><?= $user->nickname ?></td>
+                    <td><?= $user->roleName ?></td>
                 </tr>
             <?php endforeach;?>
             </tbody>

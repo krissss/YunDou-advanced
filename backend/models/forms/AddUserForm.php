@@ -56,6 +56,8 @@ class AddUserForm extends Model
             $this->roleName = "AA级伙伴";
         }elseif($this->role == Users::ROLE_AAA){
             $this->roleName = "AAA级伙伴";
+        }elseif($this->role == Users::ROLE_BIG){
+            $this->roleName = "大客户";
         }else{
             throw new Exception("未知的角色类型");
         }
@@ -100,7 +102,15 @@ class AddUserForm extends Model
             $user->password = CommonFunctions::encrypt("123456");   //初始密码设置为123456
             $user->state = Users::STATE_NORMAL;
             do{
-                $recommendCode = CommonFunctions::create2ARecommendCode();
+                if($this->role == Users::ROLE_AA){
+                    $recommendCode = CommonFunctions::create2ARecommendCode();
+                }elseif($this->role == Users::ROLE_AAA){
+                    $recommendCode = CommonFunctions::create3ARecommendCode();
+                }elseif($this->role == Users::ROLE_BIG){
+                    $recommendCode = CommonFunctions::createBigRecommendCode();
+                }else{
+                    throw new Exception("未知的角色类型");
+                }
             }while(Users::findUserByRecommendCode($recommendCode));
             $user->recommendCode = $recommendCode;
             $user->registerDate = DateFunctions::getCurrentDate();

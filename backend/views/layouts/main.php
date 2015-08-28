@@ -178,7 +178,7 @@ AppAsset::register($this);
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="<?= Url::to(['user-aaaa/index']) ?>">
+                                <a href="<?= Url::to(['user-big/index']) ?>">
                                     <span class="menu-text">大客户列表</span>
                                 </a>
                             </li>

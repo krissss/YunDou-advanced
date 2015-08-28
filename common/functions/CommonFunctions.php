@@ -69,6 +69,19 @@ class CommonFunctions
     }
 
     /**
+     * 创建大客户推荐，最后使用时是不区分大小写的
+     * @return int|string
+     */
+    public static function createBigRecommendCode(){
+        $code = 'B';
+        $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
+        for($i = 0; $i < 5; $i ++) {
+            $code .= $pattern {mt_rand ( 0, 61 )}; //生成php随机数
+        }
+        return $code;
+    }
+
+    /**
      * 创建http图片路径，仅适用与frontend
      * @param $imagePath
      * @return string
