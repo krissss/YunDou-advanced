@@ -172,7 +172,6 @@ class Scheme extends \yii\db\ActiveRecord
      * 查询一条应该使用的充值返点方案
      * @param $role //推荐人的用户等级
      * @return array|null|\yii\db\ActiveRecord
-     * @throws Exception
      */
     public static function findRebateScheme($role){
         switch($role){
@@ -186,7 +185,7 @@ class Scheme extends \yii\db\ActiveRecord
                 $usageModeId = Scheme::USAGE_REBATE_AAA;
                 break;
             default:
-                throw new Exception("改等级用户无法返现");
+                return null;
                 break;
         }
         $currentDate = DateFunctions::getCurrentDate();

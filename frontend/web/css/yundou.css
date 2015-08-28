@@ -91,6 +91,11 @@ a:active {
 .inner_img_big img{
     width: 300px;
 }
+.control-label{
+	padding-top: 7px;
+	margin-bottom: 0;
+	text-align: right;
+}
 
 
 /** practice/index */

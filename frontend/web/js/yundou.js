@@ -354,8 +354,21 @@ $(document).ready(function(){
     /** 支付界面相关 */
     /** 充值金额改变 */
     $("input[name=money]").change(function(){
+        var money = parseInt($(this).val());
         var proportion = parseInt($("input[name=proportion]").val());
-        $(".get_bitcoin").text(parseInt($(this).val())*proportion);
+        var bitcoin = money*proportion;
+        $(".get_bitcoin").text(bitcoin);
+        var rebate = 0;
+        var rebate_bitcoin = $(".rebate_bitcoin");
+        if(rebate_bitcoin.length>0){
+            var rebate_money = rebate_bitcoin.data('money');
+            var rebate_rebate = rebate_bitcoin.data('rebate');
+            if(money >= rebate_money){
+                rebate = bitcoin*rebate_rebate;
+                rebate_bitcoin.text(rebate);
+            }
+        }
+        $(".total_bitcoin").text(bitcoin+rebate);
     });
 
     /** 微信支付 */

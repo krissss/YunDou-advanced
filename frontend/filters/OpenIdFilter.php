@@ -18,8 +18,8 @@ class OpenIdFilter extends ActionFilter
 
     public function beforeAction($action){
         $session = Yii::$app->session;
-        //$session->removeAll();
-        //$session->set('openId','ow-bOvjH7CpKQtxsvjJuRmg6-g-k');
+        $session->removeAll();
+        $session->set('openId','ow-bOvjH7CpKQtxsvjJuRmg6-g-k');
         if($user = $session->get('user')){
             return parent::beforeAction($action);
         }

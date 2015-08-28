@@ -141,6 +141,7 @@ class AccountController extends Controller
         $session = Yii::$app->session;
         $user = $session->get('user');
         $scheme = Scheme::findPayScheme();  //获取充值方案
+        $rebateScheme = Scheme::findRebateScheme($user['role']);  //获取返点方案
         //Yii::$app->session->set("scheme",$scheme);  //将充值方式存入，在后面记录用户充值记录的时候使用
         $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例,1：X的X
         if($request->get('type')=='over'){  //支付成功后
@@ -151,7 +152,12 @@ class AccountController extends Controller
             $session->remove('money');
             CommonFunctions::createAlertMessage("充值成功","success");
         }else{
-            CommonFunctions::createAlertMessage("当前云豆充值比例（人民币元：云豆颗），1:$proportion","info");
+            $msg = '当前云豆充值比例（人民币元：云豆颗）为1:'.$proportion;
+            if($rebateScheme){
+                $msg.= '，充值金额大于'.$rebateScheme['payMoney'].'元时可以获得'.($rebateScheme['rebateSelf']*100).'%返点哦~';
+                $session->setFlash('rebateScheme',$rebateScheme);   //下个页面调用
+            }
+            CommonFunctions::createAlertMessage($msg,"info");
         }
         $leftBitcoin = Users::findBitcoin($user['userId']); //剩余的云豆
         return $this->render('recharge',[
