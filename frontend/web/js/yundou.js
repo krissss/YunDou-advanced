@@ -374,7 +374,6 @@ $(document).ready(function(){
     /** 微信支付 */
     $(".wxPay").click(function(){
         var money = $("#rechargeform-money").val();
-        alert(money);
         if(parseInt(money)!=money){
             alert("充值金额必须为整数");
             return false;
