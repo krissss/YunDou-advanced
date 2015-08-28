@@ -87,6 +87,7 @@ class RegisterForm extends Model
             $user->bitcoin = 0;
             $user->registerDate = DateFunctions::getCurrentDate();
             $user->role = Users::ROLE_A;
+            $user->state = Users::STATE_NORMAL;
             do{ //保证生成的推荐码的唯一
                 $recommendCode = CommonFunctions::createCommonRecommendCode();
             }while(Users::findUserByRecommendCode($recommendCode));

@@ -117,3 +117,7 @@ pay => money
 
 scheme
     + rebateSelf numeric(6,2)
+
+2015-8-28
+users
+    + state char(1)

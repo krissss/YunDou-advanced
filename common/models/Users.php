@@ -29,14 +29,20 @@ use Yii;
  * @property integer $role
  * @property string $recommendCode
  * @property integer $recommendUserID
+ * @property string $state
  * @property string $remark
  */
 class Users extends \yii\db\ActiveRecord
 {
-    const ROLE_A = 1;
-    const ROLE_AA = 2;
-    const ROLE_AAA = 3;
-    const ROLE_ADMIN = 10;
+    const ROLE_A = 1;   //A级
+    const ROLE_AA = 2;  //AA级
+    const ROLE_AAA = 3; //AAA级
+    const ROLE_BIG = 4; //大客户
+    const ROLE_ADMIN = 10;  //管理员
+
+    const STATE_NORMAL = 'N';   //正常状态
+    const STATE_FROZEN = 'U';   //冻结状态
+    const STATE_STOP = 'D';   //终止状态
 
     /**
      * @inheritdoc
@@ -57,6 +63,7 @@ class Users extends \yii\db\ActiveRecord
             [['username', 'password', 'email', 'weixin', 'nickname', 'realname', 'company', 'address'], 'string', 'max' => 50],
             [['userIcon'], 'string', 'max' => 255],
             [['sex'], 'string', 'max' => 2],
+            [['state'], 'string', 'max' => 1],
             [['cellphone'], 'string', 'max' => 11],
             [['recommendCode'], 'string', 'max' => 15],
             [['introduce', 'remark'], 'string', 'max' => 100]
@@ -90,6 +97,7 @@ class Users extends \yii\db\ActiveRecord
             'role' => '角色等级',
             'recommendCode' => '推荐码',
             'recommendUserID' => '推荐用户',
+            'state' => '用户状态',
             'remark' => 'Remark',
         ];
     }
@@ -133,6 +141,7 @@ class Users extends \yii\db\ActiveRecord
             $user->weixin = $userInfo->openid;
             $user->nickname = $userInfo->nickname;
             $user->userIcon = $userInfo->headimgurl;
+            $user->state = Users::STATE_NORMAL;
             if($userInfo->sex == 1){
                 $user->sex = '男';
             }elseif($userInfo->sex == 2){
@@ -190,7 +199,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public static function findUserByRecommendCode($recommendCode){
         $user = Users::find()
-            ->where(['recommendCode'=>$recommendCode])
+            ->where(['recommendCode'=>$recommendCode,'state'=>Users::STATE_NORMAL])
             ->one();
         if($user){
             return $user;
@@ -204,7 +213,7 @@ class Users extends \yii\db\ActiveRecord
      * @return string
      */
     public static function findRecommendUserName($recommendUserId){
-        $user = Users::findOne($recommendUserId);
+        $user = Users::findOne(['userId'=>$recommendUserId,'state'=>Users::STATE_NORMAL]);
         if($user){
             return $user['nickname'];
         }else{
@@ -218,6 +227,6 @@ class Users extends \yii\db\ActiveRecord
      * @return null|static
      */
     public static function findRecommendUser($recommendUserId){
-        return $user = Users::findOne($recommendUserId);
+        return $user = Users::findOne(['userId'=>$recommendUserId,'state'=>Users::STATE_NORMAL]);
     }
 }
