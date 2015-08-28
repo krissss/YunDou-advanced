@@ -38,7 +38,7 @@ class MoneyController extends Controller
         ]);
     }
 
-    /** 充值查询 */
+    /** 资金查询 */
     public function actionSearch(){
         $request = Yii::$app->request;
         $query = Yii::$app->session->getFlash('query');
@@ -51,6 +51,10 @@ class MoneyController extends Controller
         }
         if ($type || !$query) {
             switch ($type) {
+                case 'type':
+                    $query = Money::find()
+                        ->where(['type'=>$content]);
+                    break;
                 case 'userId':
                     $query = Money::find()
                         ->Where(['userId'=>$content]);
@@ -62,29 +66,35 @@ class MoneyController extends Controller
                         ->leftJoin($table_b, "$table_a.UserId=$table_b.UserId")
                         ->where(['like', "$table_b.nickname", $content]);
                     break;
-                case 'money-more':
+                case 'pay-more':
                     $query = Money::find()
-                        ->Where(['>', 'money', $content]);
+                        ->Where(['>=', 'money', $content])
+                        ->andWhere(['type'=>Money::TYPE_PAY]);
                     break;
-                case 'money-equal':
+                case 'pay-equal':
                     $query = Money::find()
-                        ->where(['=', 'money', $content]);
+                        ->where(['=', 'money', $content])
+                        ->andWhere(['type'=>Money::TYPE_PAY]);
                     break;
-                case 'money-less':
+                case 'pay-less':
                     $query = Money::find()
-                        ->Where(['<', 'money', $content]);
+                        ->Where(['<=', 'money', $content])
+                        ->andWhere(['type'=>Money::TYPE_PAY]);
                     break;
-                case 'bitcoin-more':
+                case 'withdraw-more':
                     $query = Money::find()
-                        ->Where(['>', 'bitcoin', $content]);
+                        ->Where(['>=', 'money', $content])
+                        ->andWhere(['type'=>Money::TYPE_WITHDRAW]);
                     break;
-                case 'bitcoin-equal':
+                case 'withdraw-equal':
                     $query = Money::find()
-                        ->where(['=', 'bitcoin', $content]);
+                        ->where(['=', 'money', $content])
+                        ->andWhere(['type'=>Money::TYPE_WITHDRAW]);
                     break;
-                case 'bitcoin-less':
+                case 'withdraw-less':
                     $query = Money::find()
-                        ->Where(['<', 'bitcoin', $content]);
+                        ->Where(['<=', 'money', $content])
+                        ->andWhere(['type'=>Money::TYPE_WITHDRAW]);
                     break;
                 case 'role':
                     $role = '';

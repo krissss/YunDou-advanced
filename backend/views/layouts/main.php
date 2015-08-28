@@ -314,11 +314,6 @@ AppAsset::register($this);
                                     <span class="menu-text">现金收支</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="<?= Url::to(['pay/123']) ?>">
-                                    <span class="menu-text">云豆提现记录</span>
-                                </a>
-                            </li>
                         </ul>
                     </li>
                     <li>

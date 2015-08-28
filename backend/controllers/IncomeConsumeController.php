@@ -111,6 +111,10 @@ class IncomeConsumeController extends Controller
                         ->leftJoin($table_b, "$table_a.UserId=$table_b.UserId")
                         ->where(["$table_b.role" => $role]);
                     break;
+                case 'type':
+                    $query = IncomeConsume::find()
+                        ->where(['type'=>$content]);
+                    break;
                 default:
                     $query = IncomeConsume::find();
                     break;

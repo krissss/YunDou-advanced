@@ -16,7 +16,10 @@ $this->title =  '资金管理';
             <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询</a>
             <label>快速查找:</label>
             <a class="btn btn-default" href="<?=Url::to(['money/index'])?>">所有</a>
-            <a class="btn btn-default" href="<?=Url::to(['money/search','type'=>'money-more','content'=>'500'])?>">充值金额大于500用户</a>
+            <a class="btn btn-default" href="<?=Url::to(['money/search','type'=>'type','content'=>Money::TYPE_PAY])?>">充值记录</a>
+            <a class="btn btn-default" href="<?=Url::to(['money/search','type'=>'type','content'=>Money::TYPE_WITHDRAW])?>">提现记录</a>
+            <a class="btn btn-default" href="<?=Url::to(['money/search','type'=>'pay-more','content'=>'500'])?>">充值金额大于500用户</a>
+            <a class="btn btn-default" href="<?=Url::to(['money/search','type'=>'withdraw-more','content'=>'500'])?>">提现金额大于500用户</a>
             <a class="btn btn-default" href="<?=Url::to(['money/search','type'=>'role','content'=>'A'])?>">A级</a>
             <a class="btn btn-default" href="<?=Url::to(['money/search','type'=>'role','content'=>'AA'])?>">AA级</a>
             <a class="btn btn-default" href="<?=Url::to(['money/search','type'=>'role','content'=>'AAA'])?>">AAA级</a>
@@ -29,13 +32,12 @@ $this->title =  '资金管理';
                         <option value="userId">用户号</option>
                         <option value="role">用户类型</option>
                         <option value="nickname">用户名称</option>
-                        <option value="money-more">充值金额大于</option>
-                        <option value="money-equal">充值金额为</option>
-                        <option value="money-less">充值金额小于</option>
-                        <option value="bitcoin-more">获得云豆数大于</option>
-                        <option value="bitcoin-equal">获得云豆数为</option>
-                        <option value="bitcoin-less">获得云豆数小于</option>
-
+                        <option value="pay-more">充值金额大于</option>
+                        <option value="pay-equal">充值金额等于</option>
+                        <option value="pay-less">充值金额小于</option>
+                        <option value="withdraw-more">提现金额大于</option>
+                        <option value="withdraw-equal">提现金额等于</option>
+                        <option value="withdraw-less">提现金额小于</option>
                     </select>
                     <input type="text" name="content" class="form-control" placeholder="请输入查找内容">
                     <button type="submit" class="btn btn-small btn btn-primary">查找</button>

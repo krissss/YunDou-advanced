@@ -17,8 +17,8 @@ $this->title = '云豆管理';
             <label>快速查找:</label>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/index'])?>">所有</a>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'usageModeName','content'=>'充值'])?>">充值用户</a>
-            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'type','content'=>'0'])?>">收入云豆用户</a>
-            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'type','content'=>'1'])?>">支出云豆用户</a>
+            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'type','content'=>IncomeConsume::TYPE_INCOME])?>">收入云豆用户</a>
+            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'type','content'=>IncomeConsume::TYPE_CONSUME])?>">支出云豆用户</a>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'income-more','content'=>'1000'])?>">充值大于1000用户</a>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'income-more','content'=>'5000'])?>">收入大于5000用户</a>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'pay-more','content'=>'3000'])?>">支出大于3000用户</a>
