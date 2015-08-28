@@ -30,11 +30,37 @@ class CommonFunctions
     }
 
     /**
-     * 创建普通推荐
+     * 创建普通推荐，最后使用时是不区分大小写的
      * @return int|string
      */
     public static function createCommonRecommendCode(){
         $code = 'U';
+        $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
+        for($i = 0; $i < 5; $i ++) {
+            $code .= $pattern {mt_rand ( 0, 61 )}; //生成php随机数
+        }
+        return $code;
+    }
+
+    /**
+     * 创建2A推荐，最后使用时是不区分大小写的
+     * @return int|string
+     */
+    public static function create2ARecommendCode(){
+        $code = 'D';
+        $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
+        for($i = 0; $i < 5; $i ++) {
+            $code .= $pattern {mt_rand ( 0, 61 )}; //生成php随机数
+        }
+        return $code;
+    }
+
+    /**
+     * 创建3A推荐，最后使用时是不区分大小写的
+     * @return int|string
+     */
+    public static function create3ARecommendCode(){
+        $code = 'G';
         $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
         for($i = 0; $i < 5; $i ++) {
             $code .= $pattern {mt_rand ( 0, 61 )}; //生成php随机数
