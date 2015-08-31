@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\AddUserForm;
 use common\functions\CommonFunctions;
+use common\models\Department;
 use common\models\Users;
 use yii\base\Exception;
 use yii\data\Pagination;
@@ -51,8 +52,10 @@ class UserAaController extends Controller
             }else{
                 $addUserForm = AddUserForm::initWithIdOrRole(null,Users::ROLE_AA);
             }
+            $departments = Department::findAllForObject();
             return $this->renderAjax('user-form',[
-                'addUserForm' => $addUserForm
+                'addUserForm' => $addUserForm,
+                'departments' => $departments,
             ]);
         }
         CommonFunctions::createAlertMessage("非法获取","error");

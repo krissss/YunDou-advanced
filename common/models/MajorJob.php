@@ -69,7 +69,7 @@ class MajorJob extends \yii\db\ActiveRecord
         $dependency = new DbDependency([
             'sql'=> 'select count(*) from majorjob'
         ]);
-        $result = Collection::getDb()->cache(function () {
+        $result = MajorJob::getDb()->cache(function () {
             return MajorJob::find()->all();
         },null,$dependency);
         return $result;

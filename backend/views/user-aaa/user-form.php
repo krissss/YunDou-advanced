@@ -1,7 +1,9 @@
 <?php
 /* @var $addUserForm \backend\models\forms\AddUserForm */
+/* @var $departments \common\models\Department[] */
 
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 ?>
 <div class="modal fade add_user_aaa_modal" tabindex="-1" role="dialog" aria-labelledby="添加AAA级伙伴">
     <div class="modal-dialog" role="document">
@@ -27,6 +29,7 @@ use yii\widgets\ActiveForm;
                     'template' => "{input}"
                 ])->hiddenInput()?>
                 <?= $form->field($addUserForm, 'roleName')->textInput(['disabled'=>'disabled']) ?>
+                <?= $form->field($addUserForm, 'departmentId')->dropDownList(ArrayHelper::map($departments,'departmentId','name'),['prompt'=>'请选择']) ?>
                 <?= $form->field($addUserForm, 'username') ?>
                 <?= $form->field($addUserForm, 'nickname') ?>
                 <?= $form->field($addUserForm, 'address') ?>

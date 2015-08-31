@@ -30,6 +30,7 @@ use Yii;
  * @property integer $role
  * @property string $recommendCode
  * @property integer $recommendUserID
+ * @property integer $departmentId
  * @property string $state
  * @property string $remark
  */
@@ -59,7 +60,7 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['majorJobId', 'bitcoin', 'provinceId', 'cityId', 'role', 'recommendUserID'], 'integer'],
+            [['majorJobId', 'bitcoin', 'provinceId', 'cityId', 'role', 'recommendUserID','departmentId'], 'integer'],
             [['registerDate'], 'safe'],
             [['username', 'password', 'email', 'weixin', 'nickname', 'realname', 'company', 'address'], 'string', 'max' => 50],
             [['userIcon'], 'string', 'max' => 255],
@@ -100,6 +101,7 @@ class Users extends \yii\db\ActiveRecord
             'role' => '角色等级',
             'recommendCode' => '推荐码',
             'recommendUserID' => '推荐用户',
+            'departmentId' => '部门号',
             'state' => '用户状态',
             'remark' => 'Remark',
         ];
@@ -138,6 +140,10 @@ class Users extends \yii\db\ActiveRecord
 
     public function getRecommendUser(){
         return $this->hasOne(Users::className(),['userId'=>'recommendUserID']);
+    }
+
+    public function getDepartment(){
+        return $this->hasOne(Department::className(),['departmentId'=>'departmentId']);
     }
 
     /**

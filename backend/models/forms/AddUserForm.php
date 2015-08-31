@@ -12,6 +12,7 @@ use yii\base\Model;
 class AddUserForm extends Model
 {
     public $userId;
+    public $departmentId;
     public $username;
     public $nickname;
     public $address;
@@ -27,8 +28,8 @@ class AddUserForm extends Model
     public function rules()
     {
         return [
-            [['username','nickname','address','realname','cellphone'], 'required'],
-            [['userId','role'], 'integer'],
+            [['departmentId','username','nickname','address','realname','cellphone'], 'required'],
+            [['userId','departmentId','role'], 'integer'],
             [['username', 'email', 'weixin', 'nickname', 'realname', 'address'], 'string', 'max' => 50],
             [['cellphone'], 'string', 'max' => 11],
             [['email'],'email'],
@@ -39,6 +40,7 @@ class AddUserForm extends Model
     public function attributeLabels()
     {
         return [
+            'departmentId' => '所属部门',
             'username' => '登录名',
             'nickname' => '用户名称',
             'address' => '地址',
@@ -76,6 +78,7 @@ class AddUserForm extends Model
             $user = Users::findOne($id);
             $form->role = $user->role;
             $form->userId = $id;
+            $form->departmentId = $user->departmentId;
             $form->username = $user->username;
             $form->nickname = $user->nickname;
             $form->address = $user->address;
@@ -118,6 +121,7 @@ class AddUserForm extends Model
             $user = Users::findOne($this->userId);
         }
         $user->role = $this->role;
+        $user->departmentId = $this->departmentId;
         $user->username = $this->username;
         $user->nickname = $this->nickname;
         $user->address = $this->address;

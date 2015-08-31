@@ -6,21 +6,20 @@ use Yii;
 use yii\caching\DbDependency;
 
 /**
- * This is the model class for table "province".
+ * This is the model class for table "department".
  *
- * @property integer $provinceId
+ * @property integer $departmentId
  * @property string $name
- * @property string $code
  * @property string $remark
  */
-class Province extends \yii\db\ActiveRecord
+class Department extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'province';
+        return 'department';
     }
 
     /**
@@ -30,7 +29,6 @@ class Province extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'string', 'max' => 50],
-            [['code'], 'string', 'max' => 10],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -41,23 +39,22 @@ class Province extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'provinceId' => 'Province ID',
+            'departmentId' => 'Department ID',
             'name' => 'Name',
-            'code' => 'Code',
             'remark' => 'Remark',
         ];
     }
 
     /**
-     * 查询所有省份，返回object
-     * @return \common\models\Province[]
+     * 查询所有职业岗位，返回object
+     * @return \common\models\Department[]
      */
     public static function findAllForObject(){
         $dependency = new DbDependency([
-            'sql'=> 'select count(*) from province'
+            'sql'=> 'select count(*) from department'
         ]);
-        $result = Province::getDb()->cache(function () {
-            return Province::find()->all();
+        $result = Department::getDb()->cache(function () {
+            return Department::find()->all();
         },null,$dependency);
         return $result;
     }
