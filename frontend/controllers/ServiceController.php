@@ -1,5 +1,5 @@
 <?php
-
+/** 咨询与建议 */
 namespace frontend\controllers;
 
 use common\functions\CommonFunctions;
@@ -16,9 +16,9 @@ class ServiceController extends Controller
         return [
             'access' => [
                 'class' => OpenIdFilter::className(),
-            ],[
+            ]/*,[
                 'class' => RegisterFilter::className()
-            ]
+            ]*/
         ];
     }
 
