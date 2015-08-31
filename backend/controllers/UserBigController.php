@@ -2,6 +2,7 @@
 /** 大客户列表 */
 namespace backend\controllers;
 
+use backend\filters\AdminFilter;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\AddUserForm;
 use backend\models\forms\RechargeForm;
@@ -20,7 +21,9 @@ class UserBigController extends Controller
         return [
             'access' => [
                 'class' => UserLoginFilter::className(),
-            ],
+            ],[
+                'class' => AdminFilter::className(),
+            ]
         ];
     }
 

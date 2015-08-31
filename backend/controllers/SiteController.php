@@ -3,6 +3,7 @@ namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
 use backend\models\forms\LoginForm;
+use common\models\Users;
 use Yii;
 use yii\web\Controller;
 
@@ -35,11 +36,19 @@ class SiteController extends Controller
     }
 
     public function actionIndex(){
-        return $this->redirect(['user-a/index']);
+        $user = Yii::$app->session->get('user');
+        if($user['role'] == Users::ROLE_ADMIN){
+            return $this->redirect(['user-a/index']);
+        }elseif($user['role'] == Users::ROLE_BIG){
+            return $this->redirect(['customer/default/index']);
+        }elseif($user['role']==Users::ROLE_AA || $user['role']==Users::ROLE_AAA){
+            return $this->redirect(['associate/default/index']);
+        }else{
+            return $this->render('error');
+        }
     }
 
-    public function actionLogin()
-    {
+    public function actionLogin(){
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()){
             return $this->redirect(['site/index']);
@@ -50,9 +59,9 @@ class SiteController extends Controller
         }
     }
 
-    public function actionLogout()
-    {
+    public function actionLogout(){
         Yii::$app->getSession()->removeAll();
         return $this->redirect(['site/login']);
     }
+
 }

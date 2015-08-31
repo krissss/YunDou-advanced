@@ -1,13 +1,14 @@
 <?php
-/** 用户是否登录的过滤器 */
+/** 管理员的过滤器 */
 
 namespace backend\filters;
 
+use common\models\Users;
 use Yii;
 use yii\helpers\Url;
 use yii\base\ActionFilter;
 
-class UserLoginFilter extends ActionFilter{
+class AdminFilter extends ActionFilter{
     public $user = false;
 
     public function init()
@@ -17,11 +18,10 @@ class UserLoginFilter extends ActionFilter{
     }
 
     public function beforeAction($action){
-        if($this->user){
+        if($this->user['role'] == Users::ROLE_ADMIN){
             return parent::beforeAction($action);
         }
-        Yii::$app->getSession()->set('loginUrl',Yii::$app->request->getUrl());  //设置登陆后许跳转的页面
-        Yii::$app->getResponse()->redirect(Url::to(['site/login']));
+        Yii::$app->getResponse()->redirect(Url::to(['site/index']));
         return false;
     }
 }

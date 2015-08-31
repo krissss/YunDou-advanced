@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use backend\filters\AdminFilter;
 use common\functions\CommonFunctions;
 use Yii;
 use yii\base\Exception;
@@ -20,7 +21,9 @@ class BasicDataController extends Controller
         return [
             'access' => [
                 'class' => UserLoginFilter::className(),
-            ],
+            ],[
+                'class' => AdminFilter::className(),
+            ]
         ];
     }
 

@@ -2,6 +2,7 @@
 /** 咨询建议 */
 namespace backend\controllers;
 
+use backend\filters\AdminFilter;
 use backend\filters\UserLoginFilter;
 use common\functions\CommonFunctions;
 use common\models\Users;
@@ -17,7 +18,9 @@ class ServiceController extends Controller
         return [
             'access' => [
                 'class' => UserLoginFilter::className(),
-            ],
+            ],[
+                'class' => AdminFilter::className(),
+            ]
         ];
     }
 

@@ -2,6 +2,7 @@
 /** 发票管理 */
 namespace backend\controllers;
 
+use backend\filters\AdminFilter;
 use backend\filters\UserLoginFilter;
 use Yii;
 use common\models\Invoice;
@@ -17,7 +18,9 @@ class InvoiceController extends Controller
         return [
             'access' => [
                 'class' => UserLoginFilter::className(),
-            ],
+            ],[
+                'class' => AdminFilter::className(),
+            ]
         ];
     }
 

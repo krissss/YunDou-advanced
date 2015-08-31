@@ -2,6 +2,7 @@
 /** 充值方案设置 */
 namespace backend\controllers;
 
+use backend\filters\AdminFilter;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\AddRechargeForm;
 use common\functions\CommonFunctions;
@@ -16,7 +17,9 @@ class RechargeController extends Controller
         return [
             'access' => [
                 'class' => UserLoginFilter::className(),
-            ],
+            ],[
+                'class' => AdminFilter::className(),
+            ]
         ];
     }
 

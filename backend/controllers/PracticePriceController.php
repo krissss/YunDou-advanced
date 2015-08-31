@@ -2,6 +2,7 @@
 /** 在线练习价格管理 */
 namespace backend\controllers;
 
+use backend\filters\AdminFilter;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\AddPracticeForm;
 use yii\web\Controller;
@@ -16,7 +17,9 @@ class PracticePriceController extends Controller
         return [
             'access' => [
                 'class' => UserLoginFilter::className(),
-            ],
+            ],[
+                'class' => AdminFilter::className(),
+            ]
         ];
     }
 

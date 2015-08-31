@@ -2,6 +2,7 @@
 /** 充值返点控制器 */
 namespace backend\controllers;
 
+use backend\filters\AdminFilter;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\AddRebateForm;
 use yii\web\Controller;
@@ -16,7 +17,9 @@ class RebateController extends Controller
         return [
             'access' => [
                 'class' => UserLoginFilter::className(),
-            ],
+            ],[
+                'class' => AdminFilter::className(),
+            ]
         ];
     }
 
