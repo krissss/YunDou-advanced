@@ -30,12 +30,12 @@ class UserAaaController extends Controller
     /** 列表 */
     public function actionIndex(){
         Url::remember();
-        $query = Users::find();
+        $query = Users::find()->where(['role'=>Users::ROLE_AAA]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()
         ]);
-        $users = $query->where(['role'=>Users::ROLE_AAA])
+        $users = $query
             ->offset($pagination->offset)
             ->limit($pagination->limit)
             ->orderBy(['registerDate'=>SORT_DESC])
@@ -135,6 +135,7 @@ class UserAaaController extends Controller
     public function actionSearch(){
         Url::remember();
         $request = Yii::$app->request;
+        $query = Yii::$app->session->getFlash('query');
         if($request->isPost){
             $type = $request->post('type');
             $content = trim($request->post('content'));
@@ -142,21 +143,28 @@ class UserAaaController extends Controller
             $type = $request->get('type');
             $content = trim($request->get('content'));
         }
-        switch ($type) {
-            case 'nickname':case 'cellphone':case 'address':case 'recommendCode':
-                $query = Users::find()
-                    ->where(['like', $type, $content]);
-                break;
-            default:
-                $query = Users::find();
-                break;
+        if($type || !$query) {
+            switch ($type) {
+                case 'nickname':
+                case 'cellphone':
+                case 'address':
+                case 'recommendCode':
+                    $query = Users::find()
+                        ->where(['like', $type, $content]);
+                    break;
+                default:
+                    $query = Users::find();
+                    break;
+            }
+            $query = $query->andWhere(['role' => Users::ROLE_AAA]);    //添加用户条件，位置不可改
         }
+
+        Yii::$app->session->setFlash('query',$query);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()
         ]);
         $users = $query
-            ->andWhere(['role'=>Users::ROLE_AAA])
             ->offset($pagination->offset)
             ->limit($pagination->limit)
             ->orderBy(['registerDate'=>SORT_DESC])

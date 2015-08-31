@@ -25,12 +25,12 @@ class UserAController extends Controller
     }
 
     public function actionIndex(){
-        $query = Users::find();
+        $query = Users::find()->where(['role'=>Users::ROLE_A]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count()
         ]);
-        $users = $query->where(['role'=>Users::ROLE_A])
+        $users = $query
             ->offset($pagination->offset)
             ->limit($pagination->limit)
             ->orderBy(['registerDate'=>SORT_DESC])
@@ -85,6 +85,7 @@ class UserAController extends Controller
         $user = $query
             ->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy(['registerDate'=>SORT_DESC])
             ->all();
         return $this->render('index',[
             'users' => $user,
