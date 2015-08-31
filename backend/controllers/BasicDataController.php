@@ -80,7 +80,7 @@ class BasicDataController extends Controller
     }
 
     public function  actionTestChapter(){
-        $query = TestChapter::find();
+        $query = TestChapter::find()->where(['>','majorJobId',0]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),
