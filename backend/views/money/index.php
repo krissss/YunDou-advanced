@@ -54,6 +54,9 @@ $this->title =  '资金管理';
                 <th class="text-align-center">金额</th>
                 <th class="text-align-center">云豆数</th>
                 <th class="text-align-center">时间</th>
+                <th class="text-align-center">支付方式</th>
+                <th class="text-align-center">操作者</th>
+                <th class="text-align-center">协议</th>
             </tr>
             </thead>
             <tbody>
@@ -71,6 +74,9 @@ $this->title =  '资金管理';
                         <?= $icon.$model->bitcoin ?>
                     </td>
                     <td><?= $model->createDate ?></td>
+                    <td><?= $model->fromName ?></td>
+                    <td><?= $model->operateUser['nickname'] ?></td>
+                    <td><?= $model->agreement ?></td>
                 </tr>
             <?php endforeach;?>
             </tbody>

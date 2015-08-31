@@ -117,10 +117,11 @@ class Users extends \yii\db\ActiveRecord
 
     public function getRoleName(){
         switch($this->role){
-            case 1: $msg = "A级"; break;
-            case 2: $msg = "AA级"; break;
-            case 3: $msg = "AAA级"; break;
-            case 10: $msg = "管理员"; break;
+            case Users::ROLE_A: $msg = "A级"; break;
+            case Users::ROLE_AA: $msg = "AA级"; break;
+            case Users::ROLE_AAA: $msg = "AAA级"; break;
+            case Users::ROLE_BIG: $msg = "大客户"; break;
+            case Users::ROLE_ADMIN: $msg = "管理员"; break;
             default: $msg = "未定义";
         }
         return $msg;

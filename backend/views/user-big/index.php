@@ -83,6 +83,9 @@ $this->title = '大客户管理';
                         <button class="btn btn-xs btn-default update_user_big" data-id="<?=$user->userId?>">
                             <span class="fa fa-edit"></span>编辑
                         </button>
+                        <button class="btn btn-xs btn-default recharge_user_big" data-id="<?=$user->userId?>">
+                            <span class="fa fa-money"></span>充值
+                        </button>
                         <?php
                             if($user->state == Users::STATE_FROZEN){
                                 $btn_1 = "正常";

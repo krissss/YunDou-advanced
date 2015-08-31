@@ -15,13 +15,21 @@ use yii\db\Query;
  * @property string $money
  * @property integer $bitcoin
  * @property integer $type
+ * @property integer $from
  * @property string $createDate
+ * @property string $agreement
+ * @property integer $operateUserId
  * @property string $remark
  */
 class Money extends \yii\db\ActiveRecord
 {
     const TYPE_PAY = 0; //充值
     const TYPE_WITHDRAW = 1;    //提现
+
+    const FROM_NULL = 0;    //没有，可以标识提现
+    const FROM_WX = 1;  //微信支付
+    const FROM_ZFB = 2; //支付宝支付
+    const FROM_XJ = 3;  //现金支付
 
     /**
      * @inheritdoc
@@ -37,9 +45,10 @@ class Money extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userId', 'bitcoin','type'], 'integer'],
+            [['userId', 'bitcoin', 'type', 'from', 'operateUserId'], 'integer'],
             [['money'], 'number'],
             [['createDate'], 'safe'],
+            [['agreement'], 'string', 'max' => 40],
             [['remark'], 'string', 'max' => 100]
         ];
     }
@@ -55,13 +64,31 @@ class Money extends \yii\db\ActiveRecord
             'money' => 'Money',
             'bitcoin' => 'Bitcoin',
             'type' => 'Type',
+            'from' => 'From',
             'createDate' => 'Create Date',
+            'agreement' => 'Agreement',
+            'operateUserId' => 'Operate User ID',
             'remark' => 'Remark',
         ];
     }
 
     public function getUsers(){
         return $this->hasOne(Users::className(),['userId'=>'userId']);
+    }
+
+    public function getOperateUser(){
+        return $this->hasOne(Users::className(),['userId'=>'operateUserId']);
+    }
+
+    public function getFromName(){
+        switch($this->from){
+            case Money::FROM_WX:$msg = "微信支付";break;
+            case Money::FROM_ZFB:$msg = "支付宝支付";break;
+            case Money::FROM_XJ:$msg = "现金支付";break;
+            case Money::FROM_NULL:$msg = "普通用户充值";break;
+            default:$msg = "未定义";break;
+        }
+        return $msg;
     }
 
     /**
@@ -143,15 +170,17 @@ class Money extends \yii\db\ActiveRecord
      * @param $money
      * @param $bitcoin
      * @param $type
+     * @param $from
      * @throws Exception
      */
-    public static function recordOne($user,$money,$bitcoin,$type){
-        $moneyModel = new Money();   //充值记录
+    public static function recordOne($user,$money,$bitcoin,$type,$from=0){
+        $moneyModel = new Money();
         $moneyModel->userId = $user['userId'];
         $moneyModel->money = $money;
         $moneyModel->type = $type;
         $moneyModel->bitcoin = $bitcoin;
         $moneyModel->createDate = DateFunctions::getCurrentDate();
+        $moneyModel->from = $from;
         if(!$moneyModel->save()){
             throw new Exception("money save error");
         }

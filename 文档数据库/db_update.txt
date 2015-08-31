@@ -122,3 +122,9 @@ scheme
 users
     + state char(1)
     + qq varchar(12)
+    + departmentId int(11)
+
++ department
+    + departmentId int(11)
+    + name varchar(50)
+    + remark varchar(100)

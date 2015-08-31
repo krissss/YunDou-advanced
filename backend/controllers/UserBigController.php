@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\filters\UserLoginFilter;
 use backend\models\forms\AddUserForm;
+use backend\models\forms\RechargeForm;
 use common\functions\CommonFunctions;
 use common\models\Department;
 use common\models\Users;
@@ -74,6 +75,35 @@ class UserBigController extends Controller
         return $this->redirect(['user-big/index']);
     }
 
+    /** 充值 */
+    public function actionRecharge(){
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $userId = $request->post("userId");
+            $user = Users::findOne($userId);
+            $rechargeForm = new RechargeForm();
+            return $this->renderAjax('recharge-form',[
+                'rechargeForm' => $rechargeForm,
+                'user' => $user,
+            ]);
+        }
+        CommonFunctions::createAlertMessage("非法请求","error");
+        return $this->redirect(['user-big/index']);
+    }
+
+    /** 充值生成 */
+    public function actionGenerateRecharge(){
+        $request = Yii::$app->request;
+        $rechargeForm = new RechargeForm();
+        if($rechargeForm->load($request->post()) && $rechargeForm->validate()){
+            $rechargeForm->record();
+            CommonFunctions::createAlertMessage("充值成功","success");
+            return $this->redirect(['user-big/previous']);
+        }
+        CommonFunctions::createAlertMessage("充值失败，有可能是必须参数不完善，或参数类型不匹配","error");
+        return $this->redirect(['user-big/index']);
+    }
+
     /** 修改状态 */
     public function actionChangeState(){
         $request = Yii::$app->request;
@@ -95,7 +125,6 @@ class UserBigController extends Controller
         }else{
             return $this->redirect(['user-big/index']);
         }
-
     }
 
     /** 查询 */

@@ -393,6 +393,14 @@ $(document).ready(function(){
             $(".add_user_aa_modal").last().modal('show');
         });
     });
+    /** 充值 */
+    $(".recharge_user_aa").click(function(){
+        var id = $(this).data("id");
+        $.post("?r=user-aa/recharge",{_csrf: csrfToken,userId:id},function(data){
+            body.append(data);
+            $(".recharge_user_aa_modal").last().modal('show');
+        });
+    });
     /** 修改状态 */
     var stateAAFlag = false;
     $(".state_aa").click(function(){
@@ -424,6 +432,14 @@ $(document).ready(function(){
             $(".add_user_aaa_modal").last().modal('show');
         });
     });
+    /** 充值 */
+    $(".recharge_user_aaa").click(function(){
+        var id = $(this).data("id");
+        $.post("?r=user-aaa/recharge",{_csrf: csrfToken,userId:id},function(data){
+            body.append(data);
+            $(".recharge_user_aaa_modal").last().modal('show');
+        });
+    });
     /** 修改状态 */
     var stateAAAFlag = false;
     $(".state_aaa").click(function(){
@@ -453,6 +469,14 @@ $(document).ready(function(){
         $.post("?r=user-big/add-update",{_csrf: csrfToken,userId:id},function(data){
             body.append(data);
             $(".add_user_big_modal").last().modal('show');
+        });
+    });
+    /** 充值 */
+    $(".recharge_user_big").click(function(){
+        var id = $(this).data("id");
+        $.post("?r=user-big/recharge",{_csrf: csrfToken,userId:id},function(data){
+            body.append(data);
+            $(".recharge_user_big_modal").last().modal('show');
         });
     });
     /** 修改状态 */
