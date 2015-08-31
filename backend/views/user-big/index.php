@@ -86,6 +86,9 @@ $this->title = '大客户管理';
                         <button class="btn btn-xs btn-default recharge_user_big" data-id="<?=$user->userId?>">
                             <span class="fa fa-money"></span>充值
                         </button>
+                        <a class="btn btn-xs btn-default" href="<?=Url::to(['user-big/link-user','id'=>$user->userId])?>">
+                            <span class="fa fa-group"></span>关联用户管理
+                        </a>
                         <?php
                             if($user->state == Users::STATE_FROZEN){
                                 $btn_1 = "正常";

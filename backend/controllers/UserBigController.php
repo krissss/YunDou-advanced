@@ -163,4 +163,29 @@ class UserBigController extends Controller
         ]);
     }
 
+    /** 关联用户 */
+    public function actionLinkUser(){
+        $request = Yii::$app->request;
+        $userId = $request->get('id');
+        if(!$userId){
+            CommonFunctions::createAlertMessage("缺少对应的用户序号","error");
+            return $this->redirect(['user-big/previous']);
+        }
+        $bigUser = Users::findOne($userId);
+        $query = Users::find()->where(['recommendUserID'=>$bigUser['userId']]);
+        $pagination = new Pagination([
+            'defaultPageSize' => Yii::$app->params['pageSize'],
+            'totalCount' => $query->count()
+        ]);
+        $users = $query
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->orderBy(['registerDate'=>SORT_DESC])
+            ->all();
+        return $this->render('link-user',[
+            'users' => $users,
+            'pages' => $pagination
+        ]);
+    }
+
 }
