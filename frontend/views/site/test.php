@@ -26,4 +26,6 @@ use yii\helpers\Html;
 //echo \common\models\ExamScore::findTotalRank();
 //echo \common\models\ExamScore::findRank(15,150);
 
-print_r( \common\models\Users::findRecommendUser(null));
+//print_r( \common\models\Users::findRecommendUser(null));
+
+var_dump(date("YmdHis", time() + 600));
