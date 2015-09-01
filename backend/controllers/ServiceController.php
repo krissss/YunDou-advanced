@@ -105,7 +105,7 @@ class ServiceController extends Controller
         $request = Yii::$app->request;
         if($request->isPost){
             $serviceId = $request->post('serviceId');
-            $reply = $request->post('reply');
+            $reply = CommonFunctions::text2Html($request->post('reply'));
             $publish = $request->post('publish');
             if($publish == 'publish'){
                 Service::replyService($serviceId,$reply,true);

@@ -130,4 +130,16 @@ class CommonFunctions
         }
         return $finalStr;
     }
+
+    /**
+     * 替换text文本为html最终可显示的文本
+     * @param $str
+     * @return mixed
+     */
+    public static function text2Html($str){
+        $str = str_replace(PHP_EOL, '<br>', $str); //替换换行
+        $str = str_replace(' ','&nbsp;',$str);   //替换半角空格
+        $str = str_replace('　','&nbsp;&nbsp;',$str);   //替换全角空格
+        return $str;
+    }
 }

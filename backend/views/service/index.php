@@ -107,7 +107,7 @@ $this->title = '咨询管理';
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 text-align-right">回复</label>
-                    <textarea class="col-sm-9" name="reply" cols="10" rows="4"></textarea>
+                    <textarea class="col-sm-9" name="reply" cols="10" rows="10"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
