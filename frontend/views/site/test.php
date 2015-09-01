@@ -28,4 +28,4 @@ use yii\helpers\Html;
 
 //print_r( \common\models\Users::findRecommendUser(null));
 
-var_dump(date("YmdHis", time() + 600));
+var_dump(strval(time()));
