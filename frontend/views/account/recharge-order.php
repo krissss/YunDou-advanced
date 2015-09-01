@@ -22,10 +22,9 @@ $jsApiParameters = $tools->GetJsApiParameters($order);
     //调用微信JS api 支付
     function jsApiCall()
     {
-        alert(<?php echo $jsApiParameters; ?>);return false;
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
-
+            <?php echo $jsApiParameters; ?>,
             function(res){
                 if(res.err_msg == "get_brand_wcpay_request:ok" ) {
                     alert("支付成功");
