@@ -1,9 +1,11 @@
 <?php
 /** @var $applyInvoiceForm \frontend\models\forms\ApplyInvoiceForm */
 /** @var $invoices \common\models\Invoice[] */
+/** @var $pages */
 
 use yii\widgets\ActiveForm;
 use common\functions\DateFunctions;
+use yii\helpers\Url;
 
 $this->title = "发票申请";
 
@@ -31,15 +33,19 @@ $this->title = "发票申请";
     <?php ActiveForm::end() ?>
 
     <hr>
-    <h4>发票申请记录</h4>
-    <table class="table table-striped text-center">
+    <p>
+        <strong>发票申请记录</strong>
+        <a href="<?=Url::to(['account/index'])?>" class="btn btn-primary btn-sm pull-right margin-left-10">云豆记录</a>
+        <a href="<?=Url::to(['account/pay-record'])?>" class="btn btn-primary btn-sm pull-right">充值记录</a>
+    </p>
+    <table class="table table-striped text-center no-margin-bottom">
         <thead>
         <tr>
             <th class="text-center">#</th>
             <th class="text-center">申请时间</th>
             <th class="text-center">金额</th>
             <th class="text-center">状态</th>
-            <th class="text-center">订单号</th>
+            <th class="text-center">快递单号</th>
         </tr>
         </thead>
         <tbody>
@@ -54,6 +60,12 @@ $this->title = "发票申请";
         <?php endforeach; ?>
         </tbody>
     </table>
+    <nav class="pull-right pagination_footer">
+        <?php echo \yii\widgets\LinkPager::widget([
+            'pagination' => $pages,
+        ]);?>
+    </nav>
+    <div class="clearfix"></div>
 
 </div>
 

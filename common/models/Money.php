@@ -154,6 +154,25 @@ class Money extends \yii\db\ActiveRecord
     }
 
     /**
+     * 查询用户一共充值的获得的云豆
+     * @param $userId
+     * @return int
+     */
+    public static function findTotalPayBitcoin($userId){
+        $table = Money::tableName();
+        $money = (new Query())
+            ->select('sum(bitcoin)')
+            ->from($table)
+            ->where(['userId' => $userId,'type'=>Money::TYPE_PAY])
+            ->one();
+        if($money['sum(bitcoin)']){
+            return $money['sum(bitcoin)'];
+        }else{
+            return 0;
+        }
+    }
+
+    /**
      * 获取用户剩余的可以申请发票的钱
      * @param $userId
      * @return mixed

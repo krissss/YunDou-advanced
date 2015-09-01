@@ -1,8 +1,10 @@
 <?php
 /** @var $payRecords \common\models\Money[] */
+/** @var $pages */
 
 use yii\helpers\Url;
 use common\functions\CommonFunctions;
+use common\models\Money;
 
 $this->title = "充值记录";
 
@@ -19,10 +21,21 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
 </div>
 <hr>
 <div class="container-fluid">
-    <h4 class="col-xs-4">充值记录</h4>
-    <a href="<?= Url::to(['account/index']) ?>" class="btn btn-primary pull-right margin-left-10">云豆记录</a>
-    <a href="<?= Url::to(['account/invoice-apply']) ?>" class="btn btn-primary pull-right">发票申请</a>
-    <table class="table table-striped text-center">
+    <p>
+        <strong>充值</strong>
+        <a href="<?=Url::to(['account/index'])?>" class="btn btn-primary btn-sm pull-right margin-left-10">云豆记录</a>
+        <a href="<?= Url::to(['account/invoice-apply']) ?>" class="btn btn-primary btn-sm pull-right">发票申请</a>
+    </p>
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <td>总计充值:<?=Money::findTotalPay($user['userId'])?>元</td>
+            <td>总计充值获得:+<?=Money::findTotalPayBitcoin($user['userId'])?>颗云豆</td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>详细记录</strong></p>
+    <table class="table table-striped text-center no-margin-bottom">
         <thead>
             <tr>
                 <th class="text-center">#</th>
@@ -36,11 +49,17 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
             <tr>
                 <th scope="row"><?=$i+1?></th>
                 <td><?=$payRecord['money']?></td>
-                <td><?=$payRecord['bitcoin']?></td>
+                <td>+<?=$payRecord['bitcoin']?></td>
                 <td><?=$payRecord['createDate']?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
+    <nav class="pull-right pagination_footer">
+        <?php echo \yii\widgets\LinkPager::widget([
+            'pagination' => $pages,
+        ]);?>
+    </nav>
+    <div class="clearfix"></div>
 
 </div>

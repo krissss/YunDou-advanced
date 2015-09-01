@@ -21,6 +21,7 @@ use Yii;
 use common\models\MajorJob;
 use common\models\Province;
 use yii\base\Exception;
+use yii\data\Pagination;
 use yii\helpers\Url;
 use yii\web\Controller;
 
@@ -40,18 +41,38 @@ class AccountController extends Controller
     /** 我的账户 */
     public function actionIndex(){
         $user = Yii::$app->session->get('user');
-        $incomeConsumes = IncomeConsume::findByUser($user['userId']);
-        return $this->render('index',[
-            'incomeConsumes' => $incomeConsumes
+        $query = IncomeConsume::find()
+            ->where(['userId'=>$user['userId']])
+            ->orderBy(['createDate'=>SORT_DESC]);
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $query->count(),
+        ]);
+        $incomeConsumes = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return $this->render('index', [
+            'incomeConsumes' => $incomeConsumes,
+            'pages' => $pagination
         ]);
     }
 
     /** 充值记录 */
     public function actionPayRecord(){
         $user = Yii::$app->session->get('user');
-        $payRecords = Money::findPayByUser($user['userId']);
-        return $this->render('pay-record',[
-            'payRecords' => $payRecords
+        $query = Money::find()
+            ->where(['userId'=>$user['userId']])
+            ->orderBy(['createDate'=>SORT_DESC]);
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $query->count(),
+        ]);
+        $payRecords = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return $this->render('pay-record', [
+            'payRecords' => $payRecords,
+            'pages' => $pagination
         ]);
     }
 
@@ -65,10 +86,20 @@ class AccountController extends Controller
             }
         }
         $user = Yii::$app->session->get('user');
-        $invoices = Invoice::findAllByUser($user['userId']);
-        return $this->render('invoice-apply',[
+        $query = Invoice::find()
+            ->where(['userId'=>$user['userId']])
+            ->orderBy(['createDate'=>SORT_DESC]);
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $query->count(),
+        ]);
+        $invoices = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return $this->render('invoice-apply', [
             'applyInvoiceForm' => $applyInvoiceForm,
-            'invoices' => $invoices
+            'invoices' => $invoices,
+            'pages' => $pagination
         ]);
     }
 

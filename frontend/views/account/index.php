@@ -1,5 +1,6 @@
 <?php
 /** @var $incomeConsumes \common\models\IncomeConsume[] */
+/** @var $pages */
 
 use yii\helpers\Url;
 use common\models\IncomeConsume;
@@ -22,9 +23,20 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
 </div>
 <hr>
 <div class="container-fluid">
-    <h4 class="col-xs-8">云豆收入支出记录</h4>
-    <a href="<?= Url::to(['account/pay-record']) ?>" class="btn btn-primary pull-right">充值记录</a>
-    <table class="table table-striped text-center">
+    <p>
+        <strong>云豆收入支出</strong>
+        <a href="<?= Url::to(['account/pay-record']) ?>" class="btn btn-primary btn-sm pull-right">充值记录</a>
+    </p>
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td>总计获得:+<?=IncomeConsume::findTotalIncome($user['userId'])?>颗云豆</td>
+                <td>总计支出:-<?=IncomeConsume::findTotalConsume($user['userId'])?>颗云豆</td>
+            </tr>
+        </tbody>
+    </table>
+    <p><strong>详细记录</strong></p>
+    <table class="table table-striped text-center no-margin-bottom">
         <thead>
             <tr>
                 <th class="text-center">#</th>
@@ -53,5 +65,11 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
         <?php endforeach; ?>
         </tbody>
     </table>
+    <nav class="pull-right pagination_footer">
+        <?php echo \yii\widgets\LinkPager::widget([
+            'pagination' => $pages,
+        ]);?>
+    </nav>
+    <div class="clearfix"></div>
 
 </div>
