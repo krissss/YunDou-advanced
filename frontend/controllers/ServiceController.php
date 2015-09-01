@@ -4,10 +4,10 @@ namespace frontend\controllers;
 
 use common\functions\CommonFunctions;
 use frontend\filters\OpenIdFilter;
-use frontend\filters\RegisterFilter;
 use Yii;
 use common\models\Service;
 use frontend\models\forms\ConsultForm;
+use yii\data\Pagination;
 use yii\web\Controller;
 
 class ServiceController extends Controller
@@ -16,9 +16,7 @@ class ServiceController extends Controller
         return [
             'access' => [
                 'class' => OpenIdFilter::className(),
-            ]/*,[
-                'class' => RegisterFilter::className()
-            ]*/
+            ]
         ];
     }
 
@@ -32,8 +30,8 @@ class ServiceController extends Controller
         }else{
             CommonFunctions::createAlertMessage("请填写相关咨询的内容或者对我们的建议，我们会在第一时间回复您！","info");
         }
-        $ownerServices = Service::findAllByUser($user['userId']);
-        $publishServices = Service::findPublished();
+        $ownerServices = Service::findByUser($user['userId'],5);
+        $publishServices = Service::findPublished(5);
         return $this->render('consult',[
             'consultForm' => $consultForm,
             'ownerServices' => $ownerServices,
@@ -41,16 +39,46 @@ class ServiceController extends Controller
         ]);
     }
 
+    public function actionSelf(){
+        $user = Yii::$app->session->get('user');
+        $query = Service::find()
+            ->where(['userId'=>$user['userId']])
+            ->orderBy(['createDate'=>SORT_DESC]);
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $query->count(),
+        ]);
+        $models = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return $this->render('self', [
+            'models' => $models,
+            'pages' => $pagination
+        ]);
+    }
+
+    public function actionOther(){
+        $query = Service::find()
+            ->where(['state' => Service::STATE_PUBLISH])
+            ->orderBy(['createDate'=>SORT_DESC]);
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $query->count(),
+        ]);
+        $models = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return $this->render('other', [
+            'models' => $models,
+            'pages' => $pagination
+        ]);
+    }
+
     /** 咨询与建议查看 */
     public function actionView($id){
-        $user = Yii::$app->session->get('user');
         $service = Service::findOne($id);
-        $ownerServices = Service::findAllByUser($user['userId']);
-        $publishServices = Service::findPublished();
         return $this->render('view',[
-            'service' => $service,
-            'ownerServices' => $ownerServices,
-            'publishServices' => $publishServices
+            'service' => $service
         ]);
     }
 }

@@ -26,9 +26,16 @@ $this->title = "咨询与建议";
     </div>
     <?php ActiveForm::end() ?>
 
-    <h4>我的咨询与建议</h4>
+    <?php $ownerServiceCount = count($ownerServices)?>
+    <p>
+        <strong>我的咨询与建议</strong>
+        <?php if($ownerServiceCount == 5):  //大于5条才显示更多按钮?>
+        <a class="btn btn-primary btn-sm pull-right" href="<?=Url::to(['service/self'])?>">更多</a>
+        <?php endif;?>
+    </p>
+    <div class="clearfix"></div>
     <div class="list-group">
-        <?=count($ownerServices)==0?"无":""?>
+        <?=$ownerServiceCount==0?"无":""?>
         <?php foreach($ownerServices as $ownerService):?>
         <a href="<?=Url::to(['service/view','id'=>$ownerService['serviceId']])?>" class="list-group-item">
             <span class="badge"><?=$ownerService['state']==Service::STATE_UNREPLY?"未回复":"已回复";?></span>
@@ -37,7 +44,14 @@ $this->title = "咨询与建议";
         <?php endforeach;?>
     </div>
 
-    <h4>其他咨询与建议</h4>
+    <?php $publishServiceCount = count($publishServices)?>
+    <p>
+        <strong>其他咨询与建议</strong>
+        <?php if($publishServiceCount == 5):  //大于5条才显示更多按钮?>
+        <a class="btn btn-primary btn-sm pull-right" href="<?=Url::to(['service/other'])?>">更多</a>
+        <?php endif;?>
+    </p>
+    <div class="clearfix"></div>
     <div class="list-group">
         <?=count($publishServices)==0?"无":""?>
         <?php foreach($publishServices as $publishService):?>

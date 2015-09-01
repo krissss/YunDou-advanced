@@ -139,17 +139,33 @@ class Service extends \yii\db\ActiveRecord
         return $msg;
     }
 
-    public static function findAllByUser($userId){
-        return Service::find()
-            ->where(['userId'=>$userId])
-            ->orderBy(['createDate'=>SORT_DESC])
-            ->all();
+    public static function findByUser($userId,$limit=null){
+        if($limit){
+            return Service::find()
+                ->where(['userId'=>$userId])
+                ->limit($limit)
+                ->orderBy(['createDate'=>SORT_DESC])
+                ->all();
+        }else{
+            return Service::find()
+                ->where(['userId'=>$userId])
+                ->orderBy(['createDate'=>SORT_DESC])
+                ->all();
+        }
     }
 
-    public static function findPublished(){
-        return Service::find()
-            ->where(['state'=>Service::STATE_PUBLISH])
-            ->orderBy(['replyDate'=>SORT_DESC])
-            ->all();
+    public static function findPublished($limit=null){
+        if($limit){
+            return Service::find()
+                ->where(['state' => Service::STATE_PUBLISH])
+                ->limit($limit)
+                ->orderBy(['replyDate'=>SORT_DESC])
+                ->all();
+        }else {
+            return Service::find()
+                ->where(['state' => Service::STATE_PUBLISH])
+                ->orderBy(['replyDate' => SORT_DESC])
+                ->all();
+        }
     }
 }
