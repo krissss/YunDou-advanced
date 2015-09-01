@@ -40,6 +40,10 @@ $bigPictureIndex = 0;  //图片数组下标
         <button class="btn <?=$class?> pull-right add_collection" data-id="<?= $id ?>">重点</button>
         <div class="clearfix"></div>
     </div>
+    <?php else: //考试显示结束本次模拟考试 ?>
+    <div class="panel-heading">
+        <button class="btn btn-primary btn_over">结束本次模拟考试</button>
+    </div>
     <?php endif; ?>
     <div class="panel-body">
         <form>
