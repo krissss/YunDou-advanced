@@ -73,10 +73,12 @@ $bigPictureIndex = 0;  //图片数组下标
                     $value = substr(trim($option), 0, 1);
                     $option = CommonFunctions::replaceSmallImage($option,$smallPictures,$smallPictureIndex);
                     ?>
-                    <div class="form-group">
-                        <input id="input_<?= $id ?>_<?= $value ?>" name="input_question_<?= $id ?>" type="checkbox" value="<?= $value ?>"
-                               data-id="<?= $id ?>" data-testtype="<?= $testTypeId ?>" data-pretype="<?= $preTypeId ?>">
-                        <label for="input_<?= $id ?>_<?= $value ?>"><?= $option ?></label>
+                    <div class="checkbox">
+                        <label>
+                            <input name="input_question_<?= $id ?>" type="checkbox" value="<?= $value ?>"
+                                   data-id="<?= $id ?>" data-testtype="<?= $testTypeId ?>" data-pretype="<?= $preTypeId ?>">
+                            <?= $option ?>
+                        </label>
                     </div>
                 <?php endforeach; ?>
             </form>
