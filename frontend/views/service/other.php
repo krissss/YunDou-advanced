@@ -7,7 +7,7 @@ use yii\helpers\Url;
 ?>
 <div class="container-fluid">
     <div class="head-margin-20"></div>
-    <p><strong>其他咨询与建议</strong></p>
+    <p><strong>其他咨询与建议</strong><a href="javascript:history.go(-1)" class="btn btn-primary btn-sm pull-right">返回</a></p>
     <div class="list-group no-margin-bottom">
         <?=count($models)==0?"无":""?>
         <?php foreach($models as $model):?>
