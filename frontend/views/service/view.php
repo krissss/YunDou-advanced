@@ -22,4 +22,5 @@ $this->title = "咨询与建议";
         </div>
     </div>
     <a href="javascript:history.go(-1)" class="btn btn-primary pull-right">返回</a>
+    <div class="clearfix"></div>
 </div>
