@@ -5,12 +5,15 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 ?>
-<div class="modal fade add_user_big_modal" tabindex="-1" role="dialog" aria-labelledby="添加大客户">
+<div class="modal fade add_user_big_modal" tabindex="-1" role="dialog" aria-labelledby="添加或修改大客户">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">添加大客户</h4>
+                <h4 class="modal-title" id="myModalLabel">添加或修改大客户</h4>
+            </div>
+            <div class="alert alert-info" role="alert">
+                <p>添加用户后默认密码为：123456，请提醒用户尽快修改密码，修改信息不重置密码</p>
             </div>
             <?php $form = ActiveForm::begin([
                 'action'=>\yii\helpers\Url::to(['user-big/generate']),
