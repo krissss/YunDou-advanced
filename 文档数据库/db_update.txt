@@ -133,3 +133,6 @@ money
     + from int(1)
     + agreement varchar(40)
     + operateUserId int(11)
+
+info
+    + signUpMajor varchar(50)

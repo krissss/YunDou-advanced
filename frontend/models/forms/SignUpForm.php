@@ -21,6 +21,7 @@ class SignUpForm extends Model
     public $major;
     public $workTime;
     public $technical;
+    public $signUpMajor;
     public $company;
     public $findPasswordQuestion;
     public $findPasswordAnswer;
@@ -42,7 +43,7 @@ class SignUpForm extends Model
             [['password'], 'match', 'pattern' =>'/^[a-zA-Z][a-zA-Z0-9_]{6,16}$/','message'=>'{attribute}必须为字母开头6-16位'],
             [['password_repeat'], 'compare','compareAttribute'=>'password','operator' => '==','message'=>'两次密码输入不一致'],
             [['cellphone'],  'match', 'pattern' =>'/1[3458]{1}\d{9}$/','message'=>'{attribute}不合法'],
-            [['education','major','technical','company','findPasswordQuestion','findPasswordAnswer'], 'string'],
+            [['education','major','technical','signUpMajor','company','findPasswordQuestion','findPasswordAnswer'], 'string'],
             [['workTime'], 'safe'],
             [['headImg','IDCardImg1','IDCardImg2'],'image','extensions' => 'png, jpg', 'maxSize' => 100*1024],
             [['headImg'],'image','extensions' => ['png', 'jpg'],
@@ -61,15 +62,16 @@ class SignUpForm extends Model
     public function attributeLabels()
     {
         return [
-            'IDCard' => '身份证',
+            'IDCard' => '身份证号码',
             'realName' => '姓名',
-            'password' => '密码',
+            'password' => '拟设定密码',
             'password_repeat' => '确认密码',
             'cellphone' => '手机号',
             'education' => '学历',
             'major' => '所学专业',
             'workTime' => '参加工作时间',
             'technical' => '技术职称',
+            'signUpMajor' => '报考专业岗位',
             'company' => '工作单位',
             'findPasswordQuestion' => '密码找回问题',
             'findPasswordAnswer' => '问题答案',
@@ -84,7 +86,7 @@ class SignUpForm extends Model
         $user = Yii::$app->session->get('user');
         if($user){
             $this->userId = $user['userId'];
-            $this->major = MajorJob::findNameByMajorJobId($user['majorJobId']);
+            $this->signUpMajor = MajorJob::findNameByMajorJobId($user['majorJobId']);
             $this->realName = $user['realname'];
             $this->cellphone = $user['cellphone'];
             $this->company = $user['company'];
@@ -109,6 +111,7 @@ class SignUpForm extends Model
         $this->major = $requestSignUpForm['major'];
         $this->workTime = $requestSignUpForm['workTime'];
         $this->technical = $requestSignUpForm['technical'];
+        $this->signUpMajor = $requestSignUpForm['signUpMajor'];
         $this->company = $requestSignUpForm['company'];
         $this->findPasswordQuestion = $requestSignUpForm['findPasswordQuestion'];
         $this->findPasswordAnswer = $requestSignUpForm['findPasswordAnswer'];
@@ -129,6 +132,7 @@ class SignUpForm extends Model
         $info->major = $this->major;
         $info->workTime = $this->workTime;
         $info->technical = $this->technical;
+        $info->signUpMajor = $this->signUpMajor;
         $info->company = $this->company;
         $info->findPasswordQuestion = $this->findPasswordQuestion;
         $info->findPasswordAnswer = $this->findPasswordAnswer;

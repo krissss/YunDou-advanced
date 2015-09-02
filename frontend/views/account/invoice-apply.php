@@ -21,9 +21,9 @@ $this->title = "发票申请";
             'labelOptions' => ['class'=>'col-xs-3 control-label'],
         ],
     ]) ?>
-    <?= $form->field($applyInvoiceForm, 'money')->textInput(['type'=>'number']) ?>
+    <?= $form->field($applyInvoiceForm, 'money')->textInput(['type'=>'number','placeholder'=>'最低申请金额50元起']) ?>
     <?= $form->field($applyInvoiceForm, 'maxMoney')->textInput(['readonly'=>'readonly']) ?>
-    <?= $form->field($applyInvoiceForm, 'address') ?>
+    <?= $form->field($applyInvoiceForm, 'address')->textarea(['rows'=>3,'placeholder'=>'请输入详细的快递地址，发票将采用到付方式快递给您']) ?>
     <?= $form->field($applyInvoiceForm, 'description')->textarea(['rows'=>3]) ?>
     <div class="form-group">
         <div class="col-xs-offset-3 col-xs-9 no-padding-left">
@@ -38,11 +38,10 @@ $this->title = "发票申请";
         <a href="<?=Url::to(['account/index'])?>" class="btn btn-primary btn-sm pull-right margin-left-10">云豆记录</a>
         <a href="<?=Url::to(['account/pay-record'])?>" class="btn btn-primary btn-sm pull-right">充值记录</a>
     </p>
-    <table class="table table-striped text-center no-margin-bottom">
+    <table class="table table-striped text-center no-margin-bottom table-font-small">
         <thead>
         <tr>
-            <th class="text-center">#</th>
-            <th class="text-center">申请时间</th>
+            <th class="text-center">申请日期</th>
             <th class="text-center">金额</th>
             <th class="text-center">状态</th>
             <th class="text-center">快递单号</th>
@@ -51,7 +50,6 @@ $this->title = "发票申请";
         <tbody>
         <?php foreach($invoices as $i=>$invoice): ?>
             <tr>
-                <th scope="row"><?=$i+1?></th>
                 <td><?=DateFunctions::getDate($invoice['createDate'])?></td>
                 <td><?=$invoice['money']?></td>
                 <td><?=$invoice->stateName?></td>

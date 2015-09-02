@@ -79,7 +79,8 @@ class AccountController extends Controller
     /** 发票申请 */
     public function actionInvoiceApply(){
         $applyInvoiceForm = new ApplyInvoiceForm();
-        CommonFunctions::createAlertMessage("为了更好的为您提供服务，请认真填写相关信息！","info");
+        CommonFunctions::createAlertMessage("为了更好的为您提供服务，请认真填写相关信息！<br>
+        说明：申请金额至少50元起，不得大于可申请金额，且发票将采用到付方式快递给您。","info");
         if($applyInvoiceForm->load(Yii::$app->request->post()) && $applyInvoiceForm->validate()){
             if($applyInvoiceForm->record()) {
                 CommonFunctions::createAlertMessage("您的申请已经记录，请耐心等待管理员审核和配送", "success");

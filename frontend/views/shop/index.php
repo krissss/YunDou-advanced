@@ -7,7 +7,7 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-body">
-            <p>基于互联网+应用与物联网技术的iPIPE平台：城市地下管道运维综合方案成功应用，详情：<a href="http://eqxiu.com/s/R02dhPgz">http://eqxiu.com/s/R02dhPgz</a></p>
+            <p>云宝网络隆重推出新产品：基于‘互联网+’与‘物联网’技术的iPIPE平台：城市地下管道运维综合方案，详情：<a href="http://eqxiu.com/s/R02dhPgz">http://eqxiu.com/s/R02dhPgz</a></p>
         </div>
     </div>
 </div>

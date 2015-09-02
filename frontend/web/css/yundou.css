@@ -97,6 +97,10 @@ a:active {
 	text-align: right;
 }
 
+.table-font-small{
+	font-size: 12px;
+}
+
 
 /** practice/index */
 .nav-icon {

@@ -47,6 +47,10 @@ use yii\helpers\Url;
                         <td><?=$info->technical?></td>
                     </tr>
                     <tr>
+                        <td>报考专业岗位</td>
+                        <td><?=$info->signUpMajor?></td>
+                    </tr>
+                    <tr>
                         <td>工作单位</td>
                         <td><?=$info->company?></td>
                     </tr>

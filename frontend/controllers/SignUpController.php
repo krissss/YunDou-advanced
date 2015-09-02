@@ -25,7 +25,9 @@ class SignUpController extends Controller
             return $this->redirect(['sign-up/over']);
         }
         $signUpForm = new SignUpForm();
-        CommonFunctions::createAlertMessage("提交报名信息需要用到个人照片（102*126），身份证正反面照（100K以内），请提前准备好","info");
+        CommonFunctions::createAlertMessage("‘帮我报名’是‘云豆讲堂’为用户提供的增值服务，根据用户在线提交的信息，
+        由工作人协助在主管部门进行报名。由于牵涉到考试信息的准确性，请您确保提供的信息准确无误。
+        由于提交需要用到个人照片（像素：102╳26）与身份证照片（100K以内），请按规定提交。","info");
         if(Yii::$app->request->isPost){
             if($signUpForm->loadPost($signUpForm) && $signUpForm->validate()){
                 $signUpForm->record();

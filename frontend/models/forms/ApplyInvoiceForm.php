@@ -21,8 +21,8 @@ class ApplyInvoiceForm extends Model
     {
         return [
             [['money','address'], 'required'],
-            [['money'], 'number'],
-            [['money'], 'compare','compareValue'=>$this->maxMoney,'operator' => '<='],
+            [['money'], 'number','min'=>50],
+            [['money'], 'compare','compareValue'=>$this->maxMoney,'operator' => '<=','message'=>'申请金额不能大于可申请金额'],
             [['address'], 'string','min'=>8,'max'=>100],
             [['description'], 'string','max'=>100],
         ];
@@ -32,7 +32,7 @@ class ApplyInvoiceForm extends Model
     {
         return [
             'money' => '申请金额',
-            'maxMoney' => '可申请',
+            'maxMoney' => '可申请金额',
             'address' => '详细地址',
             'description' => '申请理由（可选）',
         ];

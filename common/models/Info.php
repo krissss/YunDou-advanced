@@ -18,6 +18,7 @@ use Yii;
  * @property string $major
  * @property string $workTime
  * @property string $technical
+ * @property string $signUpMajor
  * @property string $company
  * @property string $findPasswordQuestion
  * @property string $findPasswordAnswer
@@ -51,15 +52,15 @@ class Info extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['userId', 'replyUserId'], 'integer'],
             [['workTime', 'createDate', 'replyDate'], 'safe'],
-            [['replyUserId'], 'integer'],
             [['IDCard'], 'string', 'max' => 18],
             [['realName', 'findPasswordQuestion', 'findPasswordAnswer'], 'string', 'max' => 40],
             [['password', 'company'], 'string', 'max' => 30],
             [['cellphone'], 'string', 'max' => 11],
             [['education', 'technical'], 'string', 'max' => 10],
             [['major'], 'string', 'max' => 20],
-            [['headImg', 'IDCardImg1', 'IDCardImg2'], 'string', 'max' => 50],
+            [['signUpMajor', 'headImg', 'IDCardImg1', 'IDCardImg2'], 'string', 'max' => 50],
             [['state'], 'string', 'max' => 1],
             [['replyContent', 'remark'], 'string', 'max' => 100]
         ];
@@ -71,7 +72,7 @@ class Info extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'infoId' => 'info ID',
+            'infoId' => 'Info ID',
             'userId' => 'User ID',
             'IDCard' => 'Idcard',
             'realName' => 'Real Name',
@@ -81,6 +82,7 @@ class Info extends \yii\db\ActiveRecord
             'major' => 'Major',
             'workTime' => 'Work Time',
             'technical' => 'Technical',
+            'signUpMajor' => 'Sign Up Major',
             'company' => 'Company',
             'findPasswordQuestion' => 'Find Password Question',
             'findPasswordAnswer' => 'Find Password Answer',

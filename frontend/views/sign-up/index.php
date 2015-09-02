@@ -43,6 +43,7 @@ use yii\widgets\ActiveForm;
             '中级'=>'中级',
             '高级' => '高级',
         ])?>
+        <?= $form->field($signUpForm, 'signUpMajor') ?>
         <?= $form->field($signUpForm, 'company') ?>
         <?= $form->field($signUpForm, 'findPasswordQuestion')->dropDownList([
             '我小学的学校名称是？'=>'我小学的学校名称是？',
