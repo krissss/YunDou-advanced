@@ -271,37 +271,6 @@ AppAsset::register($this);
                     </li>
                     <li>
                         <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-user"></i>
-                                <span class="menu-text">
-                                    大客户管理
-                                </span>
-                            <i class="menu-expand"></i>
-                        </a>
-                        <ul class="submenu">
-                            <li>
-                                <a href="<?= Url::to(['recharge/123']) ?>">
-                                    <span class="menu-text">大客户注册</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?= Url::to(['rebate/123']) ?>">
-                                    <span class="menu-text">大客户充值</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?= Url::to(['practice-price/123']) ?>">
-                                    <span class="menu-text">大客户员工关联</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?= Url::to(['practice-price/123']) ?>">
-                                    <span class="menu-text">大客户云豆管理</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" class="menu-dropdown">
                             <i class="menu-icon fa fa-money"></i>
                                 <span class="menu-text">
                                     资金管理

@@ -42,7 +42,7 @@ class SignUpForm extends Model
             [['realName'], 'match', 'pattern' => '/^[\x{4e00}-\x{9fa5}]+$/u','message'=>'{attribute}必须是中文'],
             [['password'], 'match', 'pattern' =>'/^[a-zA-Z][a-zA-Z0-9_]{6,16}$/','message'=>'{attribute}必须为字母开头6-16位'],
             [['password_repeat'], 'compare','compareAttribute'=>'password','operator' => '==','message'=>'两次密码输入不一致'],
-            [['cellphone'],  'match', 'pattern' =>'/1[3458]{1}\d{9}$/','message'=>'{attribute}不合法'],
+            [['cellphone'], 'match', 'pattern' =>'/1[3458]{1}\d{9}$/','message'=>'{attribute}不合法'],
             [['education','major','technical','signUpMajor','company','findPasswordQuestion','findPasswordAnswer'], 'string'],
             [['workTime'], 'safe'],
             [['headImg','IDCardImg1','IDCardImg2'],'image','extensions' => 'png, jpg', 'maxSize' => 100*1024],

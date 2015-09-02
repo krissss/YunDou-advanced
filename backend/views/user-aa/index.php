@@ -14,6 +14,7 @@ $this->title = 'AA级伙伴管理';
 
 <div class="widget flat">
     <div class="widget-body">
+        <?=\common\widgets\AlertWidget::widget()?>
         <div class="well bordered-left bordered-blue">
             <a class="btn btn-default add_user_aa" href="javascript:void(0);"><i class="fa fa-search"></i>添加伙伴</a>
             <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询用户</a>

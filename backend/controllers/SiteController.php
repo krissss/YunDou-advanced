@@ -43,6 +43,8 @@ class SiteController extends Controller
             return $this->redirect(['customer/default/index']);
         }elseif($user['role']==Users::ROLE_AA || $user['role']==Users::ROLE_AAA){
             return $this->redirect(['associate/default/index']);
+        }elseif($user['role'] == Users::ROLE_A){
+            return $this->redirect(['site/login']);
         }else{
             return $this->render('error');
         }

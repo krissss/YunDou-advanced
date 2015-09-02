@@ -4,7 +4,6 @@ namespace backend\models\forms;
 
 use common\functions\CommonFunctions;
 use common\functions\DateFunctions;
-use common\models\Scheme;
 use common\models\Users;
 use yii\base\Exception;
 use yii\base\Model;
@@ -30,8 +29,11 @@ class AddUserForm extends Model
         return [
             [['departmentId','username','nickname','address','realname','cellphone'], 'required'],
             [['userId','departmentId','role'], 'integer'],
+            [['username'], 'string','min'=>5],
+            [['username'], 'match','pattern'=>'/^[A-Za-z0-9]+$/','message'=>'只允许数字和字母'],
+            [['username'], 'validateUsername'],
             [['username', 'email', 'weixin', 'nickname', 'realname', 'address'], 'string', 'max' => 50],
-            [['cellphone'], 'string', 'max' => 11],
+            [['cellphone'], 'match', 'pattern' =>'/1[3458]{1}\d{9}$/','message'=>'{attribute}不合法'],
             [['email'],'email'],
             [['qq'], 'string', 'max' => 12]
         ];
@@ -51,6 +53,15 @@ class AddUserForm extends Model
             'weixin' => '微信',
             'roleName' => '伙伴等级',
         ];
+    }
+
+    public function validateUsername($attribute){
+        $user = Users::findOne(['username'=>$this->username]);
+        if($user){
+            //echo 123;exit;
+            CommonFunctions::createAlertMessage("登录名不唯一","error");
+            $this->addError($attribute,'登录名不唯一');
+        }
     }
 
     public function initRoleName(){

@@ -17,6 +17,19 @@ class CommonFunctions
     }
 
     /**
+     * 判断是否存在alert信息
+     * @return bool
+     */
+    public static function isExistAlertMessage(){
+        $message = Yii::$app->session->getFlash('message');
+        if($message){
+            Yii::$app->session->setFlash('message',$message);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 加密密码
      * @param $str
      * @return string

@@ -30,7 +30,7 @@ use yii\helpers\ArrayHelper;
                 ])->hiddenInput()?>
                 <?= $form->field($addUserForm, 'roleName')->textInput(['disabled'=>'disabled']) ?>
                 <?= $form->field($addUserForm, 'departmentId')->dropDownList(ArrayHelper::map($departments,'departmentId','name'),['prompt'=>'请选择']) ?>
-                <?= $form->field($addUserForm, 'username') ?>
+                <?= $form->field($addUserForm, 'username')->textInput(['placeholder'=>'数字和字母的组合，不区分大小写']) ?>
                 <?= $form->field($addUserForm, 'nickname') ?>
                 <?= $form->field($addUserForm, 'address') ?>
                 <?= $form->field($addUserForm, 'realname') ?>

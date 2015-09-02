@@ -74,7 +74,9 @@ class UserBigController extends Controller
             CommonFunctions::createAlertMessage("大客户设置成功","success");
             return $this->redirect(['user-big/index']);
         }
-        CommonFunctions::createAlertMessage("大客户设置失败，参数不全或存在非法字段","error");
+        if(!CommonFunctions::isExistAlertMessage()){
+            CommonFunctions::createAlertMessage("大客户设置失败，参数不全或存在非法字段","error");
+        }
         return $this->redirect(['user-big/index']);
     }
 
