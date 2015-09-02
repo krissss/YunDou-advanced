@@ -38,7 +38,6 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
     <table class="table table-striped text-center no-margin-bottom">
         <thead>
             <tr>
-                <th class="text-center">#</th>
                 <th class="text-center">金额</th>
                 <th class="text-center">云豆</th>
                 <th class="text-center">日期</th>
@@ -47,7 +46,6 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
         <tbody>
         <?php foreach($payRecords as $i=>$payRecord): ?>
             <tr>
-                <th scope="row"><?=$i+1?></th>
                 <td><?=$payRecord['money']?></td>
                 <td>+<?=$payRecord['bitcoin']?></td>
                 <td><?=$payRecord['createDate']?></td>

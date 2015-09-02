@@ -5,6 +5,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+
+$this->title = "填写报名信息";
 ?>
 <?=\common\widgets\AlertWidget::widget();?>
 <div class="container-fluid">

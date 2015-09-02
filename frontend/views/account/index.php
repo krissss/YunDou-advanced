@@ -39,7 +39,6 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
     <table class="table table-striped text-center no-margin-bottom">
         <thead>
             <tr>
-                <th class="text-center">#</th>
                 <th class="text-center">云豆</th>
                 <th class="text-center">方式</th>
                 <th class="text-center">日期</th>
@@ -48,7 +47,6 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
         <tbody>
         <?php foreach($incomeConsumes as $i=>$incomeConsume): ?>
             <tr>
-                <th scope="row"><?=$i+1?></th>
                 <?php
                 if($incomeConsume['type']==IncomeConsume::TYPE_INCOME){
                     $icon = '+';

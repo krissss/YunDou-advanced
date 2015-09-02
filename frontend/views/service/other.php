@@ -4,6 +4,8 @@
 /** @var $pages */
 
 use yii\helpers\Url;
+
+$this->title = "其他咨询与建议";
 ?>
 <div class="container-fluid">
     <div class="head-margin-20"></div>

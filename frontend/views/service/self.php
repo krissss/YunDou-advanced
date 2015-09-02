@@ -5,6 +5,8 @@
 
 use yii\helpers\Url;
 use common\models\Service;
+
+$this->title = "我的咨询与建议";
 ?>
 <div class="container-fluid">
     <div class="head-margin-20"></div>

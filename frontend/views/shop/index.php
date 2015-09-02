@@ -1,3 +1,8 @@
+<?php
+
+$this->title = "在线课堂";
+?>
+
 <div class="container">
     <div class="head-margin-20"></div>
     <div class="panel panel-default">

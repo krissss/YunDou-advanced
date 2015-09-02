@@ -1,7 +1,7 @@
 <?php
 /** @var $service \common\models\Service */
 
-$this->title = "咨询与建议";
+$this->title = "咨询与建议详情";
 
 ?>
 <?=\common\widgets\AlertWidget::widget();?>

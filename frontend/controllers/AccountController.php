@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\functions\CommonFunctions;
+use common\functions\InstanceNumber;
 use common\models\IncomeConsume;
 use common\models\Invoice;
 use common\models\Money;
@@ -64,12 +65,16 @@ class AccountController extends Controller
             ->where(['userId'=>$user['userId']])
             ->orderBy(['createDate'=>SORT_DESC]);
         $pagination = new Pagination([
-            'defaultPageSize' => 20,
+            'defaultPageSize' => 2,
             'totalCount' => $query->count(),
         ]);
         $payRecords = $query->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();
+        //print_r($pagination->offset);
+        if($pagination->offset > 0){
+            Url::remember(['account/pay-record'],'pay-record');
+        }
         return $this->render('pay-record', [
             'payRecords' => $payRecords,
             'pages' => $pagination
