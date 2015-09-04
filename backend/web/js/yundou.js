@@ -493,4 +493,13 @@ $(document).ready(function(){
             window.location.href = "?r=user-big/previous";
         });
     });
+
+
+    /** 大客户后台相关 */
+    /** 分配云豆 */
+    $(".distribute_bitcoin").click(function(){
+        var id = $(this).data("id");
+        $("input[name=distribute_bitcoin_userId]").val(id);
+        $(".accept_nickname").text($(".nickname_"+id).text());
+    });
 });

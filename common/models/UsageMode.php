@@ -17,6 +17,19 @@ class UsageMode extends \yii\db\ActiveRecord
     const TYPE_INCOME = 0;
     const TYPE_CONSUME = 1;
 
+    //务必保持和usageMode表一致
+    const USAGE_PRACTICE = 2;   //在线练习支出
+    const USAGE_PAY = 1;    //充值收入
+    const USAGE_COURSE = 3; //在线课堂支出
+    const USAGE_REBATE_A = 4; //A级用户充值返点收入
+    const USAGE_SHARE = 5; //考试通过分享收入
+    const USAGE_SHOP = 6; //商城购物支出
+    const USAGE_WITHDRAW = 7; //提现支出
+    const USAGE_REBATE_AA = 8; //AA级用户充值返点收入
+    const USAGE_REBATE_AAA = 9; //AAA级用户充值返点收入
+    const USAGE_DISTRIBUTE_INCOME = 10; //大客户分配收入
+    const USAGE_DISTRIBUTE_CONSUME = 11; //大客户分配支出
+
     public static function tableName()
     {
         return 'usagemode';

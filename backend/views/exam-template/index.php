@@ -18,16 +18,14 @@ $session = Yii::$app->session;
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#create_template">
                 <i class="fa fa-plus"></i>添加新模板
             </button>
-            <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询模板</a>
-            <hr>
-            <div class="view">
-                <label>快速查找:</label>
-                <a class="btn btn-default" href="<?=Url::to(['exam-template/index'])?>">所有</a>
-                <a class="btn btn-default" href="<?=Url::to(['exam-template/search','type'=>'province','content'=>'江苏'])?>">江苏</a>
-                <a class="btn btn-default" href="<?=Url::to(['exam-template/search','type'=>'province','content'=>'安徽'])?>">安徽</a>
-                <a class="btn btn-default" href="<?=Url::to(['exam-template/search','type'=>'state','content'=>'F'])?>">未启用</a>
-                <a class="btn btn-default" href="<?=Url::to(['exam-template/search','type'=>'state','content'=>'T'])?>">已启用</a>
-            </div>
+            <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询</a>
+            <label>快速查找:</label>
+            <label>快速查找:</label>
+            <a class="btn btn-default" href="<?=Url::to(['exam-template/index'])?>">所有</a>
+            <a class="btn btn-default" href="<?=Url::to(['exam-template/search','type'=>'province','content'=>'江苏'])?>">江苏</a>
+            <a class="btn btn-default" href="<?=Url::to(['exam-template/search','type'=>'province','content'=>'安徽'])?>">安徽</a>
+            <a class="btn btn-default" href="<?=Url::to(['exam-template/search','type'=>'state','content'=>'F'])?>">未启用</a>
+            <a class="btn btn-default" href="<?=Url::to(['exam-template/search','type'=>'state','content'=>'T'])?>">已启用</a>
             <div id="search" class="collapse">
                 <hr>
                 <?= Html::beginForm(['exam-template/search'], 'post', ['class' => 'form-inline']) ?>

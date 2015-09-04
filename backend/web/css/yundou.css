@@ -52,3 +52,28 @@
 label{
     margin-bottom: 0;
 }
+
+
+/** 2A 3A 大客户后台 */
+.user-info{
+    right: 80px;
+    width: 200px;
+    padding: 8px 20px 10px 20px;
+    height: 45px;
+    opacity: 1;
+    position: relative;
+}
+
+.user-info p{
+    display: block;
+    color: #fff;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    line-height: 25px;
+}
+.user-info p a{
+    color: #fff;
+}

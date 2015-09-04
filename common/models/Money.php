@@ -85,7 +85,7 @@ class Money extends \yii\db\ActiveRecord
             case Money::FROM_WX:$msg = "微信支付";break;
             case Money::FROM_ZFB:$msg = "支付宝支付";break;
             case Money::FROM_XJ:$msg = "现金支付";break;
-            case Money::FROM_NULL:$msg = "普通用户充值";break;
+            case Money::FROM_NULL:$msg = "提现";break;
             default:$msg = "未定义";break;
         }
         return $msg;
@@ -205,7 +205,7 @@ class Money extends \yii\db\ActiveRecord
         }
         //云豆收入支出记录+用户余额改变
         if($type == Money::TYPE_PAY){   //充值
-            IncomeConsume::saveRecord($user['userId'],$bitcoin,Scheme::USAGE_PAY,IncomeConsume::TYPE_INCOME);
+            IncomeConsume::saveRecord($user['userId'],$bitcoin,UsageMode::USAGE_PAY,IncomeConsume::TYPE_INCOME);
             $recommendUser = Users::findRecommendUser($user['recommendUserID']);
             if($recommendUser){ //存在推荐用户
                 $rebateScheme = Scheme::findRebateScheme($recommendUser['role']);
@@ -217,7 +217,7 @@ class Money extends \yii\db\ActiveRecord
                 }
             }
         }elseif($type == Money::TYPE_WITHDRAW){ //提现
-            IncomeConsume::saveRecord($user['userId'],$bitcoin,Scheme::USAGE_WITHDRAW,IncomeConsume::TYPE_CONSUME);
+            IncomeConsume::saveRecord($user['userId'],$bitcoin,UsageMode::USAGE_WITHDRAW,IncomeConsume::TYPE_CONSUME);
         }else{
             throw new Exception("未知类型");
         }

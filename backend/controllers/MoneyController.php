@@ -66,7 +66,7 @@ class MoneyController extends Controller
                     $table_a = Money::tableName();
                     $table_b = Users::tableName();
                     $query = Money::find()
-                        ->leftJoin($table_b, "$table_a.UserId=$table_b.UserId")
+                        ->leftJoin($table_b, "$table_a.userId=$table_b.userId")
                         ->where(['like', "$table_b.nickname", $content]);
                     break;
                 case 'pay-more':
@@ -113,7 +113,7 @@ class MoneyController extends Controller
                     $table_a = Money::tableName();
                     $table_b = Users::tableName();
                     $query = Money::find()
-                        ->leftJoin($table_b, "$table_a.UserId=$table_b.UserId")
+                        ->leftJoin($table_b, "$table_a.userId=$table_b.userId")
                         ->where(["$table_b.role" => $role]);
                     break;
                 default:

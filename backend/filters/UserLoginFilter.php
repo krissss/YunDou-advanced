@@ -21,7 +21,7 @@ class UserLoginFilter extends ActionFilter{
             return parent::beforeAction($action);
         }
         Yii::$app->getSession()->set('loginUrl',Yii::$app->request->getUrl());  //设置登陆后许跳转的页面
-        Yii::$app->getResponse()->redirect(Url::to(['site/login']));
+        Yii::$app->getResponse()->redirect(Url::to(['/site/login']));
         return false;
     }
 }

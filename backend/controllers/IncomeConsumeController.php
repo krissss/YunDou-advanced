@@ -64,7 +64,7 @@ class IncomeConsumeController extends Controller
                     $table_a = IncomeConsume::tableName();
                     $table_b = Users::tableName();
                     $query = IncomeConsume::find()
-                        ->leftJoin($table_b, "$table_a.UserId=$table_b.UserId")
+                        ->leftJoin($table_b, "$table_a.userId=$table_b.userId")
                         ->where(['like', "$table_b.nickname", $content]);
                     break;
                 case 'income-more':
@@ -111,7 +111,7 @@ class IncomeConsumeController extends Controller
                     $table_a = IncomeConsume::tableName();
                     $table_b = Users::tableName();
                     $query = IncomeConsume::find()
-                        ->leftJoin($table_b, "$table_a.UserId=$table_b.UserId")
+                        ->leftJoin($table_b, "$table_a.userId=$table_b.userId")
                         ->where(["$table_b.role" => $role]);
                     break;
                 case 'type':

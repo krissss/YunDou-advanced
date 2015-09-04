@@ -112,25 +112,13 @@ AppAsset::register($this);
                     <li>
                         <a href="<?= Url::to(['user/index']) ?>">
                             <i class="menu-icon fa fa-list-alt"></i>
-                            <span class="menu-text"> 用户列表 </span>
+                            <span class="menu-text"> 关联用户列表 </span>
                         </a>
                     </li>
                     <li>
                         <a href="<?= Url::to(['bitcoin/index']) ?>">
                             <i class="menu-icon fa fa-leaf"></i>
                             <span class="menu-text"> 云豆收支 </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= Url::to(['apply/index']) ?>">
-                            <i class="menu-icon fa fa-folder-open"></i>
-                            <span class="menu-text">申请提现 </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= Url::to(['money/index']) ?>">
-                            <i class="menu-icon fa fa-money"></i>
-                            <span class="menu-text"> 提现记录 </span>
                         </a>
                     </li>
                 </ul>

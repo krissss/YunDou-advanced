@@ -40,6 +40,8 @@ class Scheme extends \yii\db\ActiveRecord
     const USAGE_WITHDRAW = 7; //提现支出
     const USAGE_REBATE_AA = 8; //AA级用户充值返点收入
     const USAGE_REBATE_AAA = 9; //AAA级用户充值返点收入
+    const USAGE_DISTRIBUTE_INCOME = 10; //大客户分配收入
+    const USAGE_DISTRIBUTE_CONSUME = 11; //大客户分配支出
 
     const LEVEL_UNDO = 0;   //不能动
     const LEVEL_ONE = 1;

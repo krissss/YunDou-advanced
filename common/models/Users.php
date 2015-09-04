@@ -4,6 +4,7 @@ namespace common\models;
 
 use frontend\functions\WeiXinFunctions;
 use Yii;
+use yii\db\mssql\Schema;
 
 /**
  * This is the model class for table "users".
@@ -273,4 +274,16 @@ class Users extends \yii\db\ActiveRecord
             ->where(['recommendUserID'=>$userId])
             ->all();
     }
+
+    /**
+     * 分配云豆
+     * @param $fromUserId   //大客户ID
+     * @param $toUserId     //分配给的用户ID
+     * @param $bitcoin
+     */
+    public static function distributeBitcoin($fromUserId,$toUserId,$bitcoin){
+        IncomeConsume::saveRecord($toUserId,$bitcoin,UsageMode::USAGE_DISTRIBUTE_INCOME,IncomeConsume::TYPE_INCOME,$fromUserId);    //分配用户收入云豆
+        IncomeConsume::saveRecord($fromUserId,$bitcoin,UsageMode::USAGE_DISTRIBUTE_CONSUME,IncomeConsume::TYPE_CONSUME,$fromUserId);    //大客户支出云豆
+    }
+
 }
