@@ -10,7 +10,6 @@ use common\functions\CommonFunctions;
 $session = Yii::$app->session;
 $questions = explode('|',$testLibrary['question']);
 $optionsAll = explode('}',$testLibrary['options']);
-$answers = str_replace('}',' ',$testLibrary['answer']);
 $testLibraryId = $testLibrary['testLibraryId'];
 $testTypeId = $testLibrary['testTypeId'];
 $preTypeId = $testLibrary['preTypeId'];
@@ -66,7 +65,7 @@ $bigPictureIndex = 0;  //图片数组下标
                     $question = CommonFunctions::replaceSmallImage($questions[$i],$smallPictures,$smallPictureIndex);
                     $question = CommonFunctions::replaceBigImage($question,$bigPictures,$bigPictureIndex);
                     ?>
-                    <?= $i+1 ?>.<?= $question; ?>
+                    <?= $i+1 ?>) <?= $question; ?>
                 </h5>
                 <?php foreach ($options as $option): ?>
                     <?php
@@ -107,15 +106,18 @@ $bigPictureIndex = 0;  //图片数组下标
         <div class="my_hide answer_show answer_show_<?= $testLibraryId ?>">
             <div class="answer_type_<?= $testLibraryId ?>"></div>
             <div>
-                <p>正确答案：<span class="true_answer_<?= $testLibraryId ?>"><?= $answers ?></span></p>
+                <?php
+                $answers = explode('}',$testLibrary['answer']);
+                $answerStr = "";
+                foreach($answers as $i=>$answer){
+                    $answerStr .= ($i+1).')'.$answer.' ';
+                }
+                ?>
+                <p>正确答案：<span class="true_answer_<?= $testLibraryId ?>"><?= $answerStr ?></span></p>
                 <p>你的答案：
-                <span class="user_answer_<?= $testLibraryId ?>_0">&nbsp;</span>&nbsp;
-                <span class="user_answer_<?= $testLibraryId ?>_1">&nbsp;</span>&nbsp;
-                <span class="user_answer_<?= $testLibraryId ?>_2">&nbsp;</span>&nbsp;
-                <span class="user_answer_<?= $testLibraryId ?>_3">&nbsp;</span>&nbsp;
-                <span class="user_answer_<?= $testLibraryId ?>_4">&nbsp;</span>&nbsp;
-                <span class="user_answer_<?= $testLibraryId ?>_5">&nbsp;</span>&nbsp;
-                <span class="user_answer_<?= $testLibraryId ?>_6">&nbsp;</span>&nbsp;
+                <?php foreach($answers as $i=>$answer):?>
+                    <?=$i+1?>)<span class="user_answer_<?= $testLibraryId ?>_<?=$i?>"></span>&nbsp;
+                <?php endforeach;?>
                 </p>
             </div>
         </div>
