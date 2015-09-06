@@ -2,6 +2,7 @@
 /** 更新题库题目的表单 */
 namespace backend\models\forms;
 
+use common\functions\DateFunctions;
 use common\models\TestLibrary;
 use yii\base\Exception;
 use yii\base\Model;
@@ -44,11 +45,15 @@ class UpdateTestLibraryForm extends Model
     }
 
     public function update(){
+        /** @var $testLibrary \common\models\TestLibrary */
         $testLibrary = TestLibrary::findOne($this->testLibraryId);
         $testLibrary->problem = $this->problem;
         $testLibrary->question = $this->question;
         $testLibrary->options = $this->options;
         $testLibrary->answer = $this->answer;
+        $testLibrary->createDate = DateFunctions::getCurrentDate();
+        $user = \Yii::$app->session->get('user');
+        $testLibrary->createUserId = $user['userId'];
         if(!$testLibrary->update()){
             throw new Exception("UpdateTestLibraryForm update error");
         }
