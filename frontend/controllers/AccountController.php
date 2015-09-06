@@ -178,7 +178,12 @@ class AccountController extends Controller
         $session = Yii::$app->session;
         $user = $session->get('user');
         $scheme = Scheme::findPayScheme();  //获取充值方案
-        $rebateScheme = Scheme::findRebateScheme($user['role']);  //获取返点方案
+        $recommendUser = Users::findRecommendUser($user['recommendUserID']);
+        if($recommendUser){ //存在推荐用户则需要有返点消息提示，否则没有提示
+            $rebateScheme = Scheme::findRebateScheme($recommendUser['role']);  //获取返点方案
+        }else{
+            $rebateScheme = "";
+        }
         //Yii::$app->session->set("scheme",$scheme);  //将充值方式存入，在后面记录用户充值记录的时候使用
         $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例,1：X的X
         if($request->get('type')=='over'){  //微信支付成功后
