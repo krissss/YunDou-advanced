@@ -64,7 +64,7 @@ class UserAController extends Controller
                     $table_a = Users::tableName();
                     $table_b = MajorJob::tableName();
                     $query = Users::find()
-                        ->leftJoin($table_b, "$table_a.majorJobId='.$table_b.majorJobId")
+                        ->leftJoin($table_b, "$table_a.majorJobId=$table_b.majorJobId")
                         ->where(['like', $table_b . ".name", $content]);
                     break;
                 case 'nickname':case 'cellphone':
