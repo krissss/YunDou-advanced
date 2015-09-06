@@ -54,6 +54,7 @@ class AddRebateForm extends Model
         $scheme->name = $this->name;
         $scheme->payMoney = $this->payMoney;
         $scheme->rebate = $this->rebate;
+        $scheme->rebateSelf = $this->rebateSelf;
         $scheme->startDate = $this->startDate;
         $scheme->endDate = $this->endDate;
         if($state){

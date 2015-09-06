@@ -136,3 +136,18 @@ money
 
 info
     + signUpMajor varchar(50)
+
++ withdraw
+    + withdrawId
+    + userId
+    + money
+    + bitcoin
+    + description
+    + invoiceMoney
+    + invoiceNo
+    + createDate
+    + replyUserId
+    + replyDate
+    + replyContent
+    + state
+    + remark

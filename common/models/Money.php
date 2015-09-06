@@ -209,7 +209,7 @@ class Money extends \yii\db\ActiveRecord
             $recommendUser = Users::findRecommendUser($user['recommendUserID']);
             if($recommendUser){ //存在推荐用户
                 $rebateScheme = Scheme::findRebateScheme($recommendUser['role']);
-                if($money>=$rebateScheme['payMoney']){  //达到当前返点的起始要求
+                if($rebateScheme && $money>=$rebateScheme['payMoney']){  //存在返点方案，并且达到当前返点的起始要求
                     $addBitcoin = $bitcoin * $rebateScheme['rebateSelf'];    //返点云豆，返给充值人
                     IncomeConsume::saveRecord($user['userId'],$addBitcoin,$rebateScheme['usageModeId'],IncomeConsume::TYPE_INCOME,$user['userId']);
                     $addBitcoin = $bitcoin * $rebateScheme['rebate'];    //返点云豆，返给推荐人
