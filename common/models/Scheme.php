@@ -95,6 +95,19 @@ class Scheme extends \yii\db\ActiveRecord
         return $content;
     }
 
+    public function getUsageModelName(){
+        if($this->usageModeId == Scheme::USAGE_REBATE_A){
+            $content = "A级";
+        }elseif($this->usageModeId == Scheme::USAGE_REBATE_AA){
+            $content = "AA级";
+        }elseif($this->usageModeId == Scheme::USAGE_REBATE_AAA){
+            $content = "AAA级";
+        }else{
+            $content="状态未定义";
+        }
+        return $content;
+    }
+
     /**
      * 查询所有充值方案
      * @return array|null|\yii\db\ActiveRecord
