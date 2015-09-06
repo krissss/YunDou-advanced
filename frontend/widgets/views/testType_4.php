@@ -17,6 +17,8 @@ $smallPictures = explode('|',$testLibrary['pictureSmall']);   //小图片数组
 $bigPictures = explode('|',$testLibrary['pictureBig']);   //小图片数组
 $smallPictureIndex = 0;  //图片数组下标
 $bigPictureIndex = 0;  //图片数组下标
+
+$answers = explode('}',$testLibrary['answer']);
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -75,7 +77,7 @@ $bigPictureIndex = 0;  //图片数组下标
                     <div class="checkbox">
                         <label>
                             <input name="input_question_<?= $id ?>" type="checkbox" value="<?= $value ?>"
-                                   data-id="<?= $id ?>" data-testtype="<?= $testTypeId ?>" data-pretype="<?= $preTypeId ?>">
+                                   data-id="<?= $id ?>" data-testtype="<?= $testTypeId ?>" data-pretype="<?= $preTypeId ?>" data-answer="<?=$answers[$i]?>">
                             <?= $option ?>
                         </label>
                     </div>
@@ -102,28 +104,26 @@ $bigPictureIndex = 0;  //图片数组下标
             <?php endif; ?>
         </div>
         <div class="clearfix"></div>
+    </div>
+    <div class="panel-footer my_hide answer_show_<?= $testLibraryId ?>">
         <?php
-            $answers = explode('}',$testLibrary['answer']);
             $answerStr = "";
             foreach($answers as $i=>$answer){
                 $answerStr .= ($i+1).')'.$answer.' ';
             }
         ?>
         <?php if(!$examFlag):   //非考试显示答案?>
-        <div class="my_hide answer_show answer_show_<?= $testLibraryId ?>">
-            <div class="answer_type_<?= $testLibraryId ?>"></div>
-            <div>
-
-                <p>正确答案：<span class="true_answer_<?= $testLibraryId ?>"><?= $answerStr ?></span></p>
-                <p>你的答案：
-                <?php foreach($answers as $i=>$answer):?>
-                    <?=$i+1?>)<span class="user_answer_<?= $testLibraryId ?>_<?=$i?>"></span>&nbsp;
-                <?php endforeach;?>
-                </p>
-            </div>
+        <div class="answer_type_<?= $testLibraryId ?>"></div>
+        <div>
+            <p>正确答案：<span class="true_answer_<?= $testLibraryId ?>"><?= $answerStr ?></span></p>
+            <p>你的答案：
+            <?php foreach($answers as $i=>$answer):?>
+                <?=$i+1?>)<span class="user_answer_<?= $testLibraryId ?>_<?=$i?>"></span>&nbsp;
+            <?php endforeach;?>
+            </p>
         </div>
         <?php else: //考试需要隐藏的正确答案?>
-            <span class="my_hide true_answer_<?= $testLibraryId ?>"><?= $answerStr ?></span>
+        <span class="my_hide true_answer_<?= $testLibraryId ?>"><?= $answerStr ?></span>
         <?php endif;?>
     </div>
 </div>

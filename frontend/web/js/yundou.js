@@ -294,14 +294,26 @@ $(document).ready(function(){
         over();
     });
 
+    /** 显示答案 */
     body.on("click",".show_answer",function(){
         var id = $(this).data('id');
-        $(".answer_show_" + id).show(200);
+        $(".answer_show_" + id).show(100);
+        var testLibraryId = $(".id_"+id);
+        testLibraryId.find(":radio").each(function(){
+            if($(this).data('answer').indexOf($(this).val())>-1){
+                $(this).parents(".radio").addClass("bg-success");
+            }
+        });
+        testLibraryId.find(":checkbox").each(function(){
+            console.log($(this).data('answer').indexOf($(this).val()));
+            if($(this).data('answer').indexOf($(this).val())>-1){
+                $(this).parents(".checkbox").addClass("bg-success");
+            }
+        });
     });
 
     body.on("click",".add_collection",function(){
         var id = $(this).data('id');
-        var csrfToken = $('meta[name="csrf-token"]').attr("content");
         var $this = $(this);
         if($this.hasClass("btn-danger")){
             $this.removeClass("btn-danger").addClass("btn-primary");

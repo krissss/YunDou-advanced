@@ -89,7 +89,9 @@ a:active {
     text-align: center;
 }
 .inner_img_big img{
-    width: 300px;
+    min-width: 300px;
+    width: 95%;
+	max-width: 600px;
 }
 .control-label{
 	padding-top: 7px;
@@ -131,6 +133,7 @@ a:active {
 .answer_show {
 	margin-bottom: 5px;
 }
+
 
 .test_library h4 {
 	font-size: 16px;

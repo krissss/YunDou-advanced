@@ -43,6 +43,6 @@ class ApplyMoneyForm extends Model
     public function record(){
         $user = Yii::$app->session->get('user');
         $bitcoin = ($this->money)*100;
-        Money::recordOne($user,$this->money,$bitcoin,Money::TYPE_WITHDRAW);
+        Money::recordOne($user,$this->money,$bitcoin,Money::TYPE_WITHDRAW,Money::FROM_WITHDRAW);
     }
 }

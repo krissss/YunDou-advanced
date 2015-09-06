@@ -10,6 +10,7 @@ use Yii;
  * @property integer $withdrawId
  * @property integer $userId
  * @property string $money
+ * @property integer $bitcoin
  * @property string $description
  * @property string $invoiceMoney
  * @property string $invoiceNo
@@ -40,7 +41,7 @@ class Withdraw extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userId', 'replyUserId', 'state'], 'integer'],
+            [['userId', 'bitcoin',  'replyUserId', 'state'], 'integer'],
             [['money', 'invoiceMoney'], 'number'],
             [['createDate', 'replyDate'], 'safe'],
             [['description', 'replyContent'], 'string', 'max' => 50],
@@ -58,6 +59,7 @@ class Withdraw extends \yii\db\ActiveRecord
             'withdrawId' => 'Withdraw ID',
             'userId' => 'User ID',
             'money' => 'Money',
+            'bitcoin' => 'Bitcoin',
             'description' => 'Description',
             'invoiceMoney' => 'Invoice Money',
             'invoiceNo' => 'Invoice No',

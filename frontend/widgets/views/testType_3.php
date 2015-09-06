@@ -62,7 +62,7 @@ $bigPictureIndex = 0;  //图片数组下标
                 <div class="radio">
                     <label>
                         <input name="input_question_<?= $id ?>" type="radio" value="<?= $value ?>"
-                               data-id="<?= $id ?>" data-testtype="<?=$testTypeId?>" data-pretype="<?=$preTypeId?>">
+                               data-id="<?= $id ?>" data-testtype="<?=$testTypeId?>" data-pretype="<?=$preTypeId?>" data-answer="<?=$testLibrary['answer']?>">
                         <?= $option ?>
                     </label>
                 </div>
@@ -88,16 +88,16 @@ $bigPictureIndex = 0;  //图片数组下标
             <?php endif; ?>
         </div>
         <div class="clearfix"></div>
+    </div>
+    <div class="panel-footer my_hide answer_show_<?= $id ?>">
         <?php if(!$examFlag):   //非考试显示答案?>
-        <div class="my_hide answer_show answer_show_<?= $id ?>">
-            <div class="answer_type_<?= $id ?>"></div>
-            <div>
-                正确答案：<span class="true_answer_<?= $id ?>"><?= $testLibrary['answer'] ?></span>
-                &nbsp;&nbsp; 你的答案：<span class="user_answer_<?= $id ?>"></span>
-            </div>
+        <div class="answer_type_<?= $id ?>"></div>
+        <div>
+            正确答案：<span class="true_answer_<?= $id ?>"><?= $testLibrary['answer'] ?></span>
+            &nbsp;&nbsp; 你的答案：<span class="user_answer_<?= $id ?>"></span>
         </div>
         <?php else: //考试需要隐藏的正确答案?>
-            <span class="my_hide true_answer_<?= $id ?>"><?= $testLibrary['answer'] ?></span>
+        <span class="my_hide true_answer_<?= $id ?>"><?= $testLibrary['answer'] ?></span>
         <?php endif;?>
     </div>
 </div>
