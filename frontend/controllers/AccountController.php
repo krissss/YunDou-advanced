@@ -184,13 +184,11 @@ class AccountController extends Controller
         }else{
             $rebateScheme = "";
         }
-        //Yii::$app->session->set("scheme",$scheme);  //将充值方式存入，在后面记录用户充值记录的时候使用
         $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例,1：X的X
         if($request->get('type')=='over'){  //微信支付成功后
             $money = $session->get('money');
             $addBitcoin = intval($money)*$proportion; //计算应得的云豆数
             Money::recordOne($user,$money,$addBitcoin,Money::TYPE_PAY,Money::FROM_WX);   //记录充值记录+收入支出表变化+用户云豆数增加
-            //$session->remove('scheme');
             $session->remove('money');
             CommonFunctions::createAlertMessage("充值成功","success");
         }else{

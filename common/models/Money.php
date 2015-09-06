@@ -26,7 +26,7 @@ class Money extends \yii\db\ActiveRecord
     const TYPE_PAY = 0; //充值
     const TYPE_WITHDRAW = 1;    //提现
 
-    const FROM_NULL = 0;    //没有，可以标识提现
+    const FROM_WITHDRAW = 0;    //标识提现
     const FROM_WX = 1;  //微信支付
     const FROM_ZFB = 2; //支付宝支付
     const FROM_XJ = 3;  //现金支付
@@ -85,7 +85,7 @@ class Money extends \yii\db\ActiveRecord
             case Money::FROM_WX:$msg = "微信支付";break;
             case Money::FROM_ZFB:$msg = "支付宝支付";break;
             case Money::FROM_XJ:$msg = "现金支付";break;
-            case Money::FROM_NULL:$msg = "提现";break;
+            case Money::FROM_WITHDRAW:$msg = "提现";break;
             default:$msg = "未定义";break;
         }
         return $msg;
@@ -192,7 +192,7 @@ class Money extends \yii\db\ActiveRecord
      * @param $from
      * @throws Exception
      */
-    public static function recordOne($user,$money,$bitcoin,$type,$from=0){
+    public static function recordOne($user,$money,$bitcoin,$type,$from){
         $moneyModel = new Money();
         $moneyModel->userId = $user['userId'];
         $moneyModel->money = $money;

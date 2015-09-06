@@ -130,7 +130,7 @@ class IncomeConsumeController extends Controller
         ]);
         $model = $query->offset($pagination->offset)
             ->limit($pagination->limit)
-            ->orderBy(['createDate'=>SORT_DESC])
+            ->orderBy(['incomeConsumeId'=>SORT_DESC])
             ->all();
         return $this->render('index', [
             'models' => $model,
