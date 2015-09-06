@@ -56,7 +56,7 @@ $this->title = '充值返点设置';
                 <tr>
                     <td><?= $i+1 ?></td>
                     <td><?= $scheme->name ?></td>
-                    <td><?= $scheme->usageModeName ?></td>
+                    <td><?= $scheme->usageModelName ?></td>
                     <td><?= $scheme->payMoney ?></td>
                     <td><?= ($scheme->rebate)*100 ?>%</td>
                     <td><?= ($scheme->rebateSelf)*100 ?>%</td>
