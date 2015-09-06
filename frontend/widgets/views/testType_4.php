@@ -102,17 +102,18 @@ $bigPictureIndex = 0;  //图片数组下标
             <?php endif; ?>
         </div>
         <div class="clearfix"></div>
+        <?php
+            $answers = explode('}',$testLibrary['answer']);
+            $answerStr = "";
+            foreach($answers as $i=>$answer){
+                $answerStr .= ($i+1).')'.$answer.' ';
+            }
+        ?>
         <?php if(!$examFlag):   //非考试显示答案?>
         <div class="my_hide answer_show answer_show_<?= $testLibraryId ?>">
             <div class="answer_type_<?= $testLibraryId ?>"></div>
             <div>
-                <?php
-                $answers = explode('}',$testLibrary['answer']);
-                $answerStr = "";
-                foreach($answers as $i=>$answer){
-                    $answerStr .= ($i+1).')'.$answer.' ';
-                }
-                ?>
+
                 <p>正确答案：<span class="true_answer_<?= $testLibraryId ?>"><?= $answerStr ?></span></p>
                 <p>你的答案：
                 <?php foreach($answers as $i=>$answer):?>
@@ -122,7 +123,7 @@ $bigPictureIndex = 0;  //图片数组下标
             </div>
         </div>
         <?php else: //考试需要隐藏的正确答案?>
-            <span class="my_hide true_answer_<?= $testLibraryId ?>"><?= $answers ?></span>
+            <span class="my_hide true_answer_<?= $testLibraryId ?>"><?= $answerStr ?></span>
         <?php endif;?>
     </div>
 </div>
