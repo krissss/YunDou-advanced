@@ -29,7 +29,7 @@ use common\models\Scheme;
                     Scheme::USAGE_REBATE_A => 'A级',
                     Scheme::USAGE_REBATE_AA => 'AA级',
                     Scheme::USAGE_REBATE_AAA => 'AAA级',
-                ]) ?>
+                ],['prompt'=>'请选择']) ?>
                 <?= $form->field($addRebateForm, 'payMoney')->input("number") ?>
                 <?= $form->field($addRebateForm, 'rebate')->input("number",['step'=>'0.01','min'=>'0']) ?>
                 <?= $form->field($addRebateForm, 'rebateSelf')->input("number",['step'=>'0.01','min'=>'0']) ?>

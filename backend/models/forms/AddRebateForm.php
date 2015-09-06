@@ -78,8 +78,10 @@ class AddRebateForm extends Model
         $form = new AddRebateForm();
         $form->schemeId = $id;
         $form->name = $scheme->name;
+        $form->usageModeId = $scheme->usageModeId;
         $form->payMoney = $scheme->payMoney;
         $form->rebate = $scheme->rebate;
+        $form->rebateSelf = $scheme->rebateSelf;
         $form->startDate = $scheme->startDate;
         $form->endDate = $scheme->endDate;
         return $form;
