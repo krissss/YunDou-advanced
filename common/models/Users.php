@@ -42,9 +42,11 @@ class Users extends \yii\db\ActiveRecord
     const ROLE_BIG = 4; //大客户
     const ROLE_ADMIN = 10;  //管理员
 
-    const STATE_NORMAL = 'N';   //正常状态
-    const STATE_FROZEN = 'U';   //冻结状态
-    const STATE_STOP = 'D';   //终止状态
+    const STATE_NORMAL = 'N';   //正常状态，所有人基本状态
+    const STATE_FROZEN = 'U';   //冻结状态，伙伴和大客户
+    const STATE_STOP = 'D';   //终止状态，伙伴和大客户
+    const STATE_REMOVE = 'R';   //非员工状态，大客户取消确认员工后的状态
+
 
     /**
      * @inheritdoc
