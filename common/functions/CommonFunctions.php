@@ -43,6 +43,19 @@ class CommonFunctions
     }
 
     /**
+     * 创建随机8位密码
+     * @return string
+     */
+    public static function createRandPassword(){
+        $code = "p";
+        $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
+        for($i = 0; $i < 8; $i ++) {
+            $code .= $pattern {mt_rand ( 0, 35 )}; //生成php随机数
+        }
+        return $code;
+    }
+
+    /**
      * 创建普通推荐，最后使用时是不区分大小写的
      * @return int|string
      */

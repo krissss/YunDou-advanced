@@ -2,6 +2,7 @@
 /** 报名的表单 */
 namespace frontend\models\forms;
 
+use common\functions\CommonFunctions;
 use common\functions\DateFunctions;
 use common\models\Info;
 use common\models\MajorJob;
@@ -14,8 +15,6 @@ class SignUpForm extends Model
 {
     public $IDCard;
     public $realName;
-    public $password;
-    public $password_repeat;
     public $cellphone;
     public $education;
     public $major;
@@ -27,35 +26,36 @@ class SignUpForm extends Model
     public $findPasswordAnswer;
 
     public $headImg;
-    public $IDCardImg1;
-    public $IDCardImg2;
+    public $educationImg;
 
     private $userId;
 
     public function rules()
     {
         return [
-            [['IDCard','realName','password','password_repeat','cellphone','education','major','workTime'
-                ,'technical','company','findPasswordQuestion','findPasswordAnswer','headImg','IDCardImg1','IDCardImg2'], 'required'],
+            [['IDCard','realName','cellphone','education','major','workTime','technical','company',
+                'findPasswordQuestion','findPasswordAnswer','headImg','educationImg'], 'required'],
             [['IDCard'], 'string','length'=>[18,18]],
             [['IDCard'], 'validateIDCard'],
             [['realName'], 'match', 'pattern' => '/^[\x{4e00}-\x{9fa5}]+$/u','message'=>'{attribute}必须是中文'],
-            [['password'], 'match', 'pattern' =>'/^[a-zA-Z][a-zA-Z0-9_]{6,16}$/','message'=>'{attribute}必须为字母开头6-16位'],
-            [['password_repeat'], 'compare','compareAttribute'=>'password','operator' => '==','message'=>'两次密码输入不一致'],
             [['cellphone'], 'match', 'pattern' =>'/1[3458]{1}\d{9}$/','message'=>'{attribute}不合法'],
             [['education','major','technical','signUpMajor','company','findPasswordQuestion','findPasswordAnswer'], 'string'],
+            [['company'], 'string','min'=>2],
             [['workTime'], 'safe'],
-            [['headImg','IDCardImg1','IDCardImg2'],'image','extensions' => 'png, jpg', 'maxSize' => 100*1024],
             [['headImg'],'image','extensions' => ['png', 'jpg'],
                 'minWidth' => 102, 'maxWidth' => 102,
                 'minHeight' => 126, 'maxHeight' => 126,
+            ],
+            [['educationImg'],'image','extensions' => ['png', 'jpg'],
+                'minWidth' => 650, 'maxWidth' => 650,
+                'minHeight' => 500, 'maxHeight' => 500,
             ],
         ];
     }
 
     public function validateIDCard($attribute){
-        if(Info::findByIDCard($this->IDCard)){
-            $this->addError($attribute, '该身份证已经记录过');
+        if(Info::checkUserRecordOrPass($this->userId)){
+            $this->addError($attribute, '该身份证已经记录过或已报名成功');
         }
     }
 
@@ -64,8 +64,6 @@ class SignUpForm extends Model
         return [
             'IDCard' => '身份证号码',
             'realName' => '姓名',
-            'password' => '拟设定密码',
-            'password_repeat' => '确认密码',
             'cellphone' => '手机号',
             'education' => '学历',
             'major' => '所学专业',
@@ -76,8 +74,7 @@ class SignUpForm extends Model
             'findPasswordQuestion' => '密码找回问题',
             'findPasswordAnswer' => '问题答案',
             'headImg' => '个人照片',
-            'IDCardImg1' => '身份证正面',
-            'IDCardImg2' => '身份证反面',
+            'educationImg' => '学历证书扫描件'
         ];
     }
 
@@ -85,11 +82,27 @@ class SignUpForm extends Model
         /** @var $user \common\models\Users */
         $user = Yii::$app->session->get('user');
         if($user){
-            $this->userId = $user['userId'];
-            $this->signUpMajor = MajorJob::findNameByMajorJobId($user['majorJobId']);
-            $this->realName = $user['realname'];
-            $this->cellphone = $user['cellphone'];
-            $this->company = $user['company'];
+            $info = Info::findRefusedByUserId($user['userId']);
+            if($info){
+                $this->userId = $info->userId;
+                $this->IDCard = $info->IDCard;
+                $this->realName = $info->realName;
+                $this->cellphone = $info->cellphone;
+                $this->education = $info->education;
+                $this->major = $info->major;
+                $this->workTime = $info->workTime;
+                $this->technical = $info->technical;
+                $this->signUpMajor = $info->signUpMajor;
+                $this->company = $info->company;
+                $this->findPasswordQuestion = $info->findPasswordQuestion;
+                $this->findPasswordAnswer = $info->findPasswordAnswer;
+            }else{
+                $this->userId = $user['userId'];
+                $this->signUpMajor = MajorJob::findNameByMajorJobId($user['majorJobId']);
+                $this->realName = $user['realname'];
+                $this->cellphone = $user['cellphone'];
+                $this->company = $user['company'];
+            }
         }
     }
 
@@ -104,8 +117,6 @@ class SignUpForm extends Model
         $requestSignUpForm = Yii::$app->request->post('SignUpForm');
         $this->IDCard = $requestSignUpForm['IDCard'];
         $this->realName = $requestSignUpForm['realName'];
-        $this->password = $requestSignUpForm['password'];
-        $this->password_repeat = $requestSignUpForm['password_repeat'];
         $this->cellphone = $requestSignUpForm['cellphone'];
         $this->education = $requestSignUpForm['education'];
         $this->major = $requestSignUpForm['major'];
@@ -116,17 +127,20 @@ class SignUpForm extends Model
         $this->findPasswordQuestion = $requestSignUpForm['findPasswordQuestion'];
         $this->findPasswordAnswer = $requestSignUpForm['findPasswordAnswer'];
         $this->headImg = $this->saveImage($signUpForm,'headImg');
-        $this->IDCardImg1 = $this->saveImage($signUpForm, 'IDCardImg1');
-        $this->IDCardImg2 = $this->saveImage($signUpForm, 'IDCardImg2');
+        $this->educationImg = $this->saveImage($signUpForm, 'educationImg');
         return true;
     }
 
     public function record(){
-        $info = new Info();
+        $user = Yii::$app->session->get('user');
+        $info = Info::findRefusedByUserId($user['userId']);
+        if(!$info){
+            $info = new Info();
+            $info->password = CommonFunctions::createRandPassword();
+        }
         $info->userId = $this->userId;
         $info->IDCard = $this->IDCard;
         $info->realName = $this->realName;
-        $info->password = $this->password;
         $info->cellphone = $this->cellphone;
         $info->education = $this->education;
         $info->major = $this->major;
@@ -137,9 +151,9 @@ class SignUpForm extends Model
         $info->findPasswordQuestion = $this->findPasswordQuestion;
         $info->findPasswordAnswer = $this->findPasswordAnswer;
         $info->headImg = $this->headImg;
-        $info->IDCardImg1 = $this->IDCardImg1;
-        $info->IDCardImg2 = $this->IDCardImg2;
+        $info->educationImg = $this->educationImg;
         $info->createDate = DateFunctions::getCurrentDate();
+        $info->state = Info::STATE_RECORD;
         if(!$info->save()){
             throw new Exception("Sign Up Info save error");
         }

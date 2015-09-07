@@ -24,8 +24,6 @@ $this->title = "填写报名信息";
 
         <?= $form->field($signUpForm, 'IDCard') ?>
         <?= $form->field($signUpForm, 'realName') ?>
-        <?= $form->field($signUpForm, 'password')->passwordInput() ?>
-        <?= $form->field($signUpForm, 'password_repeat')->passwordInput() ?>
         <?= $form->field($signUpForm, 'cellphone') ?>
         <?= $form->field($signUpForm, 'education')->dropDownList([
             '初中'=>'初中',
@@ -56,8 +54,7 @@ $this->title = "填写报名信息";
         ])  ?>
         <?= $form->field($signUpForm, 'findPasswordAnswer') ?>
         <?= $form->field($signUpForm, 'headImg')->fileInput() ?>
-        <?= $form->field($signUpForm, 'IDCardImg1')->fileInput() ?>
-        <?= $form->field($signUpForm, 'IDCardImg2')->fileInput() ?>
+        <?= $form->field($signUpForm, 'educationImg')->fileInput() ?>
     
         <div class="form-group">
             <?= Html::submitButton('提交', ['class' => 'btn btn-primary col-xs-offset-4']) ?>

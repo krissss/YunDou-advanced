@@ -116,8 +116,8 @@ class AccountController extends Controller
         $user = Yii::$app->session->get('user');
         //已经进行过实名认证的用户
         if($user['majorJobId']!=0 && $user['registerDate']!=null && $user['registerDate']>0){
-            CommonFunctions::createAlertMessage("您已经进行过实名认证，可以选择修改某些信息！<br>
-            注意：修改省份或专业岗位，将会重置您在线练习进度信息！","info");
+            CommonFunctions::createAlertMessage("您已经进行过实名认证，可以选择修改部分信息。<br>
+            注意：修改考试区域、专业类型信息后，您以前做的相关在线练习、错题、重点题信息等都会重置，请慎重。","info");
             $updateInfoForm = new UpdateInfoForm();
             if($updateInfoForm->load(Yii::$app->request->post()) && $updateInfoForm->validate()){
                 $updateInfoForm->update();
@@ -131,7 +131,7 @@ class AccountController extends Controller
         }
         //未进行过实名认证的用户
         $registerForm = new RegisterForm();
-        CommonFunctions::createAlertMessage("为了更好的为您提供服务，请认真进行实名认证！","info");
+        CommonFunctions::createAlertMessage("实名认证主要用于系统内部正确配置相关的题库与模拟试题模型，请如实、认证填写","info");
         if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
             $registerForm->register();
             CommonFunctions::createAlertMessage("恭喜您，注册成功","success");

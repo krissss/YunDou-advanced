@@ -62,7 +62,7 @@ AppAsset::register($this);
             <div class="navbar-container">
                 <!-- logo -->
                 <div class="navbar-header pull-left">
-                    <a href="<?= Url::to(['site/index']) ?>" class="navbar-brand">
+                    <a href="<?= Url::to(['/site/index']) ?>" class="navbar-brand">
                         <small>
                             <img src="<?= $imagePath ?>logo.png" alt=""/>
                         </small>

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\IncomeConsume;
 
-$this->title = '云豆收入';
+$this->title = '云豆收支';
 ?>
 
 <div class="widget flat">
@@ -43,7 +43,7 @@ $this->title = '云豆收入';
                 <th class="text-align-center">用户妮称</th>
                 <th class="text-align-center">用户真实姓名</th>
                 <th class="text-align-center">收入或支出云豆</th>
-                <th class="text-align-center">来源用户</th>
+                <th class="text-align-center">来源或用途</th>
                 <th class="text-align-center">时间</th>
             </tr>
             </thead>

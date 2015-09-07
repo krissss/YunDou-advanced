@@ -4,6 +4,7 @@ namespace common\models;
 
 use common\functions\DateFunctions;
 use Yii;
+use yii\data\Sort;
 
 /**
  * This is the model class for table "info".
@@ -23,8 +24,7 @@ use Yii;
  * @property string $findPasswordQuestion
  * @property string $findPasswordAnswer
  * @property string $headImg
- * @property string $IDCardImg1
- * @property string $IDCardImg2
+ * @property string $educationImg
  * @property string $state
  * @property string $replyContent
  * @property string $createDate
@@ -60,7 +60,7 @@ class Info extends \yii\db\ActiveRecord
             [['cellphone'], 'string', 'max' => 11],
             [['education', 'technical'], 'string', 'max' => 10],
             [['major'], 'string', 'max' => 20],
-            [['signUpMajor', 'headImg', 'IDCardImg1', 'IDCardImg2'], 'string', 'max' => 50],
+            [['signUpMajor', 'headImg', 'educationImg'], 'string', 'max' => 50],
             [['state'], 'string', 'max' => 1],
             [['replyContent', 'remark'], 'string', 'max' => 100]
         ];
@@ -87,8 +87,7 @@ class Info extends \yii\db\ActiveRecord
             'findPasswordQuestion' => 'Find Password Question',
             'findPasswordAnswer' => 'Find Password Answer',
             'headImg' => 'Head Img',
-            'IDCardImg1' => 'Idcard Img1',
-            'IDCardImg2' => 'Idcard Img2',
+            'educationImg' => 'Education Img',
             'state' => 'State',
             'replyContent' => 'Reply Content',
             'createDate' => 'Create Date',
@@ -138,6 +137,17 @@ class Info extends \yii\db\ActiveRecord
      */
     public static function findByIDCard($IDCard){
         return Info::findOne(['IDCard'=>$IDCard]);
+    }
+
+    /**
+     * 查询被拒绝的用户信息
+     * @param $userId
+     * @return array|null|\common\models\Info
+     */
+    public static function findRefusedByUserId($userId){
+        return Info::find()
+            ->where(['userId'=>$userId,'state'=>Info::STATE_REFUSE])
+            ->one();
     }
 
     /**

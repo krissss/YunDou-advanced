@@ -56,11 +56,12 @@ class AddUserForm extends Model
     }
 
     public function validateUsername($attribute){
-        $user = Users::findOne(['username'=>$this->username]);
-        if($user){
-            //echo 123;exit;
-            CommonFunctions::createAlertMessage("登录名不唯一","error");
-            $this->addError($attribute,'登录名不唯一');
+        if(!$this->userId){ //新用户检查登录名是否冲突
+            $user = Users::findOne(['username'=>$this->username]);
+            if($user){
+                CommonFunctions::createAlertMessage("登录名冲突，请重设登录名","error");
+                $this->addError($attribute,'登录名冲突，请重设登录名');
+            }
         }
     }
 

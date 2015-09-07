@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\IncomeConsume;
+use common\models\UsageMode;
 
 $this->title = '云豆管理';
 ?>
@@ -16,7 +17,8 @@ $this->title = '云豆管理';
             <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询</a>
             <label>快速查找:</label>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/index'])?>">所有</a>
-            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'usageModeName','content'=>'充值'])?>">充值用户</a>
+            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'usageModeName','content'=>UsageMode::USAGE_PAY])?>">充值用户</a>
+            <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'usageModeName','content'=>UsageMode::USAGE_WITHDRAW])?>">提现用户</a>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'type','content'=>IncomeConsume::TYPE_INCOME])?>">收入云豆用户</a>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'type','content'=>IncomeConsume::TYPE_CONSUME])?>">支出云豆用户</a>
             <a class="btn btn-default" href="<?=Url::to(['income-consume/search','type'=>'income-more','content'=>'1000'])?>">充值大于1000用户</a>

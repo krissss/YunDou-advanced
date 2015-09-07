@@ -54,11 +54,8 @@ class IncomeConsumeController extends Controller
         if ($type || !$query) {
             switch ($type) {
                 case 'usageModeName':
-                    $table_a = IncomeConsume::tableName();
-                    $table_b = UsageMode::tableName();
                     $query = IncomeConsume::find()
-                        ->leftJoin($table_b, "$table_a.usageModeId=$table_b.usageModeId")
-                        ->where(['like', "$table_b.usageModeName", $content]);
+                        ->where(['usageModeId'=>$content]);
                     break;
                 case 'nickname';
                     $table_a = IncomeConsume::tableName();

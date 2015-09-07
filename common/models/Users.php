@@ -283,7 +283,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public static function distributeBitcoin($fromUserId,$toUserId,$bitcoin){
         IncomeConsume::saveRecord($toUserId,$bitcoin,UsageMode::USAGE_DISTRIBUTE_INCOME,IncomeConsume::TYPE_INCOME,$fromUserId);    //分配用户收入云豆
-        IncomeConsume::saveRecord($fromUserId,$bitcoin,UsageMode::USAGE_DISTRIBUTE_CONSUME,IncomeConsume::TYPE_CONSUME,$fromUserId);    //大客户支出云豆
+        IncomeConsume::saveRecord($fromUserId,$bitcoin,UsageMode::USAGE_DISTRIBUTE_CONSUME,IncomeConsume::TYPE_CONSUME,$toUserId);    //大客户支出云豆
     }
 
 }

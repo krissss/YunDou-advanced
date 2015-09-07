@@ -70,17 +70,10 @@ use yii\helpers\Url;
                         </td>
                     </tr>
                     <tr>
-                        <td>身份证正面</td>
+                        <td>学历证书扫描件</td>
                         <td>
-                            <img src="../../frontend/web/<?=$info->IDCardImg1?>" alt="" height="50">
-                            <a class="btn btn-default pull-right" href="<?=Url::to(['sign-up/download','file'=>$info->IDCardImg1])?>" target="_blank">下载</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>身份证反面</td>
-                        <td>
-                            <img src="../../frontend/web/<?=$info->IDCardImg2?>" alt="" height="50">
-                            <a class="btn btn-default pull-right" href="<?=Url::to(['sign-up/download','file'=>$info->IDCardImg2])?>" target="_blank">下载</a>
+                            <img src="../../frontend/web/<?=$info->educationImg?>" alt="" height="50">
+                            <a class="btn btn-default pull-right" href="<?=Url::to(['sign-up/download','file'=>$info->educationImg])?>" target="_blank">下载</a>
                         </td>
                     </tr>
                     </tbody>

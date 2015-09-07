@@ -62,7 +62,7 @@ AppAsset::register($this);
             <div class="navbar-container">
                 <!-- logo -->
                 <div class="navbar-header pull-left">
-                    <a href="<?= Url::to(['site/index']) ?>" class="navbar-brand">
+                    <a href="<?= Url::to(['/site/index']) ?>" class="navbar-brand">
                         <small>
                             <img src="<?= $imagePath ?>logo.png" alt=""/>
                         </small>
@@ -77,41 +77,12 @@ AppAsset::register($this);
                 <!-- 用户 -->
                 <div class="navbar-header pull-right">
                     <div class="navbar-account">
-                        <ul class="account-area">
-                            <li>
-                                <a class="login-area dropdown-toggle" data-toggle="dropdown">
-                                    <div class="avatar" title="查看信息">
-                                        <img src="<?= Yii::$app->params['headPath'] ?><?= $userSession['userIcon'] ?>">
-                                    </div>
-                                    <section>
-                                        <h2>
-                                            <span class="profile"><?= $userSession['nickname'] ?></span>
-                                        </h2>
-                                    </section>
-                                </a>
-                                <!--下拉-->
-                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
-                                    <li class="username"><a><?= $userSession['nickname'] ?></a></li>
-                                    <li class="email"><a><?= $userSession['email'] ?></a></li>
-                                    <li>
-                                        <div class="avatar-area">
-                                            <img src="<?= Yii::$app->params['headPath'] ?><?= $userSession['userIcon'] ?>" class="avatar">
-                                            <span id="change-avatar" class="caption">更改头像</span>
-                                        </div>
-                                    </li>
-                                    <li class="edit">
-                                        <a href="<?= Url::to(['account/index']) ?>" class="pull-left">个人中心</a>
-                                        <a href="javascript:void(0);" class="pull-right">设置</a>
-                                    </li>
-                                    <li class="dropdown-footer">
-                                        <a href="<?= Url::to(['site/logout']) ?>">
-                                            退出登录
-                                        </a>
-                                    </li>
-                                </ul>
-                                <!--/下拉-->
-                            </li>
-                        </ul>
+                        <div class="user-info">
+                            <p>
+                                <i class="fa fa-user"></i><?= $userSession['nickname'] ?> |
+                                <a href="<?= Url::to(['/site/logout']) ?>"><i class="fa fa-sign-out"></i>退出登录</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <!-- /用户 -->
@@ -125,7 +96,7 @@ AppAsset::register($this);
         <!-- Page Container -->
         <div class="page-container">
             <!-- Page Sidebar -->
-            <div class="page-sidebar menu-compact" id="sidebar">
+            <div class="page-sidebar" id="sidebar">
                 <div class="sidebar-header-wrapper">
                     <i class="searchicon"></i>
                     <div class="searchhelper"></div>
@@ -216,12 +187,12 @@ AppAsset::register($this);
                             <span class="menu-text"> 模板管理 </span>
                         </a>
                     </li>
-                    <li <?//= $page_id == 'simulate-exam' ? 'class="active"' : ''; ?>>
-                        <a href="<?= Url::to(['simulate-exam/index']) ?>">
+                    <!--<li>
+                        <a href="<?/*= Url::to(['simulate-exam/index']) */?>">
                             <i class="menu-icon fa fa-folder"></i>
                             <span class="menu-text"> 课件管理 </span>
                         </a>
-                    </li>
+                    </li>-->
                     <li>
                         <a href="#" class="menu-dropdown">
                             <i class="menu-icon fa fa-leaf"></i>
