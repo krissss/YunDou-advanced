@@ -2,8 +2,8 @@
 
 namespace backend\modules\associate\models\forms;
 
-use common\models\Money;
 use common\models\Users;
+use common\models\Withdraw;
 use Yii;
 use yii\base\Model;
 
@@ -42,7 +42,13 @@ class ApplyMoneyForm extends Model
 
     public function record(){
         $user = Yii::$app->session->get('user');
+        $model = Withdraw::find()
+            ->where(['userId'=>$user['userId'],'state'=> Withdraw::STATE_APPLYING])->one();
+        if($model){
+            return false;
+        }
         $bitcoin = ($this->money)*100;
-        Money::recordOne($user,$this->money,$bitcoin,Money::TYPE_WITHDRAW,Money::FROM_WITHDRAW);
+        Withdraw::recordOne($user['userId'],$this->money,$bitcoin);
+        return true;
     }
 }

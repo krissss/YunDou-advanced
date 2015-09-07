@@ -19,10 +19,14 @@ class ApplyController extends Controller
         if($request->isPost){
             $applyMoneyForm->money = $request->post('money');
             if($applyMoneyForm->validate()){
-                $applyMoneyForm->record();
-                CommonFunctions::createAlertMessage("申请提交成功","success");
+                if($applyMoneyForm->record()){
+                    CommonFunctions::createAlertMessage("申请提交成功","success");
+                }else{
+                    CommonFunctions::createAlertMessage("申请提交失败，原因是已经存在正在申请中的记录","error");
+                }
+            }else{
+                CommonFunctions::createAlertMessage("填写的信息有错误","error");
             }
-            CommonFunctions::createAlertMessage("填写的信息有错误","error");
         }else{
             CommonFunctions::createAlertMessage("提现金额将由管理员审核后打到您的XXX账号，提现金额50元起可提现，不得超过云豆余额","info");
         }

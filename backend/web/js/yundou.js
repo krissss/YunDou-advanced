@@ -411,7 +411,7 @@ $(document).ready(function(){
         stateAAFlag = true;
         var state = $(this).data("state");
         var id = $(this).data("id");
-        $.post("?r=user-aa/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
+        $.post("?r=user-aa/change-state",{_csrf: csrfToken,newState:state,id:id},function(){
             window.location.href = "?r=user-aa/previous";
         });
     });
@@ -450,7 +450,7 @@ $(document).ready(function(){
         stateAAAFlag = true;
         var state = $(this).data("state");
         var id = $(this).data("id");
-        $.post("?r=user-aaa/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
+        $.post("?r=user-aaa/change-state",{_csrf: csrfToken,newState:state,id:id},function(){
             window.location.href = "?r=user-aaa/previous";
         });
     });
@@ -489,8 +489,19 @@ $(document).ready(function(){
         stateBigFlag = true;
         var state = $(this).data("state");
         var id = $(this).data("id");
-        $.post("?r=user-big/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
+        $.post("?r=user-big/change-state",{_csrf: csrfToken,newState:state,id:id},function(){
             window.location.href = "?r=user-big/previous";
+        });
+    });
+
+    /** 2A3A公用相关 */
+    /** 提现管理 */
+    $(".withdraw_btn").click(function(){
+        var id = $(this).data("id");
+        var type = $(this).data("type");
+        $.post("?r=withdraw/init",{_csrf: csrfToken,withdrawId:id,type:type},function(data){
+            body.append(data);
+            $(".withdraw_btn_modal").last().modal('show');
         });
     });
 
@@ -502,4 +513,5 @@ $(document).ready(function(){
         $("input[name=distribute_bitcoin_userId]").val(id);
         $(".accept_nickname").text($(".nickname_"+id).text());
     });
+
 });

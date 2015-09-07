@@ -2,20 +2,17 @@
 
 namespace backend\modules\associate\controllers;
 
-use common\models\Scheme;
-use common\models\UsageMode;
+use common\models\Withdraw;
 use Yii;
 use yii\web\Controller;
 use yii\data\Pagination;
-use common\models\IncomeConsume;
 
 class MoneyController extends Controller
 {
     public function actionIndex(){
         $user=Yii::$app->session->get('user');
-        $query = IncomeConsume::find()
-            ->where(['userId'=>$user['userId']])
-            ->andwhere(['UsageModeId'=>UsageMode::USAGE_WITHDRAW]);
+        $query = Withdraw::find()
+            ->where(['userId'=>$user['userId']]);
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),

@@ -4,7 +4,6 @@ namespace common\models;
 
 use frontend\functions\WeiXinFunctions;
 use Yii;
-use yii\db\mssql\Schema;
 
 /**
  * This is the model class for table "users".
@@ -213,6 +212,24 @@ class Users extends \yii\db\ActiveRecord
             ->asArray()
             ->one();
         return $user['bitcoin'];
+    }
+
+    /**
+     * 根据提现编号查找提现用户的云豆余额
+     * @param $withdrawId
+     * @return int
+     */
+    public static function findBitcoinByWithdrawId($withdrawId){
+        $withdraw = Withdraw::findOne($withdrawId);
+        if(!$withdraw){
+            return 0;
+        }
+        $user = Users::findOne($withdraw['userId']);
+        if($user){
+            return $user['bitcoin'];
+        }else{
+            return 0;
+        }
     }
 
     /**

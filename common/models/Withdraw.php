@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use common\functions\DateFunctions;
 use Yii;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "withdraw".
@@ -71,4 +73,43 @@ class Withdraw extends \yii\db\ActiveRecord
             'remark' => 'Remark',
         ];
     }
+
+    public function getReplyUser(){
+        return $this->hasOne(Users::className(),['userId'=>'replyUserId']);
+    }
+
+    public function getUser(){
+        return $this->hasOne(Users::className(),['userId'=>'userId']);
+    }
+
+    public function getStateName(){
+        switch($this->state) {
+            case Withdraw::STATE_APPLYING: $content="申请中";break;
+            case Withdraw::STATE_PASS: $content="管理员允许";break;
+            case Withdraw::STATE_REFUSE: $content="管理员拒绝";break;
+            default :  $content="状态未定义";
+        }
+        return $content;
+    }
+
+    /**
+     * 记录一条提现申请的记录
+     * @param $userId
+     * @param $money
+     * @param $bitcoin
+     * @throws Exception
+     */
+    public static function recordOne($userId,$money,$bitcoin){
+        $withdraw = new Withdraw();
+        $withdraw->userId = $userId;
+        $withdraw->money = $money;
+        $withdraw->bitcoin = $bitcoin;
+        $withdraw->createDate = DateFunctions::getCurrentDate();
+        $withdraw->state = Withdraw::STATE_APPLYING;
+        if(!$withdraw->save()){
+            throw new Exception("Withdraw save error");
+        }
+    }
+
+
 }

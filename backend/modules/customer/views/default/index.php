@@ -24,8 +24,8 @@ $this->title = '我的信息';
                 <tr>
                     <td class="text-align-right table_bg_grey">推荐码</td>
                     <td><?= $user->recommendCode ?></td>
-                    <td class="text-align-right table_bg_grey">累计提现金额</td>
-                    <td><?= Money::findTotalWithdraw($user->userId) ?></td>
+                    <td class="text-align-right table_bg_grey">累计充值金额</td>
+                    <td><?= Money::findTotalPay($user->userId) ?></td>
                 </tr>
                 <tr>
                     <td class="text-align-right table_bg_grey">累计云豆数</td>
