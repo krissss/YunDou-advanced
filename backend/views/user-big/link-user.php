@@ -6,7 +6,15 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = '大客户关联用户管理';
+$this->title = '关联用户管理';
+$this->params['breadcrumbs'] = [
+    '用户管理',
+    [
+        'label' => '大客户列表',
+        'url' => ['user-big/index'],
+    ],
+    $this->title
+];
 ?>
 
 <div class="widget flat">

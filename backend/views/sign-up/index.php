@@ -6,7 +6,10 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = '报名';
+$this->title = '报名管理';
+$this->params['breadcrumbs'] = [
+    $this->title
+];
 ?>
 <div class="widget flat">
     <div class="widget-body">

@@ -3,6 +3,10 @@
 /* @var $models common\models\UsageMode[] */
 
 $this->title = '消费方式';
+$this->params['breadcrumbs'] = [
+    '基础数据',
+    $this->title
+];
 ?>
 <div class="widget flat">
     <div class="widget-body">

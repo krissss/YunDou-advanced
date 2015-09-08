@@ -4,6 +4,10 @@
 /* @var $pages */
 
 $this->title = '试题章节';
+$this->params['breadcrumbs'] = [
+    '基础数据',
+    $this->title
+];
 ?>
 
 <div class="widget flat">

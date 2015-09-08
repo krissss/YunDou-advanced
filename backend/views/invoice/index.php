@@ -7,7 +7,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\Money;
 
-$this->title =  '发票管理';
+$this->title =  '发票列表';
+$this->params['breadcrumbs'] = [
+    '发票管理',
+    $this->title
+];
 ?>
 
 <div class="widget flat">

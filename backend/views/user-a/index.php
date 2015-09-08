@@ -6,7 +6,11 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = '微信用户管理';
+$this->title = 'A级用户列表';
+$this->params['breadcrumbs'] = [
+    '用户管理',
+    $this->title
+];
 ?>
 
 <div class="widget flat">

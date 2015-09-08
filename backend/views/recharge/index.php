@@ -6,7 +6,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\Scheme;
 
-$this->title = '充值设置';
+$this->title = '充值管理';
+$this->params['breadcrumbs'] = [
+    '云豆管理',
+    $this->title
+];
 ?>
 
 <div class="widget flat">

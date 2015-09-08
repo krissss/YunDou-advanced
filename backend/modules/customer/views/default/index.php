@@ -8,6 +8,9 @@ use common\models\IncomeConsume;
 use yii\helpers\Url;
 
 $this->title = '我的信息';
+$this->params['breadcrumbs'] = [
+    $this->title
+];
 ?>
 <div class="widget flat">
     <div class="widget-body">

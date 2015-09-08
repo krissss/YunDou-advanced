@@ -6,6 +6,13 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 $this->title = '修改密码';
+$this->params['breadcrumbs'] = [
+    [
+        'label' => '我的信息',
+        'url' => ['default/index'],
+    ],
+    $this->title
+];
 ?>
 <div class="widget flat">
     <div class="widget-body">

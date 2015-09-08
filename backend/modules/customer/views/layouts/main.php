@@ -129,6 +129,18 @@ AppAsset::register($this);
             <div class="page-content">
                 <!-- Page Header -->
                 <div class="page-header position-relative">
+                    <!-- Page Breadcrumb -->
+                    <div class="page-breadcrumbs">
+                        <?= yii\widgets\Breadcrumbs::widget([
+                            'homeLink'=>[
+                                'label' => '首页',
+                                //'template' => "<li><i class='fa fa-home'>{link}</i></li>\n",
+                                'url' => ['/site/index']
+                            ],
+                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                        ]) ?>
+                    </div>
+                    <!-- /Page Breadcrumb -->
                     <!--Header Buttons-->
                     <div class="header-buttons">
                         <a class="sidebar-toggler" href="javascript:void(0);">

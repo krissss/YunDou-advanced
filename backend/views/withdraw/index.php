@@ -8,6 +8,10 @@ use yii\helpers\Url;
 use common\models\Withdraw;
 
 $this->title =  '提现管理';
+$this->params['breadcrumbs'] = [
+    '合作管理',
+    $this->title
+];
 ?>
 
 <div class="widget flat">

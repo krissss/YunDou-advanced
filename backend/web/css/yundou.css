@@ -26,7 +26,6 @@
     margin-bottom: 0;
 }
 
-/** site/login */
 .login-container{
     margin: 0;
     width: 100%;
@@ -48,6 +47,13 @@
 }
 .login-container .loginbox .loginbox-textbox {
     padding-bottom: 0;
+}
+
+/** layout --  main */
+.page-breadcrumbs{
+    background: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
 }
 
 /** exam-template */

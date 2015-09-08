@@ -5,6 +5,10 @@
 use yii\helpers\Html;
 
 $this->title = '专业岗位';
+$this->params['breadcrumbs'] = [
+    '基础数据',
+    $this->title
+];
 ?>
 <div class="widget flat">
     <div class="widget-body">

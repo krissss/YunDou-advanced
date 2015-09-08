@@ -6,7 +6,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\Scheme;
 
-$this->title = '充值返点设置';
+$this->title = '返点设置';
+$this->params['breadcrumbs'] = [
+    '合作管理',
+    $this->title
+];
 ?>
 
 <div class="widget flat">

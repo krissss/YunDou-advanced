@@ -5,7 +5,11 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = '系统用户管理';
+$this->title = '系统用户列表';
+$this->params['breadcrumbs'] = [
+    '用户管理',
+    $this->title
+];
 ?>
 
 <div class="widget flat">

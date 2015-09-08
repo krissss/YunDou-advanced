@@ -7,6 +7,10 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = '发票开具';
+$this->params['breadcrumbs'] = [
+    '发票管理',
+    $this->title
+];
 ?>
 
 <div class="widget flat">

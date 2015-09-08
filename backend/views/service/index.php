@@ -8,6 +8,9 @@ use yii\helpers\Url;
 use common\models\Service;
 
 $this->title = '咨询管理';
+$this->params['breadcrumbs'] = [
+    $this->title
+];
 ?>
 <div class="widget flat">
     <div class="widget-body">

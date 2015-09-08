@@ -7,6 +7,9 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = '题库管理';
+$this->params['breadcrumbs'] = [
+    $this->title,
+];
 ?>
 
 <div class="widget flat">

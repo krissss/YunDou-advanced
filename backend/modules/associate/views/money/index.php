@@ -4,6 +4,9 @@
 /* @var $pages */
 
 $this->title = '提现记录';
+$this->params['breadcrumbs'] = [
+    $this->title
+];
 ?>
 
 <div class="widget flat">

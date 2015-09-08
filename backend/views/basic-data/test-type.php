@@ -3,6 +3,10 @@
 /* @var $models common\models\TestType[] */
 
 $this->title = '试题类型';
+$this->params['breadcrumbs'] = [
+    '基础数据',
+    $this->title
+];
 ?>
 <div class="widget flat">
     <div class="widget-body">

@@ -7,7 +7,14 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = '模拟题管理';
+$this->title = '模版试题编辑';
+$this->params['breadcrumbs'] = [
+    [
+        'label' => '模版管理',
+        'url' => ['exam-template/index'],
+    ],
+    $this->title
+];
 
 $examTemplatePa1 = explode('|',$examTemplate->pa1);
 $number_pa1 = $examTemplatePa1[0];

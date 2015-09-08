@@ -7,6 +7,9 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = '关联用户列表';
+$this->params['breadcrumbs'] = [
+    $this->title
+];
 ?>
 
 <div class="widget flat">

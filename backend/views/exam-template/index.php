@@ -7,7 +7,10 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\ExamTemplate;
 
-$this->title = '模拟题管理';
+$this->title = '模版管理';
+$this->params['breadcrumbs'] = [
+    $this->title
+];
 $session = Yii::$app->session;
 ?>
 

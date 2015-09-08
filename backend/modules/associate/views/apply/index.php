@@ -7,6 +7,9 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $this->title = '申请提现';
+$this->params['breadcrumbs'] = [
+    $this->title
+];
 ?>
 <div class="widget flat">
     <div class="widget-body">
