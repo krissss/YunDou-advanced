@@ -34,7 +34,8 @@
 }
 .login-container .login-content{
     margin: 10% auto;
-    width: 950px;
+    width: 100%;
+    max-width: 950px;
     height: auto;
 }
 .login-container .loginImg{
