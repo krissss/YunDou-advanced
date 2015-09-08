@@ -36,7 +36,15 @@ $this->params['breadcrumbs'] = [
             </tr>
             <tr>
                 <td class="text-align-right table_bg_grey">提现金额</td>
-                <td><?= $form->field($applyMoneyForm, 'money')->textInput(['name'=>'money','placeholder'=>'请输入提现金额']) ?></td>
+                <td><?= $form->field($applyMoneyForm, 'money')->textInput(['type'=>'number']) ?></td>
+            </tr>
+            <tr>
+                <td class="text-align-right table_bg_grey">发票金额</td>
+                <td><?= $form->field($applyMoneyForm, 'invoiceMoney')->textInput(['type'=>'number']) ?></td>
+            </tr>
+            <tr>
+                <td class="text-align-right table_bg_grey">发票单号</td>
+                <td><?= $form->field($applyMoneyForm, 'invoiceNo')->textInput() ?></td>
             </tr>
             </tbody>
         </table>

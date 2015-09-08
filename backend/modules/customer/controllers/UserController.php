@@ -3,6 +3,7 @@
 namespace backend\modules\customer\controllers;
 
 use Yii;
+use yii\base\Exception;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\data\Pagination;
@@ -23,6 +24,7 @@ class UserController extends Controller
         ]);
         $users = $query->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy(['state'=>SORT_ASC,'registerDate'=>SORT_DESC])
             ->all();
         return $this->render('index', [
             'users' => $users,
@@ -49,6 +51,28 @@ class UserController extends Controller
             CommonFunctions::createAlertMessage("非法提交","error");
         }
         return $this->redirect(['user/previous']);
+    }
+
+    /** 修改员工状态 */
+    public function actionChangeState(){
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            $newState = $request->post('newState');
+            $userId = intval($request->post('id'));
+            if($newState == 'open'){
+                $newState = Users::STATE_NORMAL;
+                Users::updateState($userId,$newState);
+                return 'open';
+            }elseif($newState == 'close'){
+                $newState = Users::STATE_REMOVE;
+                Users::updateState($userId,$newState);
+                return 'close';
+            }else{
+                return '状态非法';
+            }
+        }else{
+            throw new Exception('非ajax提交');
+        }
     }
 
     /** 查询 */
@@ -90,7 +114,7 @@ class UserController extends Controller
         $users = $query
             ->offset($pagination->offset)
             ->limit($pagination->limit)
-            ->orderBy(['registerDate'=>SORT_DESC])
+            ->orderBy(['state'=>SORT_ASC,'registerDate'=>SORT_DESC])
             ->all();
         return $this->render('index',[
             'users' => $users,
@@ -104,7 +128,7 @@ class UserController extends Controller
         if($previous){
             return $this->redirect($previous);
         }else{
-            return $this->redirect(['user-big/index']);
+            return $this->redirect(['user/index']);
         }
     }
 

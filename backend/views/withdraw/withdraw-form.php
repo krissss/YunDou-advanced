@@ -24,28 +24,26 @@ use common\models\Users;
                 <?= $form->field($updateWithdrawForm, 'withdrawId',[
                     'template' => "{input}"
                 ])->hiddenInput()?>
-                <?= $form->field($updateWithdrawForm, 'state',[
-                    'template' => "{input}"
-                ])->hiddenInput()?>
                 <?= $form->field($updateWithdrawForm, 'nickname')->textInput(['readonly'=>'readonly']) ?>
                 <?= $form->field($updateWithdrawForm, 'money')->textInput(['readonly'=>'readonly']) ?>
                 <div class="form-group no-margin-bottom">
                     <label class="col-xs-3 control-label">最大可提现金额</label>
                     <div class="col-xs-9 no-padding-left">
-                        <input type="text" class="form-control" name="maxMoney" value="<?=Users::findBitcoinByWithdrawId($updateWithdrawForm['withdrawId'])?>" readonly>
+                        <input type="text" class="form-control" name="maxMoney" value="<?=Users::findBitcoinByWithdrawId($updateWithdrawForm['withdrawId'])/100?>" readonly>
                     </div>
                     <div class="col-xs-9 col-xs-offset-3">
                         <div class="help-block"></div>
                     </div>
                 </div>
-                <?= $form->field($updateWithdrawForm, 'invoiceMoney')->textInput(['placeholder'=>'请输入发票金额']) ?>
-                <?= $form->field($updateWithdrawForm, 'invoiceNo')->textInput(['placeholder'=>'请输入发票单号'])?>
-                <?= $form->field($updateWithdrawForm, 'replyContent')->textInput(['placeholder'=>'请输入回复内容']) ?>
+                <?= $form->field($updateWithdrawForm, 'invoiceMoney')->textInput(['readonly'=>'readonly']) ?>
+                <?= $form->field($updateWithdrawForm, 'invoiceNo')->textInput(['readonly'=>'readonly']) ?>
+                <?= $form->field($updateWithdrawForm, 'replyContent') ?>
             </div>
             <div class="clearfix"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="submit" class="btn btn-primary">保存</button>
+                <button type="submit" name="type" value="refuse" class="btn btn-warning">拒绝</button>
+                <button type="submit" name="type" value="agree" class="btn btn-success">同意</button>
             </div>
             <?php ActiveForm::end(); ?>
         </div>

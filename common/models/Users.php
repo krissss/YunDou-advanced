@@ -136,6 +136,8 @@ class Users extends \yii\db\ActiveRecord
             return "冻结";
         }elseif($this->state == Users::STATE_STOP){
             return "终止";
+        }elseif($this->state == Users::STATE_REMOVE){
+            return "已去除";
         }else{
             return "未知";
         }

@@ -12,6 +12,14 @@
     border-left: 1px solid #FFF;
 }
 
+.my_hide{
+    display: none;
+}
+
+.checkbox-slider-label{
+    cursor: pointer;
+}
+
 /** login */
 .login-container .loginbox {
     height: auto !important;

@@ -50,9 +50,8 @@ class WithdrawController extends Controller
         $request = Yii::$app->request;
         if($request->isPost){
             $withdrawId = $request->post('withdrawId');
-            $stateType = $request->post('type');
-            if($withdrawId && $stateType){
-                $updateWithdrawForm = UpdateWithdrawForm::initWithId($withdrawId,$stateType);
+            if($withdrawId){
+                $updateWithdrawForm = UpdateWithdrawForm::initWithId($withdrawId);
                 return $this->renderAjax('withdraw-form',[
                     'updateWithdrawForm'=>$updateWithdrawForm
                 ]);
@@ -66,18 +65,20 @@ class WithdrawController extends Controller
     /**处理申请提现 */
     public function actionGenerate(){
         $updateWithdrawForm = new UpdateWithdrawForm();
-        if($updateWithdrawForm->load(Yii::$app->request->post()) && $updateWithdrawForm->validate()) {
-            $updateWithdrawForm->updateWithdraw();
-            CommonFunctions::createAlertMessage("处理成功","success");
-            if($updateWithdrawForm->state==Withdraw::STATE_PASS) {
-                $withdraw = Withdraw::findOne($updateWithdrawForm->withdrawId);
-                /** @var $withdraw \common\models\Withdraw */
-                $user = $withdraw->user;
-                $money = $updateWithdrawForm->money;
-                $bitcoin = $money*100;
-                $type = UsageMode::TYPE_CONSUME;
-                Money::recordOne($user,$money,$bitcoin,$type,Money::FROM_WITHDRAW);
+        $request = Yii::$app->request;
+        if($updateWithdrawForm->load($request->post()) && $updateWithdrawForm->validate()) {
+            $type = $request->post("type");
+            if($type == 'refuse'){
+                $state = Withdraw::STATE_REFUSE;
+            }elseif($type == 'agree'){
+                $state = Withdraw::STATE_PASS;
+            }else{
+                CommonFunctions::createAlertMessage("提交的状态类型未知",'error');
+                return $this->redirect(['withdraw/index']);
             }
+            $updateWithdrawForm->updateWithdraw($state);
+            CommonFunctions::createAlertMessage("处理成功","success");
+
             return $this->redirect(['withdraw/index']);
         }
         else{

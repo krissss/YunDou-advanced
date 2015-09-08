@@ -2,6 +2,8 @@
 /** 添加或更新在线练习方案的表单 */
 namespace backend\models\forms;
 
+use common\models\Money;
+use common\models\UsageMode;
 use yii;
 use common\models\Withdraw;
 use yii\base\Exception;
@@ -13,7 +15,6 @@ class UpdateWithdrawForm extends Model
     public $withdrawId;
     public $nickname;
     public $money;
-    public $state;
     public $invoiceMoney;
     public $invoiceNo;
     public $replyContent;
@@ -22,8 +23,8 @@ class UpdateWithdrawForm extends Model
     public function rules()
     {
         return [
-            [['withdrawId','nickname','money','state','invoiceMoney','invoiceNo'], 'required'],
-            [['invoiceMoney', 'invoiceNo'], 'integer'],
+            [['withdrawId'],'required'],
+            [['withdrawId'],'integer'],
             [['replyContent'], 'string', 'max' => 50],
         ];
     }
@@ -40,29 +41,36 @@ class UpdateWithdrawForm extends Model
         ];
     }
 
-    public  function updateWithdraw()
-    {
+    public static function initWithId($id){
+        /** @var $withdraw \common\models\Withdraw */
+        $withdraw = Withdraw::findOne($id);
+        $form = new UpdateWithdrawForm();
+        $form->withdrawId = $id;
+        $form->nickname = $withdraw->user['nickname'];
+        $form->money = $withdraw->money;
+        $form->invoiceNo = $withdraw->invoiceNo;
+        $form->invoiceMoney = $withdraw->invoiceMoney;
+        return $form;
+    }
+
+    public  function updateWithdraw($state){
         $user = Yii::$app->session->get('user');
         $withdraw = Withdraw::findOne($this->withdrawId);
         /** @var $withdraw \common\models\Withdraw */
-        $withdraw->invoiceMoney = $this->invoiceMoney;
-        $withdraw->invoiceNo = $this->invoiceNo;
-        $withdraw->state = $this->state;
+        $withdraw->state = $state;
         $withdraw->replyContent = $this->replyContent;
         $withdraw->replyDate = DateFunctions::getCurrentDate();
         $withdraw->replyUserId = $user['userId'];
         if (!$withdraw->save()) {
             throw new Exception("withdraw update error");
         }
+        //如果是同意申请，记录money和incomeConsume和users表的bitcoin变化
+        if($state==Withdraw::STATE_PASS) {
+            $user = $withdraw->user;
+            $money = $withdraw->money;
+            $bitcoin = $money*100;
+            Money::recordOne($user,$money,$bitcoin,UsageMode::TYPE_CONSUME,Money::FROM_WITHDRAW);
+        }
     }
-    public static function initWithId($id,$stateType){
-        /** @var $withdraw \common\models\Withdraw */
-        $withdraw = Withdraw::findOne($id);
-        $form = new UpdateWithdrawForm();
-        $form->withdrawId = $id;
-        $form->state = $stateType;
-        $form->nickname = $withdraw->user['nickname'];
-        $form->money = $withdraw->money;
-        return $form;
-    }
+
 }

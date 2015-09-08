@@ -11,6 +11,8 @@ $this->title = '云豆收支';
 $this->params['breadcrumbs'] = [
     $this->title
 ];
+
+$user = Yii::$app->session->get('user');
 ?>
 
 <div class="widget flat">
@@ -39,6 +41,12 @@ $this->params['breadcrumbs'] = [
                 <?= Html::endForm();?>
             </div>
         </div>
+        <table class="table table-bordered table-striped margin-bottom-20">
+            <tr class="font_bg_color">
+                <td><strong>总计收入云豆：</strong><?=IncomeConsume::findTotalIncome($user['userId'])?>(颗)</td>
+                <td><strong>总计支出云豆：</strong><?=IncomeConsume::findTotalConsume($user['userId'])?>(颗)</td>
+            </tr>
+        </table>
         <table class="table table-hover table-bordered text-align-center">
             <thead class="bordered-blue">
             <tr> <th class="text-align-center">序号</th>

@@ -2,9 +2,11 @@
 
 namespace backend\modules\associate\models\forms;
 
+use common\functions\DateFunctions;
 use common\models\Users;
 use common\models\Withdraw;
 use Yii;
+use yii\base\Exception;
 use yii\base\Model;
 
 class ApplyMoneyForm extends Model
@@ -12,21 +14,26 @@ class ApplyMoneyForm extends Model
 
     public $money;
     public $maxBitcoin;
+    public $invoiceMoney;
+    public $invoiceNo;
 
     public function rules()
     {
         return [
-            [['money'], 'required'],
-            [['money'], 'number','min'=>50],
-            [['money'], 'compare','compareValue'=>($this->maxBitcoin)/100,'operator' => '<=']
+            [['money','invoiceMoney', 'invoiceNo'], 'required'],
+            [['money'], 'number','min'=>100],
+            [['money'], 'compare','compareValue'=>($this->maxBitcoin)/100,'operator' => '<='],
+            [['invoiceNo'], 'string','max'=>20],
+            [['invoiceMoney'], 'number'],
         ];
     }
 
-    public function attributeLabels()
-    {
+    public function attributeLabels(){
         return [
             'money' => '申请金额',
-            'maxMoney' => '可申请'
+            'maxMoney' => '可申请',
+            'invoiceMoney' => '发票金额',
+            'invoiceNo' => '发票单号',
         ];
     }
 
@@ -48,7 +55,17 @@ class ApplyMoneyForm extends Model
             return false;
         }
         $bitcoin = ($this->money)*100;
-        Withdraw::recordOne($user['userId'],$this->money,$bitcoin);
+        $withdraw = new Withdraw();
+        $withdraw->userId = $user['userId'];
+        $withdraw->money = $this->money;
+        $withdraw->bitcoin = $bitcoin;
+        $withdraw->invoiceMoney = $this->invoiceMoney;
+        $withdraw->invoiceNo = $this->invoiceNo;
+        $withdraw->createDate = DateFunctions::getCurrentDate();
+        $withdraw->state = Withdraw::STATE_APPLYING;
+        if(!$withdraw->save()){
+            throw new Exception("Withdraw save error");
+        }
         return true;
     }
 }

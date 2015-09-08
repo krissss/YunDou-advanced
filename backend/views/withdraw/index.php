@@ -78,9 +78,8 @@ $this->params['breadcrumbs'] = [
                     <td><?= $model->replyDate ?></td>
                     <td>
                         <?php if($model->state==Withdraw::STATE_APPLYING):?>
-                          <button class="btn btn-xs btn-default withdraw_btn" data-id="<?=$model->withdrawId?>" data-type="<?=Withdraw::STATE_PASS?>">同意</button>
-                            <button class="btn btn-xs btn-default withdraw_btn" data-id="<?=$model->withdrawId?>" data-type="<?=Withdraw::STATE_REFUSE?>">拒绝</button>
-                            <?php else:?>已处理
+                            <button class="btn btn-xs btn-default withdraw_btn" data-id="<?=$model->withdrawId?>">处理</button>
+                        <?php else:?>已处理
                         <?php endif;?>
                     </td>
                 </tr>

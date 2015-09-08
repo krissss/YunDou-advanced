@@ -92,24 +92,5 @@ class Withdraw extends \yii\db\ActiveRecord
         return $content;
     }
 
-    /**
-     * 记录一条提现申请的记录
-     * @param $userId
-     * @param $money
-     * @param $bitcoin
-     * @throws Exception
-     */
-    public static function recordOne($userId,$money,$bitcoin){
-        $withdraw = new Withdraw();
-        $withdraw->userId = $userId;
-        $withdraw->money = $money;
-        $withdraw->bitcoin = $bitcoin;
-        $withdraw->createDate = DateFunctions::getCurrentDate();
-        $withdraw->state = Withdraw::STATE_APPLYING;
-        if(!$withdraw->save()){
-            throw new Exception("Withdraw save error");
-        }
-    }
-
 
 }

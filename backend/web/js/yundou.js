@@ -498,8 +498,7 @@ $(document).ready(function(){
     /** 提现管理 */
     $(".withdraw_btn").click(function(){
         var id = $(this).data("id");
-        var type = $(this).data("type");
-        $.post("?r=withdraw/init",{_csrf: csrfToken,withdrawId:id,type:type},function(data){
+        $.post("?r=withdraw/init",{_csrf: csrfToken,withdrawId:id},function(data){
             body.append(data);
             $(".withdraw_btn_modal").last().modal('show');
         });
@@ -513,5 +512,29 @@ $(document).ready(function(){
         $("input[name=distribute_bitcoin_userId]").val(id);
         $(".accept_nickname").text($(".nickname_"+id).text());
     });
+    /** 修改关联用户状态 */
+    $(".user-big-checkbox").change(function(){
+        var state = "";
+        var id = $(this).data("id");
+        if($(this).attr("checked") == "checked"){   //关闭操作
+            $(this).removeAttr("checked");
+            state = "close";
+        }else{  //开启操作
+            $(this).attr("checked","checked");
+            state = "open";
+        }
+        $.post("?r=customer/user/change-state",{_csrf: csrfToken,newState:state,id:id},function(data){
+            if(data == 'open'){
+                $(".state_"+id).text("正常");
+                $(".distribute_bitcoin_"+id).show(100);
+            }else if(data == 'close'){
+                $(".state_"+id).text("已去除");
+                $(".distribute_bitcoin_"+id).hide(100);
+            }else{
+                alert(data);
+            }
+        });
+    });
+
 
 });

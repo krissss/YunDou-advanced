@@ -17,8 +17,7 @@ class ApplyController extends Controller
         $applyMoneyForm = new ApplyMoneyForm();
         $request = Yii::$app->request;
         if($request->isPost){
-            $applyMoneyForm->money = $request->post('money');
-            if($applyMoneyForm->validate()){
+            if($applyMoneyForm->load($request->post()) && $applyMoneyForm->validate()){
                 if($applyMoneyForm->record()){
                     CommonFunctions::createAlertMessage("申请提交成功","success");
                 }else{
@@ -28,7 +27,8 @@ class ApplyController extends Controller
                 CommonFunctions::createAlertMessage("填写的信息有错误","error");
             }
         }else{
-            CommonFunctions::createAlertMessage("提现金额将由管理员审核后打到您的XXX账号，提现金额50元起可提现，不得超过云豆余额","info");
+            CommonFunctions::createAlertMessage("提现申请提交后请及时提交对应金额的发票<b>（开票单位：南京云宝网络有限公司，开票项目：服务费）</b>，
+            系统会提交相关人员审核，审核后将会打款至您提交的银行账户。提现金额最低100元。","info");
         }
         return $this->render('index', [
             'user' =>$user,

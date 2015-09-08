@@ -19,6 +19,7 @@ class MoneyController extends Controller
         ]);
         $model = $query->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy(['withdrawId'=>SORT_DESC])
             ->all();
         return $this->render('index', [
             'models' => $model,

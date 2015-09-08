@@ -5,6 +5,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\Users;
 
 $this->title = '关联用户列表';
 $this->params['breadcrumbs'] = [
@@ -53,7 +54,8 @@ $this->params['breadcrumbs'] = [
                 <th class="text-align-center">工作单位</th>
                 <th class="text-align-center">地址</th>
                 <th class="text-align-center">实名认证时间</th>
-                <th class="text-align-center">操作</th>
+                <th class="text-align-center">员工状态</th>
+                <th class="text-align-center">云豆操作</th>
             </tr>
             </thead>
             <tbody>
@@ -72,7 +74,18 @@ $this->params['breadcrumbs'] = [
                     <td><?= $user->address ?></td>
                     <td><?= $user->registerDate>0?$user->registerDate:'未实名认证' ?></td>
                     <td>
-                        <button class="distribute_bitcoin btn  btn-default " data-toggle="modal" data-target="#distribute_bitcoin" data-id="<?=$user->userId?>">
+                        <label class="checkbox-slider-label">
+                            <?php if($user->state==Users::STATE_NORMAL): ?>
+                                <input class="checkbox-slider toggle colored-palegreen user-big-checkbox checked_<?=$user->userId?>" type="checkbox" data-id="<?=$user->userId?>" checked>
+                            <?php elseif($user->state==Users::STATE_REMOVE): ?>
+                                <input class="checkbox-slider toggle colored-palegreen user-big-checkbox checked_<?=$user->userId?>" type="checkbox" data-id="<?=$user->userId?>">
+                            <?php endif; ?>
+                            <span class="text"></span>
+                        </label>
+                        <span class="state_<?=$user->userId?>"><?= $user->stateName ?></span>
+                    </td>
+                    <td>
+                        <button class="distribute_bitcoin distribute_bitcoin_<?=$user->userId?> btn btn-default btn-sm <?=$user->state==Users::STATE_REMOVE?"my_hide":""?>" data-toggle="modal" data-target="#distribute_bitcoin" data-id="<?=$user->userId?>">
                             <span class="fa fa-leaf"></span>分配云豆
                         </button>
                     </td>

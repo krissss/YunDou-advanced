@@ -153,3 +153,11 @@ info
     + replyContent
     + state
     + remark
+
++ bankcard
+    + bankCardId
+    + userId
+    + bankName
+    + cardNumber
+    + cardName
+    + remark

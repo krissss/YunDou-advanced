@@ -72,7 +72,7 @@ $session = Yii::$app->session;
                     <td class="question_count_<?=$examTemplate->examTemplateId?>"><?= $examTemplate->questionCount ?></td>
                     <td><?= $examTemplate->questionScore ?></td>
                     <td>
-                        <label>
+                        <label class="checkbox-slider-label">
                         <?php if($examTemplate->state==ExamTemplate::STATE_ABLE): ?>
                             <input class="checkbox-slider toggle colored-palegreen template-checkbox checked_<?=$examTemplate->examTemplateId?>" type="checkbox" data-id="<?=$examTemplate->examTemplateId?>" checked>
                         <?php elseif($examTemplate->state==ExamTemplate::STATE_DISABLE): ?>
