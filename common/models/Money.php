@@ -173,6 +173,42 @@ class Money extends \yii\db\ActiveRecord
     }
 
     /**
+     * 查询所有用户一共花费的金额
+     * @return int
+     */
+    public static function findTotalIncomeMoney(){
+        $table = Money::tableName();
+        $money = (new Query())
+            ->select('sum(money)')
+            ->from($table)
+            ->where(['type' => Money::TYPE_PAY])
+            ->one();
+        if ($money['sum(money)']) {
+            return $money['sum(money)'];
+        }else{
+            return 0;
+        }
+    }
+
+    /**
+     * 查询所有用户一共收入的金额
+     * @return int
+     */
+    public static function findTotalConsumeMoney(){
+        $table = Money::tableName();
+        $money = (new Query())
+            ->select('sum(money)')
+            ->from($table)
+            ->where(['type' => Money::TYPE_WITHDRAW])
+            ->one();
+        if ($money['sum(money)']) {
+            return $money['sum(money)'];
+        }else{
+            return 0;
+        }
+    }
+
+    /**
      * 获取用户剩余的可以申请发票的钱
      * @param $userId
      * @return mixed

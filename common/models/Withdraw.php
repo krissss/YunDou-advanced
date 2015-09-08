@@ -2,9 +2,8 @@
 
 namespace common\models;
 
-use common\functions\DateFunctions;
 use Yii;
-use yii\base\Exception;
+use yii\db\Query;
 
 /**
  * This is the model class for table "withdraw".
@@ -92,5 +91,41 @@ class Withdraw extends \yii\db\ActiveRecord
         return $content;
     }
 
+    /**
+     * 查询一个用户的总提现金额
+     * @param $userId
+     * @return int
+     */
+    public static function findTotalMoney($userId){
+        $table = Withdraw::tableName();
+        $money = (new Query())
+            ->select('sum(money)')
+            ->from($table)
+            ->where(['userId'=>$userId,'state'=>Withdraw::STATE_PASS])
+            ->one();
+        if($money['sum(money)']){
+            return $money['sum(money)'];
+        }else{
+            return 0;
+        }
+    }
+
+    /**
+     * 统计所有用户的提现金额
+     * @return int
+     */
+    public static function findTotalUsersMoney(){
+        $table = Withdraw::tableName();
+        $money = (new Query())
+            ->select('sum(money)')
+            ->from($table)
+            ->where(['state'=>Withdraw::STATE_PASS])
+            ->one();
+        if($money['sum(money)']){
+            return $money['sum(money)'];
+        }else{
+            return 0;
+        }
+    }
 
 }

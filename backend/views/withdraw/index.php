@@ -48,6 +48,11 @@ $this->params['breadcrumbs'] = [
                 <?= Html::endForm();?>
             </div>
         </div>
+        <table class="table table-bordered table-striped margin-bottom-20">
+            <tr>
+                <td><strong>总计提现金额：</strong><?=Withdraw::findTotalUsersMoney()?>(元)</td>
+            </tr>
+        </table>
         <table class="table table-hover table-bordered text-align-center">
             <thead class="bordered-blue">
             <tr>

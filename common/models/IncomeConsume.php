@@ -159,4 +159,40 @@ class IncomeConsume extends \yii\db\ActiveRecord
             return 0;
         }
     }
+
+    /**
+     *统计所有用户收入的云豆数
+     * @return int
+     */
+    public static function findTotalUsersIncome(){
+        $table = IncomeConsume::tableName();
+        $bitcoin = (new Query())
+            ->select('sum(bitcoin)')
+            ->from($table)
+            ->where(['type'=>IncomeConsume::TYPE_INCOME])
+            ->one();
+        if($bitcoin['sum(bitcoin)']) {
+            return  $bitcoin['sum(bitcoin)'];
+        }else{
+            return 0;
+        }
+    }
+
+    /**
+     * 统计所有用户支出的云豆数
+     * @return int
+     */
+    public static function findTotalUsersConsume(){
+        $table = IncomeConsume::tableName();
+        $bitcoin = (new Query())
+            ->select('sum(bitcoin)')
+            ->from($table)
+            ->where(['type'=>IncomeConsume::TYPE_CONSUME])
+            ->one();
+        if($bitcoin['sum(bitcoin)']) {
+            return  $bitcoin['sum(bitcoin)'];
+        }else{
+            return 0;
+        }
+    }
 }

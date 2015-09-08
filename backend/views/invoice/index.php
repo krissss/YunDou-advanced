@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\Money;
+use common\models\Invoice;
 
 $this->title =  '发票列表';
 $this->params['breadcrumbs'] = [
@@ -45,6 +46,12 @@ $this->params['breadcrumbs'] = [
                 <?= Html::endForm();?>
             </div>
         </div>
+        <table class="table table-bordered table-striped margin-bottom-20">
+            <tr>
+                <td><strong>总计申请开票金额：</strong><?=Invoice::findTotalApplyMoney()?>(元)</td>
+                <td><strong>总计已开票金额：</strong><?=Invoice::findTotalAgreeMoney()?>(元)</td>
+            </tr>
+        </table>
         <table class="table table-hover table-bordered text-align-center">
             <thead class="bordered-blue">
             <tr> <th class="text-align-center">序号</th>

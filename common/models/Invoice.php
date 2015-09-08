@@ -114,6 +114,41 @@ class Invoice extends \yii\db\ActiveRecord
     }
 
     /**
+     * 统计所有用户申请开票金额
+     * @return int|static
+     */
+    public static function findTotalApplyMoney(){
+        $table = Invoice::tableName();
+        $money = (new Query())
+            ->select('sum(money)')
+            ->from($table)
+            ->one();
+        if($money['sum(money)']){
+            return $money['sum(money)'];
+        }else{
+            return 0;
+        }
+    }
+
+    /**
+     * 统计所用用户已经开票金额
+     * @return int
+     */
+    public static function findTotalAgreeMoney(){
+        $table = Invoice::tableName();
+        $money = (new Query())
+            ->select('sum(money)')
+            ->from($table)
+            ->where(['state'=>Invoice::STATE_OVER])
+            ->one();
+        if($money['sum(money)']){
+            return $money['sum(money)'];
+        }else{
+            return 0;
+        }
+    }
+
+    /**
      * 填写快递单号
      * @param $invoiceId
      * @param $orderNumber

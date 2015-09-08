@@ -11,11 +11,40 @@ $this->title = '云豆收支';
 $this->params['breadcrumbs'] = [
     $this->title
 ];
+
+$user = Yii::$app->session->get('user');
 ?>
 
 <div class="widget flat">
     <div class="widget-body">
-
+        <?= \common\widgets\AlertWidget::widget();?>
+        <div class="well bordered-left bordered-blue">
+            <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询</a>
+            <label>快速查找:</label>
+            <a class="btn btn-default" href="<?=Url::to(['bitcoin/index'])?>">所有</a>
+            <div id="search" class="collapse">
+                <?= Html::beginForm(['bitcoin/search'], 'post', ['class' => 'form-inline']) ?>
+                <div class="form-group">
+                    <hr>
+                    <label>搜索：</label>
+                    <select class="form-control" name="type">
+                        <option value="userId">用户号</option>
+                        <option value="nickname">用户昵称</option>
+                        <option value="realname">真实姓名</option>
+                        <option value="cellphone">手机号</option>
+                    </select>
+                    <input type="text" name="content" class="form-control" placeholder="请输入查找内容">
+                    <button type="submit" class="btn  btn-small btn btn-primary">查找</button>
+                </div>
+                <?= Html::endForm();?>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped margin-bottom-20">
+            <tr>
+                <td><strong>总计收入云豆：</strong><?=IncomeConsume::findTotalIncome($user->userId)?>(颗)</td>
+                <td><strong>总计支出云豆: </strong><?=IncomeConsume::findTotalConsume($user->userId)?>(颗)</td>
+            </tr>
+        </table>
         <table class="table table-hover table-bordered text-align-center">
             <thead class="bordered-blue">
             <tr> <th class="text-align-center">序号</th>
@@ -24,6 +53,7 @@ $this->params['breadcrumbs'] = [
                 <th class="text-align-center">用户类型</th>
                 <th class="text-align-center">收入或支出云豆</th>
                 <th class="text-align-center">来源用户</th>
+                <th class="text-align-center">方式</th>
                 <th class="text-align-center">时间</th>
             </tr>
             </thead>
@@ -39,6 +69,7 @@ $this->params['breadcrumbs'] = [
                         <?= $icon.$model->bitcoin ?>
                     </td>
                     <td><?= $model->fromUser['nickname'] ?></td>
+                    <td><?= $model->usageMode['usageModeName'] ?></td>
                     <td><?= $model->createDate ?></td>
                 </tr>
             <?php endforeach;?>

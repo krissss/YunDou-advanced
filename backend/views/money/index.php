@@ -49,6 +49,12 @@ $this->params['breadcrumbs'] = [
                 <?= Html::endForm();?>
             </div>
         </div>
+        <table class="table table-bordered table-striped margin-bottom-20">
+            <tr class="font_bg_color">
+                <td><strong>总计收入金额：</strong>+ <?=Money::findTotalIncomeMoney()?>(元)</td>
+                <td><strong>总计支出金额：</strong>- <?=Money::findTotalConsumeMoney()?>(元)</td>
+            </tr>
+        </table>
         <table class="table table-hover table-bordered text-align-center">
             <thead class="bordered-blue">
             <tr> <th class="text-align-center">序号</th>

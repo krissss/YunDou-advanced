@@ -26,7 +26,6 @@ class MoneyController extends Controller
     /** 资金收支首页 */
     public function actionIndex(){
         $query = Money::find();
-        //print_r($query) ;exit;
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['pageSize'],
             'totalCount' => $query->count(),
