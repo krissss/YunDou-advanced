@@ -21,7 +21,9 @@ class OpenIdFilter extends ActionFilter
         //$session->removeAll();
         //$session->set('openId','ow-bOvorBDOmeaYVrNlg_sVwQVc4');
         if($user = $session->get('user')){
-            return parent::beforeAction($action);
+            if($user['role'] == Users::ROLE_A){ //用户必须是A级用户才能登录前台，避免后台登录了前台也能进行登陆
+                return parent::beforeAction($action);
+            }
         }
         if($openId = $session->get('openId')){
             $session->set('user',Users::findByWeiXin($openId));

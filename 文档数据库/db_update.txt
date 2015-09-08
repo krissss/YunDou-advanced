@@ -136,6 +136,8 @@ money
 
 info
     + signUpMajor varchar(50)
+    IDCardImg1 => educationImg
+    - IDCardImg2
 
 + withdraw
     + withdrawId
