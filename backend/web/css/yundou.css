@@ -26,6 +26,25 @@
     margin-bottom: 0;
 }
 
+/** site/login */
+.login-container{
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+}
+.login-container .login-content{
+    margin: 10% auto;
+    width: 950px;
+    height: auto;
+}
+.login-container .loginImg{
+    background: url("../img/login-image.jpg") no-repeat;
+    width: 597px;
+    height: 400px;
+}
+.login-container .loginbox{
+    margin-top: 50px;
+}
 .login-container .loginbox .loginbox-textbox {
     padding-bottom: 0;
 }
