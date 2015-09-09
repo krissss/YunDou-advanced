@@ -6,6 +6,7 @@
 use common\models\Withdraw;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use common\models\Users;
 
 $this->title = '提现记录';
 $this->params['breadcrumbs'] = [
@@ -41,7 +42,9 @@ $user = Yii::$app->session->get('user');
         </div>
         <table class="table table-bordered table-striped margin-bottom-20">
             <tr>
-                <td><strong>总计提现金额：</strong><?=Withdraw::findTotalMoney($user->userId)?>(元)</td>
+                <td><strong>总计提现金额：</strong><?=Withdraw::findTotalMoney($user['userId'])?>(元)</td>
+                <td><strong>总计消耗云豆：</strong><?=Withdraw::findTotalBitcoin($user['userId'])?>(颗)</td>
+                <td><strong>剩余云豆：</strong><?=Users::findBitcoin($user['userId'])?>(颗)</td>
             </tr>
         </table>
         <table class="table table-hover table-bordered text-align-center">
@@ -55,7 +58,7 @@ $user = Yii::$app->session->get('user');
                 <th class="text-align-center">发票金额</th>
                 <th class="text-align-center">发票单号</th>
                 <th class="text-align-center">状态</th>
-                <th class="text-align-center">经手人</th>
+                <th class="text-align-center">审核人</th>
                 <th class="text-align-center">回复内容</th>
                 <th class="text-align-center">回复时间</th>
             </tr>

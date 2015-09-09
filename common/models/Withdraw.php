@@ -111,6 +111,25 @@ class Withdraw extends \yii\db\ActiveRecord
     }
 
     /**
+     * 查询一个用户的总提现云豆
+     * @param $userId
+     * @return int
+     */
+    public static function findTotalBitcoin($userId){
+        $table = Withdraw::tableName();
+        $money = (new Query())
+            ->select('sum(bitcoin)')
+            ->from($table)
+            ->where(['userId'=>$userId,'state'=>Withdraw::STATE_PASS])
+            ->one();
+        if($money['sum(bitcoin)']){
+            return $money['sum(bitcoin)'];
+        }else{
+            return 0;
+        }
+    }
+
+    /**
      * 统计所有用户的提现金额
      * @return int
      */
@@ -127,5 +146,6 @@ class Withdraw extends \yii\db\ActiveRecord
             return 0;
         }
     }
+
 
 }
