@@ -6,7 +6,6 @@ use yii\helpers\Url;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-//$userSession = \common\models\Users::findOne(1);
 $userSession = Yii::$app->session->get('user');
 $imagePath = Yii::$app->params['imagePath'];
 

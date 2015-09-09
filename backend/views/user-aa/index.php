@@ -91,6 +91,9 @@ $this->params['breadcrumbs'] = [
                         <button class="btn btn-xs btn-default update_user_aa" data-id="<?=$user->userId?>">
                             <span class="fa fa-edit"></span>编辑
                         </button>
+                        <a class="btn btn-xs btn-default" href="<?=Url::to(['user-aa/link-user','id'=>$user->userId])?>">
+                            <span class="fa fa-group"></span>关联用户查看
+                        </a>
                         <?php
                             if($user->state == Users::STATE_FROZEN){
                                 $btn_1 = "正常";

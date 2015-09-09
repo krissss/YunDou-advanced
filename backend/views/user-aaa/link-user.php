@@ -10,8 +10,8 @@ $this->title = '关联用户管理';
 $this->params['breadcrumbs'] = [
     '用户管理',
     [
-        'label' => '大客户列表',
-        'url' => ['user-big/index'],
+        'label' => 'AAA级用户列表',
+        'url' => ['user-aaa/index'],
     ],
     $this->title
 ];
@@ -26,12 +26,12 @@ $session->setFlash('recommendUser',$recommendUser);
         <div class="well bordered-left bordered-blue">
             <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询用户</a>
             <label>快速查找:</label>
-            <a class="btn btn-default" href="<?=Url::to(['user-big/link-user','id'=>$recommendUser['userId']])?>">所有</a>
-            <a class="btn btn-default" href="<?=Url::to(['user-big/search-link','type'=>'province','content'=>'江苏'])?>">江苏</a>
-            <a class="btn btn-default" href="<?=Url::to(['user-big/search-link','type'=>'province','content'=>'安徽 '])?>">安徽</a>
+            <a class="btn btn-default" href="<?=Url::to(['user-aaa/link-user','id'=>$recommendUser['userId']])?>">所有</a>
+            <a class="btn btn-default" href="<?=Url::to(['user-aaa/search-link','type'=>'province','content'=>'江苏'])?>">江苏</a>
+            <a class="btn btn-default" href="<?=Url::to(['user-aaa/search-link','type'=>'province','content'=>'安徽 '])?>">安徽</a>
             <div id="search" class="collapse">
                 <hr>
-                <?= Html::beginForm(['user-big/search-link'], 'post', ['class' => 'form-inline']) ?>
+                <?= Html::beginForm(['user-aaa/search-link'], 'post', ['class' => 'form-inline']) ?>
                     <div class="form-group">
                         <label>搜索：</label>
                         <select class="form-control" name="type">
