@@ -2,6 +2,7 @@
 
 namespace backend\modules\associate\controllers;
 
+use common\functions\CommonFunctions;
 use common\models\Users;
 use Yii;
 use yii\web\Controller;
@@ -15,6 +16,9 @@ class DefaultController extends Controller
         $session = Yii::$app->session;
         $user = $session->get('user');
         $user = Users::findOne($user['userId']);
+        if($user['state'] == Users::STATE_FROZEN){
+            CommonFunctions::createAlertMessage("您的帐号已被冻结，部分操作不可见，需要解冻请联系管理员","warning");
+        }
         return $this->render('index',[
             'user' => $user
         ]);

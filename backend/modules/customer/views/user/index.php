@@ -11,6 +11,9 @@ $this->title = '关联用户列表';
 $this->params['breadcrumbs'] = [
     $this->title
 ];
+
+$userSession = Yii::$app->session->get('user');
+$loginUser = Users::findOne($userSession['userId']);
 ?>
 
 <div class="widget flat">
@@ -45,14 +48,11 @@ $this->params['breadcrumbs'] = [
                 <th class="text-align-center">用户号</th>
                 <th class="text-align-center">昵称</th>
                 <th class="text-align-center">真实姓名</th>
-                <th class="text-align-center">手机号</th>
                 <th class="text-align-center">性别</th>
                 <th class="text-align-center">云豆数</th>
                 <th class="text-align-center">推荐码</th>
                 <th class="text-align-center">专业岗位</th>
                 <th class="text-align-center">考试区域</th>
-                <th class="text-align-center">工作单位</th>
-                <th class="text-align-center">地址</th>
                 <th class="text-align-center">实名认证时间</th>
                 <th class="text-align-center">员工状态</th>
                 <th class="text-align-center">云豆操作</th>
@@ -64,14 +64,11 @@ $this->params['breadcrumbs'] = [
                     <td><?= $user->userId ?></td>
                     <td class="nickname_<?=$user->userId?>"><?= $user->nickname ?></td>
                     <td><?= $user->realname ?></td>
-                    <td><?= $user->cellphone ?></td>
                     <td><?= $user->sex ?></td>
                     <td><?= $user->bitcoin ?></td>
                     <td><?= $user->recommendCode ?></td>
                     <td><?= $user->majorJob['name'] ?></td>
                     <td><?= $user->province['name'] ?></td>
-                    <td><?= $user->company ?></td>
-                    <td><?= $user->address ?></td>
                     <td><?= $user->registerDate>0?$user->registerDate:'未实名认证' ?></td>
                     <td>
                         <label class="checkbox-slider-label">
@@ -85,9 +82,11 @@ $this->params['breadcrumbs'] = [
                         <span class="state_<?=$user->userId?>"><?= $user->stateName ?></span>
                     </td>
                     <td>
+                        <?php if($loginUser['state']!=Users::STATE_FROZEN):?>
                         <button class="distribute_bitcoin distribute_bitcoin_<?=$user->userId?> btn btn-default btn-sm <?=$user->state==Users::STATE_REMOVE?"my_hide":""?>" data-toggle="modal" data-target="#distribute_bitcoin" data-id="<?=$user->userId?>">
                             <span class="fa fa-leaf"></span>分配云豆
                         </button>
+                        <?php endif;?>
                     </td>
                 </tr>
             <?php endforeach;?>
@@ -101,6 +100,7 @@ $this->params['breadcrumbs'] = [
         <div class="clearfix"></div>
     </div>
 </div>
+<?php if($loginUser['state']!=Users::STATE_FROZEN):?>
 <div class="modal fade" id="distribute_bitcoin" tabindex="-1" role="dialog" aria-labelledby="分配云豆">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -128,3 +128,4 @@ $this->params['breadcrumbs'] = [
         </div>
     </div>
 </div>
+<?php endif;?>

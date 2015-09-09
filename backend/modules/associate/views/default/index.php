@@ -14,6 +14,7 @@ $this->params['breadcrumbs'] = [
 ?>
 <div class="widget flat">
     <div class="widget-body">
+        <?= \common\widgets\AlertWidget::widget();?>
         <h4>我的信息</h4>
         <div class="form-title"></div>
         <table class="table table_four_column">

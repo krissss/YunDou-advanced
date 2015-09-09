@@ -1,13 +1,14 @@
 <?php
-use backend\assets\AppAsset;
-use yii\helpers\Html;
-use yii\helpers\Url;
-
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-//$userSession = \common\models\Users::findOne(1);
+use backend\assets\AppAsset;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use common\models\Users;
+
 $userSession = Yii::$app->session->get('user');
+$user = Users::findOne($userSession['userId']);
 $imagePath = Yii::$app->params['imagePath'];
 
 $str_emptyContainer = 'empty-container';
@@ -121,12 +122,14 @@ AppAsset::register($this);
                             <span class="menu-text"> 云豆收支 </span>
                         </a>
                     </li>
+                    <?php if($user['state']!=Users::STATE_FROZEN):?>
                     <li>
                         <a href="<?= Url::to(['apply/index']) ?>">
                             <i class="menu-icon fa fa-folder-open"></i>
                             <span class="menu-text">申请提现 </span>
                         </a>
                     </li>
+                    <?php endif;?>
                     <li>
                         <a href="<?= Url::to(['money/index']) ?>">
                             <i class="menu-icon fa fa-money"></i>

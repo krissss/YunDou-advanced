@@ -42,14 +42,11 @@ $this->params['breadcrumbs'] = [
                 <th class="text-align-center">用户号</th>
                 <th class="text-align-center">昵称</th>
                 <th class="text-align-center">真实姓名</th>
-                <th class="text-align-center">手机号</th>
                 <th class="text-align-center">性别</th>
                 <th class="text-align-center">云豆数</th>
                 <th class="text-align-center">推荐码</th>
                 <th class="text-align-center">专业岗位</th>
                 <th class="text-align-center">考试区域</th>
-                <th class="text-align-center">工作单位</th>
-                <th class="text-align-center">地址</th>
                 <th class="text-align-center">实名认证时间</th>
             </tr>
             </thead>
@@ -59,14 +56,11 @@ $this->params['breadcrumbs'] = [
                     <td><?= $user->userId ?></td>
                     <td class="nickname_<?=$user->userId?>"><?= $user->nickname ?></td>
                     <td><?= $user->realname ?></td>
-                    <td><?= $user->cellphone ?></td>
                     <td><?= $user->sex ?></td>
                     <td><?= $user->bitcoin ?></td>
                     <td><?= $user->recommendCode ?></td>
                     <td><?= $user->majorJob['name'] ?></td>
                     <td><?= $user->province['name'] ?></td>
-                    <td><?= $user->company ?></td>
-                    <td><?= $user->address ?></td>
                     <td><?= $user->registerDate>0?$user->registerDate:'未实名认证' ?></td>
                 </tr>
             <?php endforeach;?>
