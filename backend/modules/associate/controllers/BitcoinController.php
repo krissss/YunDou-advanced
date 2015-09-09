@@ -7,7 +7,6 @@ use yii\web\Controller;
 use common\models\IncomeConsume;
 use yii\data\Pagination;
 
-
 class BitcoinController extends Controller
 {
     public function actionIndex(){

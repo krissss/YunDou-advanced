@@ -2,15 +2,22 @@
 
 namespace backend\modules\associate\controllers;
 
+use backend\filters\FrozenFilter;
 use backend\modules\associate\models\forms\ApplyMoneyForm;
 use Yii;
 use yii\web\Controller;
 use common\functions\CommonFunctions;
 
-
-
 class ApplyController extends Controller
 {
+    public function behaviors(){
+        return [
+            'access' => [
+                'class' => FrozenFilter::className(),
+            ]
+        ];
+    }
+
     public function actionIndex(){
         $session = Yii::$app->session;
         $user = $session->get('user');

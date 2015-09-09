@@ -2,6 +2,7 @@
 
 namespace backend\modules\customer\controllers;
 
+use backend\filters\FrozenFilter;
 use Yii;
 use yii\base\Exception;
 use yii\helpers\Url;
@@ -12,6 +13,15 @@ use common\functions\CommonFunctions;
 
 class UserController extends Controller
 {
+    public function behaviors(){
+        return [
+            'access' => [
+                'class' => FrozenFilter::className(),
+                'only' => ['distribute']
+            ]
+        ];
+    }
+
     public function actionIndex()
     {
         $session = Yii::$app->session;
