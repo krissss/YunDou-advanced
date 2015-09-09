@@ -28,4 +28,5 @@ use yii\helpers\Html;
 
 //print_r( \common\models\Users::findRecommendUser(null));
 
-var_dump(strval(time()));
+?>
+<a href="<?=Url::base(true).'/notify.php'?>">asd</a>

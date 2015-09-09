@@ -14,7 +14,6 @@ class WxPayNotify extends WxPayNotifyReply
 	 */
 	final public function Handle($needSign = true)
 	{
-		Yii::$app->cache->set("handle","handle");
 		$msg = "OK";
 		//当返回false的时候，表示notify中调用NotifyCallBack回调失败获取签名校验失败，此时直接回复失败
 		$result = WxpayApi::notify(array($this, 'NotifyCallBack'), $msg);
