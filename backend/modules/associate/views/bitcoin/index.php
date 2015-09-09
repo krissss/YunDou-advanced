@@ -28,10 +28,12 @@ $user = Yii::$app->session->get('user');
                     <hr>
                     <label>搜索：</label>
                     <select class="form-control" name="type">
-                        <option value="userId">用户号</option>
-                        <option value="nickname">用户昵称</option>
-                        <option value="realname">真实姓名</option>
-                        <option value="cellphone">手机号</option>
+                        <option value="income-more">收入云豆大于</option>
+                        <option value="income-equal">收入云豆等于</option>
+                        <option value="income-less">收入云豆小于</option>
+                        <option value="consume-more">支出云豆大于</option>
+                        <option value="consume-equal">支出云豆等于</option>
+                        <option value="consume-less">支出云豆小于</option>
                     </select>
                     <input type="text" name="content" class="form-control" placeholder="请输入查找内容">
                     <button type="submit" class="btn  btn-small btn btn-primary">查找</button>
@@ -48,9 +50,7 @@ $user = Yii::$app->session->get('user');
         <table class="table table-hover table-bordered text-align-center">
             <thead class="bordered-blue">
             <tr> <th class="text-align-center">序号</th>
-                <th class="text-align-center">用户号</th>
                 <th class="text-align-center">用户名称</th>
-                <th class="text-align-center">用户类型</th>
                 <th class="text-align-center">收入或支出云豆</th>
                 <th class="text-align-center">来源用户</th>
                 <th class="text-align-center">方式</th>
@@ -61,9 +61,7 @@ $user = Yii::$app->session->get('user');
             <?php foreach($models as $model):?>
                 <tr>
                     <td><?= $model->incomeConsumeId ?></td>
-                    <td><?= $model->userId ?></td>
                     <td><?= $model->users['nickname'] ?></td>
-                    <td><?= $model->users['roleName'] ?></td>
                     <td>
                         <?php $icon = $model->type==IncomeConsume::TYPE_INCOME?'+':'-'?>
                         <?= $icon.$model->bitcoin ?>

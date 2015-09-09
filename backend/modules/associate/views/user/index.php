@@ -28,7 +28,6 @@ $this->params['breadcrumbs'] = [
                         <option value="userId">用户号</option>
                         <option value="nickname">用户昵称</option>
                         <option value="realname">真实姓名</option>
-                        <option value="cellphone">手机号</option>
                     </select>
                     <input type="text" name="content" class="form-control" placeholder="请输入查找内容">
                     <button type="submit" class="btn  btn-small btn btn-primary">查找</button>

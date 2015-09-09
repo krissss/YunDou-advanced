@@ -153,6 +153,10 @@ class UserBigController extends Controller
                     $query = Users::find()
                         ->where(['like', $type, $content]);
                     break;
+                case 'department':
+                    $query = Users::find()
+                        ->where(['departmentId'=>$content]);
+                    break;
                 default:
                     $query = Users::find();
                     break;

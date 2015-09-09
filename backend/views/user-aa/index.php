@@ -24,6 +24,9 @@ $this->params['breadcrumbs'] = [
             <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询用户</a>
             <label>快速查找:</label>
             <a class="btn btn-default" href="<?=Url::to(['user-aa/index'])?>">所有</a>
+            <a class="btn btn-default" href="<?=Url::to(['user-aa/search','type'=>'department','content'=>'1'])?>">施明飞业务部</a>
+            <a class="btn btn-default" href="<?=Url::to(['user-aa/search','type'=>'department','content'=>'2'])?>">赵珍玉业务部</a>
+            <a class="btn btn-default" href="<?=Url::to(['user-aa/search','type'=>'department','content'=>'3'])?>">丁召银业务部</a>
             <div id="search" class="collapse">
                 <hr>
                 <?= Html::beginForm(['user-aa/search'], 'post', ['class' => 'form-inline']) ?>

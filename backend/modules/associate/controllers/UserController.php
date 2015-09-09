@@ -47,7 +47,6 @@ class UserController extends Controller
                     $query = $query->andWhere(['userId'=>$content]);
                     break;
                 case 'nickname':
-                case 'cellphone':
                 case 'realname':
                     $query = $query->andWhere(['like', $type, $content]);
                     break;
