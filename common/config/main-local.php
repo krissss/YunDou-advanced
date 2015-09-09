@@ -8,7 +8,7 @@ return [
             'password' => 'root',
             'charset' => 'utf8',
             //添加数据库表缓存
-           /* 'enableSchemaCache' => true,
+           /*'enableSchemaCache' => true,
             'schemaCacheDuration' => 36000,
             'schemaCache' => 'cache',*/
         ],
