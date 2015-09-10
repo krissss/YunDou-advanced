@@ -88,6 +88,9 @@ class PracticeController extends Controller
         }
         //$testLibraries = TestLibrary::findByUserAndTestType($user,$testTypeId,50,$currentNumber);
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
+        if($currentNumber >= count($testLibraries)){ //当前题号达到最大题号，重新从头开始
+            $currentNumber = 0;
+        }
         $countNumber = count($testLibraries);
         if($countNumber == 0){  //避免没有题目生成出题页面出错
             echo "<h1>题库建设中</h1>";exit;
@@ -142,6 +145,9 @@ class PracticeController extends Controller
         }
         $currentNumber = TestLibrary::findCurrentNumber($user,$testTypeId);
         $testLibraries = TestLibrary::findAllByUserAndTestType($user,$testTypeId);
+        if($currentNumber >= count($testLibraries)){ //当前题号达到最大题号，重新从头开始
+            $currentNumber = 0;
+        }
         //测试图片
         //$testLibraries = TestLibrary::find()->where('pictureBig is not null')->orWhere('pictureSmall is not null')->all();
         $countNumber = count($testLibraries);
