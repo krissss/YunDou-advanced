@@ -3,10 +3,9 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\OperationFilter;
 use backend\filters\UserLoginFilter;
-use common\functions\CommonFunctions;
 use common\models\Info;
-use common\models\Users;
 use Yii;
 use yii\base\Exception;
 use yii\web\Controller;
@@ -21,6 +20,8 @@ class SignUpController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => OperationFilter::className(),
             ]
         ];
     }

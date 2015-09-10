@@ -3,11 +3,11 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\OperationFilter;
 use backend\filters\UserLoginFilter;
 use Yii;
 use common\models\IncomeConsume;
 use common\models\Users;
-use common\models\UsageMode;
 use yii\web\Controller;
 use yii\data\Pagination;
 
@@ -19,6 +19,8 @@ class IncomeConsumeController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => OperationFilter::className(),
             ]
         ];
     }

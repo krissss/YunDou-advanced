@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\DevelopFilter;
+use backend\filters\ManagerFilter;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\AddRebateForm;
 use yii\web\Controller;
@@ -19,6 +21,11 @@ class RebateController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => ManagerFilter::className(),
+                'except'=>['index','search']
+            ],[
+                'class' => DevelopFilter::className(),
             ]
         ];
     }
@@ -118,13 +125,6 @@ class RebateController extends Controller
             $content = trim($request->get('content'));
         }
         switch ($type) {
-            case 'name':case 'state':
-                $query = Scheme::find()
-                    ->where(['like', $type, $content])
-                    ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_A])
-                    ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AA])
-                    ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AAA]);
-                break;
             case 'usageMode':
                 $query = Scheme::find()
                     ->where(['usageModeId'=>$content]);

@@ -41,6 +41,10 @@ class Users extends \yii\db\ActiveRecord
     const ROLE_AAA = 3; //AAA级
     const ROLE_BIG = 4; //大客户
     const ROLE_ADMIN = 10;  //管理员
+    const ROLE_MANAGER = 30;    //总经理
+    const ROLE_OPERATION = 25;  //运维
+    const ROLE_SALE = 20;   //销售
+    const ROLE_DEVELOP = 15;    //开发
 
     const STATE_NORMAL = 'N';   //正常状态，所有人基本状态
     const STATE_FROZEN = 'U';   //冻结状态，伙伴和大客户

@@ -14,13 +14,17 @@ $this->params['breadcrumbs'] = [
     '用户管理',
     $this->title
 ];
+
+$userSession = Yii::$app->session->get('user');
 ?>
 
 <div class="widget flat">
     <div class="widget-body">
         <?=\common\widgets\AlertWidget::widget()?>
         <div class="well bordered-left bordered-blue">
+            <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
             <a class="btn btn-default add_user_aaa" href="javascript:void(0);"><i class="fa fa-search"></i>添加伙伴</a>
+            <?php endif; ?>
             <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询用户</a>
             <label>快速查找:</label>
             <a class="btn btn-default" href="<?=Url::to(['user-aaa/index'])?>">所有</a>
@@ -64,7 +68,9 @@ $this->params['breadcrumbs'] = [
                 <th class="text-align-center">qq</th>
                 <th class="text-align-center">微信</th>
                 <th class="text-align-center">状态</th>
+                <?php if($userSession['role']>=Users::ROLE_SALE):?>
                 <th class="text-align-center">操作</th>
+                <?php endif; ?>
             </tr>
             </thead>
             <tbody>
@@ -87,13 +93,17 @@ $this->params['breadcrumbs'] = [
                     <td><?= $user->qq ?></td>
                     <td><?= $user->weixin ?></td>
                     <td><?= $user->stateName ?></td>
+                    <?php if($userSession['role']>=Users::ROLE_SALE):?>
                     <td>
+                        <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
                         <button class="btn btn-xs btn-default update_user_aaa" data-id="<?=$user->userId?>">
                             <span class="fa fa-edit"></span>编辑
                         </button>
+                        <?php endif; ?>
                         <a class="btn btn-xs btn-default" href="<?=Url::to(['user-aaa/link-user','id'=>$user->userId])?>">
                             <span class="fa fa-group"></span>关联用户查看
                         </a>
+                        <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
                         <?php
                             if($user->state == Users::STATE_FROZEN){
                                 $btn_1 = "正常";
@@ -119,7 +129,9 @@ $this->params['breadcrumbs'] = [
                         ?>
                         <button class="btn btn-xs btn-default state_aaa" data-id="<?=$user->userId?>" data-state="<?=$state_1?>"><?=$btn_1?></button>
                         <button class="btn btn-xs btn-default state_aaa" data-id="<?=$user->userId?>" data-state="<?=$state_2?>"><?=$btn_2?></button>
+                        <?php endif; ?>
                     </td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach;?>
             </tbody>

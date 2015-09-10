@@ -6,12 +6,15 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\Money;
+use common\models\Users;
 
 $this->title =  '发票申请';
 $this->params['breadcrumbs'] = [
     '发票管理',
     $this->title
 ];
+
+$userSession = Yii::$app->session->get('user');
 ?>
 
 <div class="widget flat">
@@ -56,7 +59,9 @@ $this->params['breadcrumbs'] = [
                 <th class="text-align-center">状态</th>
                 <th class="text-align-center">详细地址</th>
                 <th class="text-align-center">备注</th>
+                <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
                 <th class="text-align-center">操作</th>
+                <?php endif; ?>
             </tr>
             </thead>
             <tbody>
@@ -71,10 +76,12 @@ $this->params['breadcrumbs'] = [
                     <td><?= $model->stateName  ?></td>
                     <td><?= $model->address ?></td>
                     <td><?= $model->description ?></td>
+                    <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
                     <td>
                         <button class="btn btn-xs btn-default agree_invoice" data-id="<?=$model->invoiceId?>">同意开票</button>
                         <button class="btn btn-xs btn-default refuse_invoice" data-id="<?=$model->invoiceId?>">拒绝开票</button>
                     </td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach;?>
             </tbody>

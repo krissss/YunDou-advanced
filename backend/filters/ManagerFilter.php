@@ -1,14 +1,14 @@
 <?php
-/** 管理员的过滤器 */
+/** 经理的过滤器 */
 
 namespace backend\filters;
 
 use common\models\Users;
 use Yii;
-use yii\helpers\Url;
+use yii\base\Exception;
 use yii\base\ActionFilter;
 
-class AdminFilter extends ActionFilter{
+class ManagerFilter extends ActionFilter{
     public $user = false;
 
     public function init()
@@ -18,10 +18,9 @@ class AdminFilter extends ActionFilter{
     }
 
     public function beforeAction($action){
-        if($this->user['role'] >= Users::ROLE_ADMIN){
+        if($this->user['role'] >= Users::ROLE_MANAGER){
             return parent::beforeAction($action);
         }
-        Yii::$app->getResponse()->redirect(Url::to(['/site/index']));
-        return false;
+        throw new Exception("没有访问权限");
     }
 }

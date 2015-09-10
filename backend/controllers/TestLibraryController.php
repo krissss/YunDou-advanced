@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\DevelopFilter;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\UpdateTestLibraryForm;
 use common\models\TestChapter;
@@ -24,6 +25,8 @@ class TestLibraryController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => DevelopFilter::className(),
             ]
         ];
     }

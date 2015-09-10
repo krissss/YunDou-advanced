@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\OperationFilter;
 use backend\filters\UserLoginFilter;
 use common\models\Money;
 use Yii;
@@ -19,6 +20,8 @@ class MoneyController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => OperationFilter::className(),
             ]
         ];
     }

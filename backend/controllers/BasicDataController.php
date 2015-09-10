@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\ManagerFilter;
 use common\functions\CommonFunctions;
 use Yii;
 use yii\base\Exception;
@@ -23,6 +24,8 @@ class BasicDataController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => ManagerFilter::className(),
             ]
         ];
     }

@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\OperationFilter;
+use backend\filters\SaleFilter;
 use backend\filters\UserLoginFilter;
 use Yii;
 use common\models\Invoice;
@@ -20,6 +22,11 @@ class InvoiceController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => OperationFilter::className(),
+                'except'=>['index','search','apply','opener']
+            ],[
+                'class' => SaleFilter::className(),
             ]
         ];
     }

@@ -3,10 +3,10 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\OperationFilter;
+use backend\filters\SaleFilter;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\UpdateWithdrawForm;
-use common\models\Money;
-use common\models\UsageMode;
 use common\models\Withdraw;
 use Yii;
 use common\models\Users;
@@ -22,6 +22,11 @@ class WithdrawController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => OperationFilter::className(),
+                'except'=>['index','search']
+            ],[
+                'class' => SaleFilter::className(),
             ]
         ];
     }

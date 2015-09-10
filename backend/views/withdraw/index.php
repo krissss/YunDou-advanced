@@ -6,12 +6,15 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\Withdraw;
+use common\models\Users;
 
 $this->title =  '提现管理';
 $this->params['breadcrumbs'] = [
     '合作管理',
     $this->title
 ];
+
+$userSession = Yii::$app->session->get('user');
 ?>
 
 <div class="widget flat">
@@ -66,7 +69,9 @@ $this->params['breadcrumbs'] = [
                 <th class="text-align-center">审核人</th>
                 <th class="text-align-center">回复内容</th>
                 <th class="text-align-center">回复时间</th>
+                <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
                 <th class="text-align-center">操作</th>
+                <?php endif;?>
             </tr>
             </thead>
             <tbody>
@@ -81,12 +86,15 @@ $this->params['breadcrumbs'] = [
                     <td><?= $model->replyUser['nickname'] ?></td>
                     <td><?= $model->replyContent ?></td>
                     <td><?= $model->replyDate ?></td>
+                    <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
                     <td>
                         <?php if($model->state==Withdraw::STATE_APPLYING):?>
                             <button class="btn btn-xs btn-default withdraw_btn" data-id="<?=$model->withdrawId?>">处理</button>
-                        <?php else:?>已处理
+                        <?php else:?>
+                            已处理
                         <?php endif;?>
                     </td>
+                    <?php endif;?>
                 </tr>
             <?php endforeach;?>
             </tbody>

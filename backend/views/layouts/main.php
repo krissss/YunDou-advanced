@@ -2,6 +2,7 @@
 use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\Users;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -102,6 +103,7 @@ AppAsset::register($this);
                 </div>
                 <!-- Sidebar Menu -->
                 <ul class="nav sidebar-menu">
+                    <?php if($userSession['role']>=Users::ROLE_MANAGER):?>
                     <li>
                         <a href="#" class="menu-dropdown">
                             <i class="menu-icon fa fa-book"></i>
@@ -138,6 +140,7 @@ AppAsset::register($this);
                             </li>
                         </ul>
                     </li>
+                    <?php endif; ?>
                     <li>
                         <a href="#" class="menu-dropdown">
                             <i class="menu-icon fa fa-users"></i>
@@ -167,25 +170,29 @@ AppAsset::register($this);
                                     <span class="menu-text">A级用户列表</span>
                                 </a>
                             </li>
+                            <?php if($userSession['role']>=Users::ROLE_MANAGER):?>
                             <li>
                                 <a href="<?= Url::to(['user-admin/index']) ?>">
                                     <span class="menu-text">系统用户管理</span>
                                 </a>
                             </li>
+                            <?php endif; ?>
                         </ul>
                     </li>
-                    <li <?//= $page_id == 'true-exam' ? 'class="active"' : ''; ?>>
+                    <li>
                         <a href="<?= Url::to(['test-library/index']) ?>">
                             <i class="menu-icon fa fa-list-alt"></i>
                             <span class="menu-text"> 题库管理 </span>
                         </a>
                     </li>
-                    <li <?//= $page_id == 'true-exam' ? 'class="active"' : ''; ?>>
+                    <?php if($userSession['role']>=Users::ROLE_MANAGER):?>
+                    <li>
                         <a href="<?= Url::to(['exam-template/index']) ?>">
                             <i class="menu-icon fa fa-list-ol"></i>
                             <span class="menu-text"> 模板管理 </span>
                         </a>
                     </li>
+                    <?php endif; ?>
                     <!--<li>
                         <a href="<?/*= Url::to(['simulate-exam/index']) */?>">
                             <i class="menu-icon fa fa-folder"></i>
@@ -206,11 +213,13 @@ AppAsset::register($this);
                                     <span class="menu-text">价格管理</span>
                                 </a>
                             </li>
+                            <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
                             <li>
                                 <a href="<?= Url::to(['income-consume/index']) ?>">
                                     <span class="menu-text">云豆收支</span>
                                 </a>
                             </li>
+                            <?php endif; ?>
                             <li>
                                 <a href="<?= Url::to(['recharge/index']) ?>">
                                     <span class="menu-text">充值管理</span>
@@ -239,6 +248,7 @@ AppAsset::register($this);
                             </li>
                         </ul>
                     </li>
+                    <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
                     <li>
                         <a href="#" class="menu-dropdown">
                             <i class="menu-icon fa fa-money"></i>
@@ -255,6 +265,8 @@ AppAsset::register($this);
                             </li>
                         </ul>
                     </li>
+                    <?php endif; ?>
+                    <?php if($userSession['role']>=Users::ROLE_SALE):?>
                     <li>
                         <a href="#" class="menu-dropdown">
                             <i class="menu-icon fa fa-ticket"></i>
@@ -281,18 +293,21 @@ AppAsset::register($this);
                             </li>
                         </ul>
                     </li>
-                    <li <?//= $page_id == 'account-index' ? 'class="active"' : ''; ?>>
+                    <?php endif; ?>
+                    <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
+                    <li>
                         <a href="<?= Url::to(['service/index']) ?>">
                             <i class="menu-icon fa fa-comment-o"></i>
                             <span class="menu-text"> 咨询管理 </span>
                         </a>
                     </li>
-                    <li <?//= $page_id == 'account-index' ? 'class="active"' : ''; ?>>
+                    <li>
                         <a href="<?= Url::to(['sign-up/index']) ?>">
                             <i class="menu-icon fa fa-sign-in"></i>
                             <span class="menu-text"> 报名管理 </span>
                         </a>
                     </li>
+                    <?php endif; ?>
                 </ul>
                 <!-- /Sidebar Menu -->
             </div>

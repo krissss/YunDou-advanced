@@ -5,12 +5,15 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\Users;
 
 $this->title = '发票开具';
 $this->params['breadcrumbs'] = [
     '发票管理',
     $this->title
 ];
+
+$userSession = Yii::$app->session->get('user');
 ?>
 
 <div class="widget flat">
@@ -55,7 +58,9 @@ $this->params['breadcrumbs'] = [
                 <th class="text-align-center">状态</th>
                 <th class="text-align-center">经手人</th>
                 <th class="text-align-center">回复日期</th>
+                <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
                 <th class="text-align-center">操作</th>
+                <?php endif; ?>
             </tr>
             </thead>
             <tbody>
@@ -70,10 +75,12 @@ $this->params['breadcrumbs'] = [
                     <td class="invoice_state_<?= $model->invoiceId ?>"><?= $model->stateName  ?></td>
                     <td><?= $model->replyUser['nickname'] ?></td>
                     <td><?= $model->replyDate ?></td>
+                    <?php if($userSession['role']>=Users::ROLE_OPERATION):?>
                     <td>
                         <button class="btn btn-xs btn-default edit_number"
                                 data-toggle="modal" data-target="#edit_number" data-id="<?=$model->invoiceId?>">填写快递单号</button>
                     </td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach;?>
             </tbody>
@@ -86,7 +93,7 @@ $this->params['breadcrumbs'] = [
         <div class="clearfix"></div>
     </div>
 </div>
-
+<?php if($userSession['role']>=Users::ROLE_OPERATION):?>
 <div class="modal fade" id="edit_number" tabindex="-1" role="dialog" aria-labelledby="填写快递单号">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -126,3 +133,4 @@ $this->params['breadcrumbs'] = [
         </div>
     </div>
 </div>
+<?php endif;?>

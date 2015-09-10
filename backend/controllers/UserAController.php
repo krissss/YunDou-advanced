@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\DevelopFilter;
 use backend\filters\UserLoginFilter;
 use Yii;
 use common\models\Users;
@@ -20,6 +21,8 @@ class UserAController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => DevelopFilter::className(),
             ]
         ];
     }

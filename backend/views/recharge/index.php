@@ -2,40 +2,30 @@
 /* @var $this yii\web\View */
 /* @var $schemes common\models\Scheme[] */
 
-use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\Scheme;
+use common\models\Users;
 
 $this->title = '充值管理';
 $this->params['breadcrumbs'] = [
     '云豆管理',
     $this->title
 ];
+
+$userSession = Yii::$app->session->get('user');
 ?>
 
 <div class="widget flat">
     <div class="widget-body">
         <?= \common\widgets\AlertWidget::widget();?>
         <div class="well bordered-left bordered-blue">
+            <?php if($userSession['role']>=Users::ROLE_MANAGER):?>
             <a class="btn btn-default add_recharge" href="javascript:void(0);"><i class="fa fa-plus"></i>添加新方案</a>
-            <a class="btn btn-default" href="javascript:void(0);" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i>查询方案</a>
-                <label>快速查找:</label>
-                <a class="btn btn-default" href="<?=Url::to(['recharge/index'])?>">所有</a>
-                <a class="btn btn-default" href="<?=Url::to(['recharge/search','type'=>'state','content'=>Scheme::STATE_ABLE])?>">已启用</a>
-                <a class="btn btn-default" href="<?=Url::to(['recharge/search','type'=>'state','content'=>Scheme::STATE_DISABLE])?>">未启用</a>
-            <div id="search" class="collapse">
-                <hr>
-                <?= Html::beginForm(['recharge/search'], 'post', ['class' => 'form-inline']) ?>
-                <div class="form-group">
-                    <label>搜索：</label>
-                    <select class="form-control" name="type">
-                        <option value="name">方案名称</option>
-                    </select>
-                    <input type="text" name="content" class="form-control" placeholder="请输入查找内容">
-                    <button type="submit" class="btn  btn-small btn btn-primary">查找</button>
-                </div>
-                <?= Html::endForm();?>
-            </div>
+            <?php endif; ?>
+            <label>快速查找:</label>
+            <a class="btn btn-default" href="<?=Url::to(['recharge/index'])?>">所有</a>
+            <a class="btn btn-default" href="<?=Url::to(['recharge/search','type'=>'state','content'=>Scheme::STATE_ABLE])?>">已启用</a>
+            <a class="btn btn-default" href="<?=Url::to(['recharge/search','type'=>'state','content'=>Scheme::STATE_DISABLE])?>">未启用</a>
         </div>
         <table class="table table-hover table-bordered text-align-center">
             <thead class="bordered-blue">
@@ -47,7 +37,9 @@ $this->params['breadcrumbs'] = [
                 <th class="text-align-center">生效时间</th>
                 <th class="text-align-center">结束时间</th>
                 <th class="text-align-center">方案执行状态</th>
+                <?php if($userSession['role']>=Users::ROLE_MANAGER):?>
                 <th class="text-align-center">操作</th>
+                <?php endif; ?>
             </tr>
             </thead>
             <tbody>
@@ -61,6 +53,7 @@ $this->params['breadcrumbs'] = [
                     <td><?= $scheme->endDate==null?"永久":$scheme->endDate ?></td>
                     <td>
                         <?php if($scheme->level != Scheme::LEVEL_UNDO): //非基础方案?>
+                        <?php if($userSession['role']>=Users::ROLE_MANAGER):?>
                         <label>
                             <?php if($scheme->state==Scheme::STATE_ABLE): ?>
                                 <input class="checkbox-slider toggle colored-palegreen recharge-checkbox checked_<?=$scheme->schemeId?>" type="checkbox" data-id="<?=$scheme->schemeId?>" checked>
@@ -69,9 +62,11 @@ $this->params['breadcrumbs'] = [
                             <?php endif; ?>
                             <span class="text"></span>
                         </label>
-                        <? endif; ?>
+                        <?php endif; ?>
+                        <?php endif; ?>
                         <span class="state_<?=$scheme->schemeId?>"><?= $scheme->stateName ?></span>
                     </td>
+                    <?php if($userSession['role']>=Users::ROLE_MANAGER):?>
                     <td>
                         <?php if($scheme->level != Scheme::LEVEL_UNDO): //非基础方案?>
                         <button class="btn btn-xs btn-default update_recharge" data-id="<?=$scheme->schemeId?>">
@@ -83,6 +78,7 @@ $this->params['breadcrumbs'] = [
                         </a>
                         <?php endif; ?>
                     </td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach;?>
             </tbody>

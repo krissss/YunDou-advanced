@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\ManagerFilter;
 use backend\filters\UserLoginFilter;
 use common\functions\CommonFunctions;
 use common\models\ExamTemplateDetail;
@@ -24,6 +25,8 @@ class ExamTemplateController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => ManagerFilter::className(),
             ]
         ];
     }

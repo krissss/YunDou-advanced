@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\DevelopFilter;
+use backend\filters\ManagerFilter;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\AddRechargeForm;
 use common\functions\CommonFunctions;
@@ -19,6 +21,11 @@ class RechargeController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => ManagerFilter::className(),
+                'except'=>['index','search']
+            ],[
+                'class' => DevelopFilter::className(),
             ]
         ];
     }
@@ -118,7 +125,7 @@ class RechargeController extends Controller
             $content = trim($request->get('content'));
         }
         switch ($type) {
-            case 'name':case 'state':
+            case 'state':
                 $query = Scheme::find()
                     ->where(['like', $type, $content]);
                 break;

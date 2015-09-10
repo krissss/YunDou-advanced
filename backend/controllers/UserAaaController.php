@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\OperationFilter;
+use backend\filters\SaleFilter;
 use backend\filters\UserLoginFilter;
 use backend\models\forms\AddUserForm;
 use backend\models\forms\RechargeForm;
@@ -25,6 +27,12 @@ class UserAaaController extends Controller
                 'class' => UserLoginFilter::className(),
             ],[
                 'class' => AdminFilter::className(),
+            ],[
+                'class' => OperationFilter::className(),
+                'except'=>['index','search','previous','link-user','search-link']
+            ],[
+                'class' => SaleFilter::className(),
+                'except'=>['index','search','previous']
             ]
         ];
     }

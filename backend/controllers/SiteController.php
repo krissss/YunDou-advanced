@@ -40,7 +40,7 @@ class SiteController extends Controller
 
     public function actionIndex(){
         $user = Yii::$app->session->get('user');
-        if($user['role'] == Users::ROLE_ADMIN){
+        if($user['role'] >= Users::ROLE_ADMIN){
             return $this->redirect(['user-a/index']);
         }elseif($user['role'] == Users::ROLE_BIG){
             return $this->redirect(['customer/default/index']);
