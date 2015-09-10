@@ -67,6 +67,9 @@
 /** exam-template */
 .table_four_column tr td:nth-child(2n-1){
     width: 15%;
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-align: right;
 }
 .table_four_column tr td:nth-child(2n){
     width: 35%;
@@ -74,11 +77,6 @@
 .table_four_column .form-group{
     margin-bottom: 0;
 }
-.table_bg_grey{
-    background-color: #f5f5f5;
-    font-weight: bold;
-}
-
 .score{
     width: 20px;
 }

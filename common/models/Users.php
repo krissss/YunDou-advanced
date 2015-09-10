@@ -121,6 +121,10 @@ class Users extends \yii\db\ActiveRecord
         return $this->hasOne(MajorJob::className(),['majorJobId'=>'majorJobId']);
     }
 
+    public function getBankCard(){
+        return $this->hasOne(BankCard::className(),['userId'=>'userId']);
+    }
+
     public function getRoleName(){
         switch($this->role){
             case Users::ROLE_A: $msg = "A级"; break;
