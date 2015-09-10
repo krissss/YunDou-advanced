@@ -19,7 +19,7 @@ class OpenIdFilter extends ActionFilter
     public function beforeAction($action){
         $session = Yii::$app->session;
         //$session->removeAll();
-        $session->set('openId','ow-bOvjH7CpKQtxsvjJuRmg6-g-k');
+        //$session->set('openId','ow-bOvjH7CpKQtxsvjJuRmg6-g-k');
         if($user = $session->get('user')){
             if($user['role'] == Users::ROLE_A){ //用户必须是A级用户才能登录前台，避免后台登录了前台也能进行登陆
                 return parent::beforeAction($action);
