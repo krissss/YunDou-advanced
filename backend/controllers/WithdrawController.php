@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\filters\AdminFilter;
+use backend\filters\DevelopFilter;
 use backend\filters\OperationFilter;
 use backend\filters\SaleFilter;
 use backend\filters\UserLoginFilter;
@@ -25,6 +26,8 @@ class WithdrawController extends Controller
             ],[
                 'class' => OperationFilter::className(),
                 'except'=>['index','search']
+            ],[
+                'class' => DevelopFilter::className(),
             ]
         ];
     }
