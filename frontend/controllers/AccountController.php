@@ -65,7 +65,7 @@ class AccountController extends Controller
             ->where(['userId'=>$user['userId']])
             ->orderBy(['createDate'=>SORT_DESC]);
         $pagination = new Pagination([
-            'defaultPageSize' => 2,
+            'defaultPageSize' => 20,
             'totalCount' => $query->count(),
         ]);
         $payRecords = $query->offset($pagination->offset)
