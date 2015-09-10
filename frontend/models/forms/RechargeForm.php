@@ -40,8 +40,9 @@ class RechargeForm extends Model
         //②、统一下单
         $input = new \WxPayUnifiedOrder();
         $input->SetBody("云豆充值");
-        //$input->SetAttach("test");
-        $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
+        $input->SetAttach("云豆充值");
+        $outTradeNo = \WxPayConfig::MCHID.date("YmdHis");   //商户订单号
+        $input->SetOut_trade_no($outTradeNo);
         Yii::$app->session->set('money',$this->money);
         //totalFee是以分为单位的，正式情况下应该乘以100
         $totalFee = $this->money*100;

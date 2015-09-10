@@ -14,6 +14,14 @@ class DateFunctions {
     }
 
     /**
+     * 获取当前年月
+     * @return bool|string
+     */
+    public static function getCurrentYearMonth(){
+        return date('Ym',time());
+    }
+
+    /**
      * 读取时间的日期
      * @param $date
      * @return bool|string

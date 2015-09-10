@@ -27,6 +27,7 @@ use yii\helpers\Html;
 //echo \common\models\ExamScore::findRank(15,150);
 
 //print_r( \common\models\Users::findRecommendUser(null));
+//\common\functions\CommonFunctions::logger_wx("真好");
 
 ?>
 <a href="<?=Url::base(true).'/notify.php'?>">asd</a>

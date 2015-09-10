@@ -220,7 +220,7 @@ class Money extends \yii\db\ActiveRecord
     }
 
     /**
-     * 记录用户的充值或提现，包含用户余额的改变和云豆收入支出记录的记录
+     * 记录用户的充值或提现，包含返点、用户余额的改变和云豆收入支出记录的记录
      * @param $user
      * @param $money
      * @param $bitcoin
