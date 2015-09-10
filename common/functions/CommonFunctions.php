@@ -170,7 +170,7 @@ class CommonFunctions
     }
 
     public static function logger_wx($log_content){
-        $log_filename = "../runtime/logs/log_wx_".DateFunctions::getCurrentYearMonth().".log";
+        $log_filename = "../runtime/logs/log_wx_".date('Ym',time()).".log";
         file_put_contents($log_filename, date('H:i:s')." ".$log_content."\r\n", FILE_APPEND);
     }
 }
