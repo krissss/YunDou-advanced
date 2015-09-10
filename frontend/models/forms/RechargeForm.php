@@ -41,8 +41,7 @@ class RechargeForm extends Model
         $input = new \WxPayUnifiedOrder();
         $input->SetBody("云豆充值");
         $input->SetAttach("云豆充值");
-        $outTradeNo = \WxPayConfig::MCHID.date("YmdHis");   //商户订单号
-        $input->SetOut_trade_no($outTradeNo);
+        $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
         Yii::$app->session->set('money',$this->money);
         //totalFee是以分为单位的，正式情况下应该乘以100
         $totalFee = $this->money*100;
@@ -50,7 +49,8 @@ class RechargeForm extends Model
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         //$input->SetGoods_tag("test");
-        $input->SetNotify_url(Url::base(true).'/notify.php');
+        //$input->SetNotify_url(Url::base(true).'/notify.php');
+        $input->SetNotify_url(Url::to(['/we-chat/notify'],true));
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
         /** @var $order array */

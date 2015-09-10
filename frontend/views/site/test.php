@@ -28,6 +28,6 @@ use yii\helpers\Html;
 
 //print_r( \common\models\Users::findRecommendUser(null));
 //\common\functions\CommonFunctions::logger_wx("真好");
-
+//echo Url::to(['/we-chat/notify'],true);
 ?>
 <a href="<?=Url::base(true).'/notify.php'?>">asd</a>
