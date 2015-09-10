@@ -12,7 +12,6 @@ class WxPayFunctions
     /**
      * 微信支付成功后的通知处理
      * @param $xml
-     * @return bool|string  false表示没有问题，string表示有问题
      * @throws \yii\base\Exception
      */
     public static function payNotify($xml){
@@ -22,7 +21,6 @@ class WxPayFunctions
             $transaction_id = $xmlObj->transaction_id;
             if('ok' == $cache->get($transaction_id)){
                 CommonFunctions::logger_wx("订单:".$transaction_id."，已处理完，重复通知");
-                return false;
             } else {
                 CommonFunctions::logger_wx("订单:".$transaction_id."，首次记录");
                 $cache->set($transaction_id,'ok',24*3600);  //缓存1天
@@ -34,10 +32,9 @@ class WxPayFunctions
                 $addBitcoin = intval($money) * $proportion; //计算应得的云豆数
                 Money::recordOne($user, $money, $addBitcoin, Money::TYPE_PAY, Money::FROM_WX);   //记录充值记录+返点+收入支出表变化+用户云豆数增加
                 CommonFunctions::logger_wx("订单:".$transaction_id."，".$openId."pay￥".$money);
-                return false;
             }
         }else{
-            return $xmlObj->return_msg;
+            CommonFunctions::logger_wx("错误消息:".$xmlObj->return_msg);
         }
     }
 }
