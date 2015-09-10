@@ -25,8 +25,6 @@ class WithdrawController extends Controller
             ],[
                 'class' => OperationFilter::className(),
                 'except'=>['index','search']
-            ],[
-                'class' => SaleFilter::className(),
             ]
         ];
     }
