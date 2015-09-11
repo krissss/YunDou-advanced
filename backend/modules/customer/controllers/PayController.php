@@ -18,7 +18,7 @@ class PayController extends Controller
             $payForm->money = $request->post('money');
             if($payForm->validate()){
                 $order = $payForm->generateQrOrder();
-                $this->render('qr-order',[
+                return $this->render('qr-order',[
                     'order' => $order
                 ]);
             }else{
