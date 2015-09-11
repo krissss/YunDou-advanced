@@ -18,8 +18,8 @@ class WxPayFunctions
         $cache = \Yii::$app->cache;
         $xmlObj = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
         CommonFunctions::logger_wx($xmlObj);
-        foreach($xmlObj as $a){
-            CommonFunctions::logger_wx($a);
+        foreach($xmlObj as $i=>$a){
+            CommonFunctions::logger_wx($i."=>".$a);
         }
         if($xmlObj->return_code == 'SUCCESS'){
             $transaction_id = $xmlObj->transaction_id;
