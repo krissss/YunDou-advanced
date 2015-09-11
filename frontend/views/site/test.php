@@ -31,21 +31,22 @@ use yii\helpers\Html;
 //echo Url::to(['/we-chat/notify'],true);
 
 /*$xml= '<xml><appid><![CDATA[wxcf0cd66d7cdf0708]]></appid>
+<attach><![CDATA[云豆充值]]></attach>
 <bank_type><![CDATA[CFT]]></bank_type>
 <cash_fee><![CDATA[1]]></cash_fee>
 <fee_type><![CDATA[CNY]]></fee_type>
 <is_subscribe><![CDATA[Y]]></is_subscribe>
 <mch_id><![CDATA[1253356301]]></mch_id>
-<nonce_str><![CDATA[hp1m50dghqa138615bu5dkt5jd0gapww]]></nonce_str>
+<nonce_str><![CDATA[tp66p05hmcgvctyl1p3kj0oe4o36tg48]]></nonce_str>
 <openid><![CDATA[ow-bOvjH7CpKQtxsvjJuRmg6-g-k]]></openid>
-<out_trade_no><![CDATA[125335630120150910140155]]></out_trade_no>
+<out_trade_no><![CDATA[125335630120150911090941]]></out_trade_no>
 <result_code><![CDATA[SUCCESS]]></result_code>
 <return_code><![CDATA[SUCCESS]]></return_code>
-<sign><![CDATA[B318D8A29DF8533BBBADD8ECA9F2B2E8]]></sign>
-<time_end><![CDATA[20150910140204]]></time_end>
+<sign><![CDATA[F9B7A68541F8370EB7CB3F46736CDD68]]></sign>
+<time_end><![CDATA[20150911090950]]></time_end>
 <total_fee>1</total_fee>
 <trade_type><![CDATA[JSAPI]]></trade_type>
-<transaction_id><![CDATA[1000130168201509100836975983]]></transaction_id>
+<transaction_id><![CDATA[1000130168201509110843472775]]></transaction_id>
 </xml>';
 \frontend\functions\WxPayFunctions::payNotify($xml);*/
 

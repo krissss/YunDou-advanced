@@ -29,7 +29,7 @@ class WxPayFunctions
                 $cache->set($transaction_id,'ok',24*3600);  //缓存1天
                 $openId = $xmlArray['openid'];
                 $user = Users::findByWeiXin($openId);   //获得付款用户
-                $money = $xmlArray['total_fee'] / 100;    //总金额（元）
+                $money = $xmlArray['total_fee']/100;    //总金额（元）
                 $scheme = Scheme::findPayScheme();  //获取充值方案
                 $proportion = intval($scheme['getBitcoin']) / intval($scheme['payMoney']);    //充值比例,1：X的X
                 $addBitcoin = intval($money) * $proportion; //计算应得的云豆数
