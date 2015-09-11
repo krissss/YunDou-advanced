@@ -48,17 +48,16 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             <div class="media">
                 <div class="media-left media-middle">
                     <a href="#">
-                        <img class="media-object" src="<?=Url::base(true)?>/images/logo2.png" alt="云豆讲堂" title="云豆讲堂" style="height: 50px">
+                        <img class="media-object" src="<?=Url::base(true)?>/images/share-img.png" alt="云豆讲堂" title="云豆讲堂" width="100">
                     </a>
                 </div>
                 <div class="media-body">
-                    <p>关注‘云豆讲堂’，可以第一时间获知最新考试资讯与建筑行业权威信息，还有在线模拟考试、在线练习、在线听课服务，帮助您顺利完成考试，取得好成绩！</p>
-                    <p><strong>实名认证时填写以下推荐码，你就可以享受大额返点哦！</strong></p>
+                    <p>关注微信公众号<strong>云豆讲堂</strong>，就可以了解最新8大员、13大员考试信息，还可以<strong>免费模拟考试</strong>、<strong>在线试题练习</strong>、<strong>代办报名</strong>等，与考试同步的题库、科学定制的学习方法，帮助您顺利通过考试。</p>
                 </div>
             </div>
         </div>
         <div class="alert alert-info" role="alert">
-            <p>‘云豆讲堂’，随时随地可以学习，题库非常权威，考试有底了，关注后使用以下推荐码试试吧！</p>
+            <p><strong>号外：</strong>实名认证时填写如下推荐码，你就可以享受大额返点优惠哦！</p>
             <p class="text-center"><strong><?=$user['nickname']?>的推荐码：<?=$user['recommendCode']?></strong></p>
         </div>
         <div class="panel-footer">

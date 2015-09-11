@@ -47,24 +47,25 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             <div class="media">
                 <div class="media-left media-middle">
                     <a href="#">
-                        <img class="media-object" src="<?=Url::base(true)?>/images/logo2.png" alt="云豆讲堂" title="云豆讲堂" style="height: 50px">
+                        <img class="media-object" src="<?=Url::base(true)?>/images/share-img.png" alt="云豆讲堂" title="云豆讲堂" width="100">
                     </a>
                 </div>
                 <div class="media-body">
-                    <p>关注‘云豆讲堂’，可以第一时间获知最新考试资讯与建筑行业权威信息，还有在线模拟考试、在线练习、在线听课服务，帮助您顺利完成考试，取得好成绩！</p>
-                    <p><strong>实名认证时填写我的推荐码，你就可以享受大额返点哦！</strong></p>
+                    <p>关注微信公众号<strong>云豆讲堂</strong>，就可以了解最新8大员、13大员考试信息，还可以<strong>免费模拟考试</strong>、<strong>在线试题练习</strong>、<strong>代办报名</strong>等，与考试同步的题库、科学定制的学习方法，帮助您顺利通过考试。</p>
                 </div>
             </div>
         </div>
-        <div class="alert alert-info" role="alert">
-            <p>我通过云豆讲堂进行在线学习和模拟考试，系统很操作很方便、题库也很不错，大家一起来学习吧。</p>
+        <?php
+        $array = ['success','warning','info','danger'];
+        ?>
+        <div class="alert alert-<?=$array[rand(0,3)]?>" role="alert">
+            <p><strong>号外：</strong>实名认证时填写我的推荐码（如下），你就可以享受大额返点优惠哦！</p>
             <p class="text-center"><strong>我的推荐码：<?=$user['recommendCode']?></strong></p>
         </div>
         <div class="panel-body">
-            <p><strong>云豆讲堂——专业的在线职业培训平台</strong></p>
-            <p>权威的试题、多种学习模式，做题与娱乐两不误，动力十足。随时随地，想学就学，从此高分不是梦。</p>
+            <p>云豆讲堂：我们只做一件事情，<strong>让职业岗位培训学习简单再简单</strong>，我们还可以帮助企业搭建内部学习听课平台与考试平台，让企业内部学习与考试变得更简单、有效。</p>
             <div class="text-center">
-                <button class="btn btn-primary" onclick="share()">点击分享，云豆手到擒来</button>
+                <button class="btn btn-primary" onclick="share()">点击分享，朋友们都在用，云豆手到擒来</button>
             </div>
         </div>
     </div>
