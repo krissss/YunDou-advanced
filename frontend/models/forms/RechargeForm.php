@@ -42,7 +42,6 @@ class RechargeForm extends Model
         $input->SetBody("云豆充值");
         $input->SetAttach("云豆充值");
         $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
-        Yii::$app->session->set('money',$this->money);
         //totalFee是以分为单位的，正式情况下应该乘以100
         $totalFee = $this->money*100;
         $input->SetTotal_fee($totalFee);
