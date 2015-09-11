@@ -105,7 +105,7 @@ class IncomeConsume extends \yii\db\ActiveRecord
                 $user->bitcoin -= $bitcoin;
             }
         }
-        if(!$user->update()){
+        if(!$user->save()){
             throw new Exception("IncomeConsume user update error");
         }
     }
