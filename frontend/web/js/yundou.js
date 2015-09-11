@@ -391,7 +391,7 @@ $(document).ready(function(){
             return false;
         }
         var wechatInfo = navigator.userAgent.match(/MicroMessenger\/([\d\.]+)/i) ;
-        var mobileInfo = navigator.userAgent.match(/Mobile\/([\d\.]+)/i) ;
+        var mobileInfo = navigator.userAgent.match(/Mobile/i);
         if( !wechatInfo || !mobileInfo ) {
             alert("请在手机微信中打开支付页面") ;
             return false;
