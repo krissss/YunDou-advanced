@@ -186,11 +186,7 @@ class AccountController extends Controller
         }
         $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例,1：X的X
         if($request->get('type')=='over'){  //微信支付成功后
-            //$money = $session->get('money');
-            //$addBitcoin = intval($money)*$proportion; //计算应得的云豆数
-            //Money::recordOne($user,$money,$addBitcoin,Money::TYPE_PAY,Money::FROM_WX);   //记录充值记录+收入支出表变化+用户云豆数增加
-            //$session->remove('money');
-            CommonFunctions::createAlertMessage("充值成功","success");
+            CommonFunctions::createAlertMessage("充值成功，云豆将在2小时内充值到您的账户，如未到达可联系客服","success");
         }else{
             $msg = '当前云豆充值比例（人民币元：云豆颗）为1:'.$proportion;
             if($rebateScheme){

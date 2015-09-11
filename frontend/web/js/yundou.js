@@ -390,6 +390,14 @@ $(document).ready(function(){
             alert("充值金额必须为整数");
             return false;
         }
+        var wechatInfo = navigator.userAgent.match(/MicroMessenger\/([\d\.]+)/i) ;
+        if( !wechatInfo ) {
+            alert("请在手机微信中打开支付页面") ;
+            return false;
+        } else if ( wechatInfo[1] < "5.0" ) {
+            alert("微信支付需要在5.0以上的版本中完成，请升级微信版本") ;
+            return false;
+        }
         $(".loading").show();
         $.ajax({
             url:"?r=account/recharge",

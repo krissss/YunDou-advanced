@@ -27,7 +27,6 @@ $jsApiParameters = $tools->GetJsApiParameters($order);
             <?php echo $jsApiParameters; ?>,
             function(res){
                 if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                    alert("支付成功");
                     window.location.href = "?r=account/recharge&type=over";
                 }
             }
