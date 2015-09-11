@@ -34,7 +34,7 @@ class WxPayFunctions
                 $proportion = intval($scheme['getBitcoin']) / intval($scheme['payMoney']);    //充值比例,1：X的X
                 $addBitcoin = intval($money) * $proportion; //计算应得的云豆数
                 Money::recordOne($user, $money, $addBitcoin, Money::TYPE_PAY, Money::FROM_WX);   //记录充值记录+返点+收入支出表变化+用户云豆数增加
-                CommonFunctions::logger_wx("订单:".$transaction_id.",openId:".$openId.",userId:".$user['userId'].",支付".$money."元,交易结束时间:".$xmlArray['time_end']);
+                CommonFunctions::logger_wx("订单:".$transaction_id.",openId:".$openId.",userId:".$user['userId'].",支付".$money."元,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end']);
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }
         }else{

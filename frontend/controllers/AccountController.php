@@ -164,17 +164,6 @@ class AccountController extends Controller
     public function actionRecharge(){
         $rechargeForm = new RechargeForm();
         $request = Yii::$app->request;
-        if($request->isPost){   //调用微信支付页面
-            $rechargeForm->money = $request->post('money');
-            if($rechargeForm->validate()){
-                $order = $rechargeForm->generateOrder();
-                return $this->renderAjax('recharge-order',[
-                    'order' => $order
-                ]);
-            }else{
-                return "充值表单有错误";
-            }
-        }
         $session = Yii::$app->session;
         $user = $session->get('user');
         $scheme = Scheme::findPayScheme();  //获取充值方案
