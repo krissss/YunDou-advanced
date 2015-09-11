@@ -15,7 +15,6 @@ $rebateScheme = Yii::$app->session->getFlash('rebateScheme');
 <?=\common\widgets\AlertWidget::widget()?>
 <div class="container-fluid">
     <?php $form = ActiveForm::begin([
-        'id' => 'account-register',
         'options' => ['class' => 'form-horizontal'],
         'fieldConfig' => [
             'options' => ['class' => 'form-group no-margin-bottom'],

@@ -25,7 +25,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?//360使用急速模式?>
     <meta name="renderer" content="webkit">
-    <link rel="shortcut icon" href="<?= $imagePath ?>favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
