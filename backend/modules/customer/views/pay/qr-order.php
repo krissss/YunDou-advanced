@@ -1,9 +1,21 @@
 <?php
 /** @var $order */
+
+$this->title = "二维码支付";
+
+$this->params['breadcrumbs'] = [
+    [
+        'label' => '云豆充值',
+        'url' => ['pay/index'],
+    ],
+    $this->title
+];
 ?>
-<div class="text-center">
-    <img alt="微信二维码支付" src="./qrcode.php?data=<?php echo urlencode($order);?>" style="width:150px;height:150px;"/>
+<div class="widget flat">
+    <div class="widget-body">
+        <div class="text-center">
+            <h3>请使用微信客户端扫描以下二维码完成支付</h3>
+            <img alt="微信二维码支付" src="./qrcode.php?data=<?php echo urlencode($order);?>" style="width:300px;height:300px;"/>
+        </div>
+    </div>
 </div>
-<script type="text/javascript">
-    alert("请使用微信扫描下方二维码完成支付");
-</script>

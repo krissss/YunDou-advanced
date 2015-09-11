@@ -6,48 +6,44 @@
 use yii\widgets\ActiveForm;
 
 $this->title = "云豆充值";
-$rebateScheme = Yii::$app->session->getFlash('rebateScheme');
+
+$this->params['breadcrumbs'] = [
+    $this->title
+];
 ?>
-<div class="load-container loading my_hide">
-    <div class="loader">Loading...</div>
-    <p>订单生成中，请耐心等待。。。</p>
-</div>
-<?=\common\widgets\AlertWidget::widget()?>
-<div class="container-fluid">
-    <?php $form = ActiveForm::begin([
-        'options' => ['class' => 'form-horizontal'],
-        'fieldConfig' => [
-            'options' => ['class' => 'form-group no-margin-bottom'],
-            'template' => "{label}<div class='col-xs-7 no-padding-left'>{input}</div><div class='col-xs-7 col-xs-offset-5'>{error}</div>",
-            'labelOptions' => ['class'=>'col-xs-5 control-label'],
-        ],
-    ]) ?>
-    <div class="form-group">
-        <label class="col-xs-5 control-label">您的账户余额</label>
-        <div class="col-xs-7 no-padding-left">
-            <p class="form-control-static"><?=$leftBitcoin;?>云豆</p>
+<div class="widget flat">
+    <div class="widget-body">
+        <?=\common\widgets\AlertWidget::widget()?>
+        <?php $form = ActiveForm::begin([
+            'method' => 'post',
+            'options' => ['class'=>'form-horizontal'],
+            'fieldConfig' => [
+                'template' => "{label}\n<div class=\"col-md-5\">{input}</div>\n<div class=\"col-md-5\">{error}</div>",
+                'labelOptions' => ['class' => 'col-md-1 control-label margin-bottom-20'],
+            ],
+        ]); ?>
+        <div class="form-group">
+            <label class="col-md-1 control-label margin-bottom-20">您的账户余额</label>
+            <div class="col-md-5">
+                <p class="form-control-static"><?=$leftBitcoin;?>云豆</p>
+            </div>
         </div>
-    </div>
-    <?= $form->field($payForm, 'money')->textInput(['type'=>'number','name'=>'money','placeholder'=>'充值后不可返现']) ?>
-    <div class="form-group">
-        <label class="col-xs-5 control-label">您能够获得</label>
-        <div class="col-xs-7 no-padding-left">
-            <input type="hidden" name="proportion" value="<?=$proportion;?>">
-            <p class="form-control-static">
-                <span class="get_bitcoin">0</span>
-                <?php if($rebateScheme):?>
-                    + <span class="rebate_bitcoin" data-money="<?=$rebateScheme['payMoney']?>" data-rebate="<?=$rebateScheme['rebateSelf']?>">0</span>
-                    = <span class="total_bitcoin">0</span>
-                <?php endif;?>
-                云豆
-            </p>
+        <?= $form->field($payForm, 'money')->textInput(['type'=>'number','name'=>'money','placeholder'=>'充值后不可返现']) ?>
+        <div class="form-group">
+            <label class="col-md-1 control-label margin-bottom-20">您能够获得</label>
+            <div class="col-md-5">
+                <input type="hidden" name="proportion" value="<?=$proportion;?>">
+                <p class="form-control-static">
+                    <span class="get_bitcoin">0</span>云豆
+                </p>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-xs-offset-2 col-xs-5 no-padding-left">
-            <button type="submit" class="btn btn-primary">微信支付</button>
-            <!--<button type="button" class="btn btn-primary">支付宝支付</button>-->
+        <div class="form-group">
+            <div class="col-md-1 col-md-offset-1">
+                <button type="submit" class="btn btn-primary">微信支付</button>
+                <!--<button type="button" class="btn btn-primary">支付宝支付</button>-->
+            </div>
         </div>
+        <?php ActiveForm::end() ?>
     </div>
-    <?php ActiveForm::end() ?>
 </div>
