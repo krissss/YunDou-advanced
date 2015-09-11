@@ -23,7 +23,7 @@ class WxPayFunctions
             $transaction_id = $xmlArray['transaction_id'];
             if('ok' == $cache->get($transaction_id)){
                 CommonFunctions::logger_wx("订单:".$transaction_id."，已处理完，重复通知");
-                return '<xml> <return_code><![CDATA[SUCCESS]]></return_code> <return_msg><![CDATA[OK]]></return_msg> </xml>';
+                echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             } else {
                 CommonFunctions::logger_wx("订单:".$transaction_id."，首次记录");
                 $cache->set($transaction_id,'ok',24*3600);  //缓存1天
@@ -35,11 +35,12 @@ class WxPayFunctions
                 $addBitcoin = intval($money) * $proportion; //计算应得的云豆数
                 Money::recordOne($user, $money, $addBitcoin, Money::TYPE_PAY, Money::FROM_WX);   //记录充值记录+返点+收入支出表变化+用户云豆数增加
                 CommonFunctions::logger_wx("订单:".$transaction_id.",openId:".$openId.",userId:".$user['userId'].",支付".$money."元,交易结束时间:".$xmlArray['time_end']);
-                return '<xml> <return_code><![CDATA[SUCCESS]]></return_code> <return_msg><![CDATA[OK]]></return_msg> </xml>';
+                echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }
         }else{
             CommonFunctions::logger_wx("错误消息:".$xmlArray['return_msg']);
-            return 'fail';
+            echo 'fail';
         }
+        exit;
     }
 }
