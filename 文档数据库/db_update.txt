@@ -162,3 +162,8 @@ info
     + cardName
     + state
     + remark
+
+testlibrary
+    problem varchar(1000)=>varchar(2000)
+    question varchar(1000)=>varchar(2000)
+    options varchar(1000)=>varchar(2000)
