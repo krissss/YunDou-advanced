@@ -2,6 +2,10 @@
 
 namespace frontend\models\forms;
 
+require_once "./../functions/wxPayLibs/WxPay.Api.php";
+require_once "./../functions/wxPay/WxPay.JsApiPay.php";
+require_once "./../functions/wxPay/WxPay.NativePay.php";
+
 use Yii;
 use yii\base\Model;
 use yii\helpers\Url;
@@ -25,10 +29,9 @@ class RechargeForm extends Model
         ];
     }
 
-    public function generateOrder(){
-        require_once "./../functions/wxPayLibs/WxPay.Api.php";
-        require_once "./../functions/wxPay/WxPay.JsApiPay.php";
-        //①、获取用户openid
+    /** js客户端订单 */
+    public function generateJsOrder(){
+        //获取用户openid
         $session = Yii::$app->session;
         $openId = $session->get('openId');
         $user = $session->get('user');
@@ -37,7 +40,26 @@ class RechargeForm extends Model
             exit;
         }
 
-        //②、统一下单
+        $input = $this->unifiedOrder();
+        $input->SetTrade_type("JSAPI");
+        $input->SetOpenid($openId);
+        /** @var $order array */
+        $order = \WxPayApi::unifiedOrder($input);
+        return $order;
+    }
+
+    /** 二维码订单 */
+    public function generateQrOrder(){
+        $input = $this->unifiedOrder();
+        $input->SetTrade_type("NATIVE");
+        $input->SetProduct_id("123456789");
+        $order = \WxPayApi::unifiedOrder($input);
+        $qrUrl = $order["code_url"];
+        return $qrUrl;
+    }
+
+    /** 统一下单 */
+    public function unifiedOrder(){
         $input = new \WxPayUnifiedOrder();
         $input->SetBody("云豆充值");
         $input->SetAttach("云豆充值");
@@ -50,10 +72,6 @@ class RechargeForm extends Model
         //$input->SetGoods_tag("test");
         $input->SetNotify_url(Url::base(true).'/notify.php');
         //$input->SetNotify_url(Url::to(['/we-chat/notify'],true));
-        $input->SetTrade_type("JSAPI");
-        $input->SetOpenid($openId);
-        /** @var $order array */
-        $order = \WxPayApi::unifiedOrder($input);
-        return $order;
+        return $input;
     }
 }

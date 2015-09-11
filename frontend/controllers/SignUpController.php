@@ -50,8 +50,8 @@ class SignUpController extends Controller
         if($info->state == Info::STATE_RECORD){
             CommonFunctions::createAlertMessage("您的报名信息已经记录，请耐心等待工作人员帮您填报信息，填报完成可以在线进行查看","info");
         }elseif($info->state == Info::STATE_PASS){
-            CommonFunctions::createAlertMessage("管理员已经帮您报名成功，您可以登录网站在线进行查看。
-            <br>登录账号为：您的身份证，初始密码为：".$info->password,"success");
+            CommonFunctions::createAlertMessage("您好！您提交的在线报名申请，云豆已经为您办理完成了，您可以登录网站进行在线查看。
+            <br>您的登录账号为： 身份证号，初始密码为：".$info->password,"success");
         }elseif($info->state == Info::STATE_REFUSE){
             CommonFunctions::createAlertMessage("工作人员帮您填写报名信息失败，原因是：".$info->replyContent,"error");
         }else{

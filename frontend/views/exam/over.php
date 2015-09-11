@@ -49,9 +49,9 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 </script>
 
 <?php
-$totalRank = 168168+intval($totalRank);
+$totalRank = 16816+intval($totalRank);
 if($finalScore != 0){   //成绩不为0，计算排名
-    $finalRank = 108158-intval($rank);
+    $finalRank = 10815-intval($rank);
 }else{  //成绩为0，直接最后
     $finalRank = $totalRank;
 }

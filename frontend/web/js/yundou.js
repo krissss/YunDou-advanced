@@ -392,30 +392,43 @@ $(document).ready(function(){
         }
         var wechatInfo = navigator.userAgent.match(/MicroMessenger\/([\d\.]+)/i) ;
         var mobileInfo = navigator.userAgent.match(/Mobile/i);
-        if( !wechatInfo || !mobileInfo ) {
-            alert("请在手机微信中打开支付页面") ;
-            return false;
-        } else if ( wechatInfo[1] < "5.0" ) {
-            alert("微信支付需要在5.0以上的版本中完成，请升级微信版本") ;
-            return false;
-        }
-        $(".loading").show();
-        $.ajax({
-            url:"?r=account/recharge",
-            timeout: 6000,
-            type: "post",
-            data: {_csrf: csrfToken,money:money},
-            success: function(data) {
-                body.append(data);
-                $(".loading").hide();
-            },
-            complete : function(XMLHttpRequest,status){
-                if(status=='timeout'){
+        if( !wechatInfo || !mobileInfo || wechatInfo[1] < "5.0") {  //使用二维码扫码支付
+            $(".loading").show();
+            $.ajax({
+                url: "?r=wx-pay/request-order&type=qr",
+                timeout: 6000,
+                type: "post",
+                data: {_csrf: csrfToken, money: money},
+                success: function (data) {
+                    body.append(data);
                     $(".loading").hide();
-                    alert("请求超时，请稍后再试");
+                },
+                complete: function (XMLHttpRequest, status) {
+                    if (status == 'timeout') {
+                        $(".loading").hide();
+                        alert("请求超时，请稍后再试");
+                    }
                 }
-            }
-        });
+            });
+        } else {    //调用微信支付
+            $(".loading").show();
+            $.ajax({
+                url: "?r=wx-pay/request-order&type=js",
+                timeout: 6000,
+                type: "post",
+                data: {_csrf: csrfToken, money: money},
+                success: function (data) {
+                    body.append(data);
+                    $(".loading").hide();
+                },
+                complete: function (XMLHttpRequest, status) {
+                    if (status == 'timeout') {
+                        $(".loading").hide();
+                        alert("请求超时，请稍后再试");
+                    }
+                }
+            });
+        }
     });
 
 });
