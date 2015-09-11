@@ -386,12 +386,13 @@ $(document).ready(function(){
     /** 微信支付 */
     $(".wxPay").click(function(){
         var money = $("#rechargeform-money").val();
-        if(parseInt(money)!=money){
-            alert("充值金额必须为整数");
+        if(parseInt(money)!=money || money<1){
+            alert("充值金额必须为大于0的整数");
             return false;
         }
         var wechatInfo = navigator.userAgent.match(/MicroMessenger\/([\d\.]+)/i) ;
-        if( !wechatInfo ) {
+        var mobileInfo = navigator.userAgent.match(/Mobile\/([\d\.]+)/i) ;
+        if( !wechatInfo || !mobileInfo ) {
             alert("请在手机微信中打开支付页面") ;
             return false;
         } else if ( wechatInfo[1] < "5.0" ) {
