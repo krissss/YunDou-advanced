@@ -1,51 +1,33 @@
 <?php
-
-namespace frontend\models\forms;
+/** 自主充值表单 */
+namespace backend\modules\customer\models\forms;
 
 require_once "./../functions/wxPayLibs/WxPay.Api.php";
 require_once "./../functions/wxPay/WxPay.JsApiPay.php";
 
 use Yii;
 use yii\base\Model;
+use common\models\Users;
+use common\functions\CommonFunctions;
 use yii\helpers\Url;
 
-class RechargeForm extends Model
-{
-    public $money;
+class PayForm extends Model{
+	public $money;
 
-    public function rules()
-    {
-        return [
-            [['money'], 'required'],
-            [['money'], 'integer','min'=>1],
-        ];
-    }
+	public function rules()
+	{
+		return [
+			[['money'], 'required'],
+			[['money'], 'integer','min'=>1],
+		];
+	}
 
-    public function attributeLabels()
-    {
-        return [
-            'money' => '充值金额（元）',
-        ];
-    }
-
-    /** js客户端订单 */
-    public function generateJsOrder(){
-        //获取用户openid
-        $session = Yii::$app->session;
-        $openId = $session->get('openId');
-        $user = $session->get('user');
-        if($user['weixin']!=$openId){
-            echo ("用户标识不一致，无法完成订单");
-            exit;
-        }
-
-        $input = $this->unifiedOrder();
-        $input->SetTrade_type("JSAPI");
-        $input->SetOpenid($openId);
-        /** @var $order array */
-        $order = \WxPayApi::unifiedOrder($input);
-        return $order;
-    }
+	public function attributeLabels()
+	{
+		return [
+			'money' => '充值金额（元）',
+		];
+	}
 
     /** 二维码订单 */
     public function generateQrOrder(){

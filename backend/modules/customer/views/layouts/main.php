@@ -121,6 +121,18 @@ AppAsset::register($this);
                             <span class="menu-text"> 云豆收支 </span>
                         </a>
                     </li>
+                    <li>
+                        <a href="<?= Url::to(['recharge/index']) ?>">
+                            <i class="menu-icon fa fa-money"></i>
+                            <span class="menu-text"> 充值记录 </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= Url::to(['pay/index']) ?>">
+                            <i class="menu-icon fa fa-money"></i>
+                            <span class="menu-text"> 自主充值 </span>
+                        </a>
+                    </li>
                 </ul>
                 <!-- /Sidebar Menu -->
             </div>
