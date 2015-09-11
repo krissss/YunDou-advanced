@@ -20,7 +20,7 @@ $application->language = isset($_COOKIE['language']) ? htmlspecialchars($_COOKIE
 
 $postStr = isset($GLOBALS["HTTP_RAW_POST_DATA"])?$GLOBALS["HTTP_RAW_POST_DATA"]:"";
 if(!empty($postStr)){
-    \frontend\functions\WxPayFunctions::payNotify($postStr);
+    \backend\functions\WxPayFunctions::payNotify($postStr);
 }else{
     \common\functions\CommonFunctions::logger_wx("收到空的通知");
 }

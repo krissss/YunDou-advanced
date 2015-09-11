@@ -1,6 +1,6 @@
 <?php
 /** 微信支付方法 */
-namespace frontend\functions;
+namespace backend\functions;
 
 use common\functions\CommonFunctions;
 use common\models\Money;
