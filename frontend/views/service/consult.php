@@ -58,4 +58,5 @@ $this->title = "咨询与建议";
             <a href="<?=Url::to(['service/view','id'=>$publishService['serviceId']])?>" class="list-group-item"><?=$publishService['content']?></a>
         <?php endforeach;?>
     </div>
+    <div class="margin-bottom-20"></div>
 </div>

@@ -23,5 +23,5 @@ $this->title = "其他咨询与建议";
             'pagination' => $pages,
         ]);?>
     </nav>
-    <div class="clearfix"></div>
+    <div class="clearfix margin-bottom-20"></div>
 </div>
