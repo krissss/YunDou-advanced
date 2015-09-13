@@ -576,6 +576,7 @@ $(document).ready(function(){
             complete: function (XMLHttpRequest, status) {
                 if (status == 'timeout') {
                     alert("请求超时，请稍后再试");
+                    $this.removeClass("btn-default").addClass("btn-primary").text("微信支付");
                 }
             }
         });
