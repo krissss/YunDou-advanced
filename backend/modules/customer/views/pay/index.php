@@ -40,7 +40,7 @@ $this->params['breadcrumbs'] = [
         </div>
         <div class="form-group">
             <div class="col-md-1 col-md-offset-1">
-                <button type="submit" class="btn btn-primary">微信支付</button>
+                <button type="button" class="btn btn-primary wxPay">微信支付</button>
                 <!--<button type="button" class="btn btn-primary">支付宝支付</button>-->
             </div>
         </div>

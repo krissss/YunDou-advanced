@@ -553,5 +553,27 @@ $(document).ready(function(){
         }
         $(".total_bitcoin").text(bitcoin+rebate);
     });
+    /** 微信支付 */
+    $(".wxPay").click(function(){
+        var money = $("input[name=money]").val();
+        if(parseInt(money)!=money || money<1){
+            alert("充值金额必须为大于0的整数");
+            return false;
+        }
+        $.ajax({
+            url: "?r=customer/pay/request-order",
+            timeout: 6000,
+            type: "post",
+            data: {_csrf: csrfToken, money: money},
+            success: function (data) {
+                body.append(data);
+            },
+            complete: function (XMLHttpRequest, status) {
+                if (status == 'timeout') {
+                    alert("请求超时，请稍后再试");
+                }
+            }
+        });
+    });
 
 });

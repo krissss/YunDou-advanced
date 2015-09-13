@@ -24,7 +24,7 @@ class UserAdminController extends Controller
     }
 
     public function actionIndex(){
-        $users = Users::findAll(['role'=>Users::ROLE_ADMIN]);
+        $users = Users::find()->where(['>=','role',Users::ROLE_ADMIN])->all();
         return $this->render('index',[
             'users' => $users
         ]);

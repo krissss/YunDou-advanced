@@ -13,18 +13,6 @@ class PayController extends Controller
 {
     public function actionIndex(){
         $payForm = new PayForm();
-        $request = Yii::$app->request;
-        if($request->isPost){
-            $payForm->money = $request->post('money');
-            if($payForm->validate()){
-                $order = $payForm->generateQrOrder();
-                return $this->render('qr-order',[
-                    'order' => $order
-                ]);
-            }else{
-                CommonFunctions::createAlertMessage("填写的表单信息有误，请认真查看后再提交","error");
-            }
-        }
         $scheme = Scheme::findPayScheme();  //获取充值方案
         $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例,1：X的X
         $msg = '当前云豆充值比例（人民币元：云豆颗）为1:'.$proportion;
@@ -36,5 +24,22 @@ class PayController extends Controller
             'leftBitcoin' => $leftBitcoin,
             'proportion' => $proportion
         ]);
+    }
+
+    public function actionRequestOrder(){
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $payForm = new PayForm();
+            $payForm->money = $request->post('money');
+            if($payForm->validate()){
+                $order = $payForm->generateQrOrder();
+                return $this->renderAjax('qr-order',[
+                    'order' => $order
+                ]);
+            }else{
+                CommonFunctions::createAlertMessage("填写的表单信息有误，请认真查看后再提交","error");
+            }
+        }
+        return $this->redirect(['pay/index']);
     }
 }

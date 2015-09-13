@@ -132,6 +132,10 @@ class Users extends \yii\db\ActiveRecord
             case Users::ROLE_AAA: $msg = "AAA级"; break;
             case Users::ROLE_BIG: $msg = "大客户"; break;
             case Users::ROLE_ADMIN: $msg = "管理员"; break;
+            case Users::ROLE_DEVELOP: $msg = "开发人员"; break;
+            case Users::ROLE_SALE: $msg = "销售人员"; break;
+            case Users::ROLE_OPERATION: $msg = "运维人员"; break;
+            case Users::ROLE_MANAGER: $msg = "总经理"; break;
             default: $msg = "未定义";
         }
         return $msg;
