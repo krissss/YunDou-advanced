@@ -19,6 +19,7 @@ class WxPayFunctions
         $cache = \Yii::$app->cache;
         //转xml为array
         $xmlArray = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+        CommonFunctions::logger_wx("订单:".$xml."，首次记录");
         if($xmlArray['return_code'] == 'SUCCESS'){
             $transaction_id = $xmlArray['transaction_id'];
             if('ok' == $cache->get($transaction_id)){
