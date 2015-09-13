@@ -19,7 +19,6 @@ class WxPayFunctions
         $cache = \Yii::$app->cache;
         //转xml为array
         $xmlArray = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
-        CommonFunctions::logger_wx("订单:".$xml."，首次记录");
         if($xmlArray['return_code'] == 'SUCCESS'){
             $transaction_id = $xmlArray['transaction_id'];
             if('ok' == $cache->get($transaction_id)){
@@ -28,14 +27,15 @@ class WxPayFunctions
             } else {
                 CommonFunctions::logger_wx("订单:".$transaction_id."，首次记录");
                 $cache->set($transaction_id,'ok',24*3600);  //缓存1天
-                $openId = $xmlArray['openid'];
-                $user = Users::findByWeiXin($openId);   //获得付款用户
+                //以下两行不同于微信端充值
+                $userId= $xmlArray['attach'];
+                $user = Users::findOne($userId);   //获得付款用户
                 $money = $xmlArray['total_fee']/100;    //总金额（元）
                 $scheme = Scheme::findPayScheme();  //获取充值方案
                 $proportion = intval($scheme['getBitcoin']) / intval($scheme['payMoney']);    //充值比例,1：X的X
                 $addBitcoin = intval($money) * $proportion; //计算应得的云豆数
                 Money::recordOne($user, $money, $addBitcoin, Money::TYPE_PAY, Money::FROM_WX);   //记录充值记录+返点+收入支出表变化+用户云豆数增加
-                CommonFunctions::logger_wx("订单:".$transaction_id.",openId:".$openId.",userId:".$user['userId'].",支付".$money."元,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end']);
+                CommonFunctions::logger_wx("订单:".$transaction_id.",userId:".$user['userId'].",支付".$money."元,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end']);
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }
         }else{

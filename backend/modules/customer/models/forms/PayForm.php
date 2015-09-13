@@ -31,9 +31,11 @@ class PayForm extends Model{
 
     /** 二维码订单 */
     public function generateQrOrder(){
+        $user = Yii::$app->session->get('user');
         $input = $this->unifiedOrder();
         $input->SetTrade_type("NATIVE");
         $input->SetProduct_id("123456789");
+        $input->SetAttach($user['userId']); //此处attach存入当前用户id，在后面收到通知后取出给该用户充值
         $order = \WxPayApi::unifiedOrder($input);
         $qrUrl = $order["code_url"];
         return $qrUrl;
