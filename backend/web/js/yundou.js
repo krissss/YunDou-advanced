@@ -555,11 +555,14 @@ $(document).ready(function(){
     });
     /** 微信支付 */
     $(".wxPay").click(function(){
+        var $this = $(this);
+        $this.removeClass("btn-primary").addClass("btn-default").text("支付订单生成中");
         var money = $("input[name=money]").val();
         if(parseInt(money)!=money || money<1){
             alert("充值金额必须为大于0的整数");
             return false;
         }
+        alert("支付订单请求中，请稍等");
         $.ajax({
             url: "?r=customer/pay/request-order",
             timeout: 6000,
@@ -567,6 +570,8 @@ $(document).ready(function(){
             data: {_csrf: csrfToken, money: money},
             success: function (data) {
                 body.append(data);
+                $this.removeClass("btn-default").addClass("btn-primary").text("微信支付");
+                alert("请使用手机微信扫描以下二维码完成支付");
             },
             complete: function (XMLHttpRequest, status) {
                 if (status == 'timeout') {
