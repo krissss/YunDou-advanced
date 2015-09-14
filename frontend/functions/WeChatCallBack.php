@@ -61,10 +61,7 @@ class WeChatCallBack
             if ($event == "subscribe") {
                 $response_msgType = "text";
                 Users::wxSubscribe($fromUsername);
-                $contentStr = "感谢您关注‘云豆讲堂’。\n\n
-                在这里您可以‘免费模拟考试’、‘在线练习’、‘咨询考试事宜’，还可以请我们免费帮你代办考试报名。\n
-                为了确保您获得准确的考试信息、试题库试题等，首先要进行‘实名认证’。\n
-                实名认证：点击‘模拟与学习’》》‘实名认证’或者‘<a href='".Url::to(['account/register','openId'=>strval($fromUsername)],true)."'>点这里</a>.’都可以进行，云豆会保密你的信息哦！";
+                $contentStr = "感谢您关注‘云豆讲堂’。\n\n在这里您可以‘免费模拟考试’、‘在线练习’、‘咨询考试事宜’，还可以请我们免费帮你代办考试报名。\n为了确保您获得准确的考试信息、试题库试题等，首先要进行‘实名认证’。\n实名认证：点击‘模拟与学习’》》‘实名认证’或者‘<a href='".Url::to(['account/register','openId'=>strval($fromUsername)],true)."'>点这里</a>.’都可以进行，云豆会保密你的信息哦！";
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
                 echo $resultStr;
             }
