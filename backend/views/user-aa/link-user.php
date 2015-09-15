@@ -10,7 +10,7 @@ $this->title = '关联用户管理';
 $this->params['breadcrumbs'] = [
     '用户管理',
     [
-        'label' => 'AA级用户列表',
+        'label' => '金牌伙伴用户列表',
         'url' => ['user-aa/index'],
     ],
     $this->title

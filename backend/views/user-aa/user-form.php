@@ -5,7 +5,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 ?>
-<div class="modal fade add_user_aa_modal" tabindex="-1" role="dialog" aria-labelledby="添加或修改AA级伙伴">
+<div class="modal fade add_user_aa_modal" tabindex="-1" role="dialog" aria-labelledby="添加或修改金牌伙伴">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

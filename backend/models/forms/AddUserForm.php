@@ -67,9 +67,9 @@ class AddUserForm extends Model
 
     public function initRoleName(){
         if($this->role == Users::ROLE_AA){
-            $this->roleName = "AA级伙伴";
+            $this->roleName = "金牌伙伴";
         }elseif($this->role == Users::ROLE_AAA){
-            $this->roleName = "AAA级伙伴";
+            $this->roleName = "钻石伙伴";
         }elseif($this->role == Users::ROLE_BIG){
             $this->roleName = "大客户";
         }else{

@@ -157,12 +157,12 @@ AppAsset::register($this);
                             </li>
                             <li>
                                 <a href="<?= Url::to(['user-aaa/index']) ?>">
-                                    <span class="menu-text">AAA伙伴列表</span>
+                                    <span class="menu-text">钻石伙伴列表</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="<?= Url::to(['user-aa/index']) ?>">
-                                    <span class="menu-text">AA伙伴列表</span>
+                                    <span class="menu-text">金牌伙伴列表</span>
                                 </a>
                             </li>
                             <li>

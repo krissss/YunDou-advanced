@@ -9,7 +9,7 @@ use common\models\Users;
 use common\models\Money;
 use common\models\IncomeConsume;
 
-$this->title = 'AA级用户列表';
+$this->title = '金牌伙伴用户列表';
 $this->params['breadcrumbs'] = [
     '用户管理',
     $this->title
