@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use common\functions\CommonFunctions;
-use common\functions\InstanceNumber;
 use common\models\IncomeConsume;
 use common\models\Invoice;
 use common\models\Money;
@@ -34,7 +33,7 @@ class AccountController extends Controller
                 'class' => OpenIdFilter::className(),
             ],[
                 'class' => RegisterFilter::className(),
-                'except' => ['register','get-yzm','get-recommend']
+                'except' => ['register','agreement','get-yzm','get-recommend']
             ],
         ];
     }
@@ -145,6 +144,18 @@ class AccountController extends Controller
             'majorJobs' => $majorJobs,
             'provinces' => $provinces
         ]);
+    }
+
+    public function actionAgreement(){
+        $type = Yii::$app->request->get('type');
+        if($type == 'download'){
+            if(file_exists('./agreement/yundou20150915.docx')){
+                return Yii::$app->response->sendFile('./agreement/yundou20150915.docx');
+            }else{
+                return "<h1>文件不存在</h1>";
+            }
+        }
+        return $this->render('agreement');
     }
 
     /** 更新手机号 */

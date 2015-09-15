@@ -63,6 +63,15 @@ $(document).ready(function(){
         }
     });
 
+    $(".registerSubmit").click(function(){
+        if($("input[name=agreement]:checked").length<1){
+            alert("必须先同意云豆讲堂服务协议");
+            return false;
+        }else{
+            $("#account-register").submit();
+        }
+    });
+
     /** 练习首页相关 */
     var pay_modal = $("#pay_modal");
 

@@ -78,7 +78,7 @@ a:active {
 }
 
 .margin-bottom-20{
-	margin-bottom: 20px;
+	margin-bottom: 20px !important;
 }
 
 .head-margin-20{
