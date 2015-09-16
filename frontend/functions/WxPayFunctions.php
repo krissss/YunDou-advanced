@@ -32,12 +32,13 @@ class WxPayFunctions
             } else {
                 CommonFunctions::logger_wx("订单:".$transaction_id."，首次记录");
                 $cache->set($transaction_id,'ok',24*3600);  //缓存1天
-                $openId = $xmlArray['openid'];
-                $user = Users::findByWeiXin($openId);   //获得付款用户
                 $money = $xmlArray['total_fee']/100;    //总金额（元）
-                $addBitcoin = intval($xmlArray['attach']);  //获取充值获得的云豆数
+                $attachArray = explode("|",$xmlArray['attach']);
+                $userId = intval($attachArray[0]);  //获取充值用户
+                $user = Users::findOne($userId);
+                $addBitcoin = intval($attachArray[1]);  //获取充值获得的云豆数
                 Money::recordOne($user, $money, $addBitcoin, Money::TYPE_PAY, Money::FROM_WX);   //记录充值记录+返点+收入支出表变化+用户云豆数增加
-                CommonFunctions::logger_wx("订单:".$transaction_id.",openId:".$openId.",userId:".$user['userId'].",支付".$money."元,获得".$addBitcoin."云豆,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end']);
+                CommonFunctions::logger_wx("订单:".$transaction_id.",userId:".$user['userId'].",支付".$money."元,获得".$addBitcoin."云豆,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end']);
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }
         }else{
@@ -61,7 +62,7 @@ class WxPayFunctions
         $input = $this->unifiedOrder($scheme['payMoney']);
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
-        $input->SetAttach($scheme['getBitcoin']);   //传递获取到的云豆数
+        $input->SetAttach($user['userId']."|".$scheme['getBitcoin']);   //传递用户id和获取到的云豆数
         /** @var $order array */
         $order = \WxPayApi::unifiedOrder($input);
         return $order;
@@ -69,10 +70,12 @@ class WxPayFunctions
 
     /** 二维码订单 */
     public function generateQrOrder($scheme){
+        $user = Yii::$app->session->get('user');
+
         $input = $this->unifiedOrder($scheme['payMoney']);
         $input->SetTrade_type("NATIVE");
         $input->SetProduct_id("123456789");
-        $input->SetAttach($scheme['getBitcoin']);   //传递获取到的云豆数
+        $input->SetAttach($user['userId']."|".$scheme['getBitcoin']);   //传递用户id和获取到的云豆数
         $order = \WxPayApi::unifiedOrder($input);
         $qrUrl = $order["code_url"];
         return $qrUrl;
