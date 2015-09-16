@@ -39,16 +39,16 @@ foreach($orders as $order){
         //调用微信JS api 支付
         function jsApiCall($jsApiParameters)
         {
-            alert($jsApiParameters);
-                WeixinJSBridge.invoke(
-                    'getBrandWCPayRequest',
-                    $jsApiParameters,
-                    function(res){
-                        if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                            window.location.href = "?r=account/recharge&type=over";
-                        }
+            $jsApiParameters = JSON.parse($jsApiParameters);
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+                $jsApiParameters,
+                function(res){
+                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                        window.location.href = "?r=account/recharge&type=over";
                     }
-                );
+                }
+            );
         }
         function pay($this){
             var $jsApiParameters = $this.getAttribute('data-param');
