@@ -60,10 +60,10 @@ class CommonFunctions
      * @return int|string
      */
     public static function createCommonRecommendCode(){
-        $code = 'U';
-        $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
+        $code = 'u';
+        $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
         for($i = 0; $i < 5; $i ++) {
-            $code .= $pattern {mt_rand ( 0, 61 )}; //生成php随机数
+            $code .= $pattern {mt_rand ( 0, 35 )}; //生成php随机数
         }
         return $code;
     }
@@ -73,10 +73,10 @@ class CommonFunctions
      * @return int|string
      */
     public static function create2ARecommendCode(){
-        $code = 'D';
-        $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
+        $code = 'd';
+        $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
         for($i = 0; $i < 5; $i ++) {
-            $code .= $pattern {mt_rand ( 0, 61 )}; //生成php随机数
+            $code .= $pattern {mt_rand ( 0, 35 )}; //生成php随机数
         }
         return $code;
     }
@@ -86,10 +86,10 @@ class CommonFunctions
      * @return int|string
      */
     public static function create3ARecommendCode(){
-        $code = 'G';
-        $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
+        $code = 'g';
+        $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
         for($i = 0; $i < 5; $i ++) {
-            $code .= $pattern {mt_rand ( 0, 61 )}; //生成php随机数
+            $code .= $pattern {mt_rand ( 0, 35 )}; //生成php随机数
         }
         return $code;
     }
@@ -99,10 +99,10 @@ class CommonFunctions
      * @return int|string
      */
     public static function createBigRecommendCode(){
-        $code = 'B';
-        $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
+        $code = 'b';
+        $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
         for($i = 0; $i < 5; $i ++) {
-            $code .= $pattern {mt_rand ( 0, 61 )}; //生成php随机数
+            $code .= $pattern {mt_rand ( 0, 35 )}; //生成php随机数
         }
         return $code;
     }

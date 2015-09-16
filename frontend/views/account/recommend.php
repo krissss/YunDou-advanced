@@ -49,7 +49,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
                     </a>
                 </div>
                 <div class="media-body">
-                    <p>关注微信公众号<strong>云豆讲堂</strong>，就可以了解最新8大员、13大员考试信息，还可以<strong>免费模拟考试</strong>、<strong>在线试题练习</strong>、<strong>代办报名</strong>等，与考试同步的题库、科学定制的学习方法，帮助您顺利通过考试。</p>
+                    <p>关注微信公众号<strong>云豆在线学习</strong>，就可以了解了解权威8大员（13大员）考试信息，还可以<strong>免费模拟考试</strong>、<strong>在线试题练习</strong>、<strong>代办报名</strong>等，与正式考试同步的试题库、智能的定制学习方法，帮助您顺利通过考试。</p>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
         $array = ['success','warning','info','danger'];
         ?>
         <div class="alert alert-<?=$array[rand(0,3)]?>" role="alert">
-            <p><strong>号外：</strong>实名认证时填写我的推荐码（如下），你就可以享受大额返点优惠哦！</p>
+            <p><strong>号外：</strong>我有云豆在线学习的优惠推荐码（如下），使用推荐码就可以享受大额返点优惠</p>
             <p class="text-center"><strong>我的推荐码：<?=$user['recommendCode']?></strong></p>
         </div>
         <div class="panel-body">
