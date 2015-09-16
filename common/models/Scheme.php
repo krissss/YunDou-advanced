@@ -215,18 +215,18 @@ class Scheme extends \yii\db\ActiveRecord
                 return null;
                 break;
         }
-        $currentDate = DateFunctions::getCurrentDate();
+        /*$currentDate = DateFunctions::getCurrentDate();
         $scheme = Scheme::find()
             ->where(['usageModeId'=>$usageModeId,'state'=>Scheme::STATE_ABLE])
             ->andWhere(['>','level',Scheme::LEVEL_UNDO])
             ->andWhere(['<=','startDate',$currentDate])
             ->andWhere(['>=','endDate',$currentDate])
+            ->one();*/
+        /*if(!$scheme){*/
+        $scheme = Scheme::find()
+            ->where(['usageModeId'=>$usageModeId,'state'=>Scheme::STATE_ABLE,'level'=>Scheme::LEVEL_UNDO])
             ->one();
-        if(!$scheme){
-            $scheme = Scheme::find()
-                ->where(['usageModeId'=>$usageModeId,'state'=>Scheme::STATE_ABLE,'level'=>Scheme::LEVEL_UNDO])
-                ->one();
-        }
+        /*}*/
         return $scheme;
     }
 
