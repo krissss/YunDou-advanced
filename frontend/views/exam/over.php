@@ -36,9 +36,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             title: '晒成绩啦！我参加‘<?=$session->get("majorJob")?>’考试，用‘云豆讲堂’模拟考试，很不错，来试试吧！',
             link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
             imgUrl: '<?=Url::base(true)?>/images/logo.png',
-            success: function () {
-                alert('分享成功，让朋友们都参加！');
-            }
+            desc:'云豆讲堂分享',
         };
         wx.onMenuShareTimeline(json);
         wx.onMenuShareAppMessage(json);

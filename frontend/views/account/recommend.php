@@ -29,9 +29,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             title: '我通过云豆讲堂进行在线学习和模拟考试，系统很操作很方便、题库很权威，大家一起来学习吧！',
             link: '<?=Url::base(true)?>/?r=share&userId=<?=$user['userId']?>',
             imgUrl: '<?=Url::base(true)?>/images/logo.png',
-            success: function () {
-                alert('分享成功');
-            }
+            desc:'云豆讲堂分享',
         };
         wx.onMenuShareTimeline(json);
         wx.onMenuShareAppMessage(json);
