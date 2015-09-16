@@ -3,7 +3,7 @@
 namespace backend\modules\associate\models\forms;
 
 use common\functions\DateFunctions;
-use common\models\Users;
+use common\models\Scheme;
 use common\models\Withdraw;
 use Yii;
 use yii\base\Exception;
@@ -13,16 +13,18 @@ class ApplyMoneyForm extends Model
 {
 
     public $money;
-    public $maxBitcoin;
+    public $maxMoney;
     public $invoiceMoney;
     public $invoiceNo;
+
+    public $schemes;    //提现方案，数组或对象
 
     public function rules()
     {
         return [
             [['money','invoiceMoney', 'invoiceNo'], 'required'],
-            [['money'], 'number','min'=>100],
-            [['money'], 'compare','compareValue'=>($this->maxBitcoin)/100,'operator' => '<='],
+            [['money'], 'integer','min'=>100],
+            [['money'], 'compare','compareValue'=>($this->maxMoney),'operator' => '<='],
             [['invoiceNo'], 'string','max'=>20],
             [['invoiceMoney'], 'number'],
         ];
@@ -31,7 +33,7 @@ class ApplyMoneyForm extends Model
     public function attributeLabels(){
         return [
             'money' => '申请金额',
-            'maxMoney' => '可申请',
+            'maxMoney' => '最大可申请金额（元）',
             'invoiceMoney' => '发票金额',
             'invoiceNo' => '发票单号',
         ];
@@ -39,12 +41,7 @@ class ApplyMoneyForm extends Model
 
     public function init(){
         $user= Yii::$app->session->get('user');
-        $maxBitcoin = Users::findBitcoin($user['userId']);
-        if($maxBitcoin){
-            $this->maxBitcoin = intval($maxBitcoin);
-        }else{
-            $this->maxBitcoin = 0;
-        }
+        $this->maxMoney = Scheme::calculateWithdrawMaxMoney($user);
     }
 
     public function record(){
@@ -54,11 +51,10 @@ class ApplyMoneyForm extends Model
         if($model){
             return false;
         }
-        $bitcoin = ($this->money)*100;
         $withdraw = new Withdraw();
         $withdraw->userId = $user['userId'];
         $withdraw->money = $this->money;
-        $withdraw->bitcoin = $bitcoin;
+        $withdraw->bitcoin = ceil(Scheme::calculateWithdrawBitcoin($user,$this->money));    //扣除云豆数为向上取整,有小数就整数部分加1
         $withdraw->invoiceMoney = $this->invoiceMoney;
         $withdraw->invoiceNo = $this->invoiceNo;
         $withdraw->createDate = DateFunctions::getCurrentDate();

@@ -3,6 +3,7 @@
 namespace backend\models\forms;
 
 use common\models\Money;
+use common\models\Scheme;
 use common\models\UsageMode;
 use yii;
 use common\models\Withdraw;
@@ -18,6 +19,7 @@ class UpdateWithdrawForm extends Model
     public $invoiceMoney;
     public $invoiceNo;
     public $replyContent;
+    public $maxMoney;
 
 
     public function rules()
@@ -37,7 +39,8 @@ class UpdateWithdrawForm extends Model
             'invoiceNo' => '发票单号',
             'replyContent' => '回复内容',
             'replyNickname' => '回复人',
-            'money' => '提现金额'
+            'money' => '提现金额',
+            'maxMoney' => '最大可提现金额'
         ];
     }
 
@@ -50,6 +53,7 @@ class UpdateWithdrawForm extends Model
         $form->money = $withdraw->money;
         $form->invoiceNo = $withdraw->invoiceNo;
         $form->invoiceMoney = $withdraw->invoiceMoney;
+        $form->maxMoney = Scheme::calculateWithdrawMaxMoney($withdraw->user);
         return $form;
     }
 
@@ -68,7 +72,7 @@ class UpdateWithdrawForm extends Model
         if($state==Withdraw::STATE_PASS) {
             $user = $withdraw->user;
             $money = $withdraw->money;
-            $bitcoin = $money*100;
+            $bitcoin = $withdraw->bitcoin;
             Money::recordOne($user,$money,$bitcoin,UsageMode::TYPE_CONSUME,Money::FROM_WITHDRAW);
         }
     }

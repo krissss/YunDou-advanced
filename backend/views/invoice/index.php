@@ -5,7 +5,6 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use common\models\Money;
 use common\models\Invoice;
 
 $this->title =  '发票列表';
@@ -58,12 +57,12 @@ $this->params['breadcrumbs'] = [
                 <th class="text-align-center">用户号</th>
                 <th class="text-align-center">用户名称</th>
                 <th class="text-align-center">申请开票金额</th>
-                <th class="text-align-center">未开发票金额</th>
                 <th class="text-align-center">申请开票时间</th>
                 <th class="text-align-center">状态</th>
                 <th class="text-align-center">详细地址</th>
                 <th class="text-align-center">经手人</th>
                 <th class="text-align-center">回复日期</th>
+                <th class="text-align-center">回复内容</th>
                 <th class="text-align-center">快递单号</th>
             </tr>
             </thead>
@@ -74,12 +73,12 @@ $this->params['breadcrumbs'] = [
                     <td><?= $model->userId ?></td>
                     <td><?= $model->user['nickname']?></td>
                     <td><?= $model->money ?></td>
-                    <td><?= Money::findRemainMoneyByUser($model->userId) ?></td>
                     <td><?= $model->createDate ?></td>
                     <td><?= $model->stateName  ?></td>
                     <td><?= $model->address ?></td>
                     <td><?= $model->replyUser['nickname'] ?></td>
                     <td><?= $model->replyDate ?></td>
+                    <td><?= $model->replyContent ?></td>
                     <td><?= $model->orderNumber ?></td>
                 </tr>
             <?php endforeach;?>

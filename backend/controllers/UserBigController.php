@@ -59,7 +59,7 @@ class UserBigController extends Controller
         ]);
     }
 
-    /** 增加或更新方案 */
+    /** 增加或更新 */
     public function actionAddUpdate(){
         $request = Yii::$app->request;
         if($request->isPost){
@@ -91,6 +91,26 @@ class UserBigController extends Controller
             CommonFunctions::createAlertMessage("大客户设置失败，参数不全或存在非法字段","error");
         }
         return $this->redirect(['user-big/index']);
+    }
+
+    /** 验证推荐用户 */
+    public function actionGetRecommend()
+    {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            $recommendCode = $request->post('recommendCode');
+            if ($recommendCode) {
+                $recommendUser = Users::findUserByRecommendCode($recommendCode);
+                if ($recommendUser) {
+                    return "您要绑定的推荐人是：" . $recommendUser['nickname'];
+                } else {
+                    return "该推荐码不存在";
+                }
+            } else {
+                return "请先填写推荐码";
+            }
+        }
+        throw new Exception("非法获取");
     }
 
     /** 充值 */

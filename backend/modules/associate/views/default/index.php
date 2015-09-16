@@ -18,6 +18,8 @@ $this->params['breadcrumbs'] = [
         <p>
             <strong>基本信息</strong>
             <a href="<?=Url::to(['default/modify-password']) ?>" class="btn btn-xs btn-primary margin-left-20">修改密码</a>
+            <a href="<?=Url::to(['default/download','type'=>'agent']) ?>" class="btn btn-xs btn-primary margin-left-20 pull-right">下载代理协议模板</a>
+            <a href="<?=Url::to(['default/download','type'=>'sale']) ?>" class="btn btn-xs btn-primary margin-left-20 pull-right">下载销售协议模板</a>
         </p>
         <table class="table table_four_column">
             <tbody>

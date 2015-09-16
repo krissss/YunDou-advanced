@@ -133,6 +133,18 @@ AppAsset::register($this);
                             <span class="menu-text"> 自主充值 </span>
                         </a>
                     </li>
+                    <li>
+                        <a href="<?= Url::to(['invoice/index']) ?>">
+                            <i class="menu-icon fa fa-ticket"></i>
+                            <span class="menu-text"> 申请发票 </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= Url::to(['invoice-record/index']) ?>">
+                            <i class="menu-icon fa fa-table"></i>
+                            <span class="menu-text"> 发票列表 </span>
+                        </a>
+                    </li>
                 </ul>
                 <!-- /Sidebar Menu -->
             </div>

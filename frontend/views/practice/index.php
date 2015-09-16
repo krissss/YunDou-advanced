@@ -1,13 +1,14 @@
 <?php
-
+/** 练习首页 */
 use yii\helpers\Url;
+use common\models\Users;
 
 $this->title = "在线练习";
 
 $session = Yii::$app->session;
-$leftBitcoin = $session->getFlash('leftBitcoin');   //云豆剩余，不能作为标识，因为有可能是0
+$sessionUser = $session->get('user');
 $practiceRecordFlag = $session->getFlash('practiceRecordFlag'); //用户没有练习权限的标志
-$scheme = $session->get('practice-scheme');
+$schemes = $session->get('practice-schemes');   //所有的练习付款方案
 
 ?>
 <div class="load-container loading" style="display: none;">
@@ -78,23 +79,28 @@ $scheme = $session->get('practice-scheme');
     </div>
 </div>
 
-<?php if($practiceRecordFlag && $scheme):?>
-<div class="modal fade" id="pay_modal" tabindex="-1" role="dialog" aria-labelledby="在线学习操作说明">
+<?php if($practiceRecordFlag && $schemes):?>
+<div class="modal fade" id="pay_modal" tabindex="-1" role="dialog" aria-labelledby="在线学习支付">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">在线学习操作说明</h4>
+                <h4 class="modal-title" id="myModalLabel">在线学习支付</h4>
             </div>
             <div class="modal-body">
-                <p>您还剩余“云豆”<?=$leftBitcoin?>颗</p>
-                <p>本次学习将花费<?=$scheme->payBitcoin?>颗</p>
-                <p>从您支付完成，可以使用<?=$scheme->day?>天</p>
+                <p class="margin-bottom-20">您还剩余云豆:<strong><?=Users::findBitcoin($sessionUser['userId'])?></strong>颗</p>
+                <input type="hidden" name="schemeId" value="">
+                <?php foreach($schemes as $scheme): ?>
+                    <div class="pic_box_3 practice_select" data-id="<?=$scheme['schemeId']?>">
+                        <div class="bitcoin"><?=$scheme['payBitcoin']?><small>云豆</small></div>
+                        <div class="rmb">使用<?=$scheme['hour']?>小时</div>
+                    </div>
+                <?php endforeach; ?>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary pay_click">确定</button>
-                <button type="button" class="btn btn-primary pay_redirect" data-href="<?=Url::to(['account/recharge'])?>">去充值</button>
+                <button type="button" class="btn btn-primary pay_redirect" data-href="<?=Url::to(['recharge/index'])?>">去充值</button>
             </div>
         </div>
     </div>

@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
                 ])->hiddenInput()?>
                 <?= $form->field($addPracticeForm, 'name') ?>
                 <?= $form->field($addPracticeForm, 'payBitcoin')->input("number") ?>
-                <?= $form->field($addPracticeForm, 'day')->input("number") ?>
+                <?= $form->field($addPracticeForm, 'hour')->input("number") ?>
                 <?= $form->field($addPracticeForm, 'startDate')->input("datetime-local") ?>
                 <?= $form->field($addPracticeForm, 'endDate')->input("datetime-local") ?>
             </div>

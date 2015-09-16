@@ -6,6 +6,7 @@ use backend\modules\associate\models\forms\UpdateUserForm;
 use common\functions\CommonFunctions;
 use common\models\Users;
 use Yii;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\helpers\Url;
 use backend\modules\associate\models\forms\ModifyPassWordForm;
@@ -67,5 +68,21 @@ class DefaultController extends Controller
             ['user' => $user,
                 'updateUserForm'=>$updateUserForm
             ]);
+    }
+
+    /** 下载协议模板 */
+    public function actionDownload($type){
+        if($type == 'agent'){
+            $fileName = 'yundou_agent.pdf';
+        }elseif($type == 'sale'){
+            $fileName = 'yundou_sale.pdf';
+        }else{
+            throw new Exception("类型未定义");
+        }
+        if(file_exists('./agreement/'.$fileName)){
+            return Yii::$app->response->sendFile('./agreement/'.$fileName);
+        }else{
+            return "<h1>文件不存在</h1>";
+        }
     }
 }

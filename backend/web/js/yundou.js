@@ -11,36 +11,13 @@ $(document).ready(function(){
         $(".modal-title").text("修改区域");
     });
 
-    /** 同意发票申请 */
-    var agree_invoiceFlag = false;
-    $(".agree_invoice").click(function(){
-        if(agree_invoiceFlag){
-            alert("修改中，请勿重复点击");
-            return false;
-        }
-        var id = $(this).data("id");
-        var $this = $(this);
-        $this.text("修改中");
-        agree_invoiceFlag = true;
-        $.post("?r=invoice/change-state",{_csrf: csrfToken,invoiceId:id,state:'agree'},function(){
-            $(".invoice_"+id).hide();
-        });
-    });
-
-    /** 拒绝发票申请 */
-    var refuse_invoiceFlag = false;
-    $(".refuse_invoice").click(function(){
-        if(refuse_invoiceFlag){
-            alert("修改中，请勿重复点击");
-            return false;
-        }
-        var id = $(this).data("id");
-        var $this = $(this);
-        $this.text("修改中");
-        refuse_invoiceFlag = true;
-        $.post("?r=invoice/change-state",{_csrf: csrfToken,invoiceId:id,state:'refuse'},function(){
-            $(".invoice_"+id).hide();
-        });
+    /** 发票管理 */
+    $(".invoice_btn").click(function(){
+        var id =$(this).data("id");
+        $.post("?r=invoice/init",{_csrf: csrfToken,invoiceId:id},function(data){
+            body.append(data);
+            $(".invoice_btn_modal").last().modal('show');
+        })
     });
 
     /** 填写快递单号 */
@@ -385,7 +362,7 @@ $(document).ready(function(){
             $(".add_user_aa_modal").last().modal('show');
         });
     });
-    /** 编辑方案 */
+    /** 编辑 */
     $(".update_user_aa").click(function(){
         var id = $(this).data("id");
         $.post("?r=user-aa/add-update",{_csrf: csrfToken,userId:id},function(data){
@@ -424,7 +401,7 @@ $(document).ready(function(){
             $(".add_user_aaa_modal").last().modal('show');
         });
     });
-    /** 编辑方案 */
+    /** 编辑 */
     $(".update_user_aaa").click(function(){
         var id = $(this).data("id");
         $.post("?r=user-aaa/add-update",{_csrf: csrfToken,userId:id},function(data){
@@ -463,7 +440,26 @@ $(document).ready(function(){
             $(".add_user_big_modal").last().modal('show');
         });
     });
-    /** 编辑方案 */
+    /** 验证推荐人 */
+    var validateRecommendFlag = false;  //防止频繁点击
+    body.on("click",".validate_recommend",function(){
+        if(!validateRecommendFlag){
+            var recommendCode = $("#adduserform-recommendcode").val();
+            if(recommendCode){
+                var $this = $(this);
+                $this.text("检查中。。。");
+                validateRecommendFlag = true;
+                $.post("?r=user-big/get-recommend",{_csrf: csrfToken,recommendCode:recommendCode},function(data){
+                    $this.text("推荐人检查");
+                    validateRecommendFlag = false;
+                    alert(data);
+                });
+            }else{
+                alert("请先填写推荐码");
+            }
+        }
+    });
+    /** 编辑 */
     $(".update_user_big").click(function(){
         var id = $(this).data("id");
         $.post("?r=user-big/add-update",{_csrf: csrfToken,userId:id},function(data){

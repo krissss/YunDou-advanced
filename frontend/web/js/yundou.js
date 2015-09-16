@@ -99,6 +99,15 @@ $(document).ready(function(){
         return false;
     });
 
+    /** 做题付款 */
+    $(".practice_select").click(function(){
+        var id = $(this).data("id");
+        $("input[name=schemeId]").val(id);
+        $(".practice_select").each(function(){
+            $(this).removeClass("active");
+        });
+        $(this).addClass("active");
+    });
     var pay_click_flag = false;
     $(".pay_click").click(function(){
         if(pay_click_flag){
@@ -106,7 +115,8 @@ $(document).ready(function(){
             return false;
         }
         pay_click_flag = true;
-        $.post("?r=account/pay", {_csrf: csrfToken},function(data){
+        var schemeId = $("input[name=schemeId]").val();
+        $.post("?r=account/pay", {_csrf: csrfToken,schemeId:schemeId},function(data){
             if(data!=true){
                 alert(data);
             }else{
@@ -125,10 +135,10 @@ $(document).ready(function(){
     });
 
     function redirect(url){
+        $(".loading p").text("页面跳转中，请稍等");
         $(".loading").show();
         window.location.href=url;
     }
-
 
     /** 做题页面相关 */
     $(".loading").hide();

@@ -33,7 +33,7 @@ $userSession = Yii::$app->session->get('user');
                 <th class="text-align-center">序号</th>
                 <th class="text-align-center">方案名称</th>
                 <th class="text-align-center">花费云豆</th>
-                <th class="text-align-center">使用天数</th>
+                <th class="text-align-center">使用小时数</th>
                 <th class="text-align-center">生效时间</th>
                 <th class="text-align-center">结束时间</th>
                 <th class="text-align-center">方案执行状态</th>
@@ -48,7 +48,7 @@ $userSession = Yii::$app->session->get('user');
                     <td><?= $i+1 ?></td>
                     <td><?= $scheme->name ?></td>
                     <td><?= $scheme->payBitcoin ?></td>
-                    <td><?= $scheme->day ?></td>
+                    <td><?= $scheme->hour ?></td>
                     <td><?= $scheme->startDate==null?"永久":$scheme->startDate ?></td>
                     <td><?= $scheme->endDate==null?"永久":$scheme->endDate ?></td>
                     <td>

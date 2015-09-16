@@ -19,9 +19,9 @@ $userSession = Yii::$app->session->get('user');
     <div class="widget-body">
         <?= \common\widgets\AlertWidget::widget();?>
         <div class="well bordered-left bordered-blue">
-            <?php if($userSession['role']>=Users::ROLE_MANAGER):?>
+            <?php /*if($userSession['role']>=Users::ROLE_MANAGER):*/?><!--
             <a class="btn btn-default add_rebate" href="javascript:void(0);"><i class="fa fa-plus"></i>添加新方案</a>
-            <?php endif; ?>
+            --><?php /*endif; */?>
             <label>快速查找:</label>
             <a class="btn btn-default" href="<?=Url::to(['rebate/index'])?>">所有</a>
             <a class="btn btn-default" href="<?=Url::to(['rebate/search','type'=>'usageMode','content'=>Scheme::USAGE_REBATE_A])?>">A级</a>

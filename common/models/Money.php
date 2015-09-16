@@ -246,16 +246,54 @@ class Money extends \yii\db\ActiveRecord
             if($recommendUser){ //存在推荐用户
                 $rebateScheme = Scheme::findRebateScheme($recommendUser['role']);
                 if($rebateScheme && $money>=$rebateScheme['payMoney']){  //存在返点方案，并且达到当前返点的起始要求
-                    $addBitcoin = $bitcoin * $rebateScheme['rebateSelf'];    //返点云豆，返给充值人
+                    $proportion = Yii::$app->params['proportion'];
+                    $addBitcoin = $money * $proportion *  $rebateScheme['rebateSelf'];    //返点云豆，返给充值人
                     IncomeConsume::saveRecord($user['userId'],$addBitcoin,$rebateScheme['usageModeId'],IncomeConsume::TYPE_INCOME,$user['userId']);
-                    $addBitcoin = $bitcoin * $rebateScheme['rebate'];    //返点云豆，返给推荐人
-                    IncomeConsume::saveRecord($recommendUser['userId'],$addBitcoin,$rebateScheme['usageModeId'],IncomeConsume::TYPE_INCOME,$user['userId']);
+                    $addBitcoin = $money * $proportion * $rebateScheme['rebate'];    //返点云豆，返给推荐人
+                    IncomeConsume::saveRecord($recommendUser['userId'],$addBitcoin,UsageMode::USAGE_REBATE_A,IncomeConsume::TYPE_INCOME,$user['userId']);
                 }
             }
         }elseif($type == Money::TYPE_WITHDRAW){ //提现
             IncomeConsume::saveRecord($user['userId'],$bitcoin,UsageMode::USAGE_WITHDRAW,IncomeConsume::TYPE_CONSUME);
         }else{
             throw new Exception("未知类型");
+        }
+    }
+
+    /**
+     * 针对大客户充值，大客户充值自己没有返点
+     * 记录用户的充值，包含返点、用户余额的改变和云豆收入支出记录的记录
+     * @param $user
+     * @param $money
+     * @param $bitcoin
+     * @param $from
+     * @param null $operateUserId
+     * @param null $agreement
+     * @throws Exception
+     */
+    public static function recordOneForBig($user,$money,$bitcoin,$from,$operateUserId=null,$agreement=null){
+        $moneyModel = new Money();
+        $moneyModel->userId = $user['userId'];
+        $moneyModel->money = $money;
+        $moneyModel->type = Money::TYPE_PAY;
+        $moneyModel->bitcoin = $bitcoin;
+        $moneyModel->createDate = DateFunctions::getCurrentDate();
+        $moneyModel->from = $from;
+        $moneyModel->operateUserId = $operateUserId;
+        $moneyModel->agreement = $agreement;
+        if(!$moneyModel->save()){
+            throw new Exception("money save error");
+        }
+        //云豆收入支出记录+用户余额改变
+        IncomeConsume::saveRecord($user['userId'],$bitcoin,UsageMode::USAGE_PAY,IncomeConsume::TYPE_INCOME,$operateUserId);
+        $recommendUser = Users::findRecommendUser($user['recommendUserID']);
+        if($recommendUser){ //存在推荐用户
+            $rebateScheme = Scheme::findRebateScheme(Users::ROLE_BIG);
+            if($rebateScheme && $money>=$rebateScheme['payMoney']){  //存在返点方案，并且达到当前返点的起始要求
+                $proportion = Yii::$app->params['proportion'];
+                $addBitcoin = $money * $proportion * $rebateScheme['rebate'];    //返点云豆，返给推荐人
+                IncomeConsume::saveRecord($recommendUser['userId'],$addBitcoin,UsageMode::USAGE_REBATE_BIG,IncomeConsume::TYPE_INCOME,$user['userId']);
+            }
         }
     }
 

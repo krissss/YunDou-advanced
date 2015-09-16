@@ -1,17 +1,17 @@
 <?php
-/* @var $updateWithdrawForm \backend\models\forms\UpdateWithdrawForm */
+/* @var $updateInvoiceForm \backend\models\forms\UpdateInvoiceForm */
 
 use yii\widgets\ActiveForm;
 ?>
-<div class="modal fade withdraw_btn_modal" tabindex="-1" role="dialog" aria-labelledby="提现申请回执">
+<div class="modal fade invoice_btn_modal" tabindex="-1" role="dialog" aria-labelledby="发票申请回执">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">提现申请回执</h4>
+                <h4 class="modal-title" id="myModalLabel">发票申请回执</h4>
             </div>
             <?php $form = ActiveForm::begin([
-                'action'=>\yii\helpers\Url::to(['withdraw/generate']),
+                'action'=>\yii\helpers\Url::to(['invoice/generate']),
                 'options' => ['class' => 'form-horizontal'],
                 'fieldConfig' => [
                     'options' => ['class' => 'form-group no-margin-bottom'],
@@ -20,15 +20,12 @@ use yii\widgets\ActiveForm;
                 ],
             ]); ?>
             <div class="modal-body">
-                <?= $form->field($updateWithdrawForm, 'withdrawId',[
+                <?= $form->field($updateInvoiceForm, 'invoiceId',[
                     'template' => "{input}"
                 ])->hiddenInput()?>
-                <?= $form->field($updateWithdrawForm, 'nickname')->textInput(['readonly'=>'readonly']) ?>
-                <?= $form->field($updateWithdrawForm, 'money')->textInput(['readonly'=>'readonly']) ?>
-                <?= $form->field($updateWithdrawForm, 'maxMoney')->textInput(['readonly'=>'readonly']) ?>
-                <?= $form->field($updateWithdrawForm, 'invoiceMoney')->textInput(['readonly'=>'readonly']) ?>
-                <?= $form->field($updateWithdrawForm, 'invoiceNo')->textInput(['readonly'=>'readonly']) ?>
-                <?= $form->field($updateWithdrawForm, 'replyContent') ?>
+                <?= $form->field($updateInvoiceForm, 'nickname')->textInput(['readonly'=>'readonly']) ?>
+                <?= $form->field($updateInvoiceForm, 'money')->textInput(['readonly'=>'readonly']) ?>
+                <?= $form->field($updateInvoiceForm, 'replyContent') ?>
             </div>
             <div class="clearfix"></div>
             <div class="modal-footer">

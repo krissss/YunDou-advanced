@@ -20,6 +20,7 @@ class AddUserForm extends Model
     public $email;
     public $qq;
     public $weixin;
+    public $recommendCode;
 
     public $role;
     public $roleName;
@@ -35,7 +36,9 @@ class AddUserForm extends Model
             [['username', 'email', 'weixin', 'nickname', 'realname', 'address'], 'string', 'max' => 50],
             [['cellphone'], 'match', 'pattern' =>'/1[3458]{1}\d{9}$/','message'=>'{attribute}不合法'],
             [['email'],'email'],
-            [['qq'], 'string', 'max' => 12]
+            [['qq'], 'string', 'max' => 12],
+            [['recommendCode'],'string'],
+            [['recommendCode'],'validateRecommendCode'],
         ];
     }
 
@@ -52,6 +55,7 @@ class AddUserForm extends Model
             'qq' => 'qq',
             'weixin' => '微信',
             'roleName' => '伙伴等级',
+            'recommendCode' => '推荐伙伴',
         ];
     }
 
@@ -61,6 +65,18 @@ class AddUserForm extends Model
             if($user){
                 CommonFunctions::createAlertMessage("登录名冲突，请重设登录名","error");
                 $this->addError($attribute,'登录名冲突，请重设登录名');
+            }
+        }
+    }
+
+    public function validateRecommendCode($attribute){
+        if(!$this->userId){ //新用户检查
+            if($this->recommendCode){   //如果推荐码存在
+                $first = substr($this->recommendCode,0,1);
+                if("D"!=$first && "G"!=$first){
+                    CommonFunctions::createAlertMessage("填写的推荐码必须是金牌伙伴或者钻石伙伴的","error");
+                    $this->addError($attribute,'填写的推荐码必须是金牌伙伴或者钻石伙伴的');
+                }
             }
         }
     }
@@ -87,6 +103,7 @@ class AddUserForm extends Model
     public static function initWithIdOrRole($id = null,$role = null){
         $form = new AddUserForm();
         if($id) {
+            /** @var $user \common\models\Users*/
             $user = Users::findOne($id);
             $form->role = $user->role;
             $form->userId = $id;
@@ -99,6 +116,9 @@ class AddUserForm extends Model
             $form->email = $user->email;
             $form->qq = $user->qq;
             $form->weixin = $user->weixin;
+            if($form->role == Users::ROLE_BIG){ //大客户要有推荐码
+                $form->recommendCode = $user->recommendUser['nickname'];
+            }
         }else{
             if($role){
                 $form->role = $role;
@@ -111,7 +131,7 @@ class AddUserForm extends Model
     }
 
     public function recordOne(){
-        if(!$this->userId){
+        if(!$this->userId){ //新添加
             $user = new Users();
             $user->bitcoin = 0;
             $user->password = CommonFunctions::encrypt("123456");   //初始密码设置为123456
@@ -128,8 +148,10 @@ class AddUserForm extends Model
                 }
             }while(Users::findUserByRecommendCode($recommendCode));
             $user->recommendCode = $recommendCode;
+            $recommendUser = Users::findUserByRecommendCode($this->recommendCode);
+            $user->recommendUserID = $recommendUser['userId'];
             $user->registerDate = DateFunctions::getCurrentDate();
-        }else{
+        }else{  //已存在
             $user = Users::findOne($this->userId);
         }
         $user->role = $this->role;

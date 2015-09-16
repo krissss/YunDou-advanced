@@ -146,11 +146,12 @@ class AccountController extends Controller
         ]);
     }
 
+    /** 协议页面 */
     public function actionAgreement(){
         $type = Yii::$app->request->get('type');
         if($type == 'download'){
-            if(file_exists('./agreement/yundou20150915.docx')){
-                return Yii::$app->response->sendFile('./agreement/yundou20150915.docx');
+            if(file_exists('./agreement/yundou_service.pdf')){
+                return Yii::$app->response->sendFile('./agreement/yundou_service.pdf');
             }else{
                 return "<h1>文件不存在</h1>";
             }
@@ -214,8 +215,13 @@ class AccountController extends Controller
         if($request->isAjax){
             $session = Yii::$app->session;
             $user = $session->get('user');
+            $schemeId = $request->post('schemeId');
+            /** @var $scheme \common\models\Scheme */
+            $scheme = Scheme::findOne($schemeId);
+            if(!$scheme){
+                return '该方案已停用';
+            }
             $leftBitcoin = Users::findBitcoin($user['userId']);
-            $scheme = $session->get('practice-scheme');
             if($leftBitcoin < $scheme['payBitcoin']){
                 return '您的云豆余额不足';
             }

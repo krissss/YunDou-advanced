@@ -2,7 +2,6 @@
 /** 添加或修改充值方案的表单 */
 namespace backend\models\forms;
 
-use common\functions\CommonFunctions;
 use common\models\Scheme;
 use yii\base\Exception;
 use yii\base\Model;
@@ -19,7 +18,7 @@ class AddRechargeForm extends Model
     public function rules()
     {
         return [
-            [['name','payMoney', 'getBitcoin','startDate','endDate'], 'required'],
+            [['name','payMoney', 'getBitcoin'], 'required'],
             [['schemeId','payMoney', 'getBitcoin'], 'integer'],
             [['startDate', 'endDate'], 'safe'],
             [['endDate'], 'compare','compareAttribute' => 'startDate','operator' => '>'],
@@ -52,11 +51,6 @@ class AddRechargeForm extends Model
         $scheme->startDate = $this->startDate;
         $scheme->endDate = $this->endDate;
         if($state){
-            $checkResult = Scheme::checkScheme(Scheme::USAGE_PAY,$this->startDate,$this->endDate);  //检查方案冲突
-            if($checkResult){
-                CommonFunctions::createAlertMessage("方案设置失败，启用的方案中存在与想要设置的方案时间存在冲突，冲突方案名称是：".$checkResult,"error");
-                return true;
-            }
             $scheme->state = Scheme::STATE_ABLE;
         }else{
             $scheme->state = Scheme::STATE_DISABLE;

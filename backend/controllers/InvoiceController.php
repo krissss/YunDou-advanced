@@ -6,10 +6,10 @@ use backend\filters\AdminFilter;
 use backend\filters\OperationFilter;
 use backend\filters\SaleFilter;
 use backend\filters\UserLoginFilter;
+use backend\models\forms\UpdateInvoiceForm;
 use Yii;
 use common\models\Invoice;
 use common\models\Users;
-use yii\base\Exception;
 use yii\web\Controller;
 use yii\data\Pagination;
 use common\functions\CommonFunctions;
@@ -184,27 +184,44 @@ class InvoiceController extends Controller
         ]);
     }
 
-    /** 改变发票状态 */
-    public function actionChangeState(){
+    /** 填写处理内容 */
+    public function actionInit(){
         $request = Yii::$app->request;
         if($request->isPost){
             $invoiceId = $request->post('invoiceId');
-            $state = $request->post('state');
-            $replyContent = $request->post('replyContent');
-            if($state == 'agree'){
-                $invoiceState = Invoice::STATE_PASS;
-                CommonFunctions::createAlertMessage("已同意开票",'success');
-            }elseif($state == 'refuse'){
-                $invoiceState = Invoice::STATE_REFUSE;
-                CommonFunctions::createAlertMessage("已拒绝开票",'success');
+            if($invoiceId){
+                $updateInvoiceForm = UpdateInvoiceForm::initInvoice($invoiceId);
+                return $this->renderAjax('apply-form',[
+                    'updateInvoiceForm' => $updateInvoiceForm
+                ]);
             }else{
-                throw new Exception("state undefined");
+                CommonFunctions::createAlertMessage("非正常请求，错误！",'error');
             }
-            Invoice::changeState($invoiceId,$invoiceState,$replyContent);
-        }else{
-            CommonFunctions::createAlertMessage("非正常请求，错误！",'error');
         }
         return $this->redirect(['invoice/apply']);
+    }
+
+    /** 处理申请改变状态 */
+    public function actionGenerate(){
+        $updateInvoiceForm = new UpdateInvoiceForm();
+        $request = Yii::$app->request;
+        if($updateInvoiceForm->load($request->post())&&$updateInvoiceForm->validate()){
+            $type = $request->post('type');
+            if($type=='refuse'){
+                $state = Invoice::STATE_REFUSE;
+            }elseif($type == 'agree'){
+                $state = Invoice::STATE_PASS;
+            }else{
+                CommonFunctions::createAlertMessage("提交的状态类型未知",'error');
+                return $this->redirect(['invoice/apply']);
+            }
+            $updateInvoiceForm->updateInvoice($state);
+            CommonFunctions::createAlertMessage("处理成功",'success');
+            return $this->redirect(['invoice/apply']);
+        }else{
+            CommonFunctions::createAlertMessage("处理失败",'error');
+            return $this->redirect(['invoice/apply']);
+        }
     }
 
 }

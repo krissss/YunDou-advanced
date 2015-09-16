@@ -52,6 +52,24 @@ use yii\helpers\ArrayHelper;
                 <?= $form->field($addUserForm, 'email') ?>
                 <?= $form->field($addUserForm, 'qq')->input('number') ?>
                 <?= $form->field($addUserForm, 'weixin') ?>
+                <?php
+                if($addUserForm['userId']){ //如果不是添加新用户
+                    $inputAttr = [
+                        'readonly'=>'readonly',
+                        'value' => $addUserForm->recommendCode?$addUserForm->recommendCode:"无"
+                    ];
+                    $template = "{label}<div class='col-xs-10 no-padding-left'>{input}</div><div class='col-xs-10 col-xs-offset-2'>{error}</div>";
+                }else{
+                    $inputAttr = [
+                        'placeholder'=>'可填写伙伴推荐码',
+                    ];
+                    $template = "{label}<div class='col-xs-5 no-padding-left'>{input}</div><div class='col-xs-5 no-padding-left'>
+                    <span class='btn btn-primary validate_recommend'>推荐人检查</span></div><div class='col-xs-9 col-xs-offset-3'>{error}</div>";
+                }
+                ?>
+                <?= $form->field($addUserForm, 'recommendCode',[
+                    'template' => $template
+                ])->textInput($inputAttr) ?>
             </div>
             <div class="clearfix"></div>
             <div class="modal-footer">

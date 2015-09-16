@@ -8,4 +8,6 @@ return [
     'headPath' => Url::to('./img/avatars/'),
 
     'pageSize' => 20,
+
+    'proportion' => 100,    //云豆和元的比例，100：1
 ];

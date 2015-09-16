@@ -2,7 +2,6 @@
 /** 添加或更新在线练习方案的表单 */
 namespace backend\models\forms;
 
-use common\functions\CommonFunctions;
 use common\models\Scheme;
 use yii\base\Exception;
 use yii\base\Model;
@@ -12,15 +11,15 @@ class AddPracticeForm extends Model
     public $schemeId;
     public $name;
     public $payBitcoin;
-    public $day;
+    public $hour;
     public $startDate;
     public $endDate;
 
     public function rules()
     {
         return [
-            [['name','payBitcoin', 'day','startDate','endDate'], 'required'],
-            [['schemeId','payBitcoin', 'day'], 'integer'],
+            [['name','payBitcoin', 'hour'], 'required'],
+            [['schemeId','payBitcoin', 'hour'], 'integer'],
             [['startDate', 'endDate'], 'safe'],
             [['endDate'], 'compare','compareAttribute' => 'startDate','operator' => '>'],
             [['name'], 'string', 'max' => 50],
@@ -32,7 +31,7 @@ class AddPracticeForm extends Model
         return [
             'name' => '方案名称',
             'payBitcoin' => '花费云豆',
-            'day' => '使用天数',
+            'hour' => '使用小时数',
             'startDate' => '生效时间',
             'endDate' => '结束时间',
         ];
@@ -48,15 +47,10 @@ class AddPracticeForm extends Model
         }
         $scheme->name = $this->name;
         $scheme->payBitcoin = $this->payBitcoin;
-        $scheme->day = $this->day;
+        $scheme->hour = $this->hour;
         $scheme->startDate = $this->startDate;
         $scheme->endDate = $this->endDate;
         if($state){
-            $checkResult = Scheme::checkScheme(Scheme::USAGE_PRACTICE,$this->startDate,$this->endDate);  //检查方案冲突
-            if($checkResult){
-                CommonFunctions::createAlertMessage("方案设置失败，启用的方案中存在与想要设置的方案时间存在冲突，冲突方案名称是：".$checkResult,"error");
-                return true;
-            }
             $scheme->state = Scheme::STATE_ABLE;
         }else{
             $scheme->state = Scheme::STATE_DISABLE;
@@ -73,7 +67,7 @@ class AddPracticeForm extends Model
         $form->schemeId = $id;
         $form->name = $scheme->name;
         $form->payBitcoin = $scheme->payBitcoin;
-        $form->day = $scheme->day;
+        $form->hour = $scheme->hour;
         $form->startDate = $scheme->startDate;
         $form->endDate = $scheme->endDate;
         return $form;

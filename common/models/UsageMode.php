@@ -29,6 +29,10 @@ class UsageMode extends \yii\db\ActiveRecord
     const USAGE_REBATE_AAA = 9; //AAA级用户充值返点收入
     const USAGE_DISTRIBUTE_INCOME = 10; //大客户分配收入
     const USAGE_DISTRIBUTE_CONSUME = 11; //大客户分配支出
+    const USAGE_REBATE_BIG = 12; //大客户充值返点收入
+    const USAGE_WITHDRAW_AA = 13; //金牌伙伴提现支出
+    const USAGE_WITHDRAW_AAA_LOW = 14; //钻石伙伴提现支出-低比例
+    const USAGE_WITHDRAW_AAA_HIGH = 15; //钻石伙伴提现支出-高比例
 
     public static function tableName()
     {

@@ -19,8 +19,6 @@ class ApplyController extends Controller
     }
 
     public function actionIndex(){
-        $session = Yii::$app->session;
-        $user = $session->get('user');
         $applyMoneyForm = new ApplyMoneyForm();
         $request = Yii::$app->request;
         if($request->isPost){
@@ -38,8 +36,7 @@ class ApplyController extends Controller
             系统会提交相关人员审核，审核后将会打款至您提交的银行账户。提现金额最低100元。","info");
         }
         return $this->render('index', [
-            'user' =>$user,
-            'applyMoneyForm' => $applyMoneyForm
+            'applyMoneyForm' => $applyMoneyForm,
         ]);
     }
 }

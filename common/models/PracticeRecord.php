@@ -73,7 +73,7 @@ class PracticeRecord extends \yii\db\ActiveRecord
         $record->userId = $userId;
         $record->bitcoin = $scheme['payBitcoin'];
         $record->startDate = DateFunctions::getCurrentDate();
-        $record->endDate = date('y-m-d H:i:s',strtotime('+'.$scheme['day'].' day'));
+        $record->endDate = date('y-m-d H:i:s',strtotime('+'.$scheme['hour'].' hour'));
         if(!$record->save()){
             throw new Exception("PracticeRecord save error");
         }

@@ -167,3 +167,8 @@ testlibrary
     problem varchar(1000)=>varchar(2000)
     question varchar(1000)=>varchar(2000)
     options varchar(1000)=>varchar(2000)
+
+scheme
+    day => hour
+    + getMoney numeric(6,2)
+    + totalBitcoin int
