@@ -29,7 +29,7 @@ foreach($orders as $order){
 <?=\common\widgets\AlertWidget::widget()?>
 <div class="container-fluid">
     <?php foreach($schemes as $i=>$scheme): ?>
-        <div class="pic_box_3 order" onclick="pay(this)" data-no="<?=$i?>">
+        <div class="pic_box_3 order" onclick="pay(this)" data-param='<?=$jsApiParameters[$i]?>'>
             <div class="bitcoin"><?=$scheme['getBitcoin']?><small>云豆</small></div>
             <div class="rmb">售价<?=$scheme['payMoney']?>元</div>
         </div>
@@ -37,35 +37,30 @@ foreach($orders as $order){
 </div>
     <script type="text/javascript">
         //调用微信JS api 支付
-        function jsApiCall(orderNo)
+        function jsApiCall($jsApiParameters)
         {
-            switch (orderNo) {
-                <?php foreach($jsApiParameters as $i=>$jsApiParameter):?>
-                case <?=$i?>:
-                    WeixinJSBridge.invoke(
-                        'getBrandWCPayRequest',
-                        <?php echo $jsApiParameters[$i]; ?>,
-                        function(res){
-                            if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                                window.location.href = "?r=account/recharge&type=over";
-                            }
+            alert($jsApiParameters);
+                WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',
+                    $jsApiParameters,
+                    function(res){
+                        if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                            window.location.href = "?r=account/recharge&type=over";
                         }
-                    );
-                    break;
-                <?php endforeach;?>
-            }
+                    }
+                );
         }
         function pay($this){
-            var orderNo = $this.getAttribute('data-no');
+            var $jsApiParameters = $this.getAttribute('data-param');
             if (typeof WeixinJSBridge == "undefined"){
                 if( document.addEventListener ){
-                    document.addEventListener('WeixinJSBridgeReady', jsApiCall(orderNo), false);
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall($jsApiParameters), false);
                 }else if (document.attachEvent){
-                    document.attachEvent('WeixinJSBridgeReady', jsApiCall(orderNo));
-                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall(orderNo));
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall($jsApiParameters));
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall($jsApiParameters));
                 }
             }else{
-                jsApiCall(orderNo);
+                jsApiCall($jsApiParameters);
             }
         }
     </script>
