@@ -7,21 +7,18 @@ use yii\helpers\Html;
 /* @var $message string */
 /* @var $exception Exception */
 
-$this->title = $name;
+$this->title = 404;
 ?>
-<div class="site-error">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
+<div class="container">
+    <div class="head-margin-20"></div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3>哎呀！页面丢了</h3>
+        </div>
     </div>
-
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
-
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>可能是网络不通畅导致的页面丢失，您可以尝试退出后重新进入，如果多次出现您也可以联系客服。</p>
+        </div>
+    </div>
 </div>
