@@ -283,7 +283,7 @@ class Users extends \yii\db\ActiveRecord
      * @return null|static
      */
     public static function findRecommendUser($recommendUserId){
-        return $user = Users::findOne(['userId'=>$recommendUserId,'state'=>Users::STATE_NORMAL]);
+        return $user = Users::findOne(['userId'=>$recommendUserId]);
     }
 
     /**

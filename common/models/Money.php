@@ -249,8 +249,10 @@ class Money extends \yii\db\ActiveRecord
                     $proportion = Yii::$app->params['proportion'];
                     $addBitcoin = $money * $proportion *  $rebateScheme['rebateSelf'];    //返点云豆，返给充值人
                     IncomeConsume::saveRecord($user['userId'],$addBitcoin,$rebateScheme['usageModeId'],IncomeConsume::TYPE_INCOME,$user['userId']);
-                    $addBitcoin = $money * $proportion * $rebateScheme['rebate'];    //返点云豆，返给推荐人
-                    IncomeConsume::saveRecord($recommendUser['userId'],$addBitcoin,UsageMode::USAGE_REBATE_A,IncomeConsume::TYPE_INCOME,$user['userId']);
+                    if($recommendUser['state']!=Users::STATE_FROZEN && $recommendUser['state']!=Users::STATE_STOP){ //推荐用户处于冻结或终止状态时不给其返点
+                        $addBitcoin = $money * $proportion * $rebateScheme['rebate'];    //返点云豆，返给推荐人
+                        IncomeConsume::saveRecord($recommendUser['userId'],$addBitcoin,UsageMode::USAGE_REBATE_A,IncomeConsume::TYPE_INCOME,$user['userId']);
+                    }
                 }
             }
         }elseif($type == Money::TYPE_WITHDRAW){ //提现
