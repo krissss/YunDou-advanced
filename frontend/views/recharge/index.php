@@ -1,11 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kriss
- * Date: 2015/9/16
- * Time: 15:41
- */
-
+$this->title = "云豆充值跳转页面";
 ?>
 <div class="load-container loading">
     <div class="loader">Loading...</div>

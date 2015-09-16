@@ -172,38 +172,6 @@ class AccountController extends Controller
         ]);
     }
 
-    /** 我要充值，包含操作：充值页面、调用微信支付页面、充值完成 */
-    public function actionRecharge(){
-        $rechargeForm = new RechargeForm();
-        $request = Yii::$app->request;
-        $session = Yii::$app->session;
-        $user = $session->get('user');
-        $scheme = Scheme::findPayScheme();  //获取充值方案
-        $recommendUser = Users::findRecommendUser($user['recommendUserID']);
-        if($recommendUser){ //存在推荐用户则需要有返点消息提示，否则没有提示
-            $rebateScheme = Scheme::findRebateScheme($recommendUser['role']);  //获取返点方案
-        }else{
-            $rebateScheme = "";
-        }
-        $proportion = intval($scheme['getBitcoin'])/intval($scheme['payMoney']);    //充值比例,1：X的X
-        if($request->get('type')=='over'){  //微信支付成功后
-            CommonFunctions::createAlertMessage("充值成功，云豆将在2小时内充值到您的账户，如未到达可联系客服","success");
-        }else{
-            $msg = '当前云豆充值比例（人民币元：云豆颗）为1:'.$proportion;
-            if($rebateScheme){
-                $msg.= '，充值金额大于'.$rebateScheme['payMoney'].'元时可以获得'.($rebateScheme['rebateSelf']*100).'%返点哦~';
-                $session->setFlash('rebateScheme',$rebateScheme);   //下个页面调用
-            }
-            CommonFunctions::createAlertMessage($msg,"info");
-        }
-        $leftBitcoin = Users::findBitcoin($user['userId']); //剩余的云豆
-        return $this->render('recharge',[
-            'rechargeForm' => $rechargeForm,
-            'leftBitcoin' => $leftBitcoin,
-            'proportion' => $proportion
-        ]);
-    }
-
     /** 我要推荐 */
     public function actionRecommend(){
         return $this->render('recommend');

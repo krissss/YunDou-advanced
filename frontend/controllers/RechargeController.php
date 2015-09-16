@@ -82,6 +82,7 @@ class RechargeController extends Controller
 
     /** 充值完成页面 */
     public function actionOver(){
-
+        CommonFunctions::createAlertMessage("充值成功，云豆将在2小时内充值到您的账户，如未到达可联系客服","success");
+        return $this->render('over');
     }
 }

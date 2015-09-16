@@ -26,8 +26,7 @@ foreach($orders as $order){
 </div>
 <hr>
 <div class="container-fluid">
-<?=\common\widgets\AlertWidget::widget()?>
-<div class="container-fluid">
+    <?=\common\widgets\AlertWidget::widget()?>
     <?php foreach($schemes as $i=>$scheme): ?>
         <div class="pic_box_3 order" onclick="pay(this)" data-param='<?=$jsApiParameters[$i]?>'>
             <div class="bitcoin"><?=$scheme['getBitcoin']?><small>云豆</small></div>

@@ -5,7 +5,7 @@
 use common\functions\CommonFunctions;
 use common\models\Users;
 
-$this->title = "云豆充值";
+$this->title = "云豆二维码充值";
 $user = Yii::$app->session->get('user');
 $userIcon = isset($user['userIcon'])?$user['userIcon']:null;
 $userIcon = CommonFunctions::createHttpImagePath($userIcon);
@@ -20,8 +20,7 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
 </div>
 <hr>
 <div class="container-fluid">
-<?=\common\widgets\AlertWidget::widget()?>
-<div class="container-fluid">
+    <?=\common\widgets\AlertWidget::widget()?>
     <?php foreach($schemes as $i=>$scheme): ?>
         <div class="pic_box_3 order" onclick="pay(this)" data-param='<?=$orders[$i]?>'>
             <div class="bitcoin"><?=$scheme['getBitcoin']?><small>云豆</small></div>
