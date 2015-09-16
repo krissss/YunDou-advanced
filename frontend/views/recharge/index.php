@@ -45,7 +45,7 @@ foreach($orders as $order){
                 $jsApiParameters,
                 function(res){
                     if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                        window.location.href = "?r=account/recharge&type=over";
+                        window.location.href = "?r=recharge/over";
                     }
                 }
             );

@@ -35,11 +35,9 @@ class WxPayFunctions
                 $openId = $xmlArray['openid'];
                 $user = Users::findByWeiXin($openId);   //获得付款用户
                 $money = $xmlArray['total_fee']/100;    //总金额（元）
-                $scheme = Scheme::findPayScheme();  //获取充值方案
-                $proportion = intval($scheme['getBitcoin']) / intval($scheme['payMoney']);    //充值比例,1：X的X
-                $addBitcoin = intval($money) * $proportion; //计算应得的云豆数
+                $addBitcoin = intval($xmlArray['attach']);  //获取充值获得的云豆数
                 Money::recordOne($user, $money, $addBitcoin, Money::TYPE_PAY, Money::FROM_WX);   //记录充值记录+返点+收入支出表变化+用户云豆数增加
-                CommonFunctions::logger_wx("订单:".$transaction_id.",openId:".$openId.",userId:".$user['userId'].",支付".$money."元,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end']);
+                CommonFunctions::logger_wx("订单:".$transaction_id.",openId:".$openId.",userId:".$user['userId'].",支付".$money."元,获得".$addBitcoin."云豆,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end']);
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }
         }else{
@@ -50,7 +48,7 @@ class WxPayFunctions
     }
 
     /** js客户端订单 */
-    public function generateJsOrder($money){
+    public function generateJsOrder($scheme){
         //获取用户openid
         $session = Yii::$app->session;
         $openId = $session->get('openId');
@@ -60,19 +58,21 @@ class WxPayFunctions
             exit;
         }
 
-        $input = $this->unifiedOrder($money);
+        $input = $this->unifiedOrder($scheme['payMoney']);
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
+        $input->SetAttach($scheme['getBitcoin']);   //传递获取到的云豆数
         /** @var $order array */
         $order = \WxPayApi::unifiedOrder($input);
         return $order;
     }
 
     /** 二维码订单 */
-    public function generateQrOrder($money){
-        $input = $this->unifiedOrder($money);
+    public function generateQrOrder($scheme){
+        $input = $this->unifiedOrder($scheme['payMoney']);
         $input->SetTrade_type("NATIVE");
         $input->SetProduct_id("123456789");
+        $input->SetAttach($scheme['getBitcoin']);   //传递获取到的云豆数
         $order = \WxPayApi::unifiedOrder($input);
         $qrUrl = $order["code_url"];
         return $qrUrl;

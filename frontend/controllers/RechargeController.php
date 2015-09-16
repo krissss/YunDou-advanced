@@ -23,6 +23,7 @@ class RechargeController extends Controller
         ];
     }
 
+    /** 充值页面 */
     public function actionIndex(){
         $session = Yii::$app->session;
         $user = $session->get('user');
@@ -40,11 +41,16 @@ class RechargeController extends Controller
         $orders=[];
         $wxPayFunctions = new WxPayFunctions();
         foreach($schemes as $scheme){
-            array_push($orders,$wxPayFunctions->generateJsOrder($scheme['payMoney']));
+            array_push($orders,$wxPayFunctions->generateJsOrder($scheme));
         }
         return $this->render('index',[
             'schemes' => $schemes,
             'orders' => $orders
         ]);
+    }
+
+    /** 充值完成页面 */
+    public function actionOver(){
+
     }
 }
