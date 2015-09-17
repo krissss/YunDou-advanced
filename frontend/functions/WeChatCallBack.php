@@ -64,73 +64,23 @@ class WeChatCallBack
                 $contentStr = "感谢您关注云豆讲堂。\n\n在这里，您不但可以进行免费模拟考试、免费咨询考试信息、免费代办报名，还可以在线考试练习、与高手们交流学习心得、与朋友们整合考试资源。\n\n为了确保您获得准确的考试信息、试题库信息等，请您首先进行‘实名认证’。相关信息我们会保密哦！\n\n实名认证步骤：点击'模拟与学习'>>'实名认证'或者'<a href='".Url::to(['account/register','openId'=>strval($fromUsername)],true)."'>点击这里</a>'都可以进行，祝您考试顺利！\n\n<a href='http://x.eqxiu.com/s/d3HPgVVe?eqrcode=1&from=groupmessage&isappinstalled=0'>查看云豆平台应用手册</a>";
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
                 echo $resultStr;
-            }
-            if ($event == "CLICK") {
-                $eventKey = $postObj->EventKey;
-                switch ($eventKey) {
-                    case "online_practice":
-                        $response_msgType = "text";
-                        $contentStr = '<a href="'.Url::to(['practice/index','openId'=>strval($fromUsername)],true).'">点此在线练习</a>';
-                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
-                        echo $resultStr;
-                        break;
-                    case "simulate_exam":
-                        $response_msgType = "text";
-                        $contentStr = '<a href="'.Url::to(['exam/index','openId'=>strval($fromUsername)],true).'">点此模拟考试</a>';
-                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
-                        echo $resultStr;
-                        break;
-                    case "CLICK_REGISTER":  //实名认证
-                        $response_msgType = "text";
-                        $contentStr = "注册！";
-                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
-                        echo $resultStr;
-                        break;
-                    case "CLICK_ZIXUN_REQUEST": //我要咨询
-                        $cache->set("ZIXUN_REQUEST_" . $fromUsername, 'ZIXUN_REQUEST');
-                        $response_msgType = "text";
-                        $contentStr = "请输入您要咨询的内容\n输入#结束咨询";
-                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
-                        echo $resultStr;
-                        break;
-                    case "CLICK_ZIXUN_VIEW": //查询咨询
-                        self::ZIXUN_VIEW_Response($fromUsername, $toUsername);
-                        break;
-                    case "CLICK_BAOMING_REQUEST":   //我要报名
-                        $response_msgType = "text";
-                        $contentStr = "报名功能开发中。。。";
-                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
-                        echo $resultStr;
-                        break;
-                    case "CLICK_YUNDOU":   //我的云豆
-                        $response_msgType = "text";
-                        $contentStr = "注册！";
-                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $contentStr);
-                        echo $resultStr;
-                        break;
-                }
-            }
-            //文本消息
-            if ($msgType == 'text') {
-                if (!empty($content)) {
-                    if ($cache->get('ZIXUN_REQUEST_' . $fromUsername)) {
-                        self::ZIXUN_REQUEST_Response($content, $fromUsername, $toUsername);
-                    }
-                    $response_msgType = "text";
-                    $response_content = self::switchKeyword($content);
-                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $response_msgType, $response_content);
-                    echo $resultStr;
-                } else {
-                    echo "individual";
-                }
                 exit;
             }
-            //图片消息
-            if ($msgType == 'image') {
-
+            //任何消息，转往多客服
+            if (!empty($content)) {
+                $serviceTpl = "<xml>
+                                <ToUserName><![CDATA[%s]]></ToUserName>
+                                <FromUserName><![CDATA[%s]]></FromUserName>
+                                <CreateTime>%s</CreateTime>
+                                <MsgType><![CDATA[transfer_customer_service]]></MsgType>
+                                </xml>";
+                $resultStr = sprintf($serviceTpl, $fromUsername, $toUsername, $time);
+                echo $resultStr;
+                exit;
+            } else {
+                echo "individual";
+                exit;
             }
-
-
         } else {
             echo "";
             exit;
@@ -159,45 +109,6 @@ class WeChatCallBack
         } else {
             return false;
         }
-    }
-
-    private function switchKeyword($keyword)
-    {
-        switch ($keyword) {
-            case "你好":
-                $msg = "你好";
-                break;
-            case "1":
-                $msg = "1";
-                break;
-            default:
-                $msg = $keyword;
-        }
-        return $msg;
-    }
-
-    private function ZIXUN_REQUEST_Response($content, $fromUsername, $toUsername)
-    {
-        $cache = Yii::$app->cache;
-        $type = "text";
-        $textTpl = "<xml>
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[%s]]></MsgType>
-                    <Content><![CDATA[%s]]></Content>
-                    <FuncFlag>0</FuncFlag>
-                    </xml>";
-        if ($content == "#") {
-            $cache->delete("ZIXUN_REQUEST_" . $fromUsername);
-            $msg = "已经退出咨询";
-        } else {
-            Service::createServiceByOpenId($content,$fromUsername);
-            $msg = "您的咨询已记录，请耐心等待回复";
-        }
-        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, time(), $type, $msg);
-        echo $resultStr;
-        exit;
     }
 
     public function ZIXUN_VIEW_Response($fromUsername, $toUsername)
