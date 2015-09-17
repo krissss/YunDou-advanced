@@ -313,6 +313,12 @@ AppAsset::register($this);
                         </a>
                     </li>
                     <?php endif; ?>
+                    <li>
+                        <a href="<?= Url::to(['modify-password/index']) ?>">
+                            <i class="menu-icon fa fa-key"></i>
+                            <span class="menu-text"> 修改密码 </span>
+                        </a>
+                    </li>
                 </ul>
                 <!-- /Sidebar Menu -->
             </div>
