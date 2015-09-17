@@ -172,3 +172,6 @@ scheme
     day => hour
     + getMoney numeric(6,2)
     + totalBitcoin int
+
+majorjob
+    + provinceId int(11)

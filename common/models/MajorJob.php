@@ -10,6 +10,7 @@ use yii\caching\DbDependency;
  *
  * @property integer $majorJobId
  * @property string $name
+ * @property integer $provinceId
  * @property string $code
  * @property string $remark
  */
@@ -29,6 +30,7 @@ class MajorJob extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['provinceId'], 'integer'],
             [['name'], 'string', 'max' => 50],
             [['code'], 'string', 'max' => 1],
             [['remark'], 'string', 'max' => 100]
@@ -43,6 +45,7 @@ class MajorJob extends \yii\db\ActiveRecord
         return [
             'majorJobId' => 'Major Job ID',
             'name' => 'Name',
+            'provinceId' => 'Province ID',
             'code' => 'Code',
             'remark' => 'Remark',
         ];
@@ -71,7 +74,7 @@ class MajorJob extends \yii\db\ActiveRecord
         ]);
         $result = MajorJob::getDb()->cache(function () {
             return MajorJob::find()->all();
-        },null,$dependency);
+        },3600,$dependency);
         return $result;
     }
 }

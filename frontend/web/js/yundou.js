@@ -72,6 +72,14 @@ $(document).ready(function(){
         }
     });
 
+    /** 注册和修改信息页面的省份和专业的级联 */
+    $(".province_select").change(function(){
+        var provinceId = $(this).val();
+        $(".major_select").val("");
+        $(".province_major").hide();
+        $(".province_"+provinceId).show();
+    });
+
     /** 练习首页相关 */
     var pay_modal = $("#pay_modal");
 
