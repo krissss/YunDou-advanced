@@ -5,6 +5,7 @@ namespace frontend\filters;
 
 use common\models\PracticeRecord;
 use common\models\Scheme;
+use common\models\TestLibrary;
 use Yii;
 use yii\base\ActionFilter;
 use yii\helpers\Url;
@@ -19,6 +20,9 @@ class PracticeRecordFilter extends ActionFilter
     public function beforeAction($action){
         $session = Yii::$app->session;
         $user = $session->get('user');
+        if(!TestLibrary::checkIsExist($user)){
+            echo "<h1>题库建设中</h1>";exit;
+        }
         $practiceRecordFlag = $session->getFlash('practiceRecordFlag');
         if($practiceRecordFlag){    //支付方案如果已经生成直接显示过去
             return parent::beforeAction($action);

@@ -274,4 +274,17 @@ class TestLibrary extends \yii\db\ActiveRecord
         }
         return $startNumber;
     }
+
+    /**
+     * 根据用户判断用户所在的省份和专业是否有题目
+     * @param $user
+     * @return bool
+     */
+    public static function checkIsExist($user){
+        $testLibrary = TestLibrary::findOne(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId']]);
+        if($testLibrary){
+            return true;
+        }
+        return false;
+    }
 }
