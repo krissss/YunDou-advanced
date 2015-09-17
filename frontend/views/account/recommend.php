@@ -49,7 +49,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
                     </a>
                 </div>
                 <div class="media-body">
-                    <p>关注微信公众号<strong>云豆在线学习</strong>，就可以了解了解权威8大员（13大员）考试信息，还可以<strong>免费模拟考试</strong>、<strong>在线试题练习</strong>、<strong>代办报名</strong>等，与正式考试同步的试题库、智能的定制学习方法，帮助您顺利通过考试。</p>
+                    <p>关注微信公众号<strong>云豆在线学习</strong>，就可以了解权威8大员（13大员）考试信息，还可以<strong>免费模拟考试</strong>、<strong>在线试题练习</strong>、<strong>代办报名</strong>等，与正式考试同步的试题库、智能的定制学习方法，帮助您顺利通过考试。</p>
                 </div>
             </div>
         </div>

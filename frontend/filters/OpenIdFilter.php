@@ -38,9 +38,11 @@ class OpenIdFilter extends ActionFilter
                 $result = WeiXinFunctions::getAuthAccessToken($code);
                 $openId = $result->openid;
                 $access_token = $result->access_token;
+                //授权成功后继续执行后面的action
                 $session->set('openId',$openId);
-                header("Location:$current_url");    //授权后需重新跳转到当前网页
-                return false;
+                $session->set('user',Users::findByWeiXin($openId));
+                return parent::beforeAction($action);
+                //header("Location:$current_url");
             }else{
                 echo "用户不允许授权";
                 return false;
