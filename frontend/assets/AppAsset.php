@@ -11,11 +11,11 @@ class AppAsset extends AssetBundle
     //public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
     public $css = [
         'css/loading.css',
-        'css/yundou.css',
+        'css/yundou.css?2', //添加随机数确保每次修改后微信端用户能够跟随修改
     ];
     public $js = [
         //'js/yundou.min.js',
-        'js/yundou.js',
+        'js/yundou.js?2',   //添加随机数确保每次修改后微信端用户能够跟随修改
     ];
     public $depends = [
         'yii\web\YiiAsset',
