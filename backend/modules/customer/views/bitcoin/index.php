@@ -69,7 +69,7 @@ $user = Yii::$app->session->get('user');
                         <?php $icon = $model->type==IncomeConsume::TYPE_INCOME?'+':'-'?>
                         <?= $icon.$model->bitcoin ?>
                     </td>
-                    <td><?= $model->fromUser['nickname'] ?></td>
+                    <td><?= $model->fromUser['nickname']?$model->fromUser['nickname']:"自主充值" ?></td>
                     <td><?= $model->createDate ?></td>
                 </tr>
             <?php endforeach;?>
