@@ -29,16 +29,16 @@ $user = Yii::$app->session->get('user');
     <div class="form-group no-margin-bottom field-updateinfoform-provinceid required">
         <label class="col-xs-3 control-label" for="updateinfoform-provinceid">考试区域</label>
         <div class="col-xs-9 no-padding-left">
-            <input type="text" class="form-control province_input" value="<?=Province::findNameByProvinceId($updateInfoForm['provinceId'])?>" readonly="readonly" placeholder="请选择" data-toggle="modal" data-target="#provinceSelect">
-            <input type="hidden" id="updateinfoform-provinceid" name="UpdateInfoForm[provinceId]" class="province_hidden" value="<?=$updateInfoForm['provinceId']?>">
+            <input type="text" id="updateinfoform-provinceid" class="form-control can_select province_input" value="<?=Province::findNameByProvinceId($updateInfoForm['provinceId'])?>" readonly="readonly" placeholder="请选择" data-toggle="modal" data-target="#provinceSelect">
+            <input type="hidden" name="UpdateInfoForm[provinceId]" class="province_hidden" value="<?=$updateInfoForm['provinceId']?>">
         </div>
         <div class="col-xs-9 col-xs-offset-3"><div class="help-block"></div></div>
     </div>
     <div class="form-group no-margin-bottom field-updateinfoform-majorjobid required">
         <label class="col-xs-3 control-label" for="updateinfoform-majorjobid">专业类型</label>
         <div class="col-xs-9 no-padding-left">
-            <input type="text" class="form-control majorJob_input" value="<?=MajorJob::findNameByMajorJobId($updateInfoForm['majorJobId'])?>" readonly="readonly" placeholder="请选择" data-toggle="modal" data-target="#majorJobSelect">
-            <input type="hidden" id="updateinfoform-provinceid" name="UpdateInfoForm[majorJobId]" class="majorJob_hidden" value="<?=$updateInfoForm['majorJobId']?>">
+            <input type="text" id="updateinfoform-provinceid" class="form-control can_select majorJob_input" value="<?=MajorJob::findNameByMajorJobId($updateInfoForm['majorJobId'])?>" readonly="readonly" placeholder="请选择" data-toggle="modal" data-target="#majorJobSelect">
+            <input type="hidden" name="UpdateInfoForm[majorJobId]" class="majorJob_hidden" value="<?=$updateInfoForm['majorJobId']?>">
         </div>
         <div class="col-xs-9 col-xs-offset-3"><div class="help-block"></div></div>
     </div>

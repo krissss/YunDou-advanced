@@ -58,7 +58,11 @@ class Province extends \yii\db\ActiveRecord
         $result = Province::getDb()->cache(function () use ($provinceId) {
             return Province::findOne($provinceId);
         },3600);
-        return $result->name;
+        if($result){
+            return $result->name;
+        }else{
+            return null;
+        }
     }
 
     /**

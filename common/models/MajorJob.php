@@ -61,7 +61,11 @@ class MajorJob extends \yii\db\ActiveRecord
         $result = MajorJob::getDb()->cache(function () use ($majorJobId) {
             return MajorJob::findOne($majorJobId);
         },3600);
-        return $result->name;
+        if($result){
+            return $result->name;
+        }else{
+            return null;
+        }
     }
 
     /**

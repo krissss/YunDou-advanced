@@ -4,8 +4,9 @@
 /** @var $majorJobs \common\models\MajorJob[] */
 
 use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use common\models\Province;
+use common\models\MajorJob;
 
 $this->title = "实名认证";
 
@@ -23,19 +24,19 @@ $this->title = "实名认证";
     ]) ?>
     <?= $form->field($registerForm, 'nickname') ?>
     <?= $form->field($registerForm, 'realname') ?>
-    <?= $form->field($registerForm, 'provinceId')->dropDownList(ArrayHelper::map($provinces,'provinceId','name'),['prompt'=>'请选择','class'=>'form-control province_select'])?>
-    <div class="form-group no-margin-bottom field-updateinfoform-majorjobid required has-success">
-        <label class="col-xs-3 control-label" for="updateinfoform-majorjobid">专业类型</label>
+    <div class="form-group no-margin-bottom field-registerform-provinceid required">
+        <label class="col-xs-3 control-label" for="registerform-provinceid">考试区域</label>
         <div class="col-xs-9 no-padding-left">
-            <select id="updateinfoform-majorjobid" class="form-control major_select" name="UpdateInfoForm[majorJobId]">
-                <option value="">请选择</option>
-                <?php foreach($majorJobs as $majorJob):?>
-                    <option value="<?=$majorJob['majorJobId']?>" class="province_major province_<?=$majorJob['provinceId']?>"
-                        <?=$registerForm['majorJobId']==$majorJob['majorJobId']?"selected=''":""  //用户已有选择则显示选中?>
-                        <?=$registerForm['provinceId']!=$majorJob['provinceId']?"style='display:none'":"" //省份不是用户选择的省份时隐藏?>
-                        ><?=$majorJob['name']?></option>
-                <?php endforeach; ?>
-            </select>
+            <input type="text" id="registerform-provinceid" class="form-control can_select province_input" value="<?=Province::findNameByProvinceId($registerForm['provinceId'])?>" readonly="readonly" placeholder="请选择" data-toggle="modal" data-target="#provinceSelect">
+            <input type="hidden" name="RegisterForm[provinceId]" class="province_hidden" value="<?=$registerForm['provinceId']?>">
+        </div>
+        <div class="col-xs-9 col-xs-offset-3"><div class="help-block"></div></div>
+    </div>
+    <div class="form-group no-margin-bottom field-registerform-majorjobid required">
+        <label class="col-xs-3 control-label" for="registerform-majorjobid">专业类型</label>
+        <div class="col-xs-9 no-padding-left">
+            <input type="text" id="registerform-provinceid" class="form-control can_select majorJob_input" value="<?=MajorJob::findNameByMajorJobId($registerForm['majorJobId'])?>" readonly="readonly" placeholder="请选择" data-toggle="modal" data-target="#majorJobSelect">
+            <input type="hidden" name="RegisterForm[majorJobId]" class="majorJob_hidden" value="<?=$registerForm['majorJobId']?>">
         </div>
         <div class="col-xs-9 col-xs-offset-3"><div class="help-block"></div></div>
     </div>
@@ -61,4 +62,36 @@ $this->title = "实名认证";
         </div>
     </div>
     <?php ActiveForm::end() ?>
+</div>
+
+<div class="modal fade" id="provinceSelect" tabindex="-1" role="dialog" aria-labelledby="省份选择">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <?php foreach($provinces as $province): ?>
+                    <?php  $isActive = $registerForm['provinceId']==$province['provinceId'];  //用户已有选择则显示选中 ?>
+                    <div class="province_select pic_box_2 <?=$isActive?"active":""?>" data-id="<?=$province['provinceId']?>">
+                        <?=$province['name']?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="majorJobSelect" tabindex="-1" role="dialog" aria-labelledby="专业岗位选择">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <?php foreach($majorJobs as $majorJob): ?>
+                    <?php
+                    $isActive = $registerForm['majorJobId']==$majorJob['majorJobId'];  //用户已有选择则显示选中
+                    $isShow = $registerForm['provinceId']==$majorJob['provinceId']; //用户已有选择则显示选中
+                    ?>
+                    <div class="majorJob_select <?=$isShow?"pic_box_2":"pic_box_2_hide"?> <?=$isActive?"active":""?> province_<?=$majorJob['provinceId']?>" data-id="<?=$majorJob['majorJobId']?>">
+                        <?=$majorJob['name']?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
 </div>
