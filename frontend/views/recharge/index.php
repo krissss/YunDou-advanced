@@ -9,8 +9,8 @@ $this->title = "云豆充值跳转页面";
     var wechatInfo = navigator.userAgent.match(/MicroMessenger\/([\d\.]+)/i) ;
     var mobileInfo = navigator.userAgent.match(/Mobile/i);
     if( !wechatInfo || !mobileInfo || wechatInfo[1] < "5.0") {  //使用二维码扫码支付
-        window.location.href="?r=recharge/qr-order";
+        window.location.href="?r=recharge/qr-order&showwxpaytitle=1";
     }else{  //调用微信支付
-        window.location.href="?r=recharge/js-order";
+        window.location.href="?r=recharge/js-order&showwxpaytitle=1";
     }
 </script>

@@ -2,9 +2,13 @@
 /** 微信支付方法 */
 namespace backend\functions;
 
+require_once "./../functions/wxPayLibs/WxPay.Api.php";
+require_once "./../functions/wxPay/WxPay.JsApiPay.php";
+
+use Yii;
+use yii\helpers\Url;
 use common\functions\CommonFunctions;
 use common\models\Money;
-use common\models\Scheme;
 use common\models\Users;
 
 class WxPayFunctions
@@ -27,15 +31,13 @@ class WxPayFunctions
             } else {
                 CommonFunctions::logger_wx("订单:".$transaction_id."，首次记录");
                 $cache->set($transaction_id,'ok',24*3600);  //缓存1天
-                //以下两行不同于微信端充值
-                $userId= $xmlArray['attach'];
-                $user = Users::findOne($userId);   //获得付款用户
                 $money = $xmlArray['total_fee']/100;    //总金额（元）
-                $scheme = Scheme::findPayScheme();  //获取充值方案
-                $proportion = intval($scheme['getBitcoin']) / intval($scheme['payMoney']);    //充值比例,1：X的X
-                $addBitcoin = intval($money) * $proportion; //计算应得的云豆数
+                $attachArray = explode("|",$xmlArray['attach']);
+                $userId = intval($attachArray[0]);  //获取充值用户
+                $user = Users::findOne($userId);
+                $addBitcoin = intval($attachArray[1]);  //获取充值获得的云豆数
                 Money::recordOneForBig($user, $money, $addBitcoin, Money::FROM_WX);   //记录充值记录+返点+收入支出表变化+用户云豆数增加
-                CommonFunctions::logger_wx("订单:".$transaction_id.",userId:".$user['userId'].",支付".$money."元,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end']);
+                CommonFunctions::logger_wx("订单:".$transaction_id.",userId:".$user['userId'].",支付".$money."元,获得".$addBitcoin."云豆,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end']);
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }
         }else{
@@ -43,5 +45,35 @@ class WxPayFunctions
             echo 'fail';
         }
         exit;
+    }
+
+    /** 二维码订单 */
+    public function generateQrOrder($scheme){
+        $user = Yii::$app->session->get('user');
+
+        $input = $this->unifiedOrder($scheme['payMoney']);
+        $input->SetTrade_type("NATIVE");
+        $input->SetProduct_id("123456789");
+        $input->SetAttach($user['userId']."|".$scheme['getBitcoin']);   //传递用户id和获取到的云豆数
+        $order = \WxPayApi::unifiedOrder($input);
+        $qrUrl = $order["code_url"];
+        return $qrUrl;
+    }
+
+    /** 统一下单 */
+    public function unifiedOrder($money){
+        $input = new \WxPayUnifiedOrder();
+        $input->SetBody("云豆充值");
+        $input->SetAttach("云豆充值");
+        $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis").rand(100,999));
+        //totalFee是以分为单位的，正式情况下应该乘以100
+        $totalFee = $money*100;
+        $input->SetTotal_fee($totalFee);
+        $input->SetTime_start(date("YmdHis"));
+        $input->SetTime_expire(date("YmdHis", time() + 600));
+        //$input->SetGoods_tag("test");
+        $input->SetNotify_url(Url::base(true).'/notify.php');
+        //$input->SetNotify_url(Url::to(['/we-chat/notify'],true));
+        return $input;
     }
 }

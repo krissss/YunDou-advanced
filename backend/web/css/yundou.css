@@ -109,3 +109,30 @@ label{
 .user-info p a{
     color: #fff;
 }
+
+.box_click{
+    display: inline-block;
+    padding: 10px 2px;
+    width: 98%;
+    margin-bottom: 4%;
+    height: auto;
+    text-align: center;
+    border: 1px solid #3c763d;
+    color: #3c763d;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.box_click:hover{
+    background-color: #3c763d;
+    color: #fff;
+}
+.box_click.active{
+    background-color: #3c763d;
+    color: #fff;
+}
+.box_click .bitcoin{
+    font-size: 18px;
+}
+.box_click .rmb{
+    font-size: 12px;
+}
