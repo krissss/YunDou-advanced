@@ -175,6 +175,7 @@ class Scheme extends \yii\db\ActiveRecord
         $scheme = (new Query())
             ->from(Scheme::tableName())
             ->where('usageModeId=:usageModeId and state=:state and (startDate is null or (startDate<=:currentDate and endDate>=:currentDate))',[':usageModeId' => Scheme::USAGE_PAY,':state'=>Scheme::STATE_ABLE,':currentDate'=>$currentDate])
+            ->orderBy(['payMoney'=>SORT_ASC])
             ->all();
         return $scheme;
     }
@@ -188,6 +189,7 @@ class Scheme extends \yii\db\ActiveRecord
         $scheme = (new Query())
             ->from(Scheme::tableName())
             ->where('usageModeId=:usageModeId and state=:state and (startDate is null or (startDate<=:currentDate and endDate>=:currentDate))',[':usageModeId' => Scheme::USAGE_PRACTICE,':state'=>Scheme::STATE_ABLE,':currentDate'=>$currentDate])
+            ->orderBy(['payBitcoin'=>SORT_ASC])
             ->all();
         return $scheme;
     }
