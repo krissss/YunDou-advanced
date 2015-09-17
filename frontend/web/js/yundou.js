@@ -73,7 +73,29 @@ $(document).ready(function(){
     });
 
     /** 注册和修改信息页面的省份和专业的级联 */
-    $(".province_select").change(function(){
+    body.on("click",".majorJob_select",function(){  //专业修改
+        var id = $(this).data("id");
+        $(".majorJob_input").val($(this).text().trim());    //修改显示的字
+        $(".majorJob_hidden").val(id);  //修改实际的值
+        $(".majorJob_select").removeClass("active");   //去除所有的已选中
+        $(this).addClass("active"); //当前选中的添加已选中
+        $(".modal").modal("hide");
+    });
+    body.on("click",".province_select",function(){  //省份修改
+        var id = $(this).data("id");
+        $(".province_input").val($(this).text().trim());
+        $(".province_hidden").val(id);
+        $(".province_select").removeClass("active");
+        $(this).addClass("active");
+
+        $(".majorJob_input").val("");   //置空专业显示的字
+        $(".majorJob_hidden").val("");  //置空专业的值
+        $(".majorJob_select").removeClass("active").removeClass("pic_box_2").addClass("pic_box_2_hide");   //取消专业选中状态，并让所有隐藏
+        $(".province_"+id).removeClass("pic_box_2_hide").addClass("pic_box_2"); //显示当前省份的专业
+
+        $(".modal").modal("hide");
+    });
+    $(".province_select").click(function(){
         var provinceId = $(this).val();
         $(".major_select").val("");
         $(".province_major").hide();

@@ -212,3 +212,29 @@ a:active {
     font-size: 12px;
 }
 
+/** register */
+.pic_box_2{
+    display: inline-block;
+    padding: 10px 2px;
+    margin-left: 5%;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    width: 40%;
+    height: auto;
+    text-align: center;
+    border: 1px solid #3c763d;
+    color: #3c763d;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.pic_box_2_hide{
+    display: none;
+}
+.pic_box_2:hover{
+    background-color: #3c763d;
+    color: #fff;
+}
+.pic_box_2.active{
+    background-color: #3c763d;
+    color: #fff;
+}

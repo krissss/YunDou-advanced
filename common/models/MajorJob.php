@@ -58,9 +58,9 @@ class MajorJob extends \yii\db\ActiveRecord
      * @throws \Exception
      */
     public static function findNameByMajorJobId($majorJobId){
-        $result = Collection::getDb()->cache(function () use ($majorJobId) {
+        $result = MajorJob::getDb()->cache(function () use ($majorJobId) {
             return MajorJob::findOne($majorJobId);
-        });
+        },3600);
         return $result->name;
     }
 

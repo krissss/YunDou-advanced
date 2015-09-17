@@ -49,6 +49,19 @@ class Province extends \yii\db\ActiveRecord
     }
 
     /**
+     * 查询省份名称
+     * @param $provinceId
+     * @return mixed
+     * @throws \Exception
+     */
+    public static function findNameByProvinceId($provinceId){
+        $result = Province::getDb()->cache(function () use ($provinceId) {
+            return Province::findOne($provinceId);
+        },3600);
+        return $result->name;
+    }
+
+    /**
      * 查询所有省份，返回object
      * @return \common\models\Province[]
      */
@@ -58,7 +71,8 @@ class Province extends \yii\db\ActiveRecord
         ]);
         $result = Province::getDb()->cache(function () {
             return Province::find()->all();
-        },null,$dependency);
+        },3600,$dependency);
         return $result;
     }
+
 }
