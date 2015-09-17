@@ -8,7 +8,6 @@ use yii\helpers\Url;
 use common\models\Users;
 
 $userSession = Yii::$app->session->get('user');
-$user = Users::findOne($userSession['userId']);
 $imagePath = Yii::$app->params['imagePath'];
 
 $str_emptyContainer = 'empty-container';
@@ -122,7 +121,7 @@ AppAsset::register($this);
                             <span class="menu-text"> 云豆收支 </span>
                         </a>
                     </li>
-                    <?php if($user['state']!=Users::STATE_FROZEN):?>
+                    <?php if($userSession['state']!=Users::STATE_FROZEN):?>
                     <li>
                         <a href="<?= Url::to(['apply/index']) ?>">
                             <i class="menu-icon fa fa-folder-open"></i>

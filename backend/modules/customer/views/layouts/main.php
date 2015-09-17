@@ -1,13 +1,12 @@
 <?php
+/* @var $this \yii\web\View */
+/* @var $content string */
+
 use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\Users;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
-//$userSession = \common\models\Users::findOne(1);
 $userSession = Yii::$app->session->get('user');
 $imagePath = Yii::$app->params['imagePath'];
 
@@ -128,7 +127,7 @@ AppAsset::register($this);
                             <span class="menu-text"> 充值记录 </span>
                         </a>
                     </li>
-                    <?php if($user['state']!=Users::STATE_FROZEN):?>
+                    <?php if($userSession['state']!=Users::STATE_FROZEN):?>
                     <li>
                         <a href="<?= Url::to(['pay/index']) ?>">
                             <i class="menu-icon fa fa-money"></i>
