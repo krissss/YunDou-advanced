@@ -107,9 +107,9 @@ class Scheme extends \yii\db\ActiveRecord
     public function getUsageModelName(){
         if($this->usageModeId == Scheme::USAGE_REBATE_A){
             $content = "A级";
-        }elseif($this->usageModeId == Scheme::USAGE_REBATE_AA){
+        }elseif($this->usageModeId == Scheme::USAGE_REBATE_AA || $this->usageModeId == Scheme::USAGE_WITHDRAW_AA){
             $content = "金牌伙伴";
-        }elseif($this->usageModeId == Scheme::USAGE_REBATE_AAA){
+        }elseif($this->usageModeId == Scheme::USAGE_REBATE_AAA || $this->usageModeId == Scheme::USAGE_WITHDRAW_AAA_LOW || $this->usageModeId == Scheme::USAGE_WITHDRAW_AAA_HIGH){
             $content = "钻石伙伴";
         }elseif($this->usageModeId == Scheme::USAGE_REBATE_BIG){
             $content = "大客户";
@@ -146,10 +146,17 @@ class Scheme extends \yii\db\ActiveRecord
      * @return array|null|\yii\db\ActiveRecord
      */
     public static function findAllRebateScheme(){
+        /*return Scheme::find()
+            ->where(['usageModeId'=>Scheme::USAGE_REBATE_A])
+            ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AA])
+            ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AAA])
+            ->orderBy(['startDate'=>SORT_DESC])
+            ->all();*/
         return Scheme::find()
             ->where(['usageModeId'=>Scheme::USAGE_REBATE_A])
             ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AA])
             ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AAA])
+            ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_BIG])
             ->orderBy(['startDate'=>SORT_DESC])
             ->all();
     }
@@ -163,6 +170,7 @@ class Scheme extends \yii\db\ActiveRecord
             ->where(['usageModeId'=>Scheme::USAGE_WITHDRAW_AA])
             ->orWhere(['usageModeId'=>Scheme::USAGE_WITHDRAW_AAA_LOW])
             ->orWhere(['usageModeId'=>Scheme::USAGE_WITHDRAW_AAA_HIGH])
+            ->orderBy(['usageModeId'=>SORT_ASC])
             ->all();
     }
 

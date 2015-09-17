@@ -242,6 +242,11 @@ AppAsset::register($this);
                                 </a>
                             </li>
                             <li>
+                                <a href="<?= Url::to(['withdraw-scheme/index']) ?>">
+                                    <span class="menu-text">提现设置</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="<?= Url::to(['withdraw/index']) ?>">
                                     <span class="menu-text">提现管理</span>
                                 </a>

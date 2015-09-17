@@ -73,7 +73,7 @@ class AddUserForm extends Model
         if(!$this->userId){ //新用户检查
             if($this->recommendCode){   //如果推荐码存在
                 $first = substr($this->recommendCode,0,1);
-                if("D"!=$first && "G"!=$first){
+                if("d"!=$first && "g"!=$first){
                     CommonFunctions::createAlertMessage("填写的推荐码必须是金牌伙伴或者钻石伙伴的","error");
                     $this->addError($attribute,'填写的推荐码必须是金牌伙伴或者钻石伙伴的');
                 }
