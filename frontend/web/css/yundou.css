@@ -225,8 +225,8 @@ a:active {
     width: 40%;
     height: auto;
     text-align: center;
-    border: 1px solid #3c763d;
-    color: #3c763d;
+    border: 1px solid #337ab7;
+    color: #337ab7;
     border-radius: 4px;
     cursor: pointer;
 }
@@ -234,10 +234,10 @@ a:active {
     display: none;
 }
 .pic_box_2:hover{
-    background-color: #3c763d;
+    background-color: #337ab7;
     color: #fff;
 }
 .pic_box_2.active{
-    background-color: #3c763d;
+    background-color: #337ab7;
     color: #fff;
 }
