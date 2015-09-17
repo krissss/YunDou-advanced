@@ -24,7 +24,7 @@ class UpdateInfoForm extends Model
     public function rules()
     {
         return [
-            [['nickname','realname','majorJobId', 'provinceId'], 'required'],
+            [['nickname','realname'], 'required'],
             [['majorJobId', 'provinceId'], 'integer'],
             [['nickname', 'company', 'address'], 'string', 'max' => 50],
         ];
@@ -56,6 +56,10 @@ class UpdateInfoForm extends Model
     }
 
     public function update(){
+        if($this->provinceId=="" || $this->majorJobId==""){
+            CommonFunctions::createAlertMessage("省份或者专业类型不能为空","error");
+            return false;
+        }
         $user = Yii::$app->session->get('user');
         $majorJob = MajorJob::findOne($this->majorJobId);
         if($this->provinceId!=$majorJob['provinceId']){

@@ -27,7 +27,7 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            [['nickname','realname','majorJobId', 'provinceId','cellphone', 'yzm'], 'required'],
+            [['nickname','realname','cellphone', 'yzm'], 'required'],
             [['majorJobId', 'provinceId'], 'integer'],
             [['nickname', 'company', 'address'], 'string', 'max' => 50],
             [['tjm'], 'string', 'max' => 15],
@@ -78,11 +78,11 @@ class RegisterForm extends Model
     }
 
     public function register(){
-        $majorJob = MajorJob::findOne($this->majorJobId);
         if($this->provinceId=="" || $this->majorJobId==""){
             CommonFunctions::createAlertMessage("省份或者专业类型不能为空","error");
             return false;
         }
+        $majorJob = MajorJob::findOne($this->majorJobId);
         if($this->provinceId!=$majorJob['provinceId']){
             CommonFunctions::createAlertMessage("专业类型与所处省份不一致，请重新选择","error");
             return false;
