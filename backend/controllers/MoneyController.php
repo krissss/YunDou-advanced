@@ -105,9 +105,9 @@ class MoneyController extends Controller
                     $role = '';
                     if ($content == 'a' || $content == 'A' || $content == 'A级') {
                         $role = Users::ROLE_A;
-                    } elseif ($content == 'aa' || $content == 'AA' || $content == 'AA级') {
+                    }elseif (strstr('金牌伙伴',$content)) {
                         $role = Users::ROLE_AA;
-                    } elseif ($content == 'aaa' || $content == 'AAA' || $content == 'AAA级') {
+                    } elseif (strstr('钻石伙伴',$content)) {
                         $role = Users::ROLE_AAA;
                     } elseif ($content == '管理员') {
                         $role = Users::ROLE_ADMIN;
