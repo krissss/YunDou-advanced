@@ -51,7 +51,7 @@ $this->title = "实名认证";
         'template' => "{label}<div class='col-xs-4 no-padding-left'>{input}</div><div class='col-xs-5 no-padding-left'>
                     <span class='btn btn-primary validate_recommend'>推荐人检查</span></div><div class='col-xs-9 col-xs-offset-3'>{error}</div>",
     ]) ?>
-    <div class="checkbox col-xs-2 col-xs-offset-3 margin-bottom-20">
+    <div class="checkbox col-xs-12 col-xs-offset-3 margin-bottom-20">
         <label>
             <input type="checkbox" name="agreement" checked> <a href="<?=Url::to(['account/agreement'])?>">我同意云豆讲堂服务协议</a>
         </label>

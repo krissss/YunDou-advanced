@@ -79,8 +79,12 @@ class RegisterForm extends Model
 
     public function register(){
         $majorJob = MajorJob::findOne($this->majorJobId);
+        if($this->provinceId=="" || $this->majorJobId==""){
+            CommonFunctions::createAlertMessage("省份或者专业类型不能为空","error");
+            return false;
+        }
         if($this->provinceId!=$majorJob['provinceId']){
-            CommonFunctions::createAlertMessage("专业岗位与所处省份不一致，请重新选择","error");
+            CommonFunctions::createAlertMessage("专业类型与所处省份不一致，请重新选择","error");
             return false;
         }
         $openId = Yii::$app->session->get('openId');

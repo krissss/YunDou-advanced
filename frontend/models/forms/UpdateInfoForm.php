@@ -59,7 +59,7 @@ class UpdateInfoForm extends Model
         $user = Yii::$app->session->get('user');
         $majorJob = MajorJob::findOne($this->majorJobId);
         if($this->provinceId!=$majorJob['provinceId']){
-            CommonFunctions::createAlertMessage("专业岗位与所处省份不一致，请重新选择","error");
+            CommonFunctions::createAlertMessage("专业类型与所处省份不一致，请重新选择","error");
             return false;
         }
         //修改省份或专业岗位，需要清除用户的在线练习相关信息

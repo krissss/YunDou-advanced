@@ -132,7 +132,7 @@ class AccountController extends Controller
         $registerForm = new RegisterForm();
         CommonFunctions::createAlertMessage("实名认证主要用于系统内部正确配置相关的题库与模拟试题模型，请如实、认证填写","info");
         if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
-            if(!$registerForm->register()){
+            if($registerForm->register()){
                 CommonFunctions::createAlertMessage("恭喜您，注册成功","success");
                 $url = Url::previous("register"); //获取前面记住的url
                 if($url){
