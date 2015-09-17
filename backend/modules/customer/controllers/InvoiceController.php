@@ -2,6 +2,7 @@
 /** 发票申请 */
 namespace backend\modules\customer\controllers;
 
+use backend\filters\FrozenFilter;
 use backend\modules\customer\models\forms\ApplyInvoiceForm;
 use common\functions\CommonFunctions;
 use Yii;
@@ -9,6 +10,14 @@ use yii\web\Controller;
 
 class InvoiceController extends Controller
 {
+    public function behaviors(){
+        return [
+            'access' => [
+                'class' => FrozenFilter::className(),
+            ]
+        ];
+    }
+
     public function actionIndex()
     {
         $user = Yii::$app->session->get('user');

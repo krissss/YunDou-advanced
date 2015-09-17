@@ -2,6 +2,7 @@
 use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\Users;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -127,6 +128,7 @@ AppAsset::register($this);
                             <span class="menu-text"> 充值记录 </span>
                         </a>
                     </li>
+                    <?php if($user['state']!=Users::STATE_FROZEN):?>
                     <li>
                         <a href="<?= Url::to(['pay/index']) ?>">
                             <i class="menu-icon fa fa-money"></i>
@@ -139,6 +141,7 @@ AppAsset::register($this);
                             <span class="menu-text"> 申请发票 </span>
                         </a>
                     </li>
+                    <?php endif;?>
                     <li>
                         <a href="<?= Url::to(['invoice-record/index']) ?>">
                             <i class="menu-icon fa fa-table"></i>

@@ -16,6 +16,11 @@ class DefaultController extends Controller
         $session = Yii::$app->session;
         $user = $session->get('user');
         $user = Users::findOne($user['userId']);
+        if($user['password'] == CommonFunctions::encrypt("123456")){
+            if(!CommonFunctions::isExistAlertMessage()){
+                CommonFunctions::createAlertMessage("您的登录密码过于简单，请及时修改","warning");
+            }
+        }
         if($user['state']==Users::STATE_FROZEN){
             if(!CommonFunctions::isExistAlertMessage()){
                 CommonFunctions::createAlertMessage("您的帐号已被冻结，部分操作不可见，需要解冻请联系管理员","warning");
