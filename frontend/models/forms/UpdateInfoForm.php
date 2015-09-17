@@ -5,10 +5,10 @@ namespace frontend\models\forms;
 use common\models\Collection;
 use common\models\CurrentTestLibrary;
 use common\models\ErrorQuestion;
+use common\models\MajorJob;
 use Yii;
 use common\models\Users;
 use common\functions\CommonFunctions;
-use common\functions\DateFunctions;
 use yii\base\Exception;
 use yii\base\Model;
 
@@ -57,6 +57,11 @@ class UpdateInfoForm extends Model
 
     public function update(){
         $user = Yii::$app->session->get('user');
+        $majorJob = MajorJob::findOne($this->majorJobId);
+        if($this->provinceId!=$majorJob['provinceId']){
+            CommonFunctions::createAlertMessage("专业岗位与所处省份不一致，请重新选择","error");
+            return false;
+        }
         //修改省份或专业岗位，需要清除用户的在线练习相关信息
         if($this->provinceId!=$user['provinceId'] || $this->majorJobId!=$user['majorJobId']){
             CurrentTestLibrary::deleteAll(['userId'=>$user['userId']]); //删除当前记录
@@ -76,6 +81,7 @@ class UpdateInfoForm extends Model
             throw new Exception("UpdateInfoForm update Save Error");
         }
         Yii::$app->session->set('user',$user);
+        return true;
     }
 
 

@@ -2,6 +2,7 @@
 /** 实名认证表单 */
 namespace frontend\models\forms;
 
+use common\models\MajorJob;
 use Yii;
 use common\models\Users;
 use common\functions\CommonFunctions;
@@ -77,6 +78,11 @@ class RegisterForm extends Model
     }
 
     public function register(){
+        $majorJob = MajorJob::findOne($this->majorJobId);
+        if($this->provinceId!=$majorJob['provinceId']){
+            CommonFunctions::createAlertMessage("专业岗位与所处省份不一致，请重新选择","error");
+            return false;
+        }
         $openId = Yii::$app->session->get('openId');
         $user = Users::findByWeiXin($openId);
         if(!$user){ //如果用户不存在，即关注的时候没有把微信的相关信息存入
@@ -113,6 +119,7 @@ class RegisterForm extends Model
         }
         Yii::$app->cache->delete($user->cellphone); //注册成功后将验证码缓存清除
         Yii::$app->session->set('user',$user);
+        return true;
     }
 
 

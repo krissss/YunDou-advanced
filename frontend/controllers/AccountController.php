@@ -13,7 +13,6 @@ use frontend\filters\OpenIdFilter;
 use frontend\filters\RegisterFilter;
 use frontend\functions\SMS;
 use frontend\models\forms\ApplyInvoiceForm;
-use frontend\models\forms\RechargeForm;
 use frontend\models\forms\RegisterForm;
 use frontend\models\forms\UpdateCellphoneForm;
 use frontend\models\forms\UpdateInfoForm;
@@ -119,8 +118,9 @@ class AccountController extends Controller
             注意：修改考试区域、专业类型信息后，您以前做的相关在线练习、错题、重点题信息等都会重置，请慎重。","info");
             $updateInfoForm = new UpdateInfoForm();
             if($updateInfoForm->load(Yii::$app->request->post()) && $updateInfoForm->validate()){
-                $updateInfoForm->update();
-                CommonFunctions::createAlertMessage("恭喜您，修改成功","success");
+                if($updateInfoForm->update()){
+                    CommonFunctions::createAlertMessage("恭喜您，修改成功","success");
+                }
             }
             return $this->render('update-info',[
                 'updateInfoForm' => $updateInfoForm,
@@ -132,11 +132,12 @@ class AccountController extends Controller
         $registerForm = new RegisterForm();
         CommonFunctions::createAlertMessage("实名认证主要用于系统内部正确配置相关的题库与模拟试题模型，请如实、认证填写","info");
         if($registerForm->load(Yii::$app->request->post()) && $registerForm->validate()){
-            $registerForm->register();
-            CommonFunctions::createAlertMessage("恭喜您，注册成功","success");
-            $url = Url::previous("register"); //获取前面记住的url
-            if($url){
-                return $this->redirect($url);
+            if(!$registerForm->register()){
+                CommonFunctions::createAlertMessage("恭喜您，注册成功","success");
+                $url = Url::previous("register"); //获取前面记住的url
+                if($url){
+                    return $this->redirect($url);
+                }
             }
         }
         return $this->render('register',[
