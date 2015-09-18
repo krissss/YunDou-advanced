@@ -26,6 +26,8 @@ class WxPayFunctions
         if($xmlArray['return_code'] == 'SUCCESS'){
             $transaction_id = $xmlArray['transaction_id'];
             if('ok' == $cache->get($transaction_id)){
+                $msg = "订单:".$transaction_id."，已处理完，重复通知";
+                Yii::info($msg,'wx');
                 CommonFunctions::logger_wx("订单:".$transaction_id."，已处理完，重复通知");
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             } else {
@@ -37,10 +39,14 @@ class WxPayFunctions
                 $user = Users::findOne($userId);
                 $addBitcoin = intval($attachArray[1]);  //获取充值获得的云豆数
                 Money::recordOneForBig($user, $money, $addBitcoin, Money::FROM_WX);   //记录充值记录+返点+收入支出表变化+用户云豆数增加
+                $msg = "订单:".$transaction_id.",首次记录,userId:".$user['userId'].",支付".$money."元,获得".$addBitcoin."云豆,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end'];
+                Yii::info($msg,'wx');
                 CommonFunctions::logger_wx("订单:".$transaction_id.",userId:".$user['userId'].",支付".$money."元,获得".$addBitcoin."云豆,交易类型:".$xmlArray['trade_type'].",交易结束时间:".$xmlArray['time_end']);
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }
         }else{
+            $msg = "错误消息:".$xmlArray['return_msg'];
+            Yii::info($msg,'wx');
             CommonFunctions::logger_wx("错误消息:".$xmlArray['return_msg']);
             echo 'fail';
         }
