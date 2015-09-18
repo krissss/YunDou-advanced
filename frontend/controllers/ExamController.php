@@ -32,7 +32,9 @@ class ExamController extends Controller
         $examTemplates = ExamTemplate::findByMajorJobAndProvince($user['majorJobId'],$user['provinceId']);
         $totalNumber = count($examTemplates);
         if($totalNumber == 0){
-            return "<h1>没有模拟试卷</h1>";
+            $url = Url::to(['site/test-library-not-found']);
+            header("Location:$url");
+            exit;
         }
         $rand = rand(1,$totalNumber);
         $examTemplate = $examTemplates[$rand-1];
