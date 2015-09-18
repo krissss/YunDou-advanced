@@ -7,7 +7,6 @@ require_once "./../functions/wxPay/WxPay.JsApiPay.php";
 
 use Yii;
 use yii\helpers\Url;
-use common\functions\CommonFunctions;
 use common\models\Money;
 use common\models\Users;
 

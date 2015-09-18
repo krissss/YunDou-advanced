@@ -168,9 +168,4 @@ class CommonFunctions
         $str = str_replace('　','&nbsp;&nbsp;',$str);   //替换全角空格
         return $str;
     }
-
-    public static function logger_wx($log_content){
-        $log_filename = "../runtime/logs/log_wx_".date('Ym',time()).".log";
-        file_put_contents($log_filename, date('d H:i:s')." ".$log_content."\r\n", FILE_APPEND);
-    }
 }

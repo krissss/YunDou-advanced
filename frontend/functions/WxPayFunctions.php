@@ -7,9 +7,7 @@ require_once "./../functions/wxPay/WxPay.JsApiPay.php";
 
 use Yii;
 use yii\helpers\Url;
-use common\functions\CommonFunctions;
 use common\models\Money;
-use common\models\Scheme;
 use common\models\Users;
 
 class WxPayFunctions
@@ -31,7 +29,6 @@ class WxPayFunctions
                 Yii::info($msg,'wx');
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             } else {
-                CommonFunctions::logger_wx("订单:".$transaction_id."，首次记录");
                 $cache->set($transaction_id,'ok',24*3600);  //缓存1天
                 $money = $xmlArray['total_fee']/100;    //总金额（元）
                 $attachArray = explode("|",$xmlArray['attach']);
