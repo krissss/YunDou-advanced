@@ -20,6 +20,7 @@ $this->params['breadcrumbs'] = [
             <a href="<?=Url::to(['default/modify-password']) ?>" class="btn btn-xs btn-primary margin-left-20">修改密码</a>
             <a href="<?=Url::to(['default/download','type'=>'agent']) ?>" class="btn btn-xs btn-primary margin-left-20 pull-right">下载代理协议模板</a>
             <a href="<?=Url::to(['default/download','type'=>'sale']) ?>" class="btn btn-xs btn-primary margin-left-20 pull-right">下载销售协议模板</a>
+            <a href="http://u.eqxiu.com/s/mu5DO9rQ?eqrcode=1" class="btn btn-xs btn-primary margin-left-20 pull-right">查看云豆伙伴操作指南</a>
         </p>
         <table class="table table_four_column">
             <tbody>
