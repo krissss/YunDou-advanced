@@ -74,4 +74,21 @@ class SiteController extends Controller
     public function actionTest(){
         return $this->render('test');
     }
+
+    public function actionOffline(){
+        return $this->render('offline');
+    }
+
+    /** 题库建设中 */
+    public function actionTestLibraryNotFound(){
+        return $this->render('test-library-not-found');
+    }
+    /** 错题数为0 */
+    public function actionTestLibraryWrongZero(){
+        return $this->render('test-library-wrong-zero');
+    }
+    /** 重点题为0 */
+    public function actionTestLibraryCollectionZero(){
+        return $this->render('test-library-collection-zero');
+    }
 }

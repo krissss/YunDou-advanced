@@ -41,6 +41,9 @@ use yii\helpers\ArrayHelper;
                 <?= $form->field($addUserForm, 'email') ?>
                 <?= $form->field($addUserForm, 'qq')->input('number') ?>
                 <?= $form->field($addUserForm, 'weixin') ?>
+                <?= $form->field($addUserForm, 'bankName') ?>
+                <?= $form->field($addUserForm, 'cardNumber')->input('number') ?>
+                <?= $form->field($addUserForm, 'cardName') ?>
             </div>
             <div class="clearfix"></div>
             <div class="modal-footer">

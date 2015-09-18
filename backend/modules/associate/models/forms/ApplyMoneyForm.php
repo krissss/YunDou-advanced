@@ -51,6 +51,7 @@ class ApplyMoneyForm extends Model
         if($model){
             return false;
         }
+
         $withdraw = new Withdraw();
         $withdraw->userId = $user['userId'];
         $withdraw->money = $this->money;

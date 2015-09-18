@@ -2,7 +2,7 @@
 use yii\helpers\Url;
 
 return [
-    'adminEmail' => '462679766@qq.com',
+    'adminEmail' => 'sjh@yunbaonet.cn',
 
     'imagePath' => Url::to('./img/'),
     'headPath' => Url::to('./img/avatars/'),

@@ -2,6 +2,7 @@
 /** 添加或更新在线练习方案的表单 */
 namespace backend\models\forms;
 
+use common\models\BankCard;
 use common\models\Money;
 use common\models\Scheme;
 use common\models\UsageMode;
@@ -15,6 +16,9 @@ class UpdateWithdrawForm extends Model
 {
     public $withdrawId;
     public $nickname;
+    public $bankName;
+    public $cardNumber;
+    public $cardName;
     public $money;
     public $invoiceMoney;
     public $invoiceNo;
@@ -35,6 +39,9 @@ class UpdateWithdrawForm extends Model
     {
         return [
             'nickname' => '申请人',
+            'bankName' => '开户行',
+            'cardNumber' => '银行卡号',
+            'cardName' => '持卡人姓名',
             'invoiceMoney' => '发票金额',
             'invoiceNo' => '发票单号',
             'replyContent' => '回复内容',
@@ -50,6 +57,13 @@ class UpdateWithdrawForm extends Model
         $form = new UpdateWithdrawForm();
         $form->withdrawId = $id;
         $form->nickname = $withdraw->user['nickname'];
+        /** @var $bank \common\models\BankCard */
+        $bank = BankCard::findOne(['userId'=>$withdraw->user['userId']]);
+        if($bank){
+            $form->bankName = $bank->bankName;
+            $form->cardNumber = $bank->cardNumber;
+            $form->cardName = $bank->cardName;
+        }
         $form->money = $withdraw->money;
         $form->invoiceNo = $withdraw->invoiceNo;
         $form->invoiceMoney = $withdraw->invoiceMoney;

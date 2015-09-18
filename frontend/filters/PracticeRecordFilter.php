@@ -21,7 +21,8 @@ class PracticeRecordFilter extends ActionFilter
         $session = Yii::$app->session;
         $user = $session->get('user');
         if(!TestLibrary::checkIsExist($user)){
-            echo "<h1>题库建设中</h1>";exit;
+            $url = Url::to(['site/test-library-not-found']);
+            header("Location:$url");
         }
         $practiceRecordFlag = $session->getFlash('practiceRecordFlag');
         if($practiceRecordFlag){    //支付方案如果已经生成直接显示过去

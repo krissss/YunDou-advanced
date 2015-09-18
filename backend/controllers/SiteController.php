@@ -17,7 +17,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => UserLoginFilter::className(),
-                'except' => ['login','captcha','error']
+                'except' => ['login','captcha','error','offline']
             ],
         ];
     }
@@ -67,6 +67,10 @@ class SiteController extends Controller
     public function actionLogout(){
         Yii::$app->getSession()->removeAll();
         return $this->redirect(['site/login']);
+    }
+
+    public function actionOffline(){
+        return $this->render('offline');
     }
 
 }

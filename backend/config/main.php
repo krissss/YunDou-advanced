@@ -11,6 +11,8 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    //网站维护打开以下注释行
+    //'catchAll' => ['site/offline'],
     'modules' => [
         'associate' => [
             'class' => 'backend\modules\associate\Module',

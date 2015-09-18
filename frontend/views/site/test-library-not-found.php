@@ -7,12 +7,12 @@ $this->title = 404;
 ?>
 <div id="wrap">
     <div>
-        <img src="./images/404/404.png" alt="404" />
+        <img src="./images/404/test_building.png" alt="题库建设中" />
     </div>
     <div id="text">
         <strong>
-            <span>
-                <img src="./images/404/404_info.png" alt="404" style="width: 128px; height: 29px;"/>
+            <span style="color: #fff; font-size: 12px;">
+                我们正在紧急准备题库中
             </span>
             <a href="<?=Url::to(['site/index'])?>">返回首页</a>
             <a href="javascript:history.back()">返回上一页</a>

@@ -24,6 +24,9 @@ use yii\widgets\ActiveForm;
                     'template' => "{input}"
                 ])->hiddenInput()?>
                 <?= $form->field($updateWithdrawForm, 'nickname')->textInput(['readonly'=>'readonly']) ?>
+                <?= $form->field($updateWithdrawForm, 'bankName')->textInput(['readonly'=>'readonly']) ?>
+                <?= $form->field($updateWithdrawForm, 'cardNumber')->textInput(['readonly'=>'readonly']) ?>
+                <?= $form->field($updateWithdrawForm, 'cardName')->textInput(['readonly'=>'readonly']) ?>
                 <?= $form->field($updateWithdrawForm, 'money')->textInput(['readonly'=>'readonly']) ?>
                 <?= $form->field($updateWithdrawForm, 'maxMoney')->textInput(['readonly'=>'readonly']) ?>
                 <?= $form->field($updateWithdrawForm, 'invoiceMoney')->textInput(['readonly'=>'readonly']) ?>

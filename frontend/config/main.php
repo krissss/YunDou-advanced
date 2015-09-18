@@ -11,6 +11,8 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    //网站维护打开以下注释行
+    //'catchAll' => ['site/offline'],
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',

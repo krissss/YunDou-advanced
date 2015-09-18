@@ -4,6 +4,7 @@ namespace backend\models\forms;
 
 use common\functions\CommonFunctions;
 use common\functions\DateFunctions;
+use common\models\BankCard;
 use common\models\Users;
 use yii\base\Exception;
 use yii\base\Model;
@@ -20,6 +21,9 @@ class AddUserForm extends Model
     public $email;
     public $qq;
     public $weixin;
+    public $bankName;
+    public $cardNumber;
+    public $cardName;
     public $recommendCode;
 
     public $role;
@@ -31,9 +35,12 @@ class AddUserForm extends Model
             [['departmentId','username','nickname','address','realname','cellphone'], 'required'],
             [['userId','departmentId','role'], 'integer'],
             [['username'], 'string','min'=>5],
+            [['cardName'], 'string', 'max' => 20],
+            [['cardNumber'], 'number'],
+            [['cardNumber'], 'string', 'max' => 25],
             [['username'], 'match','pattern'=>'/^[A-Za-z0-9]+$/','message'=>'只允许数字和字母'],
             [['username'], 'validateUsername'],
-            [['username', 'email', 'weixin', 'nickname', 'realname', 'address'], 'string', 'max' => 50],
+            [['username', 'email', 'weixin', 'nickname', 'realname', 'address','bankName'], 'string', 'max' => 50],
             [['cellphone'], 'match', 'pattern' =>'/1[3458]{1}\d{9}$/','message'=>'{attribute}不合法'],
             [['email'],'email'],
             [['qq'], 'string', 'max' => 12],
@@ -56,6 +63,9 @@ class AddUserForm extends Model
             'weixin' => '微信',
             'roleName' => '伙伴等级',
             'recommendCode' => '推荐伙伴',
+            'bankName' => '开户行',
+            'cardNumber' => '卡号',
+            'cardName' => '持卡人姓名',
         ];
     }
 
@@ -105,6 +115,13 @@ class AddUserForm extends Model
         if($id) {
             /** @var $user \common\models\Users*/
             $user = Users::findOne($id);
+            /** @var $bank \common\models\bankCard*/
+            $bank = BankCard::find()->where(['userId' => $id])->one();
+            if($bank) {
+                $form->bankName = $bank->bankName;
+                $form->cardNumber = $bank->cardNumber;
+                $form->cardName = $bank->cardName;
+            }
             $form->role = $user->role;
             $form->userId = $id;
             $form->departmentId = $user->departmentId;
@@ -166,6 +183,18 @@ class AddUserForm extends Model
         $user->weixin = $this->weixin;
         if(!$user->save()){
             throw new Exception("add-user-form user save error");
+        }else{
+            /** @var $bankCard \common\models\BankCard */
+            $bankCard = BankCard::findOne(['userId'=>$user->userId]);
+            if(!$bankCard){ //如果没有
+                $bankCard = new BankCard();
+                $bankCard->userId = $user->userId;
+                $bankCard->state = BankCard::STATE_DEFAULT;
+            }
+            $bankCard->bankName = $this->bankName;
+            $bankCard->cardNumber = $this->cardNumber;
+            $bankCard->cardName = $this->cardName;
+            $bankCard->save();
         }
     }
 

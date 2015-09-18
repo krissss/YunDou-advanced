@@ -17,6 +17,7 @@ use common\models\TestLibrary;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\helpers\Url;
 
 class PracticeController extends Controller
 {
@@ -91,7 +92,9 @@ class PracticeController extends Controller
         }
         $countNumber = count($testLibraries);
         if($countNumber == 0){  //避免没有题目生成出题页面出错
-            echo "<h1>题库建设中</h1>";exit;
+            $url = Url::to(['site/test-library-not-found']);
+            header("Location:$url");
+            exit;
         }
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
         //将一些必要参数存入session，方便后续页面调用
@@ -150,7 +153,9 @@ class PracticeController extends Controller
         //$testLibraries = TestLibrary::find()->where('pictureBig is not null')->orWhere('pictureSmall is not null')->all();
         $countNumber = count($testLibraries);
         if($countNumber == 0){  //避免没有题目生成出题页面出错
-            echo "<h1>题库建设中</h1>";exit;
+            $url = Url::to(['site/test-library-not-found']);
+            header("Location:$url");
+            exit;
         }
         $majorJob = MajorJob::findNameByMajorJobId($user['majorJobId']);
         //将一些必要参数存入session，方便后续页面调用
@@ -203,7 +208,9 @@ class PracticeController extends Controller
         $testLibraries = ErrorQuestion::findAllByUserWithTestLibrary($user['userId']);
         $countNumber = count($testLibraries);
         if($countNumber == 0){  //避免没有题目生成出题页面出错
-            echo "<h1>还没有题目</h1>";exit;
+            $url = Url::to(['site/test-library-wrong-zero']);
+            header("Location:$url");
+            exit;
         }
         //将一些必要参数存入session，方便后续页面调用
         $session->set('testLibraries',$testLibraries); //所有题目
@@ -233,7 +240,9 @@ class PracticeController extends Controller
         $testLibraries = Collection::findAllByUserWithTestLibrary($user['userId']);
         $countNumber = count($testLibraries);
         if($countNumber == 0){  //避免没有题目生成出题页面出错
-            echo "<h1>还没有题目</h1>";exit;
+            $url = Url::to(['site/test-library-collection-zero']);
+            header("Location:$url");
+            exit;
         }
         //将一些必要参数存入session，方便后续页面调用
         $session->set('testLibraries',$testLibraries); //所有题目

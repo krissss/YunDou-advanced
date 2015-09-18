@@ -7,12 +7,13 @@ $this->title = 404;
 ?>
 <div id="wrap">
     <div>
-        <img src="./images/404/404.png" alt="404" />
+        <img src="./images/404/no_collection.png" alt="没有标记重点题" />
     </div>
     <div id="text">
+
         <strong>
-            <span>
-                <img src="./images/404/404_info.png" alt="404" style="width: 128px; height: 29px;"/>
+            <span style="color: #fff; font-size: 12px;">
+                您可以点击在线练习页面的‘重点’按钮添加重点题
             </span>
             <a href="<?=Url::to(['site/index'])?>">返回首页</a>
             <a href="javascript:history.back()">返回上一页</a>
