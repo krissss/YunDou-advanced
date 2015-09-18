@@ -18,18 +18,20 @@ return [
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
+            'flushInterval' => 1,
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'exportInterval' => 1,
                 ],[
                     'class' => 'yii\log\EmailTarget',
                     'levels' => ['error', 'warning'],
-                    'categories' => ['yii\base\*'],
+                    'exportInterval' => 1,
                     'message' => [
-                        'from' => ['log@yunbaonet.cc'],
+                        'from' => ['sjh@yunbaonet.cn'],
                         'to' => ['sjh@yunbaonet.cn'],
-                        'subject' => '云豆讲堂前台异常log',
+                        'subject' => '云豆讲堂后台异常log',
                     ],
                 ],
             ],
