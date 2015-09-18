@@ -18,16 +18,13 @@ return [
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
-            'flushInterval' => 1,
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
-                    'exportInterval' => 1,
                 ],[
                     'class' => 'yii\log\EmailTarget',
                     'levels' => ['error', 'warning'],
-                    'exportInterval' => 1,
                     'message' => [
                         'from' => ['sjh@yunbaonet.cn'],
                         'to' => ['sjh@yunbaonet.cn'],
