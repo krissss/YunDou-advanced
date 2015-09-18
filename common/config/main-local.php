@@ -15,9 +15,18 @@ return [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.exmail.qq.com',
+                'username' => 'sjh@yunbaonet.cn',
+                'password' => 'asd7798',
+                'port' => '465',
+                'encryption' => 'ssl',
+            ],
+            'messageConfig'=>[
+                'charset'=>'UTF-8',
+                'from'=>['sjh@yunbaonet.cn'=>'www.yunbaonet.cn']
+            ],
             'useFileTransport' => false,//设为false开启真实发送邮件，true只是保存在runtime中
         ],
     ],
