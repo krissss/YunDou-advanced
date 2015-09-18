@@ -3,7 +3,7 @@
 use common\functions\CommonFunctions;
 use common\models\Users;
 
-$this->title = "云豆二维码充值";
+$this->title = "云豆充值成功";
 $user = Yii::$app->session->get('user');
 $userIcon = isset($user['userIcon'])?$user['userIcon']:null;
 $userIcon = CommonFunctions::createHttpImagePath($userIcon);
