@@ -147,14 +147,15 @@ $(document).ready(function(){
         pay_click_flag = true;
         var schemeId = $("input[name=schemeId]").val();
         $.post("?r=account/pay", {_csrf: csrfToken,schemeId:schemeId},function(data){
-            if(data!=true){
-                alert(data);
-            }else{
-                alert("支付成功");
+            var data_msg = data.substr(0,7);
+            if(data_msg=='success'){
+                alert(data.substr(7));
                 pay_modal.modal('hide');
                 if(redirect_url){
                     redirect(redirect_url);
                 }
+            }else{
+                alert(data);
             }
             pay_click_flag = false;
         });

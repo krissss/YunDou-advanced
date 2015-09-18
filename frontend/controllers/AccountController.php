@@ -184,6 +184,11 @@ class AccountController extends Controller
         if($request->isAjax){
             $session = Yii::$app->session;
             $user = $session->get('user');
+            //先查询该用户是否有练习记录，防止重复付款
+            $practiceRecord = PracticeRecord::findByUser($user['userId']);
+            if($practiceRecord){
+                return 'success您已经可以在线练习，不需要重新付款，如果重复出现付款页面请刷新该页面。';
+            }
             $schemeId = $request->post('schemeId');
             /** @var $scheme \common\models\Scheme */
             $scheme = Scheme::findOne($schemeId);
@@ -196,7 +201,7 @@ class AccountController extends Controller
             }
             IncomeConsume::saveRecord($user['userId'],$scheme['payBitcoin'],Scheme::USAGE_PRACTICE,IncomeConsume::TYPE_CONSUME);
             PracticeRecord::saveRecord($user['userId'],$scheme);
-            return true;
+            return 'success支付成功';
         }
         throw new Exception("非法支付");
     }
