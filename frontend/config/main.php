@@ -22,6 +22,15 @@ return [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ],[
+                    'class' => 'yii\log\EmailTarget',
+                    'levels' => ['error', 'warning'],
+                    'categories' => ['yii\base\*'],
+                    'message' => [
+                        'from' => ['log@yunbaonet.cc'],
+                        'to' => ['sjh@yunbaonet.cn'],
+                        'subject' => '云豆讲堂前台异常log',
+                    ],
                 ],
             ],
         ],

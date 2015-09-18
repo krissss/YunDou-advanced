@@ -18,7 +18,7 @@ return [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,//设为false开启真实发送邮件，true只是保存在runtime中
         ],
     ],
 ];
