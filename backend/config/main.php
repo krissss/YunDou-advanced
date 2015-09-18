@@ -33,6 +33,19 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class' => 'yii\log\EmailTarget',
+                    'levels' => ['warning','error'],
+                    'except'=>[
+                        'yii\debug\Module',
+                        'yii\web\HttpException:404',
+                    ],
+                    'message' => [
+                        'from' => ['sjh@yunbaonet.cn'],
+                        'to' => ['sjh@yunbaonet.cn'],
+                        'subject' => '云豆后台Exception',
+                    ],
+                ],
             ],
         ],
         'errorHandler' => [
