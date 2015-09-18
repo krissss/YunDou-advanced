@@ -3,11 +3,11 @@
 use yii\helpers\Url;
 
 $this->registerCssFile('/frontend/web/css/404.css',['depends' => \frontend\assets\AppAsset::className()]);
-$this->title = 404;
+$this->title = "没有标记重点题";
 ?>
 <div id="wrap">
     <div>
-        <img src="./images/404/no_collection.png" alt="没有标记重点题" />
+        <img src="./images/404/no_collection.png" alt="<?=$this->title?>" />
     </div>
     <div id="text">
 

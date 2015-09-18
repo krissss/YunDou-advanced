@@ -3,11 +3,11 @@
 use yii\helpers\Url;
 
 $this->registerCssFile('/frontend/web/css/404.css',['depends' => \frontend\assets\AppAsset::className()]);
-$this->title = 404;
+$this->title = "404";
 ?>
 <div id="wrap">
     <div>
-        <img src="./images/404/404.png" alt="404" />
+        <img src="./images/404/404.png" alt="<?=$this->title?>" />
     </div>
     <div id="text">
         <strong>
