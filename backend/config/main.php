@@ -51,6 +51,7 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['info'],
                     'categories'=>['wx'],
+                    'logVars' => [],
                     'logFile' => '@app/runtime/logs/wx/pay.log',
                     'maxFileSize' => 1024,
                     'maxLogFiles' => 100,
