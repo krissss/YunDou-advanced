@@ -13,6 +13,7 @@ use Yii;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\helpers\Url;
 
 class ExamController extends Controller
 {
