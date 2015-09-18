@@ -37,7 +37,7 @@ return [
                     'class' => 'yii\log\EmailTarget',
                     'levels' => ['warning','error'],
                     'except'=>[
-                        'yii\debug\Module',
+                        'yii\debug\*',
                         'yii\web\HttpException:404',
                     ],
                     'message' => [

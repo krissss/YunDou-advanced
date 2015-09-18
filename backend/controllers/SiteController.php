@@ -5,6 +5,7 @@ use backend\filters\UserLoginFilter;
 use backend\models\forms\LoginForm;
 use common\models\Users;
 use Yii;
+use yii\base\Exception;
 use yii\web\Controller;
 
 /**
