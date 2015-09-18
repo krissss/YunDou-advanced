@@ -33,7 +33,7 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
-                [
+                /*[
                     'class' => 'yii\log\EmailTarget',
                     'levels' => ['warning','error'],
                     'except'=>[
@@ -45,7 +45,7 @@ return [
                         'to' => ['sjh@yunbaonet.cn'],
                         'subject' => '云豆后台Exception',
                     ],
-                ],
+                ],*/
             ],
         ],
         'errorHandler' => [
