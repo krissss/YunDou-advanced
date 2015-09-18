@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Url;
 
-$this->registerCssFile('/YunDou-advanced/frontend/web/css/404.css',['depends' => \frontend\assets\AppAsset::className()]);
+$this->registerCssFile('/frontend/web/css/404.css',['depends' => \frontend\assets\AppAsset::className()]);
 $this->title = 404;
 ?>
 <div id="wrap">
