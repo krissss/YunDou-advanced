@@ -26,10 +26,20 @@ return [
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
+
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ],[
+                    'class' => 'yii\log\EmailTarget',
+                    'levels' => ['error', 'warning'],
+                    'categories' => ['yii\base\*'],
+                    'message' => [
+                        'from' => ['log@yunbaonet.cc'],
+                        'to' => ['sjh@yunbaonet.cn'],
+                        'subject' => '云豆讲堂后台异常log',
+                    ],
                 ],
             ],
         ],
