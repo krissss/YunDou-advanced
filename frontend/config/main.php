@@ -25,6 +25,9 @@ return [
                     //记录网站所有的错误和异常
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'except'=>[
+                        'yii\debug\Module::checkAccess',  //排除debug
+                    ],
                 ],
                 [
                     //记录网站各种必须解决的错误和异常
