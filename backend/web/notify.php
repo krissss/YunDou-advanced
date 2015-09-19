@@ -1,6 +1,6 @@
 <?php
-defined('YII_DEBUG') or define('YII_DEBUG', true);
-defined('YII_ENV') or define('YII_ENV', 'dev');
+defined('YII_DEBUG') or define('YII_DEBUG', false);
+defined('YII_ENV') or define('YII_ENV', 'prod');
 
 require(__DIR__ . '/../../vendor/autoload.php');
 require(__DIR__ . '/../../vendor/yiisoft/yii2/Yii.php');
@@ -22,5 +22,5 @@ $postStr = isset($GLOBALS["HTTP_RAW_POST_DATA"])?$GLOBALS["HTTP_RAW_POST_DATA"]:
 if(!empty($postStr)){
     \backend\functions\WxPayFunctions::payNotify($postStr);
 }else{
-    \common\functions\CommonFunctions::logger_wx("收到空的通知");
+    Yii::info('收到空通知','wx');
 }
