@@ -27,7 +27,7 @@ $maxNumber = $currentTotalNumber>=2*$defaultOnceNumber+1?$currentNumber+1+($curr
 <input type="hidden" name="currentTestLibraryId" value="<?=$testLibraries[$firstIndex]['testLibraryId']?>">
 <?php foreach($testLibraries as $i=>$testLibrary): ?>
     <div class="test_library test_library_<?=$startNumber+$i+1?> my_hide id_<?=$testLibrary['testLibraryId']?>">
-        <div>标准题号：<?=$testLibrary['testLibraryId']?></div>
+        <!--<div>标准题号：<?/*=$testLibrary['testLibraryId']*/?></div>-->
         <?= \frontend\widgets\TestTypeWidget::widget(['testLibrary'=>$testLibrary,'questionNumber'=>$startNumber+$i+1])?>
     </div>
 <?php endforeach; ?>
