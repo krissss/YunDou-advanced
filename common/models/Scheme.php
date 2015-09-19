@@ -120,29 +120,33 @@ class Scheme extends \yii\db\ActiveRecord
     }
 
     /**
-     * 查询所有充值方案
+     * 查询所有充值方案，缓存1分钟
      * @return array|null|\yii\db\ActiveRecord
      */
     public static function findAllPayScheme(){
-        return Scheme::find()
-            ->where(['usageModeId'=>Scheme::USAGE_PAY])
-            ->orderBy(['startDate'=>SORT_DESC])
-            ->all();
+        return Scheme::getDb()->cache(function(){
+            return Scheme::find()
+                ->where(['usageModeId'=>Scheme::USAGE_PAY])
+                ->orderBy(['startDate'=>SORT_DESC])
+                ->all();
+        },60);
     }
 
     /**
-     * 查询所有在线练习支付方案
+     * 查询所有在线练习支付方案，缓存1分钟
      * @return array|null|\yii\db\ActiveRecord
      */
     public static function findAllPracticeScheme(){
-        return Scheme::find()
-            ->where(['usageModeId'=>Scheme::USAGE_PRACTICE])
-            ->orderBy(['startDate'=>SORT_DESC])
-            ->all();
+        return Scheme::getDb()->cache(function(){
+            return Scheme::find()
+                ->where(['usageModeId'=>Scheme::USAGE_PRACTICE])
+                ->orderBy(['startDate'=>SORT_DESC])
+                ->all();
+        },60);
     }
 
     /**
-     * 查询所有充值返点方案
+     * 查询所有充值返点方案，缓存1分钟
      * @return array|null|\yii\db\ActiveRecord
      */
     public static function findAllRebateScheme(){
@@ -152,58 +156,68 @@ class Scheme extends \yii\db\ActiveRecord
             ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AAA])
             ->orderBy(['startDate'=>SORT_DESC])
             ->all();*/
-        return Scheme::find()
-            ->where(['usageModeId'=>Scheme::USAGE_REBATE_A])
-            ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AA])
-            ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AAA])
-            ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_BIG])
-            ->orderBy(['startDate'=>SORT_DESC])
-            ->all();
+        return Scheme::getDb()->cache(function(){
+            return Scheme::find()
+                ->where(['usageModeId'=>Scheme::USAGE_REBATE_A])
+                ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AA])
+                ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_AAA])
+                ->orWhere(['usageModeId'=>Scheme::USAGE_REBATE_BIG])
+                ->orderBy(['startDate'=>SORT_DESC])
+                ->all();
+        },60);
     }
 
     /**
-     * 查询所有提现方案
+     * 查询所有提现方案，缓存1分钟
      * @return array|null|\yii\db\ActiveRecord
      */
     public static function findAllWithdrawScheme(){
-        return Scheme::find()
-            ->where(['usageModeId'=>Scheme::USAGE_WITHDRAW_AA])
-            ->orWhere(['usageModeId'=>Scheme::USAGE_WITHDRAW_AAA_LOW])
-            ->orWhere(['usageModeId'=>Scheme::USAGE_WITHDRAW_AAA_HIGH])
-            ->orderBy(['usageModeId'=>SORT_ASC])
-            ->all();
+        return Scheme::getDb()->cache(function(){
+            return Scheme::find()
+                ->where(['usageModeId'=>Scheme::USAGE_WITHDRAW_AA])
+                ->orWhere(['usageModeId'=>Scheme::USAGE_WITHDRAW_AAA_LOW])
+                ->orWhere(['usageModeId'=>Scheme::USAGE_WITHDRAW_AAA_HIGH])
+                ->orderBy(['usageModeId'=>SORT_ASC])
+                ->all();
+        },60);
     }
 
     /**
-     * 查询所有可使用的充值方案
+     * 查询所有可使用的充值方案，缓存1分钟
      * @return array|\yii\db\ActiveRecord[]
      */
     public static function findPayScheme(){
-        $currentDate = DateFunctions::getCurrentDate();
-        $scheme = (new Query())
-            ->from(Scheme::tableName())
-            ->where('usageModeId=:usageModeId and state=:state and (startDate is null or (startDate<=:currentDate and endDate>=:currentDate))',[':usageModeId' => Scheme::USAGE_PAY,':state'=>Scheme::STATE_ABLE,':currentDate'=>$currentDate])
-            ->orderBy(['payMoney'=>SORT_ASC])
-            ->all();
-        return $scheme;
+        return Scheme::getDb()->cache(function(){
+            $currentDate = DateFunctions::getCurrentDate();
+            $scheme = (new Query())
+                ->from(Scheme::tableName())
+                ->where('usageModeId=:usageModeId and state=:state and (startDate is null or (startDate<=:currentDate and endDate>=:currentDate))',[':usageModeId' => Scheme::USAGE_PAY,':state'=>Scheme::STATE_ABLE,':currentDate'=>$currentDate])
+                ->orderBy(['payMoney'=>SORT_ASC])
+                ->all();
+            return $scheme;
+        },60);
     }
 
     /**
-     * 查询所有可使用的线练习支付方案
+     * 查询所有可使用的线练习支付方案，缓存1分钟
      * @return array|null|\yii\db\ActiveRecord
      */
     public static function findPracticeScheme(){
-        $currentDate = DateFunctions::getCurrentDate();
-        $scheme = (new Query())
-            ->from(Scheme::tableName())
-            ->where('usageModeId=:usageModeId and state=:state and (startDate is null or (startDate<=:currentDate and endDate>=:currentDate))',[':usageModeId' => Scheme::USAGE_PRACTICE,':state'=>Scheme::STATE_ABLE,':currentDate'=>$currentDate])
-            ->orderBy(['payBitcoin'=>SORT_ASC])
-            ->all();
+        $scheme = Yii::$app->cache->get('practiceScheme');
+        if(!$scheme){
+            $currentDate = DateFunctions::getCurrentDate();
+            $scheme = (new Query())
+                ->from(Scheme::tableName())
+                ->where('usageModeId=:usageModeId and state=:state and (startDate is null or (startDate<=:currentDate and endDate>=:currentDate))',[':usageModeId' => Scheme::USAGE_PRACTICE,':state'=>Scheme::STATE_ABLE,':currentDate'=>$currentDate])
+                ->orderBy(['payBitcoin'=>SORT_ASC])
+                ->all();
+            Yii::$app->cache->set('practiceScheme',$scheme,60);
+        }
         return $scheme;
     }
 
     /**
-     * 查询一条应该使用的充值返点方案
+     * 查询一条应该使用的充值返点方案，缓存1分钟
      * @param $role //推荐人的用户等级
      * @return array|null|\yii\db\ActiveRecord
      */
@@ -233,30 +247,42 @@ class Scheme extends \yii\db\ActiveRecord
             ->andWhere(['>=','endDate',$currentDate])
             ->one();*/
         /*if(!$scheme){*/
-        $scheme = Scheme::find()
-            ->where(['usageModeId'=>$usageModeId,'state'=>Scheme::STATE_ABLE,'level'=>Scheme::LEVEL_UNDO])
-            ->one();
+        $scheme = Yii::$app->cache->get('rebate_use_'.$usageModeId);
+        if(!$scheme) {
+            $scheme = Scheme::find()
+                ->where(['usageModeId' => $usageModeId, 'state' => Scheme::STATE_ABLE, 'level' => Scheme::LEVEL_UNDO])
+                ->one();
+            Yii::$app->cache->set('rebate_use_'.$usageModeId, $scheme, 60);
+        }
         /*}*/
         return $scheme;
     }
 
     /**
-     * 根据role查询可使用的提现方案
+     * 根据role查询可使用的提现方案,缓存1分钟
      * @param $role
      * @return array|\yii\db\ActiveRecord[]
      * @throws Exception
      */
     public static function findWithdrawScheme($role){
         if($role == Users::ROLE_AA){
-            $schemes = Scheme::find()
-                ->where(['usageModeId'=>UsageMode::USAGE_WITHDRAW_AA,'state'=>Scheme::STATE_ABLE])
-                ->all();
+            $schemes = Yii::$app->cache->get('withdraw_use_AA');
+            if(!$schemes){
+                $schemes = Scheme::find()
+                    ->where(['usageModeId'=>UsageMode::USAGE_WITHDRAW_AA,'state'=>Scheme::STATE_ABLE])
+                    ->all();
+                Yii::$app->cache->set('withdraw_use_AA',$schemes,60);
+            }
         }elseif($role == Users::ROLE_AAA){
-            $schemes = Scheme::find()
-                ->where(['usageModeId'=>UsageMode::USAGE_WITHDRAW_AAA_LOW,'state'=>Scheme::STATE_ABLE])
-                ->orWhere(['usageModeId'=>UsageMode::USAGE_WITHDRAW_AAA_HIGH,'state'=>Scheme::STATE_ABLE])
-                ->orderBy(['usageModeId'=>SORT_ASC])    //返回的数组一定是第一个为第比例方案，第二个为高比例方案
-                ->all();
+            $schemes = Yii::$app->cache->get('withdraw_use_AAA');
+            if(!$schemes) {
+                $schemes = Scheme::find()
+                    ->where(['usageModeId' => UsageMode::USAGE_WITHDRAW_AAA_LOW, 'state' => Scheme::STATE_ABLE])
+                    ->orWhere(['usageModeId' => UsageMode::USAGE_WITHDRAW_AAA_HIGH, 'state' => Scheme::STATE_ABLE])
+                    ->orderBy(['usageModeId' => SORT_ASC])//返回的数组一定是第一个为第比例方案，第二个为高比例方案
+                    ->all();
+                Yii::$app->cache->set('withdraw_use_AAA',$schemes,60);
+            }
         }else{
             throw new Exception("role 未定义");
         }
@@ -264,7 +290,7 @@ class Scheme extends \yii\db\ActiveRecord
     }
 
     /**
-     * 检查方案是否有启用冲突
+     * 检查方案是否有启用冲突，暂停使用
      * @param $usageModeId
      * @param $startDate
      * @param $endDate

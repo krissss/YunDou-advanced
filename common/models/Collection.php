@@ -5,8 +5,6 @@ namespace common\models;
 use common\functions\DateFunctions;
 use Yii;
 use yii\base\Exception;
-use yii\caching\DbDependency;
-use yii\db\Connection;
 use yii\db\Query;
 
 /**
@@ -57,17 +55,10 @@ class Collection extends \yii\db\ActiveRecord
     /**
      * 查询用户的所有收藏
      * @param $userId
-     * @return mixed
-     * @throws \Exception
+     * @return array|\yii\db\ActiveRecord[]
      */
     public static function findAllByUser($userId){
-        $dependency = new DbDependency([
-            'sql'=> 'select count(*) from collection where userId='.$userId
-        ]);
-        $result = Collection::getDb()->cache(function () use ($userId) {
-            return Collection::find()->where(['userId'=>$userId])->all();
-        },null,$dependency);
-        return $result;
+        return Collection::find()->where(['userId'=>$userId])->all();
     }
 
     /**
@@ -77,21 +68,14 @@ class Collection extends \yii\db\ActiveRecord
      * @throws \Exception
      */
     public static function findAllByUserWithTestLibrary($userId){
-        $dependency = new DbDependency([
-            'sql'=> 'select count(*) from collection where userId='.$userId
-        ]);
-        $db = Yii::$app->getDb();
-        $result = $db->cache(function () use ($userId) {
-            $table_a = Collection::tableName();
-            $table_b = TestLibrary::tableName();
-            return (new Query())
-                ->from([$table_a, $table_b])
-                ->where(["$table_a.userId" => $userId])
-                ->andWhere("$table_b.testLibraryId = $table_a.testLibraryId")
-                ->orderBy(["$table_a.createDate" => SORT_DESC])
-                ->all();
-        },null,$dependency);
-        return $result;
+        $table_a = Collection::tableName();
+        $table_b = TestLibrary::tableName();
+        return (new Query())
+            ->from([$table_a, $table_b])
+            ->where(["$table_a.userId" => $userId])
+            ->andWhere("$table_b.testLibraryId = $table_a.testLibraryId")
+            ->orderBy(["$table_a.createDate" => SORT_DESC])
+            ->all();
     }
 
     /**

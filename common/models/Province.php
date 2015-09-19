@@ -66,7 +66,7 @@ class Province extends \yii\db\ActiveRecord
     }
 
     /**
-     * 查询所有省份，返回object
+     * 查询所有省份，返回object，缓存1小时、依赖省份数量
      * @return \common\models\Province[]
      */
     public static function findAllForObject(){

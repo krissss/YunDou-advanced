@@ -53,13 +53,27 @@ class PracticeRecord extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * 查询用户练习记录，缓存到用户练习结束时间
+     * @param $userId
+     * @return array|mixed|null|\yii\db\ActiveRecord
+     */
     public static function findByUser($userId){
+        $practiceRecord = Yii::$app->cache->get('practiceRecord_'.$userId);
+        if($practiceRecord){
+            return $practiceRecord;
+        }
         $currentDate = DateFunctions::getCurrentDate();
-        return PracticeRecord::find()
+        $practiceRecord = PracticeRecord::find()
             ->where(['userId'=>$userId])
             ->andWhere(['<=','startDate',$currentDate])
             ->andWhere(['>=','endDate',$currentDate])
             ->one();
+        if($practiceRecord){    //如果存在考试记录，缓存
+            $cacheTime = strtotime($practiceRecord['endDate'])-strtotime($currentDate);
+            Yii::$app->cache->set('practiceRecord_'.$userId,$practiceRecord,$cacheTime);
+        }
+        return $practiceRecord;
     }
 
     /**

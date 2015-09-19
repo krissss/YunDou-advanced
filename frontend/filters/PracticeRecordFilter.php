@@ -33,7 +33,7 @@ class PracticeRecordFilter extends ActionFilter
             //获取在线练习支付方案
             /** @var $scheme \common\models\Scheme */
             $schemes = Scheme::findPracticeScheme();
-            $session->set('practice-schemes',$schemes);   //存入session，在支付的时候使用
+            $session->setFlash('practice-schemes',$schemes);   //存入session，在练习首页使用
             $session->setFlash('practiceRecordFlag',true);  //支付方案生成的标志
             $url = Url::to(['practice/index',true]);
             header("Location:$url");

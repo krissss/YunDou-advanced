@@ -46,7 +46,7 @@ class Department extends \yii\db\ActiveRecord
     }
 
     /**
-     * 查询所有职业岗位，返回object
+     * 查询所有部门，返回object，缓存两小时、依赖部门数量变化
      * @return \common\models\Department[]
      */
     public static function findAllForObject(){
@@ -55,7 +55,7 @@ class Department extends \yii\db\ActiveRecord
         ]);
         $result = Department::getDb()->cache(function () {
             return Department::find()->all();
-        },null,$dependency);
+        },2*3600,$dependency);
         return $result;
     }
 }

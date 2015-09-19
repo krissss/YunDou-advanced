@@ -51,10 +51,16 @@ class TestType extends \yii\db\ActiveRecord
         return TestType::find()->all();
     }
 
+    /**
+     * 查询测试类型名称，缓存24小时
+     * @param $testTypeId
+     * @return mixed
+     * @throws \Exception
+     */
     public static function findNameById($testTypeId){
         $result = TestType::getDb()->cache(function() use ($testTypeId){
             return TestType::findOne($testTypeId);
-        });
+        },24*3600);
         return $result->name;
     }
 }

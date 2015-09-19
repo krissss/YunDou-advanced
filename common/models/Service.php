@@ -85,6 +85,11 @@ class Service extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * 创建咨询
+     * @param $content
+     * @param $openId
+     */
     public static function createServiceByOpenId($content,$openId){
         $service = new Service();
         $user = Users::findByWeiXin($openId);
@@ -95,6 +100,12 @@ class Service extends \yii\db\ActiveRecord
         $service->save();
     }
 
+    /**
+     * 查询用户的咨询
+     * @param $openId
+     * @param int $limit
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function findUserServiceByOpenId($openId,$limit=5){
         $user = Users::findByWeiXin($openId);
         return Service::find()
@@ -103,6 +114,14 @@ class Service extends \yii\db\ActiveRecord
             ->all();
     }
 
+    /**
+     * 回复咨询
+     * @param $serviceId
+     * @param $reply
+     * @param bool|false $publish
+     * @throws Exception
+     * @throws \Exception
+     */
     public static function replyService($serviceId,$reply,$publish=false){
         $user = Yii::$app->session->get('user');
         if(!$user){
@@ -122,6 +141,13 @@ class Service extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * 修改咨询发布状态
+     * @param $serviceId
+     * @return string
+     * @throws Exception
+     * @throws \Exception
+     */
     public static function changePublish($serviceId){
         $service = Service::findOne($serviceId);
         if($service->state == Service::STATE_REPLIED){
@@ -139,6 +165,12 @@ class Service extends \yii\db\ActiveRecord
         return $msg;
     }
 
+    /**
+     * 根据用户查询
+     * @param $userId
+     * @param null $limit
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function findByUser($userId,$limit=null){
         if($limit){
             return Service::find()
@@ -154,18 +186,27 @@ class Service extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * 查询发布的咨询，缓存1分钟
+     * @param null $limit
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function findPublished($limit=null){
         if($limit){
-            return Service::find()
-                ->where(['state' => Service::STATE_PUBLISH])
-                ->limit($limit)
-                ->orderBy(['replyDate'=>SORT_DESC])
-                ->all();
+            return Service::getDb()->cache(function() use ($limit){
+                return Service::find()
+                    ->where(['state' => Service::STATE_PUBLISH])
+                    ->limit($limit)
+                    ->orderBy(['replyDate'=>SORT_DESC])
+                    ->all();
+            },60);
         }else {
-            return Service::find()
-                ->where(['state' => Service::STATE_PUBLISH])
-                ->orderBy(['replyDate' => SORT_DESC])
-                ->all();
+            return Service::getDb()->cache(function(){
+                return Service::find()
+                    ->where(['state' => Service::STATE_PUBLISH])
+                    ->orderBy(['replyDate' => SORT_DESC])
+                    ->all();
+            },60);
         }
     }
 }

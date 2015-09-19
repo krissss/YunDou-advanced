@@ -276,13 +276,18 @@ class TestLibrary extends \yii\db\ActiveRecord
     }
 
     /**
-     * 根据用户判断用户所在的省份和专业是否有题目
+     * 根据用户判断用户所在的省份和专业是否有题目，缓存24小时、依赖题库数量的变化
      * @param $user
      * @return bool
      */
     public static function checkIsExist($user){
-        $testLibrary = TestLibrary::findOne(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId']]);
-        if($testLibrary){
+        $dependency = new DbDependency([
+            'sql'=> 'select count(*) from testLibrary'
+        ]);
+        $result = TestLibrary::getDb()->cache(function() use ($user){
+            return TestLibrary::findOne(['provinceId'=>$user['provinceId'],'majorJobId'=>$user['majorJobId']]);
+        },24*3600,$dependency);
+        if($result){
             return true;
         }
         return false;

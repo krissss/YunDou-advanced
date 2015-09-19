@@ -8,7 +8,7 @@ $this->title = "在线练习";
 $session = Yii::$app->session;
 $sessionUser = $session->get('user');
 $practiceRecordFlag = $session->getFlash('practiceRecordFlag'); //用户没有练习权限的标志
-$schemes = $session->get('practice-schemes');   //所有的练习付款方案
+$schemes = $session->getFlash('practice-schemes');   //所有的练习付款方案
 
 ?>
 <div class="load-container loading" style="display: none;">

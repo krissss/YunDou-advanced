@@ -47,10 +47,16 @@ class PreType extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * 查询第几部分名称，缓存24小时
+     * @param $preTypeId
+     * @return mixed
+     * @throws \Exception
+     */
     public static function findNameById($preTypeId){
         $result = PreType::getDb()->cache(function() use ($preTypeId){
             return PreType::findOne($preTypeId);
-        });
+        },24*3600);
         return $result->name;
     }
 }
