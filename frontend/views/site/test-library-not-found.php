@@ -14,7 +14,7 @@ $this->title = "题库建设中";
             <span style="color: #fff; font-size: 12px;">
                 我们正在紧急准备题库中
             </span>
-            <a href="<?=Url::to(['site/index'])?>">返回首页</a>
+            <a href="<?=Url::to(['account/register'])?>">更换专业</a>
             <a href="javascript:history.back()">返回上一页</a>
         </strong>
     </div>
