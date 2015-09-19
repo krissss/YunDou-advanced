@@ -18,7 +18,7 @@ use yii\helpers\Html;
 
 //echo urldecode(Url::current([],true));
 
-//echo \common\functions\CommonFunctions::createCommonRecommendCode();
+echo \common\functions\CommonFunctions::createBigRecommendCode();
 
 //echo Url::base(true);
 //\common\models\Users::addBitcoin(5,10000);
@@ -52,4 +52,6 @@ use yii\helpers\Html;
 
 /*print_r(\common\models\Users::findByWeiXin("ow-bOvjH7CpKQtxsvjJuRmg6-g-k"));*/
 ?>
-<a href="<?=Url::base(true).'/notify.php'?>">asd</a>
+<!--<a href="<?/*=Url::base(true).'/notify.php'*/?>">asd</a>-->
+
+

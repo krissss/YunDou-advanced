@@ -62,8 +62,9 @@ class CommonFunctions
     public static function createCommonRecommendCode(){
         $code = 'u';
         $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
-        for($i = 0; $i < 5; $i ++) {
-            $code .= $pattern {mt_rand ( 0, 35 )}; //生成php随机数
+        $code.= $pattern {mt_rand ( 10, 35 )};
+        for($i = 0; $i < 6; $i ++) {
+            $code .= $pattern {mt_rand ( 0, 9 )}; //生成php随机数
         }
         return $code;
     }
@@ -75,8 +76,9 @@ class CommonFunctions
     public static function create2ARecommendCode(){
         $code = 'd';
         $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
-        for($i = 0; $i < 5; $i ++) {
-            $code .= $pattern {mt_rand ( 0, 35 )}; //生成php随机数
+        $code.= $pattern {mt_rand ( 10, 35 )};
+        for($i = 0; $i < 6; $i ++) {
+            $code .= $pattern {mt_rand ( 0, 9 )}; //生成php随机数
         }
         return $code;
     }
@@ -88,8 +90,9 @@ class CommonFunctions
     public static function create3ARecommendCode(){
         $code = 'g';
         $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
-        for($i = 0; $i < 5; $i ++) {
-            $code .= $pattern {mt_rand ( 0, 35 )}; //生成php随机数
+        $code.= $pattern {mt_rand ( 10, 35 )};
+        for($i = 0; $i < 6; $i ++) {
+            $code .= $pattern {mt_rand ( 0, 9 )}; //生成php随机数
         }
         return $code;
     }
@@ -101,8 +104,9 @@ class CommonFunctions
     public static function createBigRecommendCode(){
         $code = 'b';
         $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
-        for($i = 0; $i < 5; $i ++) {
-            $code .= $pattern {mt_rand ( 0, 35 )}; //生成php随机数
+        $code.= $pattern {mt_rand ( 10, 35 )};
+        for($i = 0; $i < 6; $i ++) {
+            $code .= $pattern {mt_rand ( 0, 9 )}; //生成php随机数
         }
         return $code;
     }

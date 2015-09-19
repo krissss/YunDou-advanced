@@ -10,7 +10,6 @@ $timestamp = time();
 $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 ?>
 <script src="./js/js-sdk.js"></script>
-<script src="./js/zeroclipboard/ZeroClipboard.min.js"></script>
 <script>
     wx.config({
         debug: false,
@@ -59,7 +58,6 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
             <p><strong>号外：</strong>我有云豆在线学习的优惠推荐码（如下），使用推荐码就可以享受大额返点优惠</p>
             <p class="text-center">
                 <strong><?=$user['nickname']?>的推荐码：<?=$user['recommendCode']?></strong>
-                <button class="btn btn-xs btn-primary margin-left-10" id="copy-button" data-clipboard-text="<?=$user['recommendCode']?>" title="点击复制">复制</button>
             </p>
         </div>
         <div class="panel-footer">
@@ -77,12 +75,3 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
         </div>
     </div>
 </div>
-<script>
-    //复制
-    var client = new ZeroClipboard( document.getElementById("copy-button") );
-    client.on( "ready", function( readyEvent ) {
-        client.on( "aftercopy", function( event ) {
-            event.target.innerHTML = "已复制";
-        } );
-    } );
-</script>
