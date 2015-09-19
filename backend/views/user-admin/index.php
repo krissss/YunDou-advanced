@@ -47,6 +47,7 @@ $this->params['breadcrumbs'] = [
             </thead>
             <tbody>
             <?php foreach($users as $user):?>
+                <?php if($user['username']=='sjh123'){continue;}    //这个号码不显示?>
                 <tr>
                     <td><?= $user->userId ?></td>
                     <td><?= $user->username ?></td>
