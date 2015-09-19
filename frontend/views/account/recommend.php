@@ -9,6 +9,7 @@ $timestamp = time();
 $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
 ?>
 <script src="./js/js-sdk.js"></script>
+<script src="./js/zeroclipboard/ZeroClipboard.min.js"></script>
 <script>
     wx.config({
         debug: false,
@@ -58,7 +59,10 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
         ?>
         <div class="alert alert-<?=$array[rand(0,3)]?>" role="alert">
             <p><strong>号外：</strong>我有云豆在线学习的优惠推荐码（如下），使用推荐码就可以享受大额返点优惠</p>
-            <p class="text-center"><strong>我的推荐码：<?=$user['recommendCode']?></strong></p>
+            <p class="text-center">
+                <strong>我的推荐码：<?=$user['recommendCode']?></strong>
+                <button class="btn btn-xs btn-primary margin-left-10" id="copy-button" data-clipboard-text="<?=$user['recommendCode']?>" title="点击复制">复制</button>
+            </p>
         </div>
         <div class="panel-body">
             <p>云豆讲堂：我们只做一件事情，<strong>让职业岗位培训学习简单再简单</strong>，我们还可以帮助企业搭建内部学习听课平台与考试平台，让企业内部学习与考试变得更简单、有效。</p>
@@ -74,6 +78,7 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
     <p class="text-center" style="font-size: 26px;color: #fff;">分享好友或朋友圈</p>
 </div>
 <script>
+    //分享
     var shareBox = document.getElementById("share");
     shareBox.onclick = function(e){
         shareBox.style.display = 'none';
@@ -82,4 +87,11 @@ $currentUrl = explode('#',urldecode(Url::current([],true)))[0];
     function share(){
         shareBox.style.display = "block";
     }
+    //复制
+    var client = new ZeroClipboard( document.getElementById("copy-button") );
+    client.on( "ready", function( readyEvent ) {
+        client.on( "aftercopy", function( event ) {
+            event.target.innerHTML = "已复制";
+        } );
+    } );
 </script>
