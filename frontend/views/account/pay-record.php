@@ -5,6 +5,7 @@
 use yii\helpers\Url;
 use common\functions\CommonFunctions;
 use common\models\Money;
+use common\models\Users;
 
 $this->title = "充值记录";
 
@@ -16,7 +17,7 @@ $userIcon = CommonFunctions::createHttpImagePath($userIcon);
     <div class="avatar">
         <img src="<?=$userIcon?>" alt="head">
         <p><?=$user['nickname']?></p>
-        <p>云豆余额：<strong><?=$user['bitcoin']?></strong></p>
+        <p>云豆余额：<strong><?=Users::findBitcoin($user['userId'])?></strong></p>
     </div>
 </div>
 <hr>
